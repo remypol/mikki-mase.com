@@ -67,24 +67,24 @@ const { product } = Astro.props;
       </div>
 
       <!-- Cover Image (right on desktop, above on mobile) -->
-      <div class="order-1 md:order-2 flex justify-center opacity-0 animate-[fadeInUp_0.6s_ease-out_forwards]">
-        <div class="relative">
+      <div class="order-1 md:order-2 flex justify-center">
+        <div class="relative opacity-0 animate-[fadeInUp_0.6s_ease-out_forwards]">
           <!-- Glow effect -->
-          <div class="absolute -inset-8 bg-gold/20 blur-3xl rounded-full" />
+          <div class="absolute -inset-4 md:-inset-8 bg-gold/20 blur-2xl md:blur-3xl rounded-full" />
 
           <!-- Book cover -->
           <img
             src={product.cover}
             alt={`${product.name} cover`}
-            class="relative w-full max-w-xs sm:max-w-sm md:max-w-md rounded-lg shadow-2xl
+            class="relative w-full max-w-[180px] sm:max-w-[220px] md:max-w-sm lg:max-w-md rounded-lg shadow-2xl
                    transform md:rotate-2 md:hover:rotate-0 transition-transform duration-500"
             loading="eager"
             fetchpriority="high"
           />
 
           <!-- Price badge (mobile only) -->
-          <div class="md:hidden absolute -bottom-4 -right-4 bg-[#A8001E] text-white
-                      font-bold text-lg px-4 py-2 rounded-full shadow-lg">
+          <div class="md:hidden absolute -bottom-3 -right-3 bg-[#A8001E] text-white
+                      font-bold text-base px-3 py-1.5 rounded-full shadow-lg">
             ${product.price}
           </div>
         </div>
