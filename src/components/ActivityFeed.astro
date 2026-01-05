@@ -1,0 +1,53 @@
+---
+/**
+ * ActivityFeed Component
+ * Displays recent activity with subtle animations
+ * Shows simulated joins to create FOMO (intentional, not spammy)
+ */
+
+interface Props {
+  showCount?: number;
+}
+
+const { showCount = 3 } = Astro.props;
+
+// Simulated activity data - rotates to feel live
+const activities = [
+  { name: "Mike from Las Vegas", action: "joined", time: "2 min ago" },
+  { name: "Sarah from Miami", action: "joined", time: "5 min ago" },
+  { name: "Carlos from LA", action: "joined", time: "8 min ago" },
+  { name: "Jessica from NYC", action: "joined", time: "12 min ago" },
+  { name: "David from Chicago", action: "joined", time: "15 min ago" }
+];
+
+const displayActivities = activities.slice(0, showCount);
+---
+
+<div class="w-full mx-auto px-4 mt-4 md:mt-6" style="max-width: 48rem;">
+  <div class="space-y-2">
+    {displayActivities.map((activity, index) => (
+      <div
+        class="flex items-center justify-center gap-2 text-xs md:text-sm text-gray-400 opacity-0"
+        style={`animation: fadeInUp 0.5s ease-out ${index * 0.15}s forwards;`}
+      >
+        <span class="text-green-500">🟢</span>
+        <span class="text-gray-300">{activity.name}</span>
+        <span class="text-gray-500">{activity.action}</span>
+        <span class="text-gray-600">{activity.time}</span>
+      </div>
+    ))}
+  </div>
+</div>
+
+<style>
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+</style>

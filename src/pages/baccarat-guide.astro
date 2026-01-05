@@ -1,0 +1,780 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import Hero from '../components/Hero.astro';
+import Button from '../components/Button.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import RelatedContent from '../components/RelatedContent.astro';
+
+const guideSchema = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Article",
+      "@id": "https://mikki-mase.com/baccarat-guide#article",
+      "headline": "How to Play Baccarat: The Complete Guide from a $32M Winner",
+      "description": "Learn how to play baccarat from Mikki Mase, who won $32M at the tables. Complete guide covering rules, strategies, odds, betting systems, and professional insights.",
+      "author": {
+        "@type": "Person",
+        "name": "Mikki Mase",
+        "@id": "https://mikki-mase.com/#person"
+      },
+      "datePublished": "2025-01-20",
+      "dateModified": "2025-11-22",
+      "publisher": {
+        "@type": "Person",
+        "name": "Mikki Mase"
+      },
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://mikki-mase.com/baccarat-guide"
+      },
+      "articleSection": "Guide",
+      "keywords": "how to play baccarat, baccarat rules, baccarat strategy, baccarat odds, baccarat guide, learn baccarat, baccarat for beginners"
+    },
+    {
+      "@type": "HowTo",
+      "name": "How to Play Baccarat",
+      "description": "Complete step-by-step guide to playing baccarat at casinos",
+      "step": [
+        {
+          "@type": "HowToStep",
+          "name": "Understand the Objective",
+          "text": "The goal is to bet on which hand - Player or Banker - will have a total closest to 9."
+        },
+        {
+          "@type": "HowToStep",
+          "name": "Learn Card Values",
+          "text": "Cards 2-9 are worth face value, 10s and face cards are worth 0, Aces are worth 1."
+        },
+        {
+          "@type": "HowToStep",
+          "name": "Place Your Bet",
+          "text": "Bet on Player, Banker, or Tie before cards are dealt."
+        },
+        {
+          "@type": "HowToStep",
+          "name": "Cards Are Dealt",
+          "text": "Two cards are dealt to both Player and Banker positions."
+        },
+        {
+          "@type": "HowToStep",
+          "name": "Determine Winner",
+          "text": "The hand closest to 9 wins. Third card rules may apply."
+        }
+      ]
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://mikki-mase.com"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Baccarat Guide",
+          "item": "https://mikki-mase.com/baccarat-guide"
+        }
+      ]
+    }
+  ]
+};
+---
+
+<BaseLayout
+  title="How to Play Baccarat: Complete Guide from a $32M Winner | Mikki Mase"
+  description="Learn how to play baccarat from Mikki Mase, who won $32M at the tables. Complete guide covering rules, strategies, odds, betting systems, and professional insights."
+  schema={guideSchema}
+>
+  <Header />
+
+  <Hero
+    eyebrow="Complete Guide"
+    title="How to Play Baccarat"
+    subtitle="Everything you need to know about baccarat, from a player who won $32M"
+    backgroundImage="/images/mikki-main-1.webp"
+    variant="medium"
+  />
+
+  <div class="bg-black border-b border-gray-800">
+    <Breadcrumbs items={[
+      { label: "Home", href: "/" },
+      { label: "Baccarat Guide" }
+    ]} />
+  </div>
+
+  <article class="bg-black py-12 md:py-20">
+    <div class="container mx-auto px-6 max-w-4xl">
+
+      <!-- Table of Contents -->
+      <nav class="bg-gray-900 border border-gray-800 rounded-xl p-6 mb-12">
+        <h2 class="text-white text-lg font-bold mb-4">Table of Contents</h2>
+        <ol class="space-y-2 text-gray-300">
+          <li><a href="#what-is-baccarat" class="text-gold hover:text-gold-light">1. What is Baccarat?</a></li>
+          <li><a href="#card-values" class="text-gold hover:text-gold-light">2. Card Values & Scoring</a></li>
+          <li><a href="#betting-options" class="text-gold hover:text-gold-light">3. Betting Options Explained</a></li>
+          <li><a href="#how-to-play" class="text-gold hover:text-gold-light">4. How to Play (Step-by-Step)</a></li>
+          <li><a href="#third-card-rules" class="text-gold hover:text-gold-light">5. Third Card Rules</a></li>
+          <li><a href="#odds-house-edge" class="text-gold hover:text-gold-light">6. Odds & House Edge</a></li>
+          <li><a href="#baccarat-variations" class="text-gold hover:text-gold-light">7. Baccarat Variations</a></li>
+          <li><a href="#betting-systems" class="text-gold hover:text-gold-light">8. Betting Systems</a></li>
+          <li><a href="#mikki-approach" class="text-gold hover:text-gold-light">9. Mikki's Approach to Baccarat</a></li>
+          <li><a href="#common-mistakes" class="text-gold hover:text-gold-light">10. Common Mistakes to Avoid</a></li>
+          <li><a href="#glossary" class="text-gold hover:text-gold-light">11. Baccarat Glossary</a></li>
+        </ol>
+      </nav>
+
+      <!-- Introduction -->
+      <div class="prose prose-invert prose-lg max-w-none mb-16">
+        <p class="text-gray-300 text-xl leading-relaxed">
+          Baccarat is the game that made me $32 million. It's also the game that got me <a href="/banned" class="text-gold hover:text-gold-light underline">banned from 150+ casinos</a>. If you're serious about playing baccarat—whether for entertainment or with the goal of becoming a serious player—this guide will teach you everything you need to know.
+        </p>
+        <p class="text-gray-300 leading-relaxed">
+          Unlike blackjack where decisions affect outcomes, baccarat is almost entirely luck-based for individual hands. But over thousands of hands, understanding the game deeply—the math, the patterns, the psychology—can make all the difference. That's what this guide is about.
+        </p>
+      </div>
+
+      <!-- Section 1: What is Baccarat -->
+      <section id="what-is-baccarat" class="mb-16">
+        <h2 class="text-white text-3xl font-bold mb-6">1. What is Baccarat?</h2>
+
+        <p class="text-gray-300 leading-relaxed mb-6">
+          Baccarat (pronounced "bah-cah-rah") is a card game played between two hands: the <strong class="text-white">Player</strong> and the <strong class="text-white">Banker</strong>. Despite the names, you're not playing against the dealer—you're simply betting on which hand will win, or if they'll tie.
+        </p>
+
+        <p class="text-gray-300 leading-relaxed mb-6">
+          The game originated in Italy in the 1400s, spread to France where it became popular among nobility, and eventually made its way to casinos worldwide. Today, baccarat generates more casino revenue than any other table game in many markets—especially in Asia, where high rollers routinely bet millions per hand.
+        </p>
+
+        <div class="bg-gray-900 border border-gray-800 rounded-xl p-6 mb-6">
+          <h3 class="text-white font-bold mb-3">Why High Rollers Love Baccarat</h3>
+          <ul class="text-gray-300 space-y-2">
+            <li>• <strong class="text-white">Lowest house edge</strong> of any table game (1.06% on Banker)</li>
+            <li>• <strong class="text-white">Simple rules</strong> - no complex strategy needed</li>
+            <li>• <strong class="text-white">Fast pace</strong> - more hands per hour than blackjack</li>
+            <li>• <strong class="text-white">High limits</strong> - casinos allow massive bets</li>
+            <li>• <strong class="text-white">Social game</strong> - often played in private salons</li>
+          </ul>
+        </div>
+
+        <p class="text-gray-300 leading-relaxed">
+          When I play, I'm betting $250,000 per hand with $3 million buy-ins. At those stakes, even tiny edges matter. That's why baccarat is my game—the math is favorable, and the execution is about discipline, not luck.
+        </p>
+      </section>
+
+      <!-- Section 2: Card Values -->
+      <section id="card-values" class="mb-16">
+        <h2 class="text-white text-3xl font-bold mb-6">2. Card Values & Scoring</h2>
+
+        <p class="text-gray-300 leading-relaxed mb-6">
+          Baccarat scoring is different from other card games. The goal is to get as close to <strong class="text-white">9</strong> as possible.
+        </p>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+          <div class="bg-gray-900 border border-gray-800 rounded-xl p-6 text-center">
+            <div class="text-4xl font-black text-gold mb-2">2-9</div>
+            <p class="text-gray-300">Face Value</p>
+            <p class="text-gray-500 text-sm">A 7 is worth 7 points</p>
+          </div>
+          <div class="bg-gray-900 border border-gray-800 rounded-xl p-6 text-center">
+            <div class="text-4xl font-black text-gold mb-2">10, J, Q, K</div>
+            <p class="text-gray-300">Worth 0</p>
+            <p class="text-gray-500 text-sm">Face cards have no value</p>
+          </div>
+          <div class="bg-gray-900 border border-gray-800 rounded-xl p-6 text-center">
+            <div class="text-4xl font-black text-gold mb-2">Ace</div>
+            <p class="text-gray-300">Worth 1</p>
+            <p class="text-gray-500 text-sm">Always counts as 1</p>
+          </div>
+        </div>
+
+        <h3 class="text-white text-xl font-bold mb-4">The "Modulo 10" Rule</h3>
+        <p class="text-gray-300 leading-relaxed mb-6">
+          Here's the key concept: only the <strong class="text-white">last digit</strong> of your total counts. If your cards add up to 15, your score is 5. If they add up to 23, your score is 3.
+        </p>
+
+        <div class="bg-gray-900 border-l-4 border-gold p-6 mb-6">
+          <h4 class="text-white font-bold mb-3">Examples:</h4>
+          <ul class="text-gray-300 space-y-2">
+            <li>• 7 + 4 = 11 → Score: <strong class="text-gold">1</strong></li>
+            <li>• 8 + 6 = 14 → Score: <strong class="text-gold">4</strong></li>
+            <li>• 5 + 4 = 9 → Score: <strong class="text-gold">9</strong> (Natural!)</li>
+            <li>• K + 3 = 3 → Score: <strong class="text-gold">3</strong> (King = 0)</li>
+            <li>• 9 + 9 = 18 → Score: <strong class="text-gold">8</strong></li>
+          </ul>
+        </div>
+
+        <h3 class="text-white text-xl font-bold mb-4">Natural Wins</h3>
+        <p class="text-gray-300 leading-relaxed">
+          If either the Player or Banker is dealt an 8 or 9 with their first two cards, it's called a <strong class="text-white">"natural"</strong> and the hand ends immediately. A natural 9 beats a natural 8. If both have the same natural, it's a tie.
+        </p>
+      </section>
+
+      <!-- Section 3: Betting Options -->
+      <section id="betting-options" class="mb-16">
+        <h2 class="text-white text-3xl font-bold mb-6">3. Betting Options Explained</h2>
+
+        <p class="text-gray-300 leading-relaxed mb-6">
+          There are three main bets in baccarat. Understanding the math behind each one is crucial.
+        </p>
+
+        <div class="space-y-6">
+          <!-- Banker Bet -->
+          <div class="bg-gray-900 border border-gray-800 rounded-xl p-6">
+            <div class="flex items-start justify-between mb-4">
+              <h3 class="text-white text-xl font-bold">Banker Bet</h3>
+              <span class="bg-green-900/30 text-green-400 text-sm font-bold px-3 py-1 rounded">BEST ODDS</span>
+            </div>
+            <p class="text-gray-300 mb-4">
+              Bet that the Banker hand will win. Pays <strong class="text-white">0.95:1</strong> (even money minus 5% commission).
+            </p>
+            <div class="grid grid-cols-2 gap-4 text-sm">
+              <div>
+                <span class="text-gray-500">House Edge:</span>
+                <span class="text-gold font-bold ml-2">1.06%</span>
+              </div>
+              <div>
+                <span class="text-gray-500">Win Rate:</span>
+                <span class="text-white font-bold ml-2">45.86%</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Player Bet -->
+          <div class="bg-gray-900 border border-gray-800 rounded-xl p-6">
+            <div class="flex items-start justify-between mb-4">
+              <h3 class="text-white text-xl font-bold">Player Bet</h3>
+              <span class="bg-yellow-900/30 text-yellow-400 text-sm font-bold px-3 py-1 rounded">GOOD ODDS</span>
+            </div>
+            <p class="text-gray-300 mb-4">
+              Bet that the Player hand will win. Pays <strong class="text-white">1:1</strong> (even money, no commission).
+            </p>
+            <div class="grid grid-cols-2 gap-4 text-sm">
+              <div>
+                <span class="text-gray-500">House Edge:</span>
+                <span class="text-gold font-bold ml-2">1.24%</span>
+              </div>
+              <div>
+                <span class="text-gray-500">Win Rate:</span>
+                <span class="text-white font-bold ml-2">44.62%</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Tie Bet -->
+          <div class="bg-gray-900 border border-gray-800 rounded-xl p-6">
+            <div class="flex items-start justify-between mb-4">
+              <h3 class="text-white text-xl font-bold">Tie Bet</h3>
+              <span class="bg-red-900/30 text-red-400 text-sm font-bold px-3 py-1 rounded">AVOID</span>
+            </div>
+            <p class="text-gray-300 mb-4">
+              Bet that both hands will have the same score. Pays <strong class="text-white">8:1</strong> (or 9:1 at some casinos).
+            </p>
+            <div class="grid grid-cols-2 gap-4 text-sm">
+              <div>
+                <span class="text-gray-500">House Edge:</span>
+                <span class="text-red-400 font-bold ml-2">14.36%</span>
+              </div>
+              <div>
+                <span class="text-gray-500">Win Rate:</span>
+                <span class="text-white font-bold ml-2">9.52%</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-gradient-to-br from-gray-900 to-black border-l-4 border-gold p-6 my-8">
+          <p class="text-white text-lg italic">
+            "Never bet the Tie. Ever. The house edge is 14%. That's not gambling—that's donating money. I've seen people lose fortunes on Tie bets because 8:1 looks attractive. It's a trap."
+          </p>
+          <p class="text-gray-500 text-sm mt-2">— Mikki Mase</p>
+        </div>
+      </section>
+
+      <!-- Section 4: How to Play -->
+      <section id="how-to-play" class="mb-16">
+        <h2 class="text-white text-3xl font-bold mb-6">4. How to Play Baccarat (Step-by-Step)</h2>
+
+        <div class="space-y-6">
+          <div class="flex gap-4">
+            <div class="flex-shrink-0 w-10 h-10 bg-gold rounded-full flex items-center justify-center text-black font-bold">1</div>
+            <div>
+              <h3 class="text-white font-bold mb-2">Place Your Bet</h3>
+              <p class="text-gray-300">Before any cards are dealt, place your chips on Player, Banker, or Tie. You can also place side bets if available (like Player Pair or Banker Pair).</p>
+            </div>
+          </div>
+
+          <div class="flex gap-4">
+            <div class="flex-shrink-0 w-10 h-10 bg-gold rounded-full flex items-center justify-center text-black font-bold">2</div>
+            <div>
+              <h3 class="text-white font-bold mb-2">Cards Are Dealt</h3>
+              <p class="text-gray-300">The dealer deals two cards face-up to both the Player and Banker positions. Cards are dealt from a shoe containing 6-8 decks.</p>
+            </div>
+          </div>
+
+          <div class="flex gap-4">
+            <div class="flex-shrink-0 w-10 h-10 bg-gold rounded-full flex items-center justify-center text-black font-bold">3</div>
+            <div>
+              <h3 class="text-white font-bold mb-2">Check for Natural</h3>
+              <p class="text-gray-300">If either hand has 8 or 9, it's a natural and the round ends. The higher natural wins, or it's a tie if equal.</p>
+            </div>
+          </div>
+
+          <div class="flex gap-4">
+            <div class="flex-shrink-0 w-10 h-10 bg-gold rounded-full flex items-center justify-center text-black font-bold">4</div>
+            <div>
+              <h3 class="text-white font-bold mb-2">Third Card Rules (if applicable)</h3>
+              <p class="text-gray-300">If no natural, the third card rules determine whether Player and/or Banker draw another card. This is automatic—you don't decide.</p>
+            </div>
+          </div>
+
+          <div class="flex gap-4">
+            <div class="flex-shrink-0 w-10 h-10 bg-gold rounded-full flex items-center justify-center text-black font-bold">5</div>
+            <div>
+              <h3 class="text-white font-bold mb-2">Winner Determined</h3>
+              <p class="text-gray-300">The hand closest to 9 wins. Winning Banker bets pay 0.95:1, Player bets pay 1:1, Ties pay 8:1 or 9:1.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 5: Third Card Rules -->
+      <section id="third-card-rules" class="mb-16">
+        <h2 class="text-white text-3xl font-bold mb-6">5. Third Card Rules</h2>
+
+        <p class="text-gray-300 leading-relaxed mb-6">
+          These rules are automatic—the dealer handles everything. But understanding them helps you follow the game and recognize patterns.
+        </p>
+
+        <h3 class="text-white text-xl font-bold mb-4">Player Third Card Rule</h3>
+        <div class="bg-gray-900 border border-gray-800 rounded-xl p-6 mb-6">
+          <ul class="text-gray-300 space-y-2">
+            <li>• Player total <strong class="text-white">0-5</strong>: Player draws a third card</li>
+            <li>• Player total <strong class="text-white">6-7</strong>: Player stands</li>
+            <li>• Player total <strong class="text-white">8-9</strong>: Natural (no third card)</li>
+          </ul>
+        </div>
+
+        <h3 class="text-white text-xl font-bold mb-4">Banker Third Card Rule</h3>
+        <p class="text-gray-300 leading-relaxed mb-4">
+          The Banker's rule is more complex and depends on the Player's third card:
+        </p>
+
+        <div class="overflow-x-auto">
+          <table class="w-full text-sm mb-6">
+            <thead>
+              <tr class="border-b border-gray-800">
+                <th class="text-left text-gray-400 py-3 px-4">Banker Total</th>
+                <th class="text-left text-gray-400 py-3 px-4">Draws When Player's 3rd Card Is</th>
+              </tr>
+            </thead>
+            <tbody class="text-gray-300">
+              <tr class="border-b border-gray-800">
+                <td class="py-3 px-4 text-white font-bold">0-2</td>
+                <td class="py-3 px-4">Always draws</td>
+              </tr>
+              <tr class="border-b border-gray-800">
+                <td class="py-3 px-4 text-white font-bold">3</td>
+                <td class="py-3 px-4">Draws unless Player's 3rd card is 8</td>
+              </tr>
+              <tr class="border-b border-gray-800">
+                <td class="py-3 px-4 text-white font-bold">4</td>
+                <td class="py-3 px-4">Draws if Player's 3rd card is 2-7</td>
+              </tr>
+              <tr class="border-b border-gray-800">
+                <td class="py-3 px-4 text-white font-bold">5</td>
+                <td class="py-3 px-4">Draws if Player's 3rd card is 4-7</td>
+              </tr>
+              <tr class="border-b border-gray-800">
+                <td class="py-3 px-4 text-white font-bold">6</td>
+                <td class="py-3 px-4">Draws if Player's 3rd card is 6-7</td>
+              </tr>
+              <tr>
+                <td class="py-3 px-4 text-white font-bold">7</td>
+                <td class="py-3 px-4">Always stands</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <p class="text-gray-400 text-sm">
+          Don't worry about memorizing this—dealers handle it automatically. But knowing these rules helps you understand why certain outcomes happen.
+        </p>
+      </section>
+
+      <!-- Section 6: Odds & House Edge -->
+      <section id="odds-house-edge" class="mb-16">
+        <h2 class="text-white text-3xl font-bold mb-6">6. Odds & House Edge</h2>
+
+        <p class="text-gray-300 leading-relaxed mb-6">
+          Understanding the math is crucial. Here's what you're really dealing with in an 8-deck game:
+        </p>
+
+        <div class="bg-gray-900 border border-gray-800 rounded-xl p-6 mb-8">
+          <h3 class="text-white font-bold mb-4">Probability Breakdown</h3>
+          <div class="space-y-4">
+            <div class="flex justify-between items-center py-2 border-b border-gray-800">
+              <span class="text-gray-300">Banker Wins</span>
+              <span class="text-white font-bold">45.86%</span>
+            </div>
+            <div class="flex justify-between items-center py-2 border-b border-gray-800">
+              <span class="text-gray-300">Player Wins</span>
+              <span class="text-white font-bold">44.62%</span>
+            </div>
+            <div class="flex justify-between items-center py-2">
+              <span class="text-gray-300">Tie</span>
+              <span class="text-white font-bold">9.52%</span>
+            </div>
+          </div>
+        </div>
+
+        <h3 class="text-white text-xl font-bold mb-4">Why Banker Has Better Odds</h3>
+        <p class="text-gray-300 leading-relaxed mb-6">
+          The Banker hand acts second and follows more favorable drawing rules, giving it a slight mathematical edge. The 5% commission on Banker wins compensates for this—but even after commission, Banker bet has the lowest house edge.
+        </p>
+
+        <div class="bg-gradient-to-br from-gray-900 to-black border-l-4 border-gold p-6 mb-6">
+          <p class="text-white text-lg italic">
+            "People ask why I bet Banker so often. Math. The Banker bet has a 1.06% house edge versus 1.24% for Player. Over $100 million in bets, that 0.18% difference is $180,000. Numbers don't lie."
+          </p>
+        </div>
+
+        <h3 class="text-white text-xl font-bold mb-4">Comparing House Edges</h3>
+        <div class="overflow-x-auto">
+          <table class="w-full text-sm">
+            <thead>
+              <tr class="border-b border-gray-800">
+                <th class="text-left text-gray-400 py-3 px-4">Game / Bet</th>
+                <th class="text-left text-gray-400 py-3 px-4">House Edge</th>
+              </tr>
+            </thead>
+            <tbody class="text-gray-300">
+              <tr class="border-b border-gray-800">
+                <td class="py-3 px-4">Baccarat - Banker</td>
+                <td class="py-3 px-4 text-green-400 font-bold">1.06%</td>
+              </tr>
+              <tr class="border-b border-gray-800">
+                <td class="py-3 px-4">Baccarat - Player</td>
+                <td class="py-3 px-4 text-green-400 font-bold">1.24%</td>
+              </tr>
+              <tr class="border-b border-gray-800">
+                <td class="py-3 px-4">Blackjack (Basic Strategy)</td>
+                <td class="py-3 px-4 text-yellow-400 font-bold">0.5%</td>
+              </tr>
+              <tr class="border-b border-gray-800">
+                <td class="py-3 px-4">Craps - Pass Line</td>
+                <td class="py-3 px-4 text-yellow-400 font-bold">1.41%</td>
+              </tr>
+              <tr class="border-b border-gray-800">
+                <td class="py-3 px-4">Roulette (Single Zero)</td>
+                <td class="py-3 px-4 text-orange-400 font-bold">2.70%</td>
+              </tr>
+              <tr class="border-b border-gray-800">
+                <td class="py-3 px-4">Roulette (Double Zero)</td>
+                <td class="py-3 px-4 text-red-400 font-bold">5.26%</td>
+              </tr>
+              <tr>
+                <td class="py-3 px-4">Baccarat - Tie</td>
+                <td class="py-3 px-4 text-red-400 font-bold">14.36%</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Section 7: Baccarat Variations -->
+      <section id="baccarat-variations" class="mb-16">
+        <h2 class="text-white text-3xl font-bold mb-6">7. Baccarat Variations</h2>
+
+        <div class="space-y-6">
+          <div class="bg-gray-900 border border-gray-800 rounded-xl p-6">
+            <h3 class="text-white text-xl font-bold mb-3">Punto Banco (Standard)</h3>
+            <p class="text-gray-300">
+              The most common version in North American and Asian casinos. All actions are automatic—no player decisions after betting. This is what most people mean when they say "baccarat."
+            </p>
+          </div>
+
+          <div class="bg-gray-900 border border-gray-800 rounded-xl p-6">
+            <h3 class="text-white text-xl font-bold mb-3">Chemin de Fer</h3>
+            <p class="text-gray-300">
+              The original French version. Players take turns being the Banker and can choose whether to draw a third card. Popular in European casinos, especially France.
+            </p>
+          </div>
+
+          <div class="bg-gray-900 border border-gray-800 rounded-xl p-6">
+            <h3 class="text-white text-xl font-bold mb-3">Mini Baccarat</h3>
+            <p class="text-gray-300">
+              A smaller table version with lower limits. Same rules as Punto Banco but faster-paced since only the dealer handles cards. Common on regular casino floors.
+            </p>
+          </div>
+
+          <div class="bg-gray-900 border border-gray-800 rounded-xl p-6">
+            <h3 class="text-white text-xl font-bold mb-3">EZ Baccarat</h3>
+            <p class="text-gray-300">
+              No commission on Banker wins, but Banker wins with a 3-card 7 are a push. Slight rule change keeps house edge similar while simplifying payouts.
+            </p>
+          </div>
+
+          <div class="bg-gray-900 border border-gray-800 rounded-xl p-6">
+            <h3 class="text-white text-xl font-bold mb-3">Speed Baccarat</h3>
+            <p class="text-gray-300">
+              Online/live dealer variant with reduced betting time (around 12 seconds per round). Same rules, just faster. Great for volume players.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 8: Betting Systems -->
+      <section id="betting-systems" class="mb-16">
+        <h2 class="text-white text-3xl font-bold mb-6">8. Betting Systems</h2>
+
+        <p class="text-gray-300 leading-relaxed mb-6">
+          Many players use betting systems. Here's an honest assessment of the most popular ones:
+        </p>
+
+        <div class="space-y-6">
+          <div class="bg-gray-900 border border-gray-800 rounded-xl p-6">
+            <div class="flex items-start justify-between mb-3">
+              <h3 class="text-white text-xl font-bold">Martingale</h3>
+              <span class="bg-red-900/30 text-red-400 text-xs font-bold px-2 py-1 rounded">RISKY</span>
+            </div>
+            <p class="text-gray-300 mb-3">
+              Double your bet after every loss. One win recovers all losses plus one unit profit.
+            </p>
+            <p class="text-gray-400 text-sm">
+              <strong class="text-white">Reality:</strong> Works until you hit table limits or run out of money. A 10-loss streak (which happens) at $100 base bet requires $102,400 to continue.
+            </p>
+          </div>
+
+          <div class="bg-gray-900 border border-gray-800 rounded-xl p-6">
+            <div class="flex items-start justify-between mb-3">
+              <h3 class="text-white text-xl font-bold">Paroli (Reverse Martingale)</h3>
+              <span class="bg-yellow-900/30 text-yellow-400 text-xs font-bold px-2 py-1 rounded">MODERATE</span>
+            </div>
+            <p class="text-gray-300 mb-3">
+              Double your bet after wins. Return to base bet after losses or after 3 consecutive wins.
+            </p>
+            <p class="text-gray-400 text-sm">
+              <strong class="text-white">Reality:</strong> Limits losses while allowing small winning streaks to compound. More sustainable than Martingale but doesn't change house edge.
+            </p>
+          </div>
+
+          <div class="bg-gray-900 border border-gray-800 rounded-xl p-6">
+            <div class="flex items-start justify-between mb-3">
+              <h3 class="text-white text-xl font-bold">Fibonacci</h3>
+              <span class="bg-yellow-900/30 text-yellow-400 text-xs font-bold px-2 py-1 rounded">MODERATE</span>
+            </div>
+            <p class="text-gray-300 mb-3">
+              Follow the Fibonacci sequence (1, 1, 2, 3, 5, 8, 13...) when losing. Move back two numbers after a win.
+            </p>
+            <p class="text-gray-400 text-sm">
+              <strong class="text-white">Reality:</strong> Slower progression than Martingale but still escalates during losing streaks. Better bankroll management required.
+            </p>
+          </div>
+
+          <div class="bg-gray-900 border border-gray-800 rounded-xl p-6">
+            <div class="flex items-start justify-between mb-3">
+              <h3 class="text-white text-xl font-bold">Flat Betting</h3>
+              <span class="bg-green-900/30 text-green-400 text-xs font-bold px-2 py-1 rounded">SAFEST</span>
+            </div>
+            <p class="text-gray-300 mb-3">
+              Bet the same amount every hand. No progression.
+            </p>
+            <p class="text-gray-400 text-sm">
+              <strong class="text-white">Reality:</strong> Won't make you rich, but won't blow your bankroll either. Best for long sessions and entertainment.
+            </p>
+          </div>
+        </div>
+
+        <div class="bg-red-900/20 border border-red-500/30 rounded-xl p-6 mt-8">
+          <h3 class="text-red-400 font-bold mb-3">Important Truth About Betting Systems</h3>
+          <p class="text-gray-300">
+            No betting system can overcome the house edge mathematically. They can only manage how you experience variance. Anyone selling a "guaranteed" baccarat system is scamming you.
+          </p>
+        </div>
+      </section>
+
+      <!-- Section 9: Mikki's Approach -->
+      <section id="mikki-approach" class="mb-16">
+        <h2 class="text-white text-3xl font-bold mb-6">9. Mikki's Approach to Baccarat</h2>
+
+        <p class="text-gray-300 leading-relaxed mb-6">
+          I don't sell a system. But I can tell you the principles that guided $32 million in wins:
+        </p>
+
+        <div class="space-y-6">
+          <div class="bg-gray-900 border-l-4 border-gold p-6">
+            <h3 class="text-white font-bold mb-2">1. Bankroll Management is Everything</h3>
+            <p class="text-gray-300">
+              I never bet more than 8% of my session bankroll on any single hand. With $3 million buy-ins and $250K hands, that math works out. Most people bet way too much relative to what they can afford to lose.
+            </p>
+          </div>
+
+          <div class="bg-gray-900 border-l-4 border-gold p-6">
+            <h3 class="text-white font-bold mb-2">2. Pattern Recognition</h3>
+            <p class="text-gray-300">
+              I watch for patterns—not because cards have memory (they don't), but because dealer shuffles aren't perfectly random and human behavior creates exploitable situations. This is controversial and many experts disagree.
+            </p>
+          </div>
+
+          <div class="bg-gray-900 border-l-4 border-gold p-6">
+            <h3 class="text-white font-bold mb-2">3. Walking Away</h3>
+            <p class="text-gray-300">
+              Most gamblers don't quit when they're ahead. I set win targets and loss limits before every session. When I hit either, I'm done. No exceptions. The discipline to walk away is the edge most people lack.
+            </p>
+          </div>
+
+          <div class="bg-gray-900 border-l-4 border-gold p-6">
+            <h3 class="text-white font-bold mb-2">4. Time Limits</h3>
+            <p class="text-gray-300">
+              Never play more than 4 hours straight. Fatigue leads to bad decisions. After a big loss, I wait at least 24 hours before playing again. Emotional gambling is losing gambling.
+            </p>
+          </div>
+
+          <div class="bg-gray-900 border-l-4 border-gold p-6">
+            <h3 class="text-white font-bold mb-2">5. Banker Bias</h3>
+            <p class="text-gray-300">
+              I bet Banker more often than Player because math. That 0.18% difference in house edge adds up over millions of dollars in bets. Small edges matter at scale.
+            </p>
+          </div>
+        </div>
+
+        <p class="text-gray-300 leading-relaxed mt-8">
+          For a deeper dive into these principles, check out <a href="/the-system" class="text-gold hover:text-gold-light underline">The System</a> page or <a href="/blog/bankroll-management-101" class="text-gold hover:text-gold-light underline">Bankroll Management 101</a>.
+        </p>
+      </section>
+
+      <!-- Section 10: Common Mistakes -->
+      <section id="common-mistakes" class="mb-16">
+        <h2 class="text-white text-3xl font-bold mb-6">10. Common Mistakes to Avoid</h2>
+
+        <div class="space-y-4">
+          <div class="bg-gray-900 border border-gray-800 rounded-xl p-6">
+            <h3 class="text-red-400 font-bold mb-2">❌ Betting the Tie</h3>
+            <p class="text-gray-300">14% house edge is robbery. Don't do it.</p>
+          </div>
+
+          <div class="bg-gray-900 border border-gray-800 rounded-xl p-6">
+            <h3 class="text-red-400 font-bold mb-2">❌ Chasing Losses</h3>
+            <p class="text-gray-300">Increasing bets to "win back" losses is the fastest path to going broke.</p>
+          </div>
+
+          <div class="bg-gray-900 border border-gray-800 rounded-xl p-6">
+            <h3 class="text-red-400 font-bold mb-2">❌ Playing Without Limits</h3>
+            <p class="text-gray-300">Set win targets and loss limits before every session. Stick to them.</p>
+          </div>
+
+          <div class="bg-gray-900 border border-gray-800 rounded-xl p-6">
+            <h3 class="text-red-400 font-bold mb-2">❌ Betting With Scared Money</h3>
+            <p class="text-gray-300">Never gamble with money you can't afford to lose. Fear leads to bad decisions.</p>
+          </div>
+
+          <div class="bg-gray-900 border border-gray-800 rounded-xl p-6">
+            <h3 class="text-red-400 font-bold mb-2">❌ Ignoring the Commission</h3>
+            <p class="text-gray-300">5% commission on Banker wins is real money. Factor it into your calculations.</p>
+          </div>
+
+          <div class="bg-gray-900 border border-gray-800 rounded-xl p-6">
+            <h3 class="text-red-400 font-bold mb-2">❌ Believing in "Due" Outcomes</h3>
+            <p class="text-gray-300">Cards don't have memory. Past results don't affect future outcomes. The gambler's fallacy has bankrupted millions.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 11: Glossary -->
+      <section id="glossary" class="mb-16">
+        <h2 class="text-white text-3xl font-bold mb-6">11. Baccarat Glossary</h2>
+
+        <p class="text-gray-300 mb-6">
+          Quick reference for common baccarat terms. For a complete glossary of gambling terms, see our <a href="/glossary" class="text-gold hover:text-gold-light underline">full glossary page</a>.
+        </p>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div class="bg-gray-900 border border-gray-800 rounded-lg p-4">
+            <dt class="text-gold font-bold">Banco</dt>
+            <dd class="text-gray-300 text-sm">Spanish/Italian for Banker</dd>
+          </div>
+          <div class="bg-gray-900 border border-gray-800 rounded-lg p-4">
+            <dt class="text-gold font-bold">Punto</dt>
+            <dd class="text-gray-300 text-sm">Spanish/Italian for Player</dd>
+          </div>
+          <div class="bg-gray-900 border border-gray-800 rounded-lg p-4">
+            <dt class="text-gold font-bold">Natural</dt>
+            <dd class="text-gray-300 text-sm">8 or 9 on the first two cards</dd>
+          </div>
+          <div class="bg-gray-900 border border-gray-800 rounded-lg p-4">
+            <dt class="text-gold font-bold">Shoe</dt>
+            <dd class="text-gray-300 text-sm">Device holding 6-8 decks of cards</dd>
+          </div>
+          <div class="bg-gray-900 border border-gray-800 rounded-lg p-4">
+            <dt class="text-gold font-bold">Commission</dt>
+            <dd class="text-gray-300 text-sm">5% fee on winning Banker bets</dd>
+          </div>
+          <div class="bg-gray-900 border border-gray-800 rounded-lg p-4">
+            <dt class="text-gold font-bold">Coup</dt>
+            <dd class="text-gray-300 text-sm">One round of baccarat</dd>
+          </div>
+          <div class="bg-gray-900 border border-gray-800 rounded-lg p-4">
+            <dt class="text-gold font-bold">Le Grande</dt>
+            <dd class="text-gray-300 text-sm">A natural 9 (the best hand)</dd>
+          </div>
+          <div class="bg-gray-900 border border-gray-800 rounded-lg p-4">
+            <dt class="text-gold font-bold">Le Petite</dt>
+            <dd class="text-gray-300 text-sm">A natural 8</dd>
+          </div>
+        </div>
+      </section>
+
+      <!-- Warning -->
+      <div class="bg-red-900/20 border border-red-500/30 rounded-xl p-6 mb-12">
+        <h3 class="text-red-400 font-bold mb-3">Gambling Warning</h3>
+        <p class="text-gray-300">
+          Baccarat is gambling. The house always has an edge. No system or strategy can guarantee wins. Only gamble with money you can afford to lose. If gambling becomes a problem, call the National Problem Gambling Helpline: 1-800-522-4700.
+        </p>
+      </div>
+
+      <!-- CTA -->
+      <div class="bg-gray-900 border border-gold/30 rounded-xl p-8 text-center">
+        <h3 class="text-white text-2xl font-bold mb-4">Want More Strategy Content?</h3>
+        <p class="text-gray-400 mb-6">
+          Join the free Telegram community for cheatsheets, strategy guides, and real-time insights.
+        </p>
+        <Button variant="primary" href="/join">
+          Join Free Community
+        </Button>
+      </div>
+
+    </div>
+  </article>
+
+  <RelatedContent
+    title="Continue Learning"
+    items={[
+      {
+        href: "/the-system",
+        title: "The System Explained",
+        description: "Mikki's approach to pattern recognition, bankroll management, and execution.",
+        category: "Strategy"
+      },
+      {
+        href: "/blog/bankroll-management-101",
+        title: "Bankroll Management 101",
+        description: "How professional gamblers protect their money and survive variance.",
+        category: "Blog"
+      },
+      {
+        href: "/glossary",
+        title: "Gambling Glossary",
+        description: "70+ terms every serious player should know.",
+        category: "Reference"
+      }
+    ]}
+  />
+
+  <Footer />
+</BaseLayout>

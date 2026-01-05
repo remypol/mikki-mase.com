@@ -1,0 +1,52 @@
+---
+// QuickAnswer - AI-optimized summary box for featured snippets
+// Place at top of content pages for better AI search extraction
+
+interface Props {
+  question: string;
+  answer: string;
+  facts?: { label: string; value: string }[];
+}
+
+const { question, answer, facts = [] } = Astro.props;
+---
+
+<aside class="quick-answer bg-gradient-to-br from-gray-900 to-gray-950 border border-gold/20 rounded-xl p-6 md:p-8 mb-12" aria-label="Quick answer summary">
+  <div class="flex items-start gap-4 mb-4">
+    <div class="flex-shrink-0 w-10 h-10 bg-gold/10 rounded-full flex items-center justify-center">
+      <svg class="w-5 h-5 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+      </svg>
+    </div>
+    <div>
+      <p class="text-gold text-sm font-semibold uppercase tracking-wider mb-1">Quick Answer</p>
+      <h2 class="text-white text-lg md:text-xl font-bold">{question}</h2>
+    </div>
+  </div>
+
+  <p class="text-gray-300 text-base md:text-lg leading-relaxed mb-6" data-answer="true">
+    {answer}
+  </p>
+
+  {facts.length > 0 && (
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 pt-4 border-t border-gray-800">
+      {facts.map(fact => (
+        <div class="text-center">
+          <p class="text-gold text-xl md:text-2xl font-bold">{fact.value}</p>
+          <p class="text-gray-500 text-xs uppercase tracking-wider">{fact.label}</p>
+        </div>
+      ))}
+    </div>
+  )}
+</aside>
+
+<style>
+  .quick-answer {
+    /* Helps AI extractors identify this as a summary */
+    container-type: inline-size;
+  }
+
+  .quick-answer[data-answer] {
+    /* Semantic marker for crawlers */
+  }
+</style>

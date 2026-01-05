@@ -1,0 +1,714 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import Hero from '../components/Hero.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import Button from '../components/Button.astro';
+
+// Timeline events organized by era (will be used for schema too)
+const timelineEras = [
+  {
+    era: "Early Life",
+    years: "1991-2006",
+    color: "blue",
+    icon: "🎲",
+    events: [
+      {
+        year: "1991",
+        age: "Birth",
+        title: "Born Michael David Meiterman",
+        description: "October 27, 1991. The beginning of a story that would lead to $32M in casino wins.",
+        details: null,
+        verified: true
+      },
+      {
+        year: "1994",
+        age: "Age 3",
+        title: "Grandparents Teach Him Cards",
+        description: "Foundation of pattern recognition begins. Learning card games as education, not entertainment.",
+        details: "His grandparents taught him card games from age 3 until they passed away when he was 8. This early exposure to probability and patterns would become the foundation of his $32M gambling career decades later.",
+        verified: true
+      },
+      {
+        year: "1999",
+        age: "Age 8",
+        title: "Grandparents Pass Away",
+        description: "Lost the family members who taught him cards. By this point, cards were already a language he spoke fluently.",
+        details: null,
+        verified: true
+      },
+      {
+        year: "2002",
+        age: "Age 11",
+        title: "Drug Addiction Begins",
+        description: "Became addicted to drugs. Life trajectory spirals.",
+        details: "At age 11, Mikki became addicted to drugs. This period marked the beginning of the darker chapter of his youth that would eventually lead to incarceration.",
+        verified: true
+      },
+      {
+        year: "2003-2006",
+        age: "Age 12-15",
+        title: "Neighborhood Gambling 5 Days/Week",
+        description: "Playing cards with mobsters and wealthy players decades older. They thought he was 18-20 years old.",
+        details: "\"I was gambling five days a week in my neighborhood... with mobsters and rich Jews. I was 12, 13, 14, 15... They thought I was 18, 20 years old. I never told them my age.\" This was his real education—high-stakes games with adults who wouldn't go easy on a kid.",
+        verified: true,
+        quote: "I was gambling five days a week in my neighborhood... with mobsters and rich Jews. They thought I was 18, 20 years old."
+      },
+      {
+        year: "2003-2009",
+        age: "Age 12-18",
+        title: "Atlantic City with Fake ID",
+        description: "\"I was 21 for seven years.\" Regular trips to Atlantic City casinos with fake identification.",
+        details: "Mikki used a fake ID to access Atlantic City casinos throughout his teenage years. These weren't occasional trips—he was studying casino environments, dealer behaviors, and table game mechanics long before he had the bankroll to play at high stakes.",
+        verified: true,
+        quote: "I was 21 for seven years... We'd go to Atlantic City. The Jersey Shore. I'd be a kid with a fake ID walking into casinos."
+      }
+    ]
+  },
+  {
+    era: "The Dark Years",
+    years: "2006-2012",
+    color: "red",
+    icon: "⚠️",
+    events: [
+      {
+        year: "2006",
+        age: "Age 15",
+        title: "Juvenile Detention Begins",
+        description: "Entered the juvenile justice system. Would spend roughly 6 years incarcerated by age 21.",
+        details: "At 15, Mikki entered juvenile detention. \"Juvenile detention was the worst jail I've ever been to. With kids, there's no consequences. You can hit a CO in the face and go to your room for three days. There's no charges.\" This environment taught him to survive chaos.",
+        verified: true,
+        quote: "Juvenile detention was the worst jail I've ever been to. With kids, there's no consequences."
+      },
+      {
+        year: "2006-2012",
+        age: "Age 15-21",
+        title: "Mom Becomes Bail Bondsman",
+        description: "His mother became a licensed bail bondsman to navigate the system and help her son.",
+        details: "While Mikki cycled through the juvenile justice system, his mother became a licensed bail bondsman—not as a career change, but as a survival strategy to understand the system and help her son.",
+        verified: true
+      },
+      {
+        year: "2006-2012",
+        age: "Age 15-21",
+        title: "~6 Years Total Incarceration",
+        description: "Between juvenile detention and prison. Got GED, took SATs, accepted to 5 universities—never attended.",
+        details: "During incarceration, Mikki got his GED, took the SATs while locked up, and was accepted to 5 universities. He never attended any of them. Instead, this period gave him the psychological edge he'd later use at casino tables.",
+        verified: true
+      },
+      {
+        year: "2012",
+        age: "Age 21",
+        title: "Released: Homeless in New York",
+        description: "No money, no job, no plan. Lived on the actual streets. Got sober alone with no formal program.",
+        details: "When he finally got out at 21, Mikki had nothing. He ended up homeless in New York—not the romanticized version, but the actual streets. He got sober there, alone, with no program and no support system. Just survival.",
+        verified: true
+      }
+    ]
+  },
+  {
+    era: "Business Empire",
+    years: "2012-2020",
+    color: "green",
+    icon: "💼",
+    events: [
+      {
+        year: "2012",
+        age: "Early 20s",
+        title: "Day Laborer at $100/Day",
+        description: "First job after release. Saved every single dollar. Lived in cheapest conditions possible.",
+        details: "Mikki started as a day laborer making $100 per day in cash. He saved every single dollar, lived in the cheapest conditions possible, and banked everything else. This discipline would define his approach to both business and gambling.",
+        verified: true
+      },
+      {
+        year: "2013",
+        age: "Early 20s",
+        title: "Rehab Facility Job: $18/Hour",
+        description: "Friend got him a job at Miami rehab facility. Studied the business operations, insurance billing, patient intake.",
+        details: "A friend got Mikki a job at a rehab facility in Miami for $18/hour. Instead of just working, he studied how the business worked—the operations, insurance billing, patient intake systems. Within months, he understood the entire model.",
+        verified: true
+      },
+      {
+        year: "2014",
+        age: "Early-Mid 20s",
+        title: "First Rehab Center Purchase",
+        description: "Bought his first rehab center with saved money. Then another. Then expanded into pharmacies.",
+        details: "Using the money he'd saved from day labor and the rehab job, Mikki bought his first rehab center. Then another. Then he expanded into pharmacies, identifying the business model that would make him millions.",
+        verified: true
+      },
+      {
+        year: "2015-2018",
+        age: "Mid 20s",
+        title: "Built Empire: 300+ Pharmacies",
+        description: "Owned 300+ pharmacies and multiple rehab facilities across Florida by mid-20s.",
+        details: "By his mid-20s, Mikki had built a network of over 300 pharmacies and multiple rehab facilities across Florida. The kid who was homeless at 21 now controlled a multi-million dollar healthcare empire.",
+        verified: true
+      },
+      {
+        year: "2018-2019",
+        age: "Late 20s",
+        title: "Sold Businesses & Retired",
+        description: "Sold pharmacy/rehab empire while still in his 20s. Exact sale price undisclosed but substantial.",
+        details: "Mikki sold the entire empire while still in his 20s. The exact sale price isn't public, but based on his subsequent lifestyle and verified wins, it was substantial enough to support $3M casino buy-ins.",
+        verified: true
+      },
+      {
+        year: "2019",
+        age: "Late 20s",
+        title: "Personal Tragedy Strikes",
+        description: "Business partner murdered. Another partner disappeared. Split with girlfriend. Alone again, but this time with money and no direction.",
+        details: "After selling his businesses, everything fell apart. His business partner was murdered. Another partner disappeared. He split with his girlfriend. He was alone again—but this time with millions and no direction.",
+        verified: true
+      }
+    ]
+  },
+  {
+    era: "Discovery of Baccarat",
+    years: "2019-2020",
+    color: "gold",
+    icon: "🎰",
+    events: [
+      {
+        year: "2020",
+        age: "Late 20s",
+        title: "Moved to Los Angeles",
+        description: "Relocated from Florida to LA. Started traveling to Las Vegas to observe casino operations.",
+        details: "Around 2020, Mikki moved to Los Angeles. He started going to Las Vegas—not as a tourist, but as someone looking for patterns. He watched baccarat tables for hours before placing a single bet.",
+        verified: true
+      },
+      {
+        year: "2020",
+        age: "Late 20s",
+        title: "The $500 Bet: Learning Baccarat",
+        description: "First baccarat bet ever. $500 minimum table. Asked dealer to explain the game. Learned in 2 hands.",
+        details: "Mikki had never played baccarat. He sat down at a $500-minimum table and asked the dealer, \"Can you explain the game to me?\" Two hands later, he understood the mechanics. That $500 table became his training ground. Within months, he'd be betting $250,000 per hand.",
+        verified: true,
+        quote: "I had never played a hand of baccarat in my life. I sat down at a $500-minimum table and asked the dealer to explain it to me in two hands."
+      },
+      {
+        year: "2020-2021",
+        age: "Late 20s",
+        title: "18 Months of Grinding",
+        description: "Studied patterns. Practiced system. Lost money. Refined approach. Then everything clicked.",
+        details: "It wasn't instant success. Mikki spent 18 months grinding—studying patterns, tracking dealer tells, perfecting his system. There were losses. But he was building something systematic, not gambling on luck.",
+        verified: true
+      },
+      {
+        year: "2021",
+        age: "~30",
+        title: "First Big Win: $1.125M-$1.25M",
+        description: "18 months into playing baccarat seriously. First seven-figure win in a single session. System validation.",
+        details: "$1.125 million to $1.25 million. Not from luck. From 18 months of pattern recognition, dealer tell identification, and disciplined execution. This win validated the approach. It proved that what he was seeing at the tables wasn't random noise—it was signal.",
+        verified: true,
+        quote: "My first big win was around $1.125 million to $1.25 million. That was about 18 months into playing baccarat seriously."
+      }
+    ]
+  },
+  {
+    era: "The High Stakes Era",
+    years: "2021-2023",
+    color: "purple",
+    icon: "👑",
+    events: [
+      {
+        year: "2021-2022",
+        age: "~30-31",
+        title: "The Venetian: $10M+ Win (VERIFIED)",
+        description: "Biggest verified win. Over $10 million at single baccarat table. Confirmed by poker pro Jake Ormand.",
+        details: "Professional poker player Jake Ormand was present and publicly confirmed Mikki won over $10 million at a single baccarat table at The Venetian. The casino reviewed surveillance footage, found no evidence of cheating, and banned him anyway.",
+        verified: true,
+        quote: "Jake Ormand: 'I personally witnessed Mikki win over $10 million at The Venetian. Casino reviewed footage. No cheating. Just wins.'"
+      },
+      {
+        year: "2021-2022",
+        age: "~30-31",
+        title: "Peak Earnings: ~$1M Per Week",
+        description: "At his peak, averaged around $1 million per week. Strategic timing: win $3M, disappear for 3 weeks, return.",
+        details: "By his own account, Mikki averaged around $1 million per week during his peak. But he was strategic: win $3 million, then disappear for three weeks to let the heat die down. Then come back.",
+        verified: false
+      },
+      {
+        year: "2021-2022",
+        age: "~30-31",
+        title: "The Wynn: $1.5M Net Loss (VERIFIED)",
+        description: "Lost $4M, won back $2.5M, net loss $1.5M. Still got banned despite losing money.",
+        details: "At the Wynn Las Vegas, Mikki actually lost money overall. He dropped $4 million, won back $2.5 million, and walked away with a net loss of $1.5 million. The Wynn still banned him. Why? Because casinos saw the system, not the outcome.",
+        verified: true
+      },
+      {
+        year: "2022",
+        age: "~31",
+        title: "MGM Monitor Cheating Proof",
+        description: "Monitor showed 7-2, felt showed 5-4. Caught casino manipulation on hand #2 with all-new equipment.",
+        details: "MGM changed everything—new table, felt, cards, shoe, monitors. Hand #2: Mikki bet Player, Bank came natural 9. Monitor displayed Bank: 7-2. Felt showed Bank: 5-4. Both equal 9—but different cards. He caught them cheating. Got banned for 'throwing a glass.' The '6-month ban' has lasted 2+ years.",
+        verified: true,
+        quote: "There's a 5 and a 4 on the board but the monitor says 7 and a 2. I caught you cheating."
+      },
+      {
+        year: "2022",
+        age: "~31",
+        title: "The 3 of Clubs Prediction",
+        description: "With 2 Chainz watching, predicted exact card before it was dealt. Camera caught everything.",
+        details: "Playing with 2 Chainz (ToSee), Mikki turned to him and said, 'I bet you the next card is the 3 of clubs.' Dealer opened it. 3 of clubs. 2 Chainz to camera: 'How the fuck did you know that?' Mikki: 'Because I know they're cheating.' One-shot, unedited clip. Ian was there. Impossible to fake.",
+        verified: true,
+        quote: "I bet you the next card that comes out is the 3 of clubs. [Card opens] Yeah, it's correct."
+      },
+      {
+        year: "2022",
+        age: "~31",
+        title: "The $11.526M Win",
+        description: "Biggest single session. $11,526,000 over 7 days. $250K per hand, flat betting. Then ordered a PB&J sandwich.",
+        details: "His biggest documented win: $11.526 million over 7 days at $250,000 per hand with flat betting. After winning, he showed zero emotion. 'I actually shut off,' he says. Sent everybody home. Then ordered his ritual: a peanut butter and jelly sandwich, lightly toasted, with sliced banana, crusts cut off.",
+        verified: false,
+        quote: "The first thing I always do after a massive win is order a peanut butter and jelly sandwich with banana. Crusts cut off."
+      },
+      {
+        year: "2022",
+        age: "~31",
+        title: "Security Block: $7M Hostage",
+        description: "Three guards pushed his chair against table so he couldn't reach his $7M in chips. Jumped on chair and screamed.",
+        details: "Mikki had $7 million in chips on the table. Three security guards approached, pushed his chair against the table so he couldn't stand up or reach his money. 'I jumped up, stood on the chair, screaming at the top of my lungs. I was trying to get people's attention before these $12/hour guards rob me for $7 million.'",
+        verified: true,
+        quote: "Before these three security guards get paid $12 bucks an hour trying to rob me for $7 million, they'd be in a great position to do it."
+      },
+      {
+        year: "2022-2023",
+        age: "~31-32",
+        title: "Hustler Casino Live Poker",
+        description: "Played poker on popular livestream. Documented net loss: $938,950. Not a poker crusher—edge is in baccarat.",
+        details: "Mikki played poker on Hustler Casino Live, a popular poker livestream. His documented results: a net loss of $938,950. He's transparent about not being a poker crusher. His edge is specifically in baccarat pattern recognition, not poker.",
+        verified: true
+      },
+      {
+        year: "2023",
+        age: "~32",
+        title: "150+ Casino Bans",
+        description: "Banned from over 150 casinos. Reasons ranged from 'touching forks' to 'scaring pit boss' to 'getting into fight with valet in a state he wasn't even in.'",
+        details: "By 2023, Mikki had been banned from over 150 casinos across the United States. Official reasons were absurd: 'touching too many forks at the buffet,' 'scared a pit boss,' 'got into a fight with a valet' (he wasn't in the state that day). Real reason: he won too much, too consistently.",
+        verified: false
+      },
+      {
+        year: "2023",
+        age: "~32",
+        title: "Proved Success to Parents",
+        description: "Rented villa, threw party, bought dad a Maybach, made him VP of new company. Parents finally believed him.",
+        details: "Mikki's parents didn't believe him at first. A former addict and ex-con claiming to win millions from casinos? So he rented a villa, threw a party, bought his dad a Maybach, and made him Vice President of a company he'd just created. His parents walked in and realized their son wasn't lying. It wasn't about showing off—it was about being believed.",
+        verified: true
+      }
+    ]
+  },
+  {
+    era: "Current Reality",
+    years: "2023-Present",
+    color: "cyan",
+    icon: "🌐",
+    events: [
+      {
+        year: "Dec 2023",
+        age: "Age 32",
+        title: "Soft White Underbelly Interview",
+        description: "Gave detailed on-camera interview walking through entire life story from prison to pro gambler.",
+        details: "In December 2023, Mikki gave a candid interview to Soft White Underbelly, walking through his entire life story on camera. It's one of the most detailed accounts of his journey from juvenile detention to professional gambling.",
+        verified: true
+      },
+      {
+        year: "2024",
+        age: "Age 33",
+        title: "$1.9M in Community Payouts",
+        description: "Claims to have paid out $1.9 million to fans and community members following his strategies.",
+        details: "By the end of 2024, Mikki claims to have paid out $1.9 million to fans and community members who follow his strategies. This is self-reported and not independently verified, but demonstrates his approach to giving back.",
+        verified: false
+      },
+      {
+        year: "2024-Present",
+        age: "Age 33+",
+        title: "Runs Free Telegram Community",
+        description: "Shares pattern recognition techniques, behind-the-scenes stories. No courses, no upsells. 100% free.",
+        details: "Today, Mikki can't play under his own name at most major casinos. He runs a free Telegram community where he shares insights, pattern recognition techniques, and behind-the-scenes stories. He doesn't sell a course. He doesn't promise a magic system. He just shows people what he sees.",
+        verified: true
+      },
+      {
+        year: "2026",
+        age: "Age 35",
+        title: "The Legend Continues",
+        description: "From juvenile detention at 15 to $32M+ in wins by 35. Banned from 150+ casinos. The most feared player in baccarat history.",
+        details: "Michael David Meiterman—Mikki Mase—went from being homeless at 21 to winning over $32 million by 35. His story isn't just about gambling. It's about pattern recognition, emotional discipline, and refusing to stay written off. The casinos can ban him, but they can't erase what he proved: some patterns are real, some edges exist, and discipline beats luck every time.",
+        verified: true
+      }
+    ]
+  }
+];
+
+// Helper function to determine location for events
+const getEventLocation = (eventTitle: string, era: string) => {
+  // Casino/gambling events → Las Vegas, Nevada
+  if (eventTitle.includes('Casino') || eventTitle.includes('Venetian') || eventTitle.includes('Wynn') ||
+      eventTitle.includes('MGM') || eventTitle.includes('Baccarat') || eventTitle.includes('Win') ||
+      eventTitle.includes('Banned') || eventTitle.includes('High Stakes')) {
+    return {
+      "@type": "Place",
+      "name": "Las Vegas, Nevada",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Las Vegas",
+        "addressRegion": "NV",
+        "addressCountry": "US"
+      }
+    };
+  }
+  // Atlantic City events
+  if (eventTitle.includes('Atlantic City')) {
+    return {
+      "@type": "Place",
+      "name": "Atlantic City, New Jersey",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Atlantic City",
+        "addressRegion": "NJ",
+        "addressCountry": "US"
+      }
+    };
+  }
+  // Miami/Florida business events
+  if (eventTitle.includes('Rehab') || eventTitle.includes('Pharmacies') || eventTitle.includes('Empire')) {
+    return {
+      "@type": "Place",
+      "name": "Miami, Florida",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Miami",
+        "addressRegion": "FL",
+        "addressCountry": "US"
+      }
+    };
+  }
+  // Los Angeles events
+  if (eventTitle.includes('Los Angeles') || eventTitle.includes('Hustler Casino')) {
+    return {
+      "@type": "Place",
+      "name": "Los Angeles, California",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Los Angeles",
+        "addressRegion": "CA",
+        "addressCountry": "US"
+      }
+    };
+  }
+  // New York events
+  if (eventTitle.includes('New York') || eventTitle.includes('Homeless')) {
+    return {
+      "@type": "Place",
+      "name": "New York, New York",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "New York",
+        "addressRegion": "NY",
+        "addressCountry": "US"
+      }
+    };
+  }
+  // Generic biographical milestones → VirtualLocation (for birth, childhood, etc.)
+  return {
+    "@type": "VirtualLocation",
+    "url": "https://mikki-mase.com/timeline"
+  };
+};
+
+// Generate Event schema for AI search engines
+const timelineSchema = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Article",
+      "@id": "https://mikki-mase.com/timeline#article",
+      "headline": "The Mikki Mase Timeline - Complete Chronological Journey",
+      "description": "Interactive timeline documenting Mikki Mase's complete journey from childhood gambling at age 3 to winning $32M+ and getting banned from 150+ casinos.",
+      "author": {
+        "@type": "Person",
+        "name": "Mikki Mase",
+        "@id": "https://mikki-mase.com/#person"
+      },
+      "datePublished": "2025-01-24",
+      "dateModified": "2026-01-02",
+      "publisher": {
+        "@type": "Person",
+        "name": "Mikki Mase"
+      },
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://mikki-mase.com/timeline"
+      },
+      "articleSection": "Biography",
+      "keywords": "Mikki Mase timeline, chronological events, prison to casino wins, biography timeline",
+      "inLanguage": "en-US"
+    },
+    ...timelineEras.flatMap((era, eraIndex) =>
+      era.events.map((event, eventIndex) => ({
+        "@type": "Event",
+        "@id": `https://mikki-mase.com/timeline#event-${eraIndex}-${eventIndex}`,
+        "name": event.title,
+        "description": event.description,
+        "startDate": event.year,
+        "location": getEventLocation(event.title, era.era),
+        "about": {
+          "@type": "Person",
+          "name": "Mikki Mase",
+          "@id": "https://mikki-mase.com/#person"
+        },
+        "organizer": {
+          "@type": "Person",
+          "name": "Mikki Mase"
+        }
+      }))
+    )
+  ]
+};
+---
+
+<BaseLayout
+  title="Mikki Mase Timeline: Complete Chronological Journey 1991-2026"
+  description="Interactive timeline of Mikki Mase's complete journey: from learning cards at age 3, to juvenile detention at 15, building a 300-pharmacy empire, discovering baccarat, winning $32M+, and getting banned from 150+ casinos. Every major event mapped."
+  schema={timelineSchema}
+>
+  <Header />
+
+  <!-- HERO -->
+  <Hero
+    eyebrow="Complete Chronological Journey"
+    title="The Timeline"
+    subtitle="From learning cards at age 3 to winning $32M+ and getting banned from 150+ casinos. Every major event, chronologically mapped."
+    backgroundImage="/images/mikki-main-2.webp"
+    variant="medium"
+  />
+
+  <!-- BREADCRUMBS -->
+  <div class="bg-black border-b border-gray-800">
+    <Breadcrumbs items={[
+      { label: "Home", href: "/" },
+      { label: "Timeline" }
+    ]} />
+  </div>
+
+  <!-- TIMELINE CONTENT -->
+  <article class="bg-black">
+    <div class="container mx-auto px-6 py-16 md:py-24">
+
+      <!-- Intro -->
+      <div class="max-w-3xl mx-auto text-center mb-16 md:mb-24">
+        <p class="text-gray-400 text-lg md:text-xl leading-relaxed mb-6">
+          This is the complete chronological timeline of Mikki Mase's life—from his first card game at age 3 to becoming the most banned player in casino history by age 34.
+        </p>
+        <p class="text-gray-400 text-lg md:text-xl leading-relaxed">
+          Events marked as <span class="text-green-400 font-semibold">VERIFIED</span> have independent confirmation. Others are based on Mikki's interviews and public statements.
+        </p>
+      </div>
+
+      <!-- ERA NAVIGATION -->
+      <div class="max-w-5xl mx-auto mb-16">
+        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
+          {timelineEras.map((era) => (
+            <a
+              href={`#era-${era.color}`}
+              class={`group relative overflow-hidden rounded-xl p-4 text-center transition-all duration-300 border-2 hover:scale-105 bg-gradient-to-br from-gray-900 to-black border-${era.color}-500/30 hover:border-${era.color}-500/60`}
+            >
+              <div class={`text-3xl mb-2 transform group-hover:scale-110 transition-transform`}>
+                {era.icon}
+              </div>
+              <div class={`text-${era.color}-400 text-xs font-bold uppercase tracking-wider mb-1`}>
+                {era.era}
+              </div>
+              <div class="text-gray-500 text-xs">
+                {era.years}
+              </div>
+            </a>
+          ))}
+        </div>
+      </div>
+
+      <!-- TIMELINE -->
+      <div class="max-w-5xl mx-auto">
+        {timelineEras.map((era, eraIndex) => (
+          <section id={`era-${era.color}`} class="mb-24 scroll-mt-20">
+
+            <!-- ERA HEADER -->
+            <div class="text-center mb-12">
+              <div class={`inline-block px-6 py-3 bg-${era.color}-500/10 border-2 border-${era.color}-500/50 rounded-full mb-4`}>
+                <span class={`text-${era.color}-400 text-lg font-bold uppercase tracking-wider`}>
+                  {era.icon} {era.era}
+                </span>
+              </div>
+              <div class="text-gray-500 text-sm uppercase tracking-widest">
+                {era.years}
+              </div>
+            </div>
+
+            <!-- EVENTS -->
+            <div class="relative">
+
+              <!-- Vertical Timeline Line -->
+              <div class={`absolute left-8 md:left-1/2 top-0 bottom-0 w-0.5 bg-gradient-to-b from-${era.color}-500/50 via-${era.color}-500/30 to-transparent`}></div>
+
+              {era.events.map((event, eventIndex) => {
+                const isLeft = eventIndex % 2 === 0;
+                return (
+                  <div class={`relative mb-12 md:mb-16 ${isLeft ? 'md:pr-1/2' : 'md:pl-1/2'}`}>
+
+                    <!-- Timeline Dot -->
+                    <div class={`absolute left-8 md:left-1/2 w-4 h-4 rounded-full border-4 border-${era.color}-500 bg-black z-10 transform -translate-x-1/2 ${event.verified ? 'shadow-lg shadow-green-500/50' : ''}`}>
+                      {event.verified && (
+                        <div class="absolute -top-1 -right-1 w-3 h-3 bg-green-500 rounded-full border-2 border-black"></div>
+                      )}
+                    </div>
+
+                    <!-- Event Card -->
+                    <div class={`ml-16 md:ml-0 ${isLeft ? 'md:pr-12' : 'md:pl-12'} ${isLeft ? 'md:text-right' : 'md:text-left'}`}>
+                      <details class={`group bg-gradient-to-br from-gray-900 to-black border-2 border-${era.color}-500/30 rounded-2xl overflow-hidden hover:border-${era.color}-500/60 transition-all duration-300 ${event.details ? 'cursor-pointer' : ''}`} ${event.details ? 'open' : ''}>
+                        <summary class={`p-6 md:p-8 ${event.details ? 'cursor-pointer list-none' : 'pointer-events-none'}`}>
+                          <div class="flex items-start justify-between gap-4">
+                            <div class="flex-1">
+                              <!-- Year/Age Badge -->
+                              <div class={`inline-block px-3 py-1 bg-${era.color}-500/20 border border-${era.color}-500/50 rounded-full mb-3`}>
+                                <span class={`text-${era.color}-400 text-sm font-bold`}>
+                                  {event.year} · {event.age}
+                                  {event.verified && (
+                                    <span class="ml-2 text-green-400 text-xs">✓ VERIFIED</span>
+                                  )}
+                                </span>
+                              </div>
+
+                              <!-- Title -->
+                              <h3 class={`text-white text-xl md:text-2xl font-bold mb-2 group-open:text-${era.color}-400 transition-colors`}>
+                                {event.title}
+                              </h3>
+
+                              <!-- Description -->
+                              <p class="text-gray-400 leading-relaxed">
+                                {event.description}
+                              </p>
+                            </div>
+
+                            {event.details && (
+                              <div class="flex-shrink-0">
+                                <svg class={`w-6 h-6 text-${era.color}-400 transform group-open:rotate-180 transition-transform duration-300`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                                </svg>
+                              </div>
+                            )}
+                          </div>
+                        </summary>
+
+                        {event.details && (
+                          <div class={`px-6 md:px-8 pb-8 pt-4 border-t border-${era.color}-500/20`}>
+                            <div class="space-y-4">
+                              <p class="text-gray-300 text-base leading-relaxed">
+                                {event.details}
+                              </p>
+
+                              {event.quote && (
+                                <div class={`bg-${era.color}-500/5 border-l-4 border-${era.color}-400 p-4 rounded-r-lg`}>
+                                  <p class="text-gray-300 italic leading-relaxed">
+                                    "{event.quote}"
+                                  </p>
+                                </div>
+                              )}
+                            </div>
+                          </div>
+                        )}
+                      </details>
+                    </div>
+
+                  </div>
+                );
+              })}
+
+            </div>
+
+          </section>
+        ))}
+      </div>
+
+      <!-- CLOSING CTA -->
+      <div class="max-w-3xl mx-auto text-center pt-16 border-t-2 border-gray-800">
+        <h3 class="text-white text-3xl md:text-4xl font-bold mb-6">
+          The Journey Continues
+        </h3>
+        <p class="text-gray-400 text-lg leading-relaxed mb-8">
+          From learning cards at age 3 to winning $32M+ by age 34. From juvenile detention to casino legend. This is the complete, chronological story of Mikki Mase.
+        </p>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+          <Button variant="primary" href="/story">
+            Read Full Story
+          </Button>
+          <Button variant="secondary" href="/wins">
+            See Verified Wins
+          </Button>
+        </div>
+      </div>
+
+    </div>
+  </article>
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  /* Smooth scroll behavior */
+  html {
+    scroll-behavior: smooth;
+  }
+
+  /* Timeline animations */
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  details {
+    animation: fadeInUp 0.6s ease-out;
+  }
+
+  /* Verified badge pulse */
+  @keyframes pulse {
+    0%, 100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.5;
+    }
+  }
+
+  .shadow-green-500\/50 {
+    animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+
+  /* Era navigation hover effects */
+  a[href^="#era-"]:hover {
+    transform: translateY(-2px);
+  }
+
+  /* Smooth expand/collapse */
+  details summary {
+    transition: all 0.3s ease;
+  }
+
+  details[open] summary {
+    margin-bottom: 0;
+  }
+
+  /* Hide default marker */
+  details summary::-webkit-details-marker {
+    display: none;
+  }
+
+  details summary::marker {
+    display: none;
+  }
+</style>

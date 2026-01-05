@@ -1,0 +1,528 @@
+/**
+ * Global Micro-Interactions & Animations
+ * 2026+ futureproof, state-of-the-art UX polish
+ */
+
+/* ==========================================
+   SMOOTH SCROLL BEHAVIOR
+   ========================================== */
+html {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ==========================================
+   BUTTON MICRO-INTERACTIONS
+   ========================================== */
+
+/* Primary Button Hover Glow */
+.button-primary,
+button[class*="primary"],
+a[class*="primary"] {
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.button-primary:hover,
+button[class*="primary"]:hover,
+a[class*="primary"]:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    0 10px 25px -5px rgba(212, 160, 23, 0.4),
+    0 8px 10px -6px rgba(212, 160, 23, 0.3);
+}
+
+.button-primary:active,
+button[class*="primary"]:active,
+a[class*="primary"]:active {
+  transform: translateY(0);
+  box-shadow:
+    0 4px 12px -2px rgba(212, 160, 23, 0.3);
+}
+
+/* Button Ripple Effect */
+.button-primary::after,
+button[class*="primary"]::after,
+a[class*="primary"]::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.3);
+  transform: translate(-50%, -50%);
+  transition: width 0.6s, height 0.6s;
+}
+
+.button-primary:active::after,
+button[class*="primary"]:active::after,
+a[class*="primary"]:active::after {
+  width: 300px;
+  height: 300px;
+  opacity: 0;
+}
+
+/* Secondary Button Interactions */
+.button-secondary:hover,
+button[class*="secondary"]:hover,
+a[class*="secondary"]:hover {
+  transform: translateY(-1px);
+  border-color: rgba(212, 160, 23, 0.8);
+  background: rgba(212, 160, 23, 0.05);
+}
+
+/* ==========================================
+   LINK ANIMATIONS
+   ========================================== */
+
+/* Animated Underline */
+a:not([class*="button"]):not([class*="btn"]) {
+  position: relative;
+  transition: color 0.3s ease;
+}
+
+a.text-gold:not([class*="button"]),
+a.hover\:text-gold-light:not([class*="button"]) {
+  background-image: linear-gradient(to right, currentColor 0%, currentColor 100%);
+  background-size: 0% 1px;
+  background-repeat: no-repeat;
+  background-position: left bottom;
+  transition: background-size 0.3s cubic-bezier(0.4, 0, 0.2, 1), color 0.3s ease;
+}
+
+a.text-gold:hover:not([class*="button"]),
+a.hover\:text-gold-light:hover:not([class*="button"]) {
+  background-size: 100% 1px;
+}
+
+/* ==========================================
+   CARD ENTRANCE ANIMATIONS
+   ========================================== */
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Apply entrance animations */
+.animate-fadeInUp {
+  animation: fadeInUp 0.6s cubic-bezier(0.4, 0, 0.2, 1) both;
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.5s ease-out both;
+}
+
+.animate-slideInRight {
+  animation: slideInRight 0.5s cubic-bezier(0.4, 0, 0.2, 1) both;
+}
+
+.animate-scaleIn {
+  animation: scaleIn 0.4s cubic-bezier(0.4, 0, 0.2, 1) both;
+}
+
+/* Staggered delays for multiple elements */
+.stagger-1 { animation-delay: 0.1s; }
+.stagger-2 { animation-delay: 0.2s; }
+.stagger-3 { animation-delay: 0.3s; }
+.stagger-4 { animation-delay: 0.4s; }
+.stagger-5 { animation-delay: 0.5s; }
+.stagger-6 { animation-delay: 0.6s; }
+
+/* ==========================================
+   INTERACTIVE CARDS
+   ========================================== */
+
+.card-interactive {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.card-interactive:hover {
+  transform: translateY(-4px);
+  box-shadow:
+    0 20px 25px -5px rgba(0, 0, 0, 0.3),
+    0 8px 10px -6px rgba(0, 0, 0, 0.2);
+}
+
+.card-interactive:active {
+  transform: translateY(-2px);
+}
+
+/* ==========================================
+   FOCUS STATES (ACCESSIBILITY)
+   ========================================== */
+
+/* Modern focus ring */
+*:focus-visible {
+  outline: 2px solid rgba(212, 160, 23, 0.8);
+  outline-offset: 3px;
+  border-radius: 4px;
+  transition: outline-offset 0.2s ease;
+}
+
+button:focus-visible,
+a:focus-visible {
+  outline-offset: 4px;
+}
+
+/* Remove default focus styles but keep for keyboard users */
+*:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* ==========================================
+   LOADING STATES
+   ========================================== */
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-pulse {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+.animate-spin {
+  animation: spin 1s linear infinite;
+}
+
+/* Skeleton loader */
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.05) 0%,
+    rgba(255, 255, 255, 0.1) 50%,
+    rgba(255, 255, 255, 0.05) 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s ease-in-out infinite;
+  border-radius: 4px;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+/* ==========================================
+   HOVER GLOW EFFECTS
+   ========================================== */
+
+.hover-glow-gold {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.hover-glow-gold:hover {
+  box-shadow:
+    0 0 20px rgba(212, 160, 23, 0.3),
+    0 0 40px rgba(212, 160, 23, 0.15);
+}
+
+.hover-glow-green {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.hover-glow-green:hover {
+  box-shadow:
+    0 0 20px rgba(34, 197, 94, 0.3),
+    0 0 40px rgba(34, 197, 94, 0.15);
+}
+
+/* ==========================================
+   PAGE TRANSITIONS
+   ========================================== */
+
+/* Fade in page content on load */
+@keyframes pageEnter {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+body {
+  animation: pageEnter 0.4s ease-out;
+}
+
+/* ==========================================
+   SMOOTH TRANSFORM UTILITIES
+   ========================================== */
+
+.transition-transform-smooth {
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.transition-all-smooth {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ==========================================
+   SCROLL-TRIGGERED ANIMATIONS
+   ========================================== */
+
+/* Elements that animate when scrolled into view */
+.scroll-reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+.scroll-reveal.revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ==========================================
+   BADGE ANIMATIONS
+   ========================================== */
+
+@keyframes badge-pulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.05);
+    opacity: 0.8;
+  }
+}
+
+.badge-verified {
+  animation: badge-pulse 2s ease-in-out infinite;
+}
+
+/* ==========================================
+   ICON MICRO-INTERACTIONS
+   ========================================== */
+
+.icon-hover {
+  transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.icon-hover:hover {
+  transform: scale(1.1) rotate(5deg);
+}
+
+/* Arrow bounce on hover */
+@keyframes arrow-bounce {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(4px);
+  }
+}
+
+.arrow-hover:hover svg,
+.arrow-hover:hover .arrow {
+  animation: arrow-bounce 0.6s ease-in-out;
+}
+
+/* ==========================================
+   PROGRESS BARS
+   ========================================== */
+
+@keyframes progress-fill {
+  from {
+    transform: scaleX(0);
+    transform-origin: left;
+  }
+  to {
+    transform: scaleX(1);
+    transform-origin: left;
+  }
+}
+
+.progress-bar-fill {
+  animation: progress-fill 1s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ==========================================
+   TOOLTIP ANIMATIONS
+   ========================================== */
+
+@keyframes tooltip-appear {
+  from {
+    opacity: 0;
+    transform: translateY(-5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.tooltip {
+  animation: tooltip-appear 0.2s ease-out;
+}
+
+/* ==========================================
+   MOBILE GESTURES
+   ========================================== */
+
+/* Swipeable cards on mobile */
+@media (max-width: 768px) {
+  .swipeable {
+    touch-action: pan-y;
+    user-select: none;
+  }
+
+  .swipeable.swiping {
+    transition: none;
+  }
+
+  .swipeable:not(.swiping) {
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+}
+
+/* ==========================================
+   DETAILS/SUMMARY ANIMATIONS
+   ========================================== */
+
+details summary {
+  cursor: pointer;
+  transition: all 0.3s ease;
+  user-select: none;
+}
+
+details summary:hover {
+  color: rgba(212, 160, 23, 1);
+}
+
+details[open] summary {
+  margin-bottom: 1rem;
+}
+
+/* Smooth expand/collapse */
+details[open] > *:not(summary) {
+  animation: slideDown 0.3s ease-out;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ==========================================
+   INTERSECTION OBSERVER UTILITIES
+   ========================================== */
+
+/* For elements that should only animate once when visible */
+.observe-once {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+.observe-once.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ==========================================
+   HERO TITLE ANIMATIONS (2026+)
+   ========================================== */
+
+/* Gold shimmer underline for hero title */
+@keyframes shimmer {
+  0% {
+    background-position: -200% center;
+  }
+  100% {
+    background-position: 200% center;
+  }
+}
+
+/* ==========================================
+   PERFORMANCE OPTIMIZATIONS
+   ========================================== */
+
+/* GPU-accelerate animations */
+.gpu-accelerate {
+  transform: translateZ(0);
+  will-change: transform;
+}
+
+/* Remove will-change after animation completes */
+.gpu-accelerate.animation-complete {
+  will-change: auto;
+}

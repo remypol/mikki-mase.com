@@ -1,43 +1,90 @@
-# Astro Starter Kit: Minimal
+# Mikki Mase Official Website - V2
 
-```sh
-npm create astro@latest -- --template minimal
+**SINGLE SOURCE OF TRUTH**
+
+This is the **official live website** for mikki-mase.com.
+
+---
+
+## 🚀 Quick Start
+
+```bash
+# Install dependencies
+npm install
+
+# Run dev server
+npm run dev
+
+# Build for production
+npm run build
+
+# Deploy to production (Docker Caddy serves from this location)
+rsync -av --delete dist/ /var/www/mikki-mase.com/
 ```
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+---
 
-## 🚀 Project Structure
+## 📁 Project Structure
 
-Inside of your Astro project, you'll see the following folders and files:
-
-```text
-/
-├── public/
-├── src/
-│   └── pages/
-│       └── index.astro
-└── package.json
+```
+/root/projects/mikki-mase-site-v2/          ← ACTIVE (live site source)
+/root/projects/mikki-mase-site-v1-ARCHIVE-*/ ← ARCHIVED (old version)
+/var/www/mikki-mase.com/                     ← DEPLOYED (production, mounted to Docker Caddy)
 ```
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+---
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
+## ✅ Phase 1 SEO Complete
 
-Any static assets, like images, can be placed in the `public/` directory.
+All Phase 1 SEO & AI Search Optimization tasks completed:
 
-## 🧞 Commands
+- ✅ Sitemap generation
+- ✅ Robots.txt configuration
+- ✅ Enhanced Person schema (birthDate, birthPlace, knowsAbout)
+- ✅ Organization schema (global)
+- ✅ BreadcrumbList schema (all pages)
+- ✅ FAQPage schema (26 questions)
+- ✅ Optimized H1 tags (all 6 pages)
+- ✅ Quick Facts section (homepage)
+- ✅ Image alt text optimization
+- ✅ Complete meta tags (OG, Twitter, favicon)
 
-All commands are run from the root of the project, from a terminal:
+See PHASE_1_COMPLETE.md for full report.
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
+---
 
-## 👀 Want to learn more?
+## ✅ Phase 2 Progress (Started)
 
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+Phase 2 Content Expansion in progress:
+
+- ✅ /net-worth page created (1,800+ words, targeting 4,500 monthly searches)
+- ⏳ Expand homepage to 1,500+ words
+- ⏳ Add 15+ more FAQ questions
+- ⏳ Enhance /story page with timeline
+- ⏳ Additional schema markup
+
+---
+
+## 🎯 Site Pages
+
+- Homepage (/) - Hero, Quick Facts, Featured Wins
+- Story (/story) - Complete biography
+- FAQ (/faq) - 26 questions with schema
+- Wins (/wins) - Verified wins & losses
+- **Net Worth (/net-worth) - Financial breakdown (NEW)** ⭐
+- Media (/media) - Interviews & videos
+- Join (/join) - Telegram community
+
+---
+
+## ⚠️ IMPORTANT
+
+**ONLY edit source files in:** /root/projects/mikki-mase-site-v2/src/
+
+**DO NOT modify:** V1 archive or deployed HTML files
+
+---
+
+**Live Site:** https://mikki-mase.com
+**Last Updated:** November 21, 2025
+**Phase 1 Status:** ✅ Complete

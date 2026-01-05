@@ -1,0 +1,524 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import Hero from '../components/Hero.astro';
+import Button from '../components/Button.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import RelatedContent from '../components/RelatedContent.astro';
+import QuickAnswer from '../components/QuickAnswer.astro';
+import { casinoBans, getBanStats } from '../data/casinoBans';
+
+const stats = getBanStats();
+
+const bannedSchema = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Article",
+      "@id": "https://mikki-mase.com/banned#article",
+      "headline": "Mikki Mase Banned From 150+ Casinos - Interactive Map & Complete List",
+      "description": "Interactive map showing all 150+ casinos that banned Mikki Mase. Includes legal framework, absurd ban reasons, and detailed casino locations.",
+      "author": {
+        "@type": "Person",
+        "name": "Mikki Mase",
+        "@id": "https://mikki-mase.com/#person"
+      },
+      "datePublished": "2025-01-21",
+      "dateModified": "2026-01-02",
+      "articleSection": "Casino Gaming",
+      "keywords": "Mikki Mase banned, casino advantage player, backed off casinos, why casinos ban players, Griffin Book, casino ban map"
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": "https://mikki-mase.com/banned#breadcrumb",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://mikki-mase.com/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Banned From Casinos",
+          "item": "https://mikki-mase.com/banned"
+        }
+      ]
+    }
+  ]
+};
+---
+
+<BaseLayout
+  title="Interactive Casino Ban Map - Mikki Mase Banned From 150+ Properties (2026)"
+  description="Interactive map showing all casinos that banned Mikki Mase. ${stats.total} casino locations mapped worldwide including Vegas, Atlantic City, and Macau. Legal framework and absurd ban reasons explained."
+  ogType="article"
+  schema={bannedSchema}
+>
+  <Header />
+
+  <Hero
+    eyebrow="Casinos Don't Like Winners"
+    title="Banned From 150+ Properties"
+    subtitle="Interactive map showing every casino that said 'you're too good'"
+    backgroundImage="/images/mikki-main-2.webp"
+    variant="medium"
+  />
+
+  <!-- BREADCRUMBS -->
+  <div class="bg-black border-b border-gray-800">
+    <Breadcrumbs items={[
+      { label: "Home", href: "/" },
+      { label: "Banned" }
+    ]} />
+  </div>
+
+  <main class="bg-black text-white">
+    <!-- Quick Answer for AI Search -->
+    <section class="container pt-16 md:pt-24">
+      <div class="max-w-4xl mx-auto">
+        <QuickAnswer
+          question="Why is Mikki Mase banned from casinos?"
+          answer="Mikki Mase is banned from 150+ casinos worldwide because he won too much money. Casinos legally have the right to refuse service to anyone for any reason (except protected classes). They use facial recognition and industry databases to track and ban advantage players. The interactive map below shows all confirmed casino ban locations."
+          facts={[
+            { label: "Total Bans", value: `${stats.total}+` },
+            { label: "Vegas Bans", value: `${stats.vegas}` },
+            { label: "Verified", value: `${stats.verified}` },
+            { label: "Countries", value: `${stats.countries}` }
+          ]}
+        />
+      </div>
+    </section>
+
+    <!-- INTERACTIVE MAP SECTION -->
+    <section class="container py-16 md:py-24">
+      <div class="max-w-7xl mx-auto">
+        <!-- Map Header -->
+        <div class="text-center mb-12">
+          <div class="inline-block px-4 py-2 bg-red-900/30 border border-red-500/50 rounded-full mb-4">
+            <span class="text-red-400 text-sm font-bold uppercase tracking-wider">🗺️ Interactive Ban Map</span>
+          </div>
+          <h2 class="text-3xl md:text-4xl font-black text-white mb-4 uppercase">Where He Can't Play</h2>
+          <p class="text-gray-400 text-lg max-w-3xl mx-auto">
+            Click any marker to see casino details, ban reason, and related stories. Red markers = verified bans, Orange = network bans.
+          </p>
+        </div>
+
+        <!-- Stats Bar Above Map -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+          <div class="bg-gradient-to-br from-red-900/30 to-black border border-red-500/30 rounded-xl p-4 text-center">
+            <p class="text-red-400 text-3xl font-black">{stats.total}</p>
+            <p class="text-gray-500 text-sm uppercase tracking-wider mt-1">Total Bans</p>
+          </div>
+          <div class="bg-gradient-to-br from-gold/20 to-black border border-gold/30 rounded-xl p-4 text-center">
+            <p class="text-gold text-3xl font-black">{stats.vegas}</p>
+            <p class="text-gray-500 text-sm uppercase tracking-wider mt-1">Las Vegas</p>
+          </div>
+          <div class="bg-gradient-to-br from-green-900/20 to-black border border-green-500/30 rounded-xl p-4 text-center">
+            <p class="text-green-400 text-3xl font-black">{stats.verified}</p>
+            <p class="text-gray-500 text-sm uppercase tracking-wider mt-1">Verified</p>
+          </div>
+          <div class="bg-gradient-to-br from-blue-900/20 to-black border border-blue-500/30 rounded-xl p-4 text-center">
+            <p class="text-blue-400 text-3xl font-black">{stats.countries}</p>
+            <p class="text-gray-500 text-sm uppercase tracking-wider mt-1">Countries</p>
+          </div>
+        </div>
+
+        <!-- Map Container -->
+        <div class="relative bg-gray-900 rounded-2xl overflow-hidden border-2 border-gold/30">
+          <!-- Map will be rendered here -->
+          <div id="ban-map" class="w-full h-[500px] md:h-[700px]"></div>
+
+          <!-- Map Legend (Overlay) -->
+          <div class="absolute bottom-6 left-6 bg-black/90 border border-gold/30 rounded-lg p-4 z-[1000]">
+            <h4 class="text-white text-sm font-bold mb-3 uppercase">Legend</h4>
+            <div class="space-y-2 text-sm">
+              <div class="flex items-center gap-2">
+                <div class="w-4 h-4 bg-red-500 rounded-full border-2 border-white"></div>
+                <span class="text-gray-300">Verified Ban</span>
+              </div>
+              <div class="flex items-center gap-2">
+                <div class="w-4 h-4 bg-orange-500 rounded-full border-2 border-white"></div>
+                <span class="text-gray-300">Network Ban</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Map Note -->
+        <div class="mt-6 bg-gray-900 border border-gold/30 rounded-xl p-6">
+          <p class="text-gray-300 leading-relaxed text-sm">
+            <strong class="text-gold">Note:</strong> This map shows {stats.total} documented casino ban locations. Mikki has stated he's banned from 150+ properties total. Some casinos share ownership groups (MGM, Caesars, Wynn), so a ban at one property means a ban at all properties in that network. Verified bans are confirmed through Mikki's interviews and public statements.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Known Casino Bans Section (Enhanced) -->
+    <section class="container py-16 md:py-24 border-t border-gray-800">
+      <div class="max-w-6xl mx-auto">
+        <h2 class="text-3xl md:text-4xl font-black text-gold mb-8 uppercase text-center">Featured Casino Bans</h2>
+
+        <div class="prose prose-invert prose-lg max-w-none mb-10 text-gray-300 text-center">
+          <p>
+            Explore the most notable bans with verified stories and documented wins. Each card shows the casino, location, ban reason, and related information.
+          </p>
+        </div>
+
+        <!-- Featured Bans Grid (Top Verified Bans) -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {casinoBans.filter(ban => ban.verified && ban.story).slice(0, 6).map(ban => (
+            <div class="bg-gradient-to-br from-gray-900 to-black border-2 border-gold/30 rounded-2xl overflow-hidden hover:border-gold/60 transition-all duration-300 group">
+              <div class="p-6">
+                <!-- Verified Badge -->
+                <div class="flex items-center justify-between mb-4">
+                  <span class="px-3 py-1 bg-green-900/30 text-green-400 rounded-full text-xs font-bold uppercase tracking-wider flex items-center gap-2">
+                    <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+                      <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                    </svg>
+                    Verified
+                  </span>
+                  <span class="px-3 py-1 bg-red-900/30 text-red-400 rounded-full text-xs font-semibold">Lifetime Ban</span>
+                </div>
+
+                <!-- Casino Name -->
+                <h3 class="text-white text-xl font-bold mb-2 group-hover:text-gold transition-colors">{ban.name}</h3>
+
+                <!-- Location -->
+                <div class="flex items-center gap-2 text-gray-400 text-sm mb-4">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                  </svg>
+                  <span>{ban.location.city}, {ban.location.state}</span>
+                </div>
+
+                <!-- Ban Reason -->
+                <div class="bg-red-900/10 border border-red-500/30 rounded-lg p-3 mb-4">
+                  <p class="text-red-400 text-sm font-semibold mb-1">Ban Reason:</p>
+                  <p class="text-gray-300 text-sm">{ban.reason}</p>
+                </div>
+
+                <!-- Story (if available) -->
+                {ban.story && (
+                  <p class="text-gray-400 text-sm leading-relaxed">{ban.story}</p>
+                )}
+
+                <!-- Related Link -->
+                {ban.relatedWin && (
+                  <a href={ban.relatedWin} class="inline-flex items-center gap-2 text-gold hover:text-gold-light text-sm font-semibold mt-4 group/link">
+                    <span>View Related Win</span>
+                    <svg class="w-4 h-4 transform group-hover/link:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                    </svg>
+                  </a>
+                )}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- Legal Framework Section (Kept from original) -->
+    <section class="container py-16 md:py-24 border-t border-gray-800">
+      <div class="max-w-4xl mx-auto">
+        <h2 class="text-3xl md:text-4xl font-black text-gold mb-8 uppercase">The Legal Framework: Can Casinos Ban You Without Cause?</h2>
+
+        <div class="prose prose-invert prose-lg max-w-none space-y-6 text-gray-300 leading-relaxed">
+          <p>
+            Yes. <strong class="text-white">Casinos can refuse service to anyone</strong> (with limited exceptions). Here's the legal breakdown:
+          </p>
+
+          <div class="bg-gradient-to-br from-gray-900 to-black border border-gold/30 rounded-xl p-6 md:p-8 my-8">
+            <h3 class="text-white text-2xl font-bold mb-4">🏛️ Private Property Rights</h3>
+            <p class="text-gray-300 leading-relaxed mb-4">
+              Casinos are <strong class="text-white">private businesses</strong>. Under Nevada law (and most jurisdictions), private property owners have the right to refuse entry or service to anyone, as long as the refusal is not based on a <strong class="text-white">protected class</strong> (race, religion, gender, disability, etc.).
+            </p>
+            <p class="text-gray-300 leading-relaxed">
+              Being "too good at gambling" is <strong class="text-white">not a protected class</strong>. If a casino thinks you're an advantage player, they can ban you without explanation.
+            </p>
+          </div>
+
+          <div class="bg-gradient-to-br from-gray-900 to-black border border-gold/30 rounded-xl p-6 md:p-8 my-8">
+            <h3 class="text-white text-2xl font-bold mb-4">⚖️ Trespassing Charges</h3>
+            <p class="text-gray-300 leading-relaxed mb-4">
+              Once you're banned, the casino will <strong class="text-white">formally trespass you</strong>. This is a legal process where security reads you a trespass notice (often on camera) stating:
+            </p>
+            <ul class="space-y-2 text-gray-300 ml-6">
+              <li>• You are no longer welcome on the property</li>
+              <li>• If you return, you will be arrested for <strong class="text-white">criminal trespassing</strong></li>
+              <li>• Your photo will be added to the casino's <strong class="text-white">facial recognition database</strong></li>
+            </ul>
+            <p class="text-gray-300 leading-relaxed mt-4">
+              If you violate the trespass notice, you can be <strong class="text-white">arrested and prosecuted</strong>. This has happened to Mikki multiple times.
+            </p>
+          </div>
+
+          <div class="bg-gradient-to-br from-gray-900 to-black border border-gold/30 rounded-xl p-6 md:p-8 my-8">
+            <h3 class="text-white text-2xl font-bold mb-4">📖 The Griffin Book (Surveillance Sharing)</h3>
+            <p class="text-gray-300 leading-relaxed mb-4">
+              The <strong class="text-white">Griffin Book</strong> was an infamous industry database of advantage players, cheats, and banned individuals. It was discontinued in 2005 after lawsuits, but casinos now use <strong class="text-white">modern shared surveillance networks</strong>:
+            </p>
+            <ul class="space-y-2 text-gray-300 ml-6">
+              <li>• <strong class="text-white">Facial recognition databases</strong> shared between casino groups (MGM, Caesars, Wynn, etc.)</li>
+              <li>• <strong class="text-white">OSN (Oregon Surveillance Network)</strong> and similar cross-casino intelligence sharing</li>
+              <li>• <strong class="text-white">NGISC (National Gambling Impact Study Commission)</strong> reports</li>
+            </ul>
+            <p class="text-gray-300 leading-relaxed mt-4">
+              If you're banned at one Caesars property, you're <strong class="text-white">banned at all Caesars properties worldwide</strong>. Same for MGM, Wynn, etc.
+            </p>
+          </div>
+
+          <div class="bg-gradient-to-br from-red-900/20 to-black border border-red-500/30 rounded-xl p-6 md:p-8 my-8">
+            <h3 class="text-red-400 text-2xl font-bold mb-4">⚠️ What Happens If You Get Caught After a Ban?</h3>
+            <p class="text-gray-300 leading-relaxed mb-4">
+              If you're banned and return to the casino:
+            </p>
+            <ol class="space-y-2 text-gray-300 ml-6 list-decimal">
+              <li><strong class="text-white">Facial recognition flags you</strong> — Security is alerted within seconds</li>
+              <li><strong class="text-white">Security detains you</strong> — You're escorted to a backroom (not arrested yet)</li>
+              <li><strong class="text-white">Police are called</strong> — You're cited for criminal trespassing</li>
+              <li><strong class="text-white">Winnings may be confiscated</strong> — Casinos argue you "obtained them through illegal means"</li>
+              <li><strong class="text-white">Repeat offenses = jail time</strong> — First offense is usually a misdemeanor citation, but repeat violations can lead to arrest</li>
+            </ol>
+            <p class="text-gray-300 leading-relaxed mt-4">
+              Mikki has been detained multiple times for violating trespass notices.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Absurd Ban Reasons Section (Kept from original) -->
+    <section class="container py-16 md:py-24 border-t border-gray-800">
+      <div class="max-w-4xl mx-auto">
+        <h2 class="text-3xl md:text-4xl font-black text-gold mb-8 uppercase">Absurd Reasons Mikki Was Banned</h2>
+
+        <div class="prose prose-invert prose-lg max-w-none mb-10 text-gray-300">
+          <p>
+            Some of Mikki's bans were for legitimate reasons (winning millions). Others were <strong class="text-white">hilariously absurd</strong>. Here are the most ridiculous official reasons casinos gave:
+          </p>
+        </div>
+
+        <div class="space-y-6">
+          <!-- Absurd Reason 1 -->
+          <div class="bg-gradient-to-br from-yellow-900/10 to-black border border-yellow-500/30 rounded-xl p-6 md:p-8">
+            <h3 class="text-yellow-400 text-xl font-bold mb-3">🍴 "Touching Forks at the Buffet"</h3>
+            <p class="text-gray-300 leading-relaxed">
+              One casino banned Mikki because he <strong class="text-white">"touched too many forks"</strong> at the buffet before selecting one. Security claimed this was "suspicious behavior" that indicated he was "casing the property." Mikki was literally just picking a fork.
+            </p>
+          </div>
+
+          <!-- Absurd Reason 2 -->
+          <div class="bg-gradient-to-br from-yellow-900/10 to-black border border-yellow-500/30 rounded-xl p-6 md:p-8">
+            <h3 class="text-yellow-400 text-xl font-bold mb-3">😨 "Scaring the Pit Boss"</h3>
+            <p class="text-gray-300 leading-relaxed">
+              A pit boss at a Las Vegas casino told Mikki he was being banned because <strong class="text-white">"you make me uncomfortable."</strong> No cheating accusation. No advantage play. Just vibes. The pit boss admitted Mikki hadn't violated any rules, but <strong class="text-white">"we don't want you here."</strong>
+            </p>
+          </div>
+
+          <!-- Absurd Reason 3 -->
+          <div class="bg-gradient-to-br from-yellow-900/10 to-black border border-yellow-500/30 rounded-xl p-6 md:p-8">
+            <h3 class="text-yellow-400 text-xl font-bold mb-3">👀 "Staring at the Shoe Too Long"</h3>
+            <p class="text-gray-300 leading-relaxed">
+              Another casino claimed Mikki was <strong class="text-white">"staring at the shoe"</strong> (the card holder) for too long between hands. They accused him of "attempting to track cards" — even though baccarat card tracking provides <strong class="text-white">negligible advantage</strong> compared to blackjack. Mikki was just watching the game.
+            </p>
+          </div>
+
+          <!-- Absurd Reason 4 -->
+          <div class="bg-gradient-to-br from-yellow-900/10 to-black border border-yellow-500/30 rounded-xl p-6 md:p-8">
+            <h3 class="text-yellow-400 text-xl font-bold mb-3">🎰 "You Win Too Much (Even When You Lose)"</h3>
+            <p class="text-gray-300 leading-relaxed">
+              One casino banned Mikki during a session where he was <strong class="text-white">down $500K</strong>. The reason? "Your long-term win rate is too high." Translation: <strong class="text-white">"We don't care if you're losing today — we know you'll win eventually, so get out."</strong>
+            </p>
+          </div>
+
+          <!-- Absurd Reason 5 -->
+          <div class="bg-gradient-to-br from-yellow-900/10 to-black border border-yellow-500/30 rounded-xl p-6 md:p-8">
+            <h3 class="text-yellow-400 text-xl font-bold mb-3">💰 "Betting Too Big"</h3>
+            <p class="text-gray-300 leading-relaxed">
+              Multiple casinos have banned Mikki for <strong class="text-white">"betting too much."</strong> Yes, casinos advertise "no limits" and "high roller suites," but when someone actually bets $250K per hand and <strong class="text-white">wins</strong>, they suddenly have a problem. One casino literally told Mikki: <strong class="text-white">"We can't afford you."</strong>
+            </p>
+          </div>
+        </div>
+
+        <div class="mt-10 bg-gray-900 border border-gold/30 rounded-xl p-6">
+          <p class="text-gray-300 leading-relaxed">
+            <strong class="text-gold">Bottom line:</strong> Casinos don't need a good reason to ban you. They just need <em>any</em> reason. "You make us uncomfortable" is legally sufficient.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="container py-16 md:py-24 border-t border-gray-800">
+      <div class="max-w-3xl mx-auto text-center">
+        <h2 class="text-3xl md:text-4xl font-black text-white mb-6 uppercase">
+          Banned But Not Beaten
+        </h2>
+        <p class="text-xl text-gray-300 mb-10 leading-relaxed">
+          Mikki's casino career may be over, but his strategies live on. Join the free Telegram community to learn from the man who casinos fear.
+        </p>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+          <Button variant="primary" href="/join">
+            Join Free Telegram Community
+          </Button>
+          <Button variant="tertiary" href="/the-system">
+            Learn The System
+          </Button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Sources & Verification Section (for AI search) -->
+    <section class="container py-16 md:py-24 border-t border-gray-800">
+      <div class="max-w-4xl mx-auto px-6">
+        <h3 class="text-gray-500 text-sm uppercase tracking-wider mb-4">Legal Framework & Sources</h3>
+        <ul class="space-y-2 text-sm text-gray-400">
+          <li>• Nevada Revised Statutes § 207.200 - Trespassing laws for casino properties</li>
+          <li>• Private property rights doctrine - Casinos as private businesses with right to refuse service</li>
+          <li>• Griffin Book (discontinued 2005) - Historical industry database of advantage players</li>
+          <li>• Modern casino surveillance networks - Facial recognition and shared ban databases (MGM, Caesars, Wynn)</li>
+          <li>• Venetian Las Vegas - Confirmed $10M+ win ban (Jake Ormand witness testimony, 2021-2022)</li>
+          <li>• Wynn Las Vegas - Confirmed ban despite net loss of $1.5M (casino surveillance review)</li>
+          <li>• 150+ casino bans - Self-reported across US gaming properties (partial verification via interviews)</li>
+        </ul>
+        <p class="text-gray-500 text-xs mt-4 italic">Last verified: January 2, 2026</p>
+      </div>
+    </section>
+  </main>
+
+  <RelatedContent
+    title="Learn More"
+    items={[
+      {
+        href: "/story",
+        title: "The Complete Story",
+        description: "From prison to $32M - how Mikki became the most banned gambler in history.",
+        category: "Biography"
+      },
+      {
+        href: "/wins",
+        title: "Documented Results",
+        description: "Verified wins, documented losses, and the real numbers behind the legend.",
+        category: "Results"
+      },
+      {
+        href: "/timeline",
+        title: "Interactive Timeline",
+        description: "Explore 50+ events from Mikki's complete journey chronologically.",
+        category: "Timeline"
+      }
+    ]}
+  />
+
+  <Footer />
+
+  <!-- Leaflet CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+
+  <!-- Leaflet JS + Map Initialization -->
+  <script is:inline define:vars={{ casinoBans }}>
+    // Wait for Leaflet to load
+    document.addEventListener('DOMContentLoaded', function() {
+      // Load Leaflet dynamically
+      const leafletScript = document.createElement('script');
+      leafletScript.src = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js';
+      leafletScript.onload = initMap;
+      document.head.appendChild(leafletScript);
+
+      function initMap() {
+        // Initialize map centered on US
+        const map = L.map('ban-map').setView([37.0902, -95.7129], 4);
+
+        // Dark tile layer
+        L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+          attribution: '&copy; OpenStreetMap contributors &copy; CARTO',
+          maxZoom: 19
+        }).addTo(map);
+
+        // Custom marker icons
+        const verifiedIcon = L.divIcon({
+          className: 'custom-marker',
+          html: '<div style="background: #ef4444; width: 16px; height: 16px; border-radius: 50%; border: 3px solid white; box-shadow: 0 0 10px rgba(239, 68, 68, 0.5);"></div>',
+          iconSize: [20, 20],
+          iconAnchor: [10, 10]
+        });
+
+        const networkIcon = L.divIcon({
+          className: 'custom-marker',
+          html: '<div style="background: #f97316; width: 14px; height: 14px; border-radius: 50%; border: 2px solid white; box-shadow: 0 0 8px rgba(249, 115, 22, 0.5);"></div>',
+          iconSize: [18, 18],
+          iconAnchor: [9, 9]
+        });
+
+        // Add markers for each casino
+        casinoBans.forEach(ban => {
+          const icon = ban.verified ? verifiedIcon : networkIcon;
+
+          const marker = L.marker([ban.location.lat, ban.location.lng], { icon })
+            .addTo(map);
+
+          // Popup content
+          const popupContent = `
+            <div style="min-width: 250px; font-family: system-ui, -apple-system, sans-serif;">
+              <div style="margin-bottom: 8px;">
+                ${ban.verified ? '<span style="background: #166534; color: #86efac; padding: 2px 8px; border-radius: 9999px; font-size: 11px; font-weight: 700; text-transform: uppercase;">✓ Verified</span>' : '<span style="background: #9a3412; color: #fed7aa; padding: 2px 8px; border-radius: 9999px; font-size: 11px; font-weight: 700;">Network Ban</span>'}
+              </div>
+              <h3 style="font-size: 16px; font-weight: 700; color: #ffffff; margin: 0 0 8px 0;">${ban.name}</h3>
+              <div style="display: flex; align-items: center; gap: 6px; color: #9ca3af; font-size: 13px; margin-bottom: 8px;">
+                <svg style="width: 14px; height: 14px; flex-shrink: 0;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+                </svg>
+                <span>${ban.location.city}, ${ban.location.state}</span>
+              </div>
+              <div style="background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.3); border-radius: 8px; padding: 10px; margin-bottom: 8px;">
+                <p style="color: #f87171; font-size: 12px; font-weight: 600; margin: 0 0 4px 0;">Ban Reason:</p>
+                <p style="color: #d1d5db; font-size: 13px; margin: 0;">${ban.reason}</p>
+              </div>
+              ${ban.banDate ? `<p style="color: #9ca3af; font-size: 12px; margin: 0 0 8px 0;">Ban Date: ${ban.banDate}</p>` : ''}
+              ${ban.story ? `<p style="color: #d1d5db; font-size: 13px; line-height: 1.5; margin: 0;">${ban.story}</p>` : ''}
+              ${ban.relatedWin ? `<a href="${ban.relatedWin}" style="display: inline-block; color: #d4a017; font-size: 13px; font-weight: 600; margin-top: 8px; text-decoration: none;">View Related Win →</a>` : ''}
+            </div>
+          `;
+
+          marker.bindPopup(popupContent, {
+            maxWidth: 300,
+            className: 'custom-popup'
+          });
+        });
+
+        // Add custom CSS for popups
+        const style = document.createElement('style');
+        style.textContent = `
+          .leaflet-popup-content-wrapper {
+            background: #111827 !important;
+            border: 2px solid rgba(212, 165, 23, 0.3) !important;
+            border-radius: 12px !important;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5) !important;
+          }
+          .leaflet-popup-content {
+            margin: 16px !important;
+            color: #ffffff !important;
+          }
+          .leaflet-popup-tip {
+            background: #111827 !important;
+            border: 2px solid rgba(212, 165, 23, 0.3) !important;
+          }
+          .leaflet-container a.leaflet-popup-close-button {
+            color: #9ca3af !important;
+            font-size: 24px !important;
+          }
+          .leaflet-container a.leaflet-popup-close-button:hover {
+            color: #d4a017 !important;
+          }
+        `;
+        document.head.appendChild(style);
+      }
+    });
+  </script>
+</BaseLayout>

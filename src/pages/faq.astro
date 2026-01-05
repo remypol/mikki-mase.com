@@ -1,0 +1,457 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import Hero from '../components/Hero.astro';
+import Button from '../components/Button.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import QuickAnswer from '../components/QuickAnswer.astro';
+import FAQSearch from '../components/FAQSearch.astro';
+
+const faqs = [
+  {
+    category: "Identity and Background",
+    questions: [
+      {
+        q: "Who is Mikki Mase?",
+        a: "Mikki Mase (real name: Michael David Meiterman, born October 27, 1991) is a high-stakes baccarat player known for winning millions from Las Vegas and Atlantic City casinos. He claims total winnings of over $32 million and has been banned from numerous casinos across the United States. His verified wins include over $10 million at the Venetian Las Vegas (confirmed by poker player Jake Ormand who witnessed the session)."
+      },
+      {
+        q: "What is Mikki Mase's real name?",
+        a: "Mikki Mase's legal name is Michael David Meiterman. He uses 'Mikki Mase' as his public persona for his gambling career and social media presence."
+      },
+      {
+        q: "How old is Mikki Mase?",
+        a: "Mikki Mase was born on October 27, 1991, making him 35 years old as of 2026."
+      },
+      {
+        q: "What is Mikki Mase's background?",
+        a: "Mikki had a troubled early life: drug addiction by age 11, juvenile prison at 15, and roughly six years incarcerated by age 21. After release, he was homeless in New York before landing an $18/hour job at a Miami rehab facility. He studied the business model, bought his first rehab center, expanded into pharmacies (eventually owning 300+ across Florida), and sold the businesses in his mid-20s. He moved to Los Angeles around 2020 and began playing high-stakes baccarat in Las Vegas. For the complete chronological journey with 50+ events, see the <a href='/timeline' class='text-gold hover:text-gold-light underline'>interactive timeline</a>. Read the full narrative here: <a href='/story' class='text-gold hover:text-gold-light underline'>The Mikki Mase Story</a>."
+      },
+      {
+        q: "Did Mikki Mase go to prison?",
+        a: "Yes. Mikki Mase spent approximately six years in juvenile detention and prison between ages 15-21. His early life was marked by drug addiction starting at age 11 and criminal activity that led to incarceration. He credits this period with giving him the discipline and hunger to succeed when he got out. After release, he was briefly homeless before building his pharmacy empire. His prison background is part of what makes his $32M gambling story so remarkable."
+      },
+      {
+        q: "Is Mikki Mase married? Does he have a wife?",
+        a: "Mikki Mase keeps his romantic life private. He has not publicly confirmed having a wife or long-term partner. While he occasionally mentions personal relationships in interviews, he doesn't share details about his dating life or relationship status on social media. His public content focuses on gambling, business strategies, and lifestyle rather than personal relationships."
+      }
+    ]
+  },
+  {
+    category: "Wins, Losses, and Net Worth",
+    questions: [
+      {
+        q: "What is Mikki Mase's biggest verified win?",
+        a: "Mikki Mase's most documented win is over $10 million at the Venetian Las Vegas. Professional poker player Jake Ormand was present and publicly confirmed the win. The casino reviewed surveillance footage, found no evidence of cheating, and banned Mikki anyway. He claims other major wins (including $11.5M at Borgata Atlantic City), but these have not been independently verified by third-party witnesses."
+      },
+      {
+        q: "How much money has Mikki Mase won total?",
+        a: "Mikki Mase claims total winnings of over $32 million from casino baccarat. However, this figure is self-reported and not independently verified. His documented wins include: $10 million+ at the Venetian (verified by Jake Ormand) and various other sessions. He has also documented losses, including a net loss of $1.5 million at the Wynn Las Vegas (lost $4M, won back $2.5M) and $938,950 in poker losses on Hustler Casino Live."
+      },
+      {
+        q: "What is Mikki Mase's net worth?",
+        a: "Mikki Mase's exact net worth is not publicly disclosed. His wealth comes from two main sources: (1) the sale of his business empire (300+ pharmacies and multiple rehab facilities in Florida) in his mid-20s, and (2) claimed casino winnings of $32 million. Based on his lifestyle (documented in social media and interviews), his net worth is estimated to be in the multi-million dollar range, but no verified financial statements are available."
+      },
+      {
+        q: "Does Mikki Mase lose money gambling?",
+        a: "Yes. Mikki Mase has documented losses, including a net loss of $1.5 million at the Wynn Las Vegas and $938,950 in poker losses on Hustler Casino Live (a streamed poker show). He claims his edge is specifically in baccarat pattern recognition, not poker. His poker losses actually add credibility to his story, as they show he doesn't win at every game."
+      },
+      {
+        q: "What was Mikki Mase's first major baccarat win?",
+        a: "Mikki's first seven-figure win came about 18 months into playing baccarat seriously—he won between $1.125 million and $1.25 million in a single session. This wasn't beginner's luck; it took him a year and a half of grinding, studying patterns, tracking dealer tells, and perfecting his system before hitting that milestone. This timeline is important because it shows his success wasn't instant—it required months of practice, observation, and likely significant losses before the system became profitable. The 18-month timeline also validates that his edge is real pattern recognition, not random variance."
+      }
+    ]
+  },
+  {
+    category: "Casino Bans",
+    questions: [
+      {
+        q: "Why do casinos ban Mikki Mase?",
+        a: "Casinos ban Mikki Mase because he wins large amounts consistently. Even when he loses (like his $1.5M net loss at the Wynn), casinos still ban him because they recognize he's using a systematic approach rather than gambling randomly. Casinos are private businesses and can refuse service to anyone. After wins in the millions, they typically ban him to protect profits."
+      },
+      {
+        q: "How many casinos has Mikki Mase been banned from?",
+        a: "Mikki Mase claims to be banned from over 150 casinos across the United States. While the exact number hasn't been independently verified, multiple casinos (including the Venetian and Wynn Las Vegas) have confirmed banning him. The bans often come with absurd official reasons like 'touching too many forks at the buffet' or 'scaring a pit boss,' when the real reason is simply that he wins too much."
+      },
+      {
+        q: "Has Mikki Mase been accused of cheating?",
+        a: "No. Multiple casino surveillance reviews have found no evidence of cheating. Casinos have extensively analyzed his play and found nothing illegal. His approach relies on pattern recognition, dealer observation, and bankroll management, all of which are legal. He's banned for winning, not for breaking rules."
+      },
+      {
+        q: "Can casinos legally ban winning players?",
+        a: "Yes. Casinos are private businesses and can refuse service to anyone, as long as the refusal isn't based on protected characteristics (race, religion, etc.). Winning too much, even through entirely legal methods, is a common reason for casino bans. This is why professional advantage players and card counters get banned despite not breaking any laws."
+      }
+    ]
+  },
+  {
+    category: "How Mikki Mase Wins at Baccarat",
+    questions: [
+      {
+        q: "What is Mikki Mase's baccarat system?",
+        a: "Mikki claims casinos cheat at baccarat and that he reverse-engineered their methods to beat them. His approach involves: (1) Watching tables for hours before betting to identify dealer patterns and shoe flows, (2) Playing at extremely high stakes ($250,000 per hand) with $3 million buy-ins, (3) Strategic timing (win $3M, then disappear for weeks to avoid heat), and (4) Using other people's accounts since he's banned from most casinos. Whether casinos actually cheat is contested; casinos deny this claim."
+      },
+      {
+        q: "Does Mikki Mase count cards in baccarat?",
+        a: "No. Card counting is largely ineffective in baccarat (unlike blackjack). Mikki's edge comes from pattern recognition, dealer observation, and what he claims is knowledge of how casinos manipulate outcomes. His approach doesn't involve traditional card counting techniques."
+      },
+      {
+        q: "What is Mikki Mase's baccarat algorithm?",
+        a: "Mikki doesn't use a computer algorithm—his 'algorithm' is a pattern recognition system he developed through observation. He claims to identify repeating patterns in dealer shuffles, shoe composition, and hand outcomes that casinos use to manipulate results. His approach involves: (1) Watching tables for hours before betting to identify patterns, (2) Tracking Banker vs. Player win sequences, (3) Recognizing when shoes are 'hot' or 'cold', and (4) Adjusting bet sizes based on pattern confidence. He doesn't sell this system or claim it's a magic formula—it requires years of practice and a massive bankroll to execute."
+      },
+      {
+        q: "Is baccarat actually beatable?",
+        a: "Traditional gambling math says no, baccarat has a built-in house edge of about 1.06% on banker bets. However, Mikki Mase's documented wins (especially the verified $10M+ at the Venetian) suggest he has found an edge. Whether that edge comes from exploiting dealer errors, reading physical patterns, or something else is debated. Most professional gamblers remain skeptical that baccarat can be beaten long-term."
+      },
+      {
+        q: "Can I learn to win at baccarat like Mikki Mase?",
+        a: "Mikki shares insights through his free Telegram community, including pattern recognition techniques and bankroll management strategies. However, he doesn't sell a course or claim to have a teachable 'magic system.' His success likely comes from years of observation, massive bankroll (allowing him to play $250K/hand), and approaches he hasn't fully disclosed. Attempting to replicate his results without similar resources and experience is extremely risky."
+      }
+    ]
+  },
+  {
+    category: "Media Appearances and Verification",
+    questions: [
+      {
+        q: "Where can I watch Mikki Mase talk about his story?",
+        a: "Mikki Mase gave a detailed interview to <a href='https://www.youtube.com/watch?v=Ko_fM96U3ao' target='_blank' rel='noopener noreferrer' class='text-gold hover:text-gold-light underline'>Soft White Underbelly</a> on December 15, 2023, where he walked through his entire life story from juvenile prison to professional gambling. He also has a <a href='https://www.youtube.com/@Mikki_Mase' target='_blank' rel='noopener noreferrer' class='text-gold hover:text-gold-light underline'>YouTube channel (@Mikki_Mase)</a> with a <a href='https://www.youtube.com/watch?v=dwmJs_11dCU' target='_blank' rel='noopener noreferrer' class='text-gold hover:text-gold-light underline'>masterclass video</a> explaining his pattern recognition approach. You can also read the complete written story here: <a href='/story' class='text-gold hover:text-gold-light underline'>The Mikki Mase Story</a> or watch more interviews on the <a href='/media' class='text-gold hover:text-gold-light underline'>Media page</a>."
+      },
+      {
+        q: "Has Mikki Mase been on Hustler Casino Live?",
+        a: "Yes. Mikki Mase has played poker on Hustler Casino Live, a popular poker livestream. His documented results on the show are a net loss of $938,950. He's transparent about not being a poker crusher; his edge is in baccarat, not poker."
+      },
+      {
+        q: "Is Mikki Mase's story verified or fake?",
+        a: "Partially verified. Confirmed facts: (1) Real name is Michael David Meiterman, born October 27, 1991, (2) $10M+ win at the Venetian verified by Jake Ormand, (3) Net loss of $1.5M at the Wynn documented, (4) Poker losses on Hustler Casino Live documented, (5) Banned from multiple casinos. Unverified claims: Total of $32M in winnings, exact number of casino bans (claims 150+), specific wins at Borgata and other casinos. The mix of verified wins and documented losses actually adds credibility."
+      }
+    ]
+  },
+  {
+    category: "The Telegram Community",
+    questions: [
+      {
+        q: "What is the Mikki Mase Telegram community?",
+        a: "The Telegram community is a free private group where Mikki shares behind-the-scenes stories, strategy insights, and pattern recognition techniques. He also claims to have paid out $1.9 million to community members by the end of 2024 (though this is self-reported). Join at bit.ly/mikkilandingspage."
+      },
+      {
+        q: "Is the Telegram community free?",
+        a: "Yes. Mikki offers free access to his Telegram community. There are no paid courses or upsells. The community provides free guides, cheatsheets, and direct access to Mikki's updates."
+      },
+      {
+        q: "What do I get in the Telegram community?",
+        a: "Members receive: (1) Free guides on baccarat strategy and bankroll management, (2) Pattern recognition cheatsheets, (3) Behind-the-scenes stories from high-stakes sessions, (4) Direct Q&A access to Mikki. He doesn't promise you'll win millions, but shares the observations and techniques he uses."
+      }
+    ]
+  },
+  {
+    category: "Practical Baccarat Questions",
+    questions: [
+      {
+        q: "What is baccarat?",
+        a: "Baccarat is a casino card game where players bet on whether the 'Player' or 'Banker' hand will total closer to 9. It's popular with high-stakes gamblers because it has a low house edge (1.06% on Banker bets, 1.24% on Player bets) and allows for very high betting limits. Unlike poker, you're not playing against other players; you're betting on a predetermined outcome."
+      },
+      {
+        q: "What bankroll do you need to play baccarat like Mikki Mase?",
+        a: "Mikki plays with $3 million buy-ins and bets up to $250,000 per hand. This requires a massive bankroll most people don't have. He built his wealth by selling his business empire (300+ pharmacies) before gambling professionally. For recreational players, you can play baccarat with much smaller amounts ($25-$100 minimums at most casinos), but don't expect to replicate his results without similar resources and years of experience."
+      },
+      {
+        q: "Should I try to beat baccarat professionally?",
+        a: "No, unless you have: (1) A massive bankroll (millions), (2) Years of pattern recognition training, (3) Willingness to get banned from casinos, and (4) Understanding that even Mikki has documented losses. Baccarat has a house edge, and the vast majority of players lose. Mikki Mase is an extreme outlier. Treat gambling as entertainment, not income."
+      },
+      {
+        q: "Can online baccarat be beaten like live baccarat?",
+        a: "No. Mikki's edge comes from reading live dealers, observing physical patterns, and watching shoe flows in person. Online baccarat uses RNG (Random Number Generators) or live dealers on video, eliminating the physical tells and patterns Mikki claims to exploit. His system doesn't translate to online play."
+      },
+      {
+        q: "What casino games does Mikki Mase play?",
+        a: "Mikki Mase specializes exclusively in baccarat. He has played poker (documented $938K in losses on Hustler Casino Live), but his edge is specifically in reading baccarat patterns. He doesn't play blackjack, roulette, or other casino games professionally. His entire system is built around baccarat pattern recognition and bankroll management."
+      },
+      {
+        q: "How does Mikki Mase bet on baccarat?",
+        a: "Mikki bets between $100,000 to $250,000 per hand. He uses a combination of pattern recognition (tracking previous hands to identify trends), bankroll management (knowing when to press and when to walk away), and psychological discipline (avoiding tilt after losses). He typically buys in for $3 million per session and plays until he either hits his win target or loss limit."
+      },
+      {
+        q: "How did Mikki Mase learn baccarat?",
+        a: "Mikki learned baccarat in literally two hands. He sat down at a $500-minimum baccarat table having never played the game before, asked the dealer to explain the rules, and understood the mechanics within two hands. He didn't start at $25 tables—his first bets were $500 per hand. The simplicity of baccarat (Player vs. Banker, closest to 9 wins) made it ideal for his pattern recognition approach. Within months of that first session, he was betting $250,000 per hand. The story proves his edge isn't baccarat expertise—it's decades of card game experience from childhood combined with pattern recognition skills."
+      },
+      {
+        q: "Why does Mikki Mase use flat betting instead of progressive betting?",
+        a: "Mikki uses flat betting (consistent bet size) rather than progressive systems (increasing bets after losses) because flat betting limits mathematical exposure. He explains: 'If you bet $250,000 every hand, your maximum exposure per shoe is calculable. But if you're chasing losses with $300,000 bets, you're giving the casino more edge per hour.' Flat betting at high stakes ($250K/hand) allows him to: (1) Maintain emotional control (no revenge betting), (2) Calculate maximum loss per session, (3) Avoid the trap of progressive systems that accelerate losses, and (4) Execute his pattern recognition system with discipline. This approach is counterintuitive—most gamblers increase bets when losing—but it's a core part of his $32M in wins."
+      },
+      {
+        q: "What does Mikki Mase do after winning millions?",
+        a: "After winning millions in a single session (like his $11.526M win), Mikki has an unusual ritual: he orders a peanut butter and jelly sandwich. Not champagne. Not a fancy dinner. Just a PB&J. He says it keeps him grounded and reminds him that the money is just a number. Then he disappears for weeks—sometimes 3-4 weeks—to let the heat die down before returning to casinos. This 'hit and run' strategy prevents casinos from studying his patterns and reduces the risk of immediate bans. The PB&J ritual also serves a psychological purpose: staying humble after massive wins helps him avoid the tilt and overconfidence that destroys other high-stakes players."
+      }
+    ]
+  },
+  {
+    category: "Controversy and Skepticism",
+    questions: [
+      {
+        q: "Is Mikki Mase real or fake?",
+        a: "Mikki Mase is a real person (legal name: Michael David Meiterman). His $10M+ win at The Venetian was independently verified by poker player Jake Ormand. However, his total claimed winnings of $32M are self-reported and not fully verified. His documented losses ($1.5M at Wynn, $938K in poker) add credibility by showing transparency. Whether his system works consistently is debated, but the casino bans suggest he was winning enough to be perceived as a threat."
+      },
+      {
+        q: "Did Mikki Mase really win $32 million?",
+        a: "Mikki Mase claims $32M+ in total winnings, but this is self-reported. The only independently verified win is $10M+ at The Venetian (confirmed by Jake Ormand). Additional wins are documented through interviews and social media, but lack third-party verification. His lifestyle (Maybachs, private jets, luxury homes) suggests significant wealth, but the exact amount remains unconfirmed. Full breakdown: <a href='/wins' class='text-gold hover:text-gold-light underline'>Wins & Losses</a>."
+      },
+      {
+        q: "Does Mikki Mase cheat at baccarat?",
+        a: "No. Casinos reviewed surveillance footage of Mikki's sessions and found no evidence of cheating, card counting, or collusion. They banned him simply for winning—a legal practice casinos use against advantage players. Mikki's edge comes from pattern recognition, bankroll management, and psychological discipline, not illegal methods. If he were cheating, he would have been arrested, not just banned."
+      },
+      {
+        q: "Why do casinos ban winners like Mikki Mase?",
+        a: "Casinos are private businesses and can refuse service to anyone for any reason (except protected classes like race or religion). If a player wins consistently—even legally—casinos will ban them to protect profits. Mikki was banned from 150+ casinos not for cheating, but because his win rate was high enough to threaten the house. This is standard practice against advantage players in blackjack, poker, and baccarat."
+      },
+      {
+        q: "Is Mikki Mase a millionaire?",
+        a: "Yes. Mikki Mase's estimated net worth is between $20M-$40M based on: (1) Sale of his pharmacy empire (300+ pharmacies sold in his mid-20s), (2) Claimed $32M in casino winnings (at least $10M verified), and (3) Documented luxury lifestyle. His exact net worth is not publicly disclosed. Full analysis: <a href='/net-worth' class='text-gold hover:text-gold-light underline'>Net Worth Breakdown</a>."
+      }
+    ]
+  },
+  {
+    category: "Personal Life and Lifestyle",
+    questions: [
+      {
+        q: "Where does Mikki Mase live?",
+        a: "Mikki Mase currently lives in Los Angeles, California. He moved from Florida (where he built his pharmacy empire) to LA around 2020 before beginning his high-stakes baccarat career in Las Vegas. He frequently travels between LA and Las Vegas for casino sessions."
+      },
+      {
+        q: "What does Mikki Mase do for a living now?",
+        a: "Mikki Mase no longer gambles professionally at casinos (he's banned from 150+ properties). He currently runs a <a href='/join' class='text-gold hover:text-gold-light underline'>free Telegram community</a> where he shares baccarat strategies and behind-the-scenes stories. He also appears in interviews and media (<a href='https://www.youtube.com/watch?v=Ko_fM96U3ao' target='_blank' rel='noopener noreferrer' class='text-gold hover:text-gold-light underline'>Soft White Underbelly</a>, VladTV, <a href='https://www.youtube.com/@Mikki_Mase' target='_blank' rel='noopener noreferrer' class='text-gold hover:text-gold-light underline'>YouTube</a>). His income now comes from his existing wealth (pharmacy sale + casino winnings), not active gambling."
+      },
+      {
+        q: "Does Mikki Mase have a wife or girlfriend?",
+        a: "Mikki Mase keeps his romantic relationships private. He occasionally references personal life in interviews but doesn't publicly discuss a wife or girlfriend. His social media focuses on gambling, business, and lifestyle rather than relationships."
+      },
+      {
+        q: "What cars does Mikki Mase drive?",
+        a: "Mikki has owned multiple luxury vehicles including Maybachs and a Lamborghini (which he crashed and documented on social media). He's known for driving high-end cars, which casinos also provide as comps during his gambling sessions. His car collection reflects his multi-million dollar net worth."
+      },
+      {
+        q: "Is Mikki Mase on social media?",
+        a: "Yes. Mikki Mase is active on <a href='https://www.instagram.com/mikki_mase_community' target='_blank' rel='noopener noreferrer' class='text-gold hover:text-gold-light underline'>Instagram (@mikki_mase_community)</a>, <a href='https://www.youtube.com/@Mikki_Mase' target='_blank' rel='noopener noreferrer' class='text-gold hover:text-gold-light underline'>YouTube (@Mikki_Mase)</a>, and <a href='https://www.facebook.com/mikkimasecommunity' target='_blank' rel='noopener noreferrer' class='text-gold hover:text-gold-light underline'>Facebook (Mikki Mase Community)</a>. He also runs a <a href='/join' class='text-gold hover:text-gold-light underline'>free Telegram community</a> where he shares strategies and stories. He doesn't have a TikTok presence but appears in viral clips from interviews."
+      }
+    ]
+  },
+  {
+    category: "Learning From Mikki Mase",
+    questions: [
+      {
+        q: "Does Mikki Mase sell courses or teach baccarat?",
+        a: "No. Mikki Mase does not sell courses, masterclasses, or paid training. His Telegram community is 100% free with no upsells or hidden fees. He shares strategies, cheatsheets, and behind-the-scenes stories for free. This transparency separates him from scam gambling 'gurus' who charge thousands for courses."
+      },
+      {
+        q: "Can I learn Mikki Mase's baccarat system?",
+        a: "Mikki shares principles in his free Telegram community (pattern recognition, bankroll management, psychological discipline), but warns his system requires: (1) Multi-million dollar bankroll, (2) Years of practice, (3) Willingness to get banned from casinos, and (4) Acceptance that you could lose millions. He doesn't promise anyone will replicate his results. Join community: <a href='/join' class='text-gold hover:text-gold-light underline'>Free Telegram Access</a>."
+      },
+      {
+        q: "What is Mikki Mase's betting strategy?",
+        a: "Mikki uses a combination of: (1) Pattern recognition (tracking Banker vs. Player streaks to identify trends), (2) Progressive betting (increasing bets during hot streaks, decreasing during cold streaks), (3) Bankroll management (setting strict win/loss limits per session), and (4) Psychological discipline (walking away when targets are hit). He bets $100K-$250K per hand with $3M buy-ins."
+      },
+      {
+        q: "How long did it take Mikki Mase to master baccarat?",
+        a: "Mikki started playing high-stakes baccarat in 2018 after selling his pharmacy businesses. He spent years studying patterns, bankroll management, and psychological discipline before achieving consistent wins. His background in business (building and selling 300+ pharmacies) gave him the analytical mindset and capital needed to treat gambling like a business. He estimates it took 2-3 years of intense practice and multi-million dollar losses before becoming profitable."
+      }
+    ]
+  },
+  {
+    category: "2026 Updates & Trending Questions",
+    questions: [
+      {
+        q: "Is Mikki Mase still gambling in 2026?",
+        a: "As of 2026, Mikki Mase has shifted focus from casino baccarat to sports betting. Being banned from 150+ casinos worldwide severely limits his ability to play live baccarat. He now operates a sports betting network using thousands of accounts and runs a free Telegram community where he shares picks and strategies. He claims to have paid out $1.9 million to community members through sports betting by the end of 2024."
+      },
+      {
+        q: "What happened to Mikki Mase? Where is he now?",
+        a: "Mikki Mase is still active but operating differently than his casino heyday. After being banned from virtually every major casino, he transitioned to sports betting and content creation. He lives in Los Angeles, runs his free Telegram community (200,000+ members), and makes occasional media appearances. He still travels to international casinos where he hasn't been banned yet, but his primary income now comes from sports betting operations rather than baccarat."
+      },
+      {
+        q: "Is Mikki Mase a scam or legit?",
+        a: "Mikki Mase is legit in that he's a real person (Michael David Meiterman) with verified casino wins. His $10M+ Venetian win was confirmed by poker pro Jake Ormand. Key legitimacy factors: (1) He doesn't sell courses or charge for his community, (2) He documents losses ($1.5M at Wynn, $938K poker losses), (3) He's been banned from 150+ casinos (casinos don't ban people who lose). However, his $32M total claim is self-reported and unverified. Verdict: Real gambler with real wins, but total numbers can't be independently confirmed."
+      },
+      {
+        q: "Has Mikki Mase been in legal trouble or arrested?",
+        a: "Mikki Mase has never been arrested for gambling or casino-related activities. Casinos have reviewed his play extensively and found no evidence of cheating—they banned him for winning, which is legal. His past legal troubles were from his youth: he spent approximately 6 years in juvenile detention and prison between ages 15-21 for drug-related offenses, which he openly discusses in interviews. Since then, he has maintained a clean record in his gambling career."
+      },
+      {
+        q: "How can I contact Mikki Mase or join his community?",
+        a: "The best way to connect with Mikki Mase is through his free Telegram community at <a href='/join' class='text-gold hover:text-gold-light underline'>bit.ly/mikkilandingspage</a>. He's also active on <a href='https://www.instagram.com/mikki_mase_community' target='_blank' rel='noopener noreferrer' class='text-gold hover:text-gold-light underline'>Instagram (@mikki_mase_community)</a> and <a href='https://www.youtube.com/@Mikki_Mase' target='_blank' rel='noopener noreferrer' class='text-gold hover:text-gold-light underline'>YouTube (@Mikki_Mase)</a>. He doesn't do paid consultations or sell courses. The Telegram community is 100% free with no upsells."
+      }
+    ]
+  }
+];
+
+// FAQPage Schema - flatten all questions
+const allQuestions = faqs.flatMap(category =>
+  category.questions.map(faq => ({
+    "@type": "Question",
+    "name": faq.q,
+    "acceptedAnswer": {
+      "@type": "Answer",
+      "text": faq.a
+    }
+  }))
+);
+
+const faqSchema = {
+  "@type": "FAQPage",
+  "@id": "https://mikki-mase.com/faq#faqpage",
+  "datePublished": "2025-01-15",
+  "dateModified": "2026-01-02",
+  "author": {
+    "@type": "Person",
+    "name": "Mikki Mase",
+    "@id": "https://mikki-mase.com/#person"
+  },
+  "about": {
+    "@type": "Person",
+    "name": "Mikki Mase",
+    "alternateName": "Michael David Meiterman"
+  },
+  "inLanguage": "en-US",
+  "mainEntity": allQuestions
+};
+---
+
+<BaseLayout
+  title="Mikki Mase FAQ 2026: Real Name, Net Worth, Is He Legit?"
+  description="40+ questions answered about Mikki Mase: real name Michael Meiterman, $20M-$40M net worth, verified wins, is he a scam or legit, casino bans, baccarat system, and more."
+  schema={faqSchema}
+>
+  <Header />
+  <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "FAQ" }]} />
+
+  <!-- HERO SECTION -->
+  <Hero
+    eyebrow="Frequently Asked Questions"
+    title="FAQ"
+    subtitle="Real answers about Mikki, his wins, the baccarat system, and casino bans."
+    backgroundImage="/images/mikki-extra.webp"
+    variant="medium"
+  />
+
+  <!-- FAQ CONTENT -->
+  <section class="bg-black py-16 md:py-24">
+    <div class="container mx-auto px-6 max-w-4xl">
+
+      <!-- Intro -->
+      <div class="text-center mb-12 md:mb-16">
+        <p class="text-gray-400 text-lg md:text-xl leading-relaxed mb-8">
+          Below are the most common questions about Mikki Mase, his casino wins, the baccarat system, and the Telegram community. For the full narrative, read <a href="/story" class="text-gold hover:text-gold-light underline">The Mikki Mase Story</a>. If your question isn't answered here, <a href="/join" class="text-gold hover:text-gold-light underline">join the community</a> and ask directly.
+        </p>
+
+        <!-- FAQ Search -->
+        <FAQSearch />
+      </div>
+
+      <!-- FAQ Categories -->
+      {faqs.map((category, categoryIndex) => (
+        <div class="mb-12 md:mb-16">
+          <!-- Category Header -->
+          <h2 class="text-white text-2xl md:text-3xl font-bold mb-6 pb-4 border-b border-gray-800">
+            {category.category}
+          </h2>
+
+          <!-- Questions - Accordion -->
+          <div class="space-y-3 faq-accordion">
+            {category.questions.map((faq, questionIndex) => (
+              <details class="faq-item group" data-category={categoryIndex} data-question={questionIndex}>
+                <summary class="faq-question flex items-center justify-between cursor-pointer py-4 px-5 bg-gray-900/50 hover:bg-gray-900/80 rounded-xl transition-colors list-none">
+                  <h3 class="text-white text-lg font-semibold pr-4 select-none">
+                    {faq.q}
+                  </h3>
+                  <span class="faq-icon flex-shrink-0 w-6 h-6 flex items-center justify-center text-gold transition-transform duration-200 group-open:rotate-180">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
+                      <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" clip-rule="evenodd" />
+                    </svg>
+                  </span>
+                </summary>
+                <div class="faq-answer px-5 pb-4 pt-2">
+                  <p class="text-gray-400 text-base leading-relaxed" set:html={faq.a}>
+                  </p>
+                </div>
+              </details>
+            ))}
+          </div>
+        </div>
+      ))}
+
+      <!-- CTA -->
+      <div class="text-center pt-12 border-t border-gray-800">
+        <h3 class="text-white text-2xl md:text-3xl font-bold mb-4">Still Have Questions?</h3>
+        <p class="text-gray-400 text-lg mb-8 max-w-2xl mx-auto">
+          Join the Telegram community to get direct access to Mikki and ask your questions. Plus, get free guides and cheatsheets on baccarat strategy.
+        </p>
+        <Button variant="primary" href="/join">
+          Join the Community
+        </Button>
+      </div>
+
+    </div>
+  </section>
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  /* FAQ Accordion Styles */
+  .faq-item {
+    border: 1px solid rgba(75, 85, 99, 0.3);
+    border-radius: 0.75rem;
+    overflow: hidden;
+    transition: border-color 0.2s ease;
+  }
+
+  .faq-item:hover {
+    border-color: rgba(212, 160, 23, 0.4);
+  }
+
+  .faq-item[open] {
+    border-color: rgba(212, 160, 23, 0.5);
+    background: rgba(17, 24, 39, 0.5);
+  }
+
+  /* Remove default marker/arrow */
+  .faq-question::-webkit-details-marker {
+    display: none;
+  }
+
+  .faq-question::marker {
+    display: none;
+    content: '';
+  }
+
+  /* Smooth open/close animation */
+  .faq-answer {
+    animation: slideDown 0.2s ease-out;
+  }
+
+  @keyframes slideDown {
+    from {
+      opacity: 0;
+      transform: translateY(-8px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Touch-friendly target size */
+  .faq-question {
+    min-height: 56px;
+  }
+
+  /* Focus state for accessibility */
+  .faq-question:focus-visible {
+    outline: 3px solid var(--color-gold, #d4a017);
+    outline-offset: 2px;
+  }
+
+  /* Gold left border when open */
+  .faq-item[open] .faq-question {
+    border-left: 3px solid #d4a017;
+    padding-left: calc(1.25rem - 3px);
+  }
+</style>

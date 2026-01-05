@@ -1,0 +1,228 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import Button from '../../components/Button.astro';
+import AuthorBox from '../../components/AuthorBox.astro';
+
+const postSchema = {
+  "@type": "Article",
+  "@id": "https://mikki-mase.com/blog/baccarat-basics-complete-guide#article",
+  "headline": "Baccarat Basics: The Complete Beginner's Guide",
+  "description": "Everything you need to know about baccarat before sitting at a table. Learn the rules, understand the odds, and discover why this game attracts high rollers.",
+  "author": {
+    "@type": "Person",
+    "name": "Mikki Mase",
+    "@id": "https://mikki-mase.com/#person"
+  },
+  "datePublished": "2025-01-20",
+  "dateModified": "2026-01-02",
+  "publisher": {
+    "@type": "Person",
+    "name": "Mikki Mase"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://mikki-mase.com/blog/baccarat-basics-complete-guide"
+  },
+  "articleSection": "Strategy",
+  "keywords": "baccarat, baccarat rules, baccarat strategy, how to play baccarat, casino games, high stakes gambling"
+};
+---
+
+<BaseLayout
+  title="Baccarat Basics: The Complete Beginner's Guide | Mikki Mase"
+  description="Everything you need to know about baccarat before sitting at a table. Learn the rules, understand the odds, and discover why this game attracts high rollers."
+  ogType="article"
+  schema={postSchema}
+>
+  <Header />
+
+  <!-- Header spacer -->
+  <div class="h-20"></div>
+
+  <!-- BREADCRUMBS -->
+  <div class="bg-black border-b border-gray-800">
+    <Breadcrumbs items={[
+      { label: "Home", href: "/" },
+      { label: "Blog", href: "/blog" },
+      { label: "Baccarat Basics" }
+    ]} />
+  </div>
+
+  <article class="bg-black py-12 md:py-20">
+    <div class="container mx-auto px-6 max-w-4xl">
+
+      <!-- Article Header -->
+      <header class="mb-12 md:mb-16">
+        <div class="flex items-center gap-3 text-sm mb-4">
+          <span class="bg-gold/90 text-black font-bold uppercase px-3 py-1 rounded">Strategy</span>
+          <span class="text-gray-500">•</span>
+          <time datetime="2025-01-20" class="text-gray-500">January 20, 2025</time>
+          <span class="text-gray-500">•</span>
+          <span class="text-gray-500">8 min read</span>
+        </div>
+
+        <h1 class="text-white text-3xl md:text-5xl font-black mb-6 leading-tight">
+          Baccarat Basics: The Complete Beginner's Guide
+        </h1>
+
+        <p class="text-gray-300 text-lg md:text-xl leading-relaxed">
+          Before I won millions at baccarat tables, I had to learn the fundamentals. Here's everything you need to know before you sit down at your first table.
+        </p>
+      </header>
+
+      <!-- Featured Image -->
+      <div class="mb-12 rounded-xl overflow-hidden">
+        <img
+          src="/images/mikki-main-1.webp"
+          alt="High stakes baccarat table in Las Vegas casino"
+          class="w-full h-auto"
+          loading="lazy"
+          decoding="async"
+        />
+      </div>
+
+      <!-- Article Content -->
+      <div class="prose prose-invert prose-lg max-w-none">
+
+        <h2 class="text-white text-2xl md:text-3xl font-bold mt-12 mb-6">What Is Baccarat?</h2>
+
+        <p class="text-gray-300 leading-relaxed mb-6">
+          <a href="/glossary#baccarat" class="text-gold hover:text-gold-light underline">Baccarat</a> is a card game where you bet on one of three outcomes: the Player hand wins, the Banker hand wins, or it's a Tie. That's it. You don't play the cards yourself—you just bet on who wins.
+        </p>
+
+        <p class="text-gray-300 leading-relaxed mb-6">
+          What makes baccarat special is the <a href="/glossary#house-edge" class="text-gold hover:text-gold-light underline">house edge</a>. At 1.06% on Banker bets and 1.24% on Player bets, it's one of the lowest house edge games in any casino. Compare that to slots (2-15%) or American roulette (5.26%), and you see why high rollers gravitate here.
+        </p>
+
+        <div class="bg-gray-900 border border-gray-800 rounded-xl p-6 my-8">
+          <h3 class="text-gold font-bold mb-3">Why High Rollers Love Baccarat</h3>
+          <ul class="text-gray-300 space-y-2">
+            <li>• <strong class="text-white">Lowest house edge</strong> of any table game</li>
+            <li>• <strong class="text-white">Simple rules</strong> - no complex strategy needed</li>
+            <li>• <strong class="text-white">Fast gameplay</strong> - more hands per hour</li>
+            <li>• <strong class="text-white">High limits</strong> - casinos allow massive bets</li>
+            <li>• <strong class="text-white">Social atmosphere</strong> - it's a communal experience</li>
+          </ul>
+        </div>
+
+        <h2 class="text-white text-2xl md:text-3xl font-bold mt-12 mb-6">How the Cards Work</h2>
+
+        <p class="text-gray-300 leading-relaxed mb-6">
+          Cards 2-9 are worth face value. Aces are worth 1. Face cards and 10s are worth 0. The goal is to get as close to 9 as possible.
+        </p>
+
+        <p class="text-gray-300 leading-relaxed mb-6">
+          Here's the twist: if your total exceeds 9, you drop the first digit. So a 7 and 8 (totaling 15) becomes 5. A 6 and 6 (totaling 12) becomes 2.
+        </p>
+
+        <div class="bg-gradient-to-br from-gray-900 to-black border-l-4 border-gold p-6 my-8">
+          <p class="text-white text-lg italic">
+            "In baccarat, a <a href="/glossary#natural" class="text-gold hover:text-gold-light underline">natural</a> 8 or 9 on the first two cards is an automatic win. No more cards are drawn. This is where the excitement peaks."
+          </p>
+        </div>
+
+        <h2 class="text-white text-2xl md:text-3xl font-bold mt-12 mb-6">The Three Bets</h2>
+
+        <h3 class="text-white text-xl font-bold mt-8 mb-4">1. Banker Bet (Best Odds)</h3>
+        <p class="text-gray-300 leading-relaxed mb-6">
+          The Banker bet has a 1.06% house edge—the lowest in the game. Casinos charge a 5% commission on Banker wins because this bet wins slightly more often (50.68% of the time, excluding ties).
+        </p>
+
+        <h3 class="text-white text-xl font-bold mt-8 mb-4">2. Player Bet (Good Odds)</h3>
+        <p class="text-gray-300 leading-relaxed mb-6">
+          The Player bet has a 1.24% house edge with no commission. It wins 49.32% of the time (excluding ties). Slightly worse than Banker, but no commission means simpler math.
+        </p>
+
+        <h3 class="text-white text-xl font-bold mt-8 mb-4">3. Tie Bet (Avoid This)</h3>
+        <p class="text-gray-300 leading-relaxed mb-6">
+          The Tie bet pays 8:1 or 9:1 depending on the casino, but has a massive 14.36% house edge. This is what casinos call a "sucker bet." It hits about 9.5% of the time, but the payout doesn't compensate for the risk.
+        </p>
+
+        <div class="bg-red-900/20 border border-red-500/30 rounded-xl p-6 my-8">
+          <h3 class="text-red-400 font-bold mb-3">Warning: Never Bet the Tie</h3>
+          <p class="text-gray-300">
+            The Tie bet exists to take money from tourists who don't understand the math. A 14.36% house edge means for every $100 you bet long-term, you lose $14.36. Stick to Player or Banker.
+          </p>
+        </div>
+
+        <h2 class="text-white text-2xl md:text-3xl font-bold mt-12 mb-6">Basic Strategy</h2>
+
+        <p class="text-gray-300 leading-relaxed mb-6">
+          Unlike blackjack, there's no complex strategy in baccarat. The optimal play is simple:
+        </p>
+
+        <ol class="text-gray-300 space-y-3 mb-6 list-decimal list-inside">
+          <li><strong class="text-white">Bet on Banker</strong> for the lowest house edge</li>
+          <li><strong class="text-white">Never bet Tie</strong> regardless of payout</li>
+          <li><strong class="text-white">Manage your <a href="/glossary#bankroll" class="text-gold hover:text-gold-light underline">bankroll</a></strong> - set limits before you play</li>
+          <li><strong class="text-white">Take breaks</strong> - the house edge works over time</li>
+        </ol>
+
+        <h2 class="text-white text-2xl md:text-3xl font-bold mt-12 mb-6">What Makes My Approach Different</h2>
+
+        <p class="text-gray-300 leading-relaxed mb-6">
+          The basics I've covered here are what every gambler should know. But they won't make you a professional. What I do goes beyond basic probability—it involves pattern recognition, dealer observation, and timing that I've developed over years of play.
+        </p>
+
+        <p class="text-gray-300 leading-relaxed mb-6">
+          If you want to learn more about my approach, read about <a href="/the-system" class="text-gold hover:text-gold-light underline">The System</a> or check the <a href="/faq" class="text-gold hover:text-gold-light underline">FAQ</a> for specifics on what's verified about my wins.
+        </p>
+
+        <div class="bg-gray-900 border border-gold/30 rounded-xl p-8 my-12 text-center">
+          <h3 class="text-white text-xl font-bold mb-4">Want More Strategy Content?</h3>
+          <p class="text-gray-400 mb-6">
+            Join the free Telegram community for exclusive guides, cheatsheets, and real-time insights.
+          </p>
+          <Button variant="primary" href="/join">
+            Join Free Community
+          </Button>
+        </div>
+
+      </div>
+
+      <!-- Author Box -->
+      <div class="mt-16 pt-8 border-t border-gray-800">
+        <div class="flex items-start gap-6">
+          <div class="flex-shrink-0 w-16 h-16 bg-gold/20 rounded-full flex items-center justify-center">
+            <span class="text-gold text-2xl font-black">MM</span>
+          </div>
+          <div>
+            <p class="text-white font-bold mb-1">Written by Mikki Mase</p>
+            <p class="text-gray-400 text-sm mb-3">
+              Professional baccarat player who won $32M+ and got banned from 150+ casinos.
+              <a href="/story" class="text-gold hover:text-gold-light underline">Read his full story</a>.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Related Posts -->
+      <div class="mt-16 pt-8 border-t border-gray-800">
+        <h3 class="text-white text-xl font-bold mb-6">Related Articles</h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <a href="/blog/bankroll-management-101" class="bg-gray-900 border border-gray-800 rounded-lg p-6 hover:border-gold/30 transition-colors">
+            <span class="text-gold text-sm font-bold uppercase">Strategy</span>
+            <h4 class="text-white font-bold mt-2 mb-2">Bankroll Management 101</h4>
+            <p class="text-gray-400 text-sm">Learn how pros protect their money at the tables.</p>
+          </a>
+          <a href="/the-system" class="bg-gray-900 border border-gray-800 rounded-lg p-6 hover:border-gold/30 transition-colors">
+            <span class="text-gold text-sm font-bold uppercase">Deep Dive</span>
+            <h4 class="text-white font-bold mt-2 mb-2">The System Explained</h4>
+            <p class="text-gray-400 text-sm">How I approach baccarat differently than everyone else.</p>
+          </a>
+        </div>
+      </div>
+
+      <!-- Author Box -->
+      <div class="mt-16 pt-12 border-t border-gray-800">
+        <AuthorBox />
+      </div>
+
+    </div>
+  </article>
+
+  <Footer />
+</BaseLayout>

@@ -1,0 +1,572 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import Hero from '../components/Hero.astro';
+import RelatedContent from '../components/RelatedContent.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import YouTubeLite from '../components/YouTubeLite.astro';
+
+const mediaSchema = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "CollectionPage",
+      "@id": "https://mikki-mase.com/media#page",
+      "url": "https://mikki-mase.com/media",
+      "name": "Mikki Mase Media - Interviews, Masterclass & Behind the Scenes",
+      "description": "Watch Mikki Mase's complete interviews, baccarat masterclass, and behind-the-scenes footage from high-stakes tables. Soft White Underbelly, VladTV, YouTube masterclass, and more.",
+      "isPartOf": {
+        "@id": "https://mikki-mase.com/#website"
+      },
+      "about": {
+        "@id": "https://mikki-mase.com/#person"
+      },
+      "inLanguage": "en-US"
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://mikki-mase.com"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Media",
+          "item": "https://mikki-mase.com/media"
+        }
+      ]
+    },
+    {
+      "@type": "VideoObject",
+      "@id": "https://mikki-mase.com/media#soft-white-underbelly",
+      "name": "Mikki Mase - Soft White Underbelly Interview",
+      "description": "The viral interview with over 20 million views. Mikki's complete life story from childhood trauma through prison, addiction, business empire, and $32M casino winnings.",
+      "thumbnailUrl": "https://i.ytimg.com/vi/xtYhZiQEUnU/maxresdefault.jpg",
+      "uploadDate": "2023-09-15T00:00:00Z",
+      "duration": "PT1H45M",
+      "contentUrl": "https://www.youtube.com/watch?v=xtYhZiQEUnU",
+      "embedUrl": "https://www.youtube.com/embed/xtYhZiQEUnU",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Soft White Underbelly"
+      },
+      "author": {
+        "@type": "Person",
+        "name": "Mikki Mase",
+        "@id": "https://mikki-mase.com/#person"
+      }
+    }
+  ]
+};
+
+// Featured interviews with timestamps
+const featuredInterviews = [
+  {
+    id: "soft-white-underbelly",
+    title: "Soft White Underbelly - The Viral Interview",
+    channel: "Soft White Underbelly",
+    views: "20M+ views",
+    videoId: "xtYhZiQEUnU",
+    duration: "1:45:00",
+    description: "The interview that made Mikki famous. Over 20 million views. Mark Laita's in-depth conversation covering Mikki's entire life story - from childhood trauma to prison, addiction, building a pharmacy empire, and becoming the most banned gambler in casino history.",
+    featured: true,
+    timestamps: [
+      { time: "0:00", label: "Introduction & first impressions" },
+      { time: "3:45", label: "Childhood and family background" },
+      { time: "12:30", label: "Getting into trouble - early crimes" },
+      { time: "22:15", label: "Juvenile detention at 15" },
+      { time: "35:00", label: "Prison years and transformation" },
+      { time: "48:20", label: "Release and building pharmacy business" },
+      { time: "1:02:00", label: "Transition to professional gambling" },
+      { time: "1:15:30", label: "The baccarat system explained" },
+      { time: "1:28:00", label: "Biggest wins and casino bans" },
+      { time: "1:38:00", label: "Current life and philosophy" }
+    ]
+  },
+  {
+    id: "bert-kreischer",
+    title: "Bert Kreischer - The Machine Meets The Gambler",
+    channel: "Bertcast",
+    views: "2M+ views",
+    videoId: "U2ZVZBUPuuU",
+    duration: "2:15:00",
+    description: "Bert Kreischer's hilarious and insightful interview with Mikki. They discuss casino stories, getting banned, the psychology of gambling, and Mikki's wildest experiences at the tables.",
+    featured: true,
+    timestamps: [
+      { time: "0:00", label: "Bert's introduction" },
+      { time: "8:30", label: "How Mikki started gambling" },
+      { time: "24:00", label: "The $250K per hand bets" },
+      { time: "42:15", label: "Getting kicked out of casinos" },
+      { time: "58:00", label: "Casino comp stories - private jets, Maybachs" },
+      { time: "1:12:00", label: "The Wynn $8M loss night" },
+      { time: "1:28:30", label: "Pattern recognition breakdown" },
+      { time: "1:45:00", label: "Sports betting operation" },
+      { time: "2:00:00", label: "Life philosophy and advice" }
+    ]
+  }
+];
+
+// Other notable interviews
+const otherInterviews = [
+  {
+    title: "NELK Boys - Full Send Podcast",
+    channel: "FULL SEND PODCAST",
+    videoId: "SYM5CpTF9j4",
+    duration: "1:30:00",
+    description: "Mikki joins Kyle and the NELK Boys to discuss his wildest casino stories, the business of gambling, and his transition from prison to millions.",
+    timestamps: [
+      { time: "0:00", label: "Introduction" },
+      { time: "15:00", label: "Prison stories" },
+      { time: "35:00", label: "Pharmacy business" },
+      { time: "55:00", label: "Casino wins" },
+      { time: "1:15:00", label: "Getting banned worldwide" }
+    ]
+  },
+  {
+    title: "Tyler Oliveira - Documentary Style",
+    channel: "Tyler Oliveira",
+    videoId: "gchsk1LuJbA",
+    duration: "45:00",
+    description: "Tyler's investigative look at Mikki's claims, including on-location footage and verification of some key stories.",
+    timestamps: [
+      { time: "0:00", label: "Investigation begins" },
+      { time: "12:00", label: "Verifying the wins" },
+      { time: "25:00", label: "Casino footage" },
+      { time: "38:00", label: "Conclusions" }
+    ]
+  },
+  {
+    title: "World Poker Tour - Poker Perspective",
+    channel: "World Poker Tour",
+    videoId: "Q69dvB24X7c",
+    duration: "35:00",
+    description: "WPT's interview focusing on Mikki's poker ventures, including his Hustler Casino Live appearances and the $938K loss.",
+    timestamps: [
+      { time: "0:00", label: "Introduction to poker" },
+      { time: "10:00", label: "Hustler Casino Live" },
+      { time: "22:00", label: "Why poker is different from baccarat" },
+      { time: "30:00", label: "Future poker plans" }
+    ]
+  },
+  {
+    title: "Steve-O's Wild Ride",
+    channel: "Steve-O",
+    videoId: "tzBMd58lV1o",
+    duration: "Short clip",
+    description: "Steve-O and Mikki discuss the wild lifestyle of professional gambling and share stories from their respective careers.",
+    timestamps: []
+  }
+];
+
+// Masterclass/Educational content
+const educationalContent = [
+  {
+    title: "Baccarat Masterclass - How I Beat Casinos",
+    videoId: "dwmJs_11dCU",
+    duration: "45:00",
+    description: "Mikki's own YouTube masterclass breaking down his baccarat approach. Pattern recognition, bankroll management, and the strategies that got him banned from 150+ casinos.",
+    timestamps: [
+      { time: "0:00", label: "Introduction to the system" },
+      { time: "5:30", label: "Understanding the shoe" },
+      { time: "12:00", label: "Pattern recognition basics" },
+      { time: "22:00", label: "Bankroll management" },
+      { time: "32:00", label: "When to walk away" },
+      { time: "40:00", label: "Avoiding casino heat" }
+    ]
+  },
+  {
+    title: "The Complete Life Story",
+    videoId: "Ko_fM96U3ao",
+    duration: "1:30:00",
+    description: "Full narrative from juvenile prison at 15 to winning millions. The complete story from start to finish.",
+    timestamps: [
+      { time: "0:00", label: "Early childhood" },
+      { time: "18:00", label: "First crimes and arrest" },
+      { time: "35:00", label: "Prison transformation" },
+      { time: "52:00", label: "Building the pharmacy empire" },
+      { time: "1:08:00", label: "Transition to gambling" },
+      { time: "1:22:00", label: "Major wins and bans" }
+    ]
+  },
+  {
+    title: "Behind the Wins - Full Breakdown",
+    videoId: "x2bLDZB0CyY",
+    duration: "1:15:00",
+    description: "Deep dive into the biggest wins, documented losses, casino comps, and the current sports betting operation.",
+    timestamps: [
+      { time: "0:00", label: "Overview of winnings" },
+      { time: "15:00", label: "Venetian $10M+ win" },
+      { time: "28:00", label: "The $8M loss night" },
+      { time: "42:00", label: "Casino comps explained" },
+      { time: "55:00", label: "Sports betting pivot" },
+      { time: "1:08:00", label: "Community payouts" }
+    ]
+  }
+];
+
+const relatedPages = [
+  {
+    category: "His Story",
+    title: "Full Background",
+    description: "From prison to millions - the complete journey",
+    href: "/story"
+  },
+  {
+    category: "The Method",
+    title: "His System",
+    description: "How Mikki approaches baccarat and pattern recognition",
+    href: "/the-system"
+  },
+  {
+    category: "Verified",
+    title: "All Wins & Losses",
+    description: "Complete timeline of documented casino results",
+    href: "/wins"
+  }
+];
+---
+
+<BaseLayout
+  title="Mikki Mase Media - Interviews, Masterclass & Behind the Scenes"
+  description="Watch Mikki Mase's complete interviews, baccarat masterclass, and behind-the-scenes footage from high-stakes tables. Soft White Underbelly (20M views), Bert Kreischer, NELK Boys, and more with timestamps."
+  schema={mediaSchema}
+>
+  <Header />
+  <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "Media" }]} />
+
+  <!-- HERO SECTION -->
+  <Hero
+    eyebrow="Interviews & Videos"
+    title="Media & Masterclass"
+    subtitle="Watch the full story, system breakdowns, and behind-the-scenes at high-stakes tables."
+    backgroundImage="/images/mikki-main-1.webp"
+    variant="medium"
+  />
+
+  <!-- MAIN CONTENT -->
+  <section class="bg-black py-16 md:py-24 relative overflow-hidden">
+    <!-- Subtle background pattern -->
+    <div class="absolute inset-0 opacity-5">
+      <div class="absolute inset-0" style="background-image: radial-gradient(circle at 2px 2px, #CFB53B 1px, transparent 0); background-size: 40px 40px;"></div>
+    </div>
+
+    <div class="container mx-auto px-6 relative z-10">
+
+      <!-- Table of Contents -->
+      <nav class="max-w-4xl mx-auto mb-16 bg-gray-900 border border-gray-800 rounded-xl p-6 md:p-8">
+        <h2 class="text-white text-xl font-bold mb-4">On This Page</h2>
+        <div class="grid md:grid-cols-2 gap-4 text-gray-300">
+          <div>
+            <p class="text-gold text-sm font-bold uppercase mb-2">Interviews</p>
+            <ul class="space-y-1">
+              <li><a href="#soft-white-underbelly" class="hover:text-gold transition-colors">→ Soft White Underbelly (20M views)</a></li>
+              <li><a href="#bert-kreischer" class="hover:text-gold transition-colors">→ Bert Kreischer Podcast</a></li>
+              <li><a href="#other-interviews" class="hover:text-gold transition-colors">→ More Interviews</a></li>
+            </ul>
+          </div>
+          <div>
+            <p class="text-gold text-sm font-bold uppercase mb-2">Educational</p>
+            <ul class="space-y-1">
+              <li><a href="#masterclass" class="hover:text-gold transition-colors">→ Baccarat Masterclass</a></li>
+              <li><a href="#educational" class="hover:text-gold transition-colors">→ System Breakdowns</a></li>
+              <li><a href="#social" class="hover:text-gold transition-colors">→ Social Media</a></li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+
+      <!-- Intro -->
+      <div class="max-w-4xl mx-auto text-center mb-16 md:mb-20">
+        <p class="text-gray-300 text-lg md:text-xl leading-relaxed mb-4">
+          These videos document Mikki's journey from addiction and juvenile prison to winning $32M+ from casinos. Watch the full interviews to understand the complete story, the system, and what's real vs. claimed.
+        </p>
+        <p class="text-gray-400 text-base">
+          Each video below includes timestamps so you can jump directly to the topics you're interested in.
+        </p>
+      </div>
+
+      <!-- FEATURED INTERVIEWS -->
+      <div class="max-w-5xl mx-auto mb-20 md:mb-32">
+        <div class="text-center mb-12">
+          <div class="inline-block px-4 py-2 bg-gold/10 border border-gold/50 rounded-full mb-4">
+            <span class="text-gold text-sm font-bold uppercase tracking-wider">Must Watch</span>
+          </div>
+          <h2 class="text-white text-3xl md:text-5xl font-bold">Featured Interviews</h2>
+        </div>
+
+        <div class="space-y-16">
+          {featuredInterviews.map((interview) => (
+            <div id={interview.id} class="scroll-mt-24">
+              <div class="mb-6">
+                <div class="flex flex-wrap items-center gap-3 mb-3">
+                  <span class="text-gold text-sm font-bold uppercase">{interview.channel}</span>
+                  <span class="text-gray-600">|</span>
+                  <span class="text-gray-400 text-sm">{interview.views}</span>
+                  <span class="text-gray-600">|</span>
+                  <span class="text-gray-400 text-sm">{interview.duration}</span>
+                </div>
+                <h3 class="text-white text-2xl md:text-3xl font-bold mb-3">{interview.title}</h3>
+                <p class="text-gray-400 text-lg leading-relaxed">
+                  {interview.description}
+                </p>
+              </div>
+
+              <!-- YouTube Embed (Lite - loads on click) -->
+              <div class="rounded-2xl overflow-hidden shadow-2xl border-2 border-gold/30">
+                <YouTubeLite
+                  videoId={interview.videoId}
+                  title={interview.title}
+                />
+              </div>
+
+              <!-- Timestamps -->
+              {interview.timestamps.length > 0 && (
+                <div class="mt-6 bg-gray-900 border border-gray-800 rounded-xl p-6">
+                  <h4 class="text-white font-bold mb-4 flex items-center gap-2">
+                    <svg class="w-5 h-5 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    Jump to Section
+                  </h4>
+                  <div class="grid md:grid-cols-2 gap-2">
+                    {interview.timestamps.map((ts) => (
+                      <a
+                        href={`https://www.youtube.com/watch?v=${interview.videoId}&t=${ts.time.replace(':', 'm')}s`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="flex items-center gap-3 p-2 rounded hover:bg-gray-800 transition-colors group"
+                      >
+                        <span class="text-gold font-mono text-sm w-14 flex-shrink-0">{ts.time}</span>
+                        <span class="text-gray-300 group-hover:text-white transition-colors">{ts.label}</span>
+                      </a>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <!-- OTHER INTERVIEWS -->
+      <div id="other-interviews" class="max-w-5xl mx-auto mb-20 md:mb-32 scroll-mt-24">
+        <h2 class="text-white text-3xl md:text-4xl font-bold mb-12 text-center">More Interviews</h2>
+
+        <div class="grid md:grid-cols-2 gap-8">
+          {otherInterviews.map((interview) => (
+            <div class="bg-gray-900 border border-gray-800 rounded-xl overflow-hidden hover:border-gold/30 transition-colors">
+              <!-- Thumbnail -->
+              <a
+                href={`https://www.youtube.com/watch?v=${interview.videoId}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="relative block aspect-video group"
+              >
+                <img
+                  src={`https://img.youtube.com/vi/${interview.videoId}/mqdefault.jpg`}
+                  alt={interview.title}
+                  class="w-full h-full object-cover"
+                  loading="lazy"
+                />
+                <div class="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-colors flex items-center justify-center">
+                  <div class="w-16 h-16 bg-red-600 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform">
+                    <svg class="w-8 h-8 text-white ml-1" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M8 5v14l11-7z"/>
+                    </svg>
+                  </div>
+                </div>
+                <span class="absolute bottom-2 right-2 bg-black/80 text-white text-xs px-2 py-1 rounded">{interview.duration}</span>
+              </a>
+
+              <!-- Info -->
+              <div class="p-5">
+                <p class="text-gold text-xs font-bold uppercase mb-1">{interview.channel}</p>
+                <h3 class="text-white text-lg font-bold mb-2">{interview.title}</h3>
+                <p class="text-gray-400 text-sm mb-4">{interview.description}</p>
+
+                {interview.timestamps.length > 0 && (
+                  <details class="group">
+                    <summary class="text-gold text-sm font-medium cursor-pointer hover:text-gold-light flex items-center gap-2">
+                      <svg class="w-4 h-4 group-open:rotate-90 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                      </svg>
+                      View Timestamps
+                    </summary>
+                    <div class="mt-3 space-y-1 text-sm">
+                      {interview.timestamps.map((ts) => (
+                        <a
+                          href={`https://www.youtube.com/watch?v=${interview.videoId}&t=${ts.time.replace(':', 'm')}s`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          class="flex items-center gap-2 text-gray-400 hover:text-white transition-colors"
+                        >
+                          <span class="text-gold font-mono w-10">{ts.time}</span>
+                          <span>{ts.label}</span>
+                        </a>
+                      ))}
+                    </div>
+                  </details>
+                )}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <!-- EDUCATIONAL CONTENT / MASTERCLASS -->
+      <div id="masterclass" class="max-w-5xl mx-auto mb-20 md:mb-32 scroll-mt-24">
+        <div class="text-center mb-12">
+          <div class="inline-block px-4 py-2 bg-green-500/10 border border-green-500/50 rounded-full mb-4">
+            <span class="text-green-400 text-sm font-bold uppercase tracking-wider">Learn The System</span>
+          </div>
+          <h2 class="text-white text-3xl md:text-5xl font-bold mb-4">Educational Content</h2>
+          <p class="text-gray-400 text-lg max-w-2xl mx-auto">
+            Mikki's own breakdowns of his approach, strategies, and the system that got him banned from 150+ casinos.
+          </p>
+        </div>
+
+        <div id="educational" class="space-y-12 scroll-mt-24">
+          {educationalContent.map((content, index) => (
+            <div class="bg-gray-900 border border-gray-800 rounded-2xl overflow-hidden">
+              <div class="md:flex">
+                <!-- Video Embed (Lite - loads on click) -->
+                <div class="md:w-1/2">
+                  <YouTubeLite
+                    videoId={content.videoId}
+                    title={content.title}
+                  />
+                </div>
+
+                <!-- Info & Timestamps -->
+                <div class="md:w-1/2 p-6 md:p-8">
+                  <div class="flex items-center gap-2 mb-2">
+                    <span class="bg-gold/20 text-gold text-xs font-bold px-2 py-1 rounded">MASTERCLASS</span>
+                    <span class="text-gray-500 text-sm">{content.duration}</span>
+                  </div>
+                  <h3 class="text-white text-xl font-bold mb-3">{content.title}</h3>
+                  <p class="text-gray-400 text-sm mb-4">{content.description}</p>
+
+                  {content.timestamps.length > 0 && (
+                    <div class="border-t border-gray-800 pt-4">
+                      <h4 class="text-white text-sm font-bold mb-3">Timestamps:</h4>
+                      <div class="space-y-1 max-h-48 overflow-y-auto">
+                        {content.timestamps.map((ts) => (
+                          <a
+                            href={`https://www.youtube.com/watch?v=${content.videoId}&t=${ts.time.replace(':', 'm')}s`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            class="flex items-center gap-2 text-sm text-gray-400 hover:text-white transition-colors"
+                          >
+                            <span class="text-gold font-mono w-12 flex-shrink-0">{ts.time}</span>
+                            <span class="truncate">{ts.label}</span>
+                          </a>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <!-- SOCIAL MEDIA -->
+      <div id="social" class="max-w-4xl mx-auto mb-16 scroll-mt-24">
+        <h2 class="text-white text-3xl md:text-4xl font-bold mb-8 text-center">Follow Mikki</h2>
+        <p class="text-gray-400 text-center mb-8 max-w-2xl mx-auto">
+          Get real-time updates, behind-the-scenes content, and direct access to Mikki's insights across all platforms.
+        </p>
+
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <a
+            href="https://www.youtube.com/@Mikki_Mase"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="flex flex-col items-center gap-3 p-6 bg-gray-900 hover:bg-gray-800 rounded-xl transition-colors group"
+          >
+            <svg class="w-10 h-10 text-red-500" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+            </svg>
+            <span class="text-white font-semibold group-hover:text-gold transition-colors">YouTube</span>
+            <span class="text-gray-500 text-xs">Subscribe</span>
+          </a>
+
+          <a
+            href="https://www.instagram.com/mikki_mase_community"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="flex flex-col items-center gap-3 p-6 bg-gray-900 hover:bg-gray-800 rounded-xl transition-colors group"
+          >
+            <svg class="w-10 h-10 text-pink-500" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+            </svg>
+            <span class="text-white font-semibold group-hover:text-gold transition-colors">Instagram</span>
+            <span class="text-gray-500 text-xs">3M+ followers</span>
+          </a>
+
+          <a
+            href="https://www.facebook.com/mikkimasecommunity"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="flex flex-col items-center gap-3 p-6 bg-gray-900 hover:bg-gray-800 rounded-xl transition-colors group"
+          >
+            <svg class="w-10 h-10 text-blue-500" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+            </svg>
+            <span class="text-white font-semibold group-hover:text-gold transition-colors">Facebook</span>
+            <span class="text-gray-500 text-xs">Community</span>
+          </a>
+
+          <a
+            href="/join"
+            class="flex flex-col items-center gap-3 p-6 bg-gray-900 hover:bg-gray-800 rounded-xl transition-colors group border border-gold/30"
+          >
+            <svg class="w-10 h-10 text-gold" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69.01-.03.01-.14-.07-.2-.08-.06-.19-.04-.27-.02-.12.03-1.99 1.27-5.61 3.72-.53.36-1.01.54-1.44.53-.47-.01-1.38-.27-2.06-.49-.83-.27-1.49-.42-1.43-.88.03-.24.37-.49.99-.74 3.89-1.69 6.48-2.81 7.77-3.35 3.7-1.54 4.47-1.81 4.97-1.82.11 0 .36.03.52.16.14.11.17.26.19.37.01.08.03.29.01.45z"/>
+            </svg>
+            <span class="text-white font-semibold group-hover:text-gold transition-colors">Telegram</span>
+            <span class="text-gold text-xs font-bold">FREE</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- CTA -->
+      <div class="max-w-4xl mx-auto bg-gradient-to-br from-gray-900 to-black border-2 border-gold/30 rounded-2xl p-10 md:p-16 text-center">
+        <h3 class="text-white text-3xl md:text-4xl font-bold mb-4">Want Direct Access?</h3>
+        <p class="text-gray-300 text-lg mb-8 max-w-2xl mx-auto">
+          Join the free Telegram community for pattern recognition guides, cheatsheets, live updates, and direct access to Mikki's insights.
+        </p>
+        <a
+          href="/join"
+          class="inline-flex items-center gap-3 px-10 py-5 bg-red-bright text-white text-xl font-bold rounded-xl hover:scale-105 hover:shadow-2xl transition-all duration-200"
+        >
+          <svg class="w-7 h-7" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69.01-.03.01-.14-.07-.2-.08-.06-.19-.04-.27-.02-.12.03-1.99 1.27-5.61 3.72-.53.36-1.01.54-1.44.53-.47-.01-1.38-.27-2.06-.49-.83-.27-1.49-.42-1.43-.88.03-.24.37-.49.99-.74 3.89-1.69 6.48-2.81 7.77-3.35 3.7-1.54 4.47-1.81 4.97-1.82.11 0 .36.03.52.16.14.11.17.26.19.37.01.08.03.29.01.45z"/>
+          </svg>
+          Join Telegram Community
+        </a>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Related Content -->
+  <RelatedContent items={relatedPages} />
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  .bg-red-bright {
+    background-color: #A8001E;
+  }
+  .bg-red-bright:hover {
+    background-color: #8B0015;
+  }
+</style>

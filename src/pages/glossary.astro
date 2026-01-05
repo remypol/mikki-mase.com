@@ -1,0 +1,552 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import Hero from '../components/Hero.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+
+// Glossary terms with categories
+const terms = [
+  // Baccarat-Specific Terms
+  {
+    term: "Baccarat",
+    definition: "A card game where players bet on whether the 'Banker' or 'Player' hand will have a total closest to 9. The house edge is 1.06% on Banker bets and 1.24% on Player bets, making it one of the lowest house edge games in casinos.",
+    category: "Baccarat"
+  },
+  {
+    term: "Banker Bet",
+    definition: "A bet in baccarat that the Banker hand will win. This bet has a 1.06% house edge and pays 1:1 (minus a 5% commission on wins). Despite the commission, it's statistically the best bet in baccarat.",
+    category: "Baccarat"
+  },
+  {
+    term: "Player Bet",
+    definition: "A bet in baccarat that the Player hand will win. This bet has a 1.24% house edge and pays 1:1 (no commission). Slightly worse odds than the Banker bet, but still one of the best bets in the casino.",
+    category: "Baccarat"
+  },
+  {
+    term: "Tie Bet",
+    definition: "A bet in baccarat that both the Banker and Player hands will have the same total. Pays 8:1 or 9:1 depending on the casino, but has a massive 14.36% house edge. Professional players never make this bet.",
+    category: "Baccarat"
+  },
+  {
+    term: "Natural",
+    definition: "In baccarat, a two-card hand totaling 8 or 9. A natural 9 is the best possible hand. If either the Player or Banker is dealt a natural, no additional cards are drawn.",
+    category: "Baccarat"
+  },
+  {
+    term: "Shoe",
+    definition: "The card holder used in baccarat (and blackjack) that contains multiple decks of cards. Most baccarat games use 6 or 8 decks. The shoe is shuffled between rounds (or after a certain number of cards are dealt).",
+    category: "Baccarat"
+  },
+  {
+    term: "Burn Card",
+    definition: "The first card dealt from a new shoe in baccarat (or after a shuffle). The burn card is discarded and not used in play. Some advantage players believe burn card patterns can be exploited.",
+    category: "Baccarat"
+  },
+  {
+    term: "Commission",
+    definition: "The 5% fee casinos charge on winning Banker bets in baccarat. For example, if you bet $100 on Banker and win, you receive $195 (your $100 bet + $100 win - $5 commission).",
+    category: "Baccarat"
+  },
+  {
+    term: "Mini-Baccarat",
+    definition: "A smaller, faster version of baccarat with lower minimum bets (often $10-$25). Played on a blackjack-sized table with one dealer. Full baccarat (also called 'big baccarat') is slower and has higher minimums ($100+).",
+    category: "Baccarat"
+  },
+  {
+    term: "Punto Banco",
+    definition: "The most common form of baccarat played in North American and European casinos. 'Punto' means Player, 'Banco' means Banker. The rules are fixed (no player decisions beyond choosing which bet to make).",
+    category: "Baccarat"
+  },
+  {
+    term: "Dragon Bonus",
+    definition: "A popular side bet in baccarat that pays based on the margin of victory. For example, if the Banker wins by 9 points, the payout is 30:1. Like all side bets, the house edge is much higher than the main game.",
+    category: "Baccarat"
+  },
+  {
+    term: "Squeeze",
+    definition: "A ritual in baccarat where the player (or dealer) slowly peels back the corners of the cards to reveal the value. Common in high-stakes baccarat. Purely theatrical — it doesn't affect the outcome.",
+    category: "Baccarat"
+  },
+
+  // Advantage Play & Strategy
+  {
+    term: "Advantage Play",
+    definition: "Legal techniques that give players a mathematical edge over the casino. Examples include card counting in blackjack, edge sorting in baccarat, and exploiting dealer tells. Casinos can ban you for advantage play even though it's legal.",
+    category: "Advantage Play"
+  },
+  {
+    term: "Pattern Recognition",
+    definition: "The technique Mikki Mase claims to use: observing baccarat shoes for exploitable patterns (dealer tells, mechanical shuffling errors, statistical deviations). Not proven to work mathematically, but Mikki claims it's how he won millions.",
+    category: "Advantage Play"
+  },
+  {
+    term: "Card Counting",
+    definition: "Tracking the ratio of high cards to low cards in blackjack to determine when the deck favors the player. Legal but banned by casinos. Does NOT work in baccarat (the edge is negligible even with perfect counting).",
+    category: "Advantage Play"
+  },
+  {
+    term: "Edge Sorting",
+    definition: "Exploiting manufacturing defects in card backs to identify face-down cards. Phil Ivey won £7.7 million using this technique at baccarat. UK courts ruled it was cheating, and Ivey never received his winnings.",
+    category: "Advantage Play"
+  },
+  {
+    term: "Dealer Tells",
+    definition: "Physical cues from dealers that reveal information about face-down cards. Examples: card placement timing, shuffling patterns, body language. Mikki Mase claims dealer tells are a key part of his system.",
+    category: "Advantage Play"
+  },
+  {
+    term: "Shoe Tracking",
+    definition: "Monitoring the sequence of cards in a baccarat shoe to predict future outcomes. Mathematically dubious (baccarat outcomes are independent), but some players believe it works.",
+    category: "Advantage Play"
+  },
+  {
+    term: "Betting Spread",
+    definition: "The ratio between a player's minimum and maximum bets. Card counters use large betting spreads (1:10 or more) to maximize profits when the count is favorable. Casinos flag players with suspicious betting spreads.",
+    category: "Advantage Play"
+  },
+  {
+    term: "Kelly Criterion",
+    definition: "A mathematical formula for optimal bet sizing based on your edge and bankroll. Used by professional gamblers and investors. The Kelly Criterion says you should bet a percentage of your bankroll equal to your edge.",
+    category: "Advantage Play"
+  },
+  {
+    term: "Expected Value (EV)",
+    definition: "The average amount you expect to win or lose per bet over the long term. Calculated as (Probability of Winning × Win Amount) - (Probability of Losing × Loss Amount). Positive EV = profit, Negative EV = loss.",
+    category: "Advantage Play"
+  },
+  {
+    term: "Variance",
+    definition: "The statistical measure of how much your results deviate from the expected value. High-variance games (like slots) have wild swings. Low-variance games (like baccarat) have more consistent results.",
+    category: "Advantage Play"
+  },
+
+  // Casino Operations
+  {
+    term: "House Edge",
+    definition: "The mathematical advantage the casino has over the player, expressed as a percentage. For example, the house edge on Banker bets in baccarat is 1.06%, meaning the casino expects to keep $1.06 for every $100 wagered (on average).",
+    category: "Casino Operations"
+  },
+  {
+    term: "Pit Boss",
+    definition: "The casino supervisor who oversees table games. Pit bosses watch for cheating, advantage play, and suspicious behavior. They have the authority to back off players or issue bans. Mikki has been backed off by pit bosses hundreds of times.",
+    category: "Casino Operations"
+  },
+  {
+    term: "Eye in the Sky",
+    definition: "The casino's surveillance room filled with CCTV cameras and facial recognition software. Every table game is monitored 24/7. If you're flagged as an advantage player, the 'eye in the sky' will track your every move.",
+    category: "Casino Operations"
+  },
+  {
+    term: "Comp",
+    definition: "Short for 'complimentary.' Free goods and services casinos give to players (rooms, meals, drinks, show tickets). Comps are based on your 'theo' (theoretical loss). High rollers like Mikki get massive comps (private jets, penthouse suites).",
+    category: "Casino Operations"
+  },
+  {
+    term: "Theo (Theoretical Loss)",
+    definition: "The amount the casino expects you to lose based on your average bet, hours played, and house edge. Used to calculate comps. Example: If you bet $10,000/hand at baccarat for 4 hours, your theo is ~$4,000 (casinos comp 30-40% of theo).",
+    category: "Casino Operations"
+  },
+  {
+    term: "Marker",
+    definition: "A line of credit issued by the casino. High rollers sign markers instead of using cash. Mikki often played with $3 million markers. If you don't pay back the marker, it's treated like a bad check (criminal charges).",
+    category: "Casino Operations"
+  },
+  {
+    term: "Front Money",
+    definition: "Cash deposited with the casino before gambling. Unlike markers (credit), front money is YOUR money. Casinos hold it in a cage account, and you draw against it at the tables. Mikki often deposited $5-10 million in front money.",
+    category: "Casino Operations"
+  },
+  {
+    term: "Cage",
+    definition: "The casino cashier where you exchange chips for cash (or cash for chips). For large transactions ($10,000+), the cage files CTR (Currency Transaction Reports) with the IRS.",
+    category: "Casino Operations"
+  },
+  {
+    term: "CTR (Currency Transaction Report)",
+    definition: "A form casinos (and banks) file with the IRS for cash transactions over $10,000. Designed to prevent money laundering. If you cash out $50K in chips, the casino will file a CTR with your name, address, and SSN.",
+    category: "Casino Operations"
+  },
+  {
+    term: "Shuffle",
+    definition: "The process of randomizing cards before dealing. Baccarat shoes are shuffled every 6-8 decks (or after a cut card is reached). Some casinos use automatic shufflers. Mikki claims mechanical shufflers have exploitable patterns.",
+    category: "Casino Operations"
+  },
+  {
+    term: "Cut Card",
+    definition: "A plastic card inserted into the shoe to mark when the shuffle will occur. When the dealer reaches the cut card, they finish the current hand and then shuffle. The placement of the cut card affects how many hands are dealt per shoe.",
+    category: "Casino Operations"
+  },
+  {
+    term: "Pit",
+    definition: "The area in a casino where table games are located. Each pit has a pit boss who supervises multiple tables. Baccarat pits are usually separated from other games (and have higher limits).",
+    category: "Casino Operations"
+  },
+
+  // High Roller Culture
+  {
+    term: "High Roller",
+    definition: "A gambler who bets large amounts of money. Also called a 'whale.' Casinos roll out the red carpet for high rollers (private jets, penthouse suites, personal hosts). Mikki was a high roller betting $100K-$250K per hand.",
+    category: "High Roller Culture"
+  },
+  {
+    term: "Whale",
+    definition: "Casino slang for an ultra-high roller who bets millions per session. Whales are treated like royalty (private villas, $100K credit lines for shopping, etc.). Mikki was a whale at the Venetian and other properties.",
+    category: "High Roller Culture"
+  },
+  {
+    term: "Junket",
+    definition: "An organized trip for high rollers to a casino (common in Macau). The casino pays for flights, hotels, and meals in exchange for a commitment to gamble a certain amount. Mikki has been on junkets to Macau and Monte Carlo.",
+    category: "High Roller Culture"
+  },
+  {
+    term: "VIP Host",
+    definition: "A casino employee assigned to take care of high rollers. The host arranges comps, reservations, credit lines, and anything else the player needs. Mikki had personal hosts at every major casino (before being banned).",
+    category: "High Roller Culture"
+  },
+  {
+    term: "Baccarat Pit",
+    definition: "A dedicated area in high-end casinos for baccarat tables with minimum bets of $100+. Usually separated from the main gaming floor with velvet ropes. The baccarat pit is where high rollers play.",
+    category: "High Roller Culture"
+  },
+  {
+    term: "Private Table",
+    definition: "A baccarat table reserved exclusively for one player (or a small group). Mikki often played at private tables with $100K minimums. The casino closes the table to the public and assigns dedicated dealers.",
+    category: "High Roller Culture"
+  },
+
+  // Casino Enforcement
+  {
+    term: "Backed Off",
+    definition: "When a casino tells you to stop playing a specific game (usually because they suspect advantage play). The pit boss or security says, 'You're welcome to play anything else, but no more baccarat/blackjack.' Also called 'the tap.'",
+    category: "Casino Enforcement"
+  },
+  {
+    term: "Banned",
+    definition: "When a casino formally prohibits you from entering the property. You're issued a trespass notice, and if you return, you can be arrested for criminal trespassing. Mikki is banned from 150+ casinos worldwide.",
+    category: "Casino Enforcement"
+  },
+  {
+    term: "Trespass Notice",
+    definition: "A legal document formally banning you from a casino. Read on camera by security, it states you are no longer welcome and will be arrested if you return. Violating a trespass notice is criminal trespassing.",
+    category: "Casino Enforcement"
+  },
+  {
+    term: "Facial Recognition",
+    definition: "Software that identifies banned players or known advantage players as soon as they enter the casino. Modern casinos have cameras at every entrance linked to databases of banned individuals. If you're flagged, security is alerted within seconds.",
+    category: "Casino Enforcement"
+  },
+  {
+    term: "Griffin Book",
+    definition: "An infamous industry database of advantage players, cheats, and banned individuals. Published by Griffin Investigations from 1967-2005. Discontinued after lawsuits, but casinos now use shared surveillance networks instead.",
+    category: "Casino Enforcement"
+  },
+  {
+    term: "OSN (Oregon Surveillance Network)",
+    definition: "A regional surveillance network that allows casinos to share information about banned players and suspected advantage players. If you're flagged at one casino, other casinos in the network are immediately notified.",
+    category: "Casino Enforcement"
+  },
+  {
+    term: "86'd",
+    definition: "Slang for being banned from a casino. Origin unknown (possibly from 1930s restaurant slang for 'throw out'). Example: 'Mikki got 86'd from the Bellagio after winning $3M.'",
+    category: "Casino Enforcement"
+  },
+
+  // Bankroll Management
+  {
+    term: "Bankroll",
+    definition: "The total amount of money set aside for gambling. Professional players use strict bankroll management to avoid going broke during losing streaks. Mikki's peak bankroll was reportedly $10-15 million.",
+    category: "Bankroll Management"
+  },
+  {
+    term: "Risk of Ruin",
+    definition: "The probability of losing your entire bankroll. Professional gamblers keep this below 1% by betting small percentages of their bankroll and having large reserves. Mikki's massive $3M buy-ins required a $10M+ bankroll.",
+    category: "Bankroll Management"
+  },
+  {
+    term: "Buy-In",
+    definition: "The amount of money you exchange for chips at the start of a session. Mikki's typical buy-in was $3 million. High rollers often buy in with markers (credit) instead of cash.",
+    category: "Bankroll Management"
+  },
+  {
+    term: "Session Bankroll",
+    definition: "The amount of money allocated for a single gambling session (as opposed to your total bankroll). Example: Mikki might have a $10M total bankroll but only bring $3M to each session.",
+    category: "Bankroll Management"
+  },
+  {
+    term: "Stop-Loss",
+    definition: "A predetermined amount you're willing to lose in a session before quitting. For example, 'I'll stop if I'm down $100K.' Professional players use stop-losses to avoid tilt (emotional decision-making).",
+    category: "Bankroll Management"
+  },
+  {
+    term: "Win Goal",
+    definition: "A predetermined profit target for a session. For example, 'I'll quit once I'm up $1M.' Mikki's win goals were reportedly $1-3M per session. The downside: you might quit during a hot streak.",
+    category: "Bankroll Management"
+  },
+
+  // General Gambling Terms
+  {
+    term: "Action",
+    definition: "The total amount wagered (not won or lost). Casinos rate players based on action. Example: If you bet $10,000 per hand for 100 hands, your action is $1 million (even if you broke even).",
+    category: "General Gambling"
+  },
+  {
+    term: "Tilt",
+    definition: "Emotional decision-making after a bad beat or losing streak. Players on tilt bet recklessly, chase losses, and make irrational decisions. Professional players avoid tilt through discipline and stop-losses.",
+    category: "General Gambling"
+  },
+  {
+    term: "Grind",
+    definition: "Playing for long hours to slowly accumulate small profits. Opposite of high-variance gambling. Example: A card counter grinding out $200/hour over 8-hour sessions. Mikki didn't grind — he went for massive wins.",
+    category: "General Gambling"
+  },
+  {
+    term: "Cooler",
+    definition: "A player on a losing streak. Also refers to a deck of pre-arranged cards (used by cheaters). Example: 'I've been on a cooler all week — lost $50K.'",
+    category: "General Gambling"
+  },
+  {
+    term: "Heater",
+    definition: "A player on a winning streak. Example: 'Mikki was on a heater at the Venetian — won $10M in one session.'",
+    category: "General Gambling"
+  },
+  {
+    term: "Degenerate",
+    definition: "Slang for a problem gambler who bets compulsively and irresponsibly. Often used self-deprecatingly by gamblers. Example: 'I'm such a degen — I bet my rent money on baccarat.'",
+    category: "General Gambling"
+  },
+  {
+    term: "Sharp",
+    definition: "A professional gambler or advantage player who consistently wins. Opposite of a 'square' (recreational gambler). Casinos watch sharps closely and ban them if they win too much.",
+    category: "General Gambling"
+  },
+  {
+    term: "Square",
+    definition: "A recreational gambler with no edge. Casinos love squares because they lose money over time. Opposite of a 'sharp.'",
+    category: "General Gambling"
+  },
+  {
+    term: "Push",
+    definition: "A tie bet (neither the player nor the casino wins). In baccarat, if you bet Banker or Player and the hands tie, your bet is returned (no win, no loss). Tie bets pay out only if you specifically bet on Tie.",
+    category: "General Gambling"
+  },
+  {
+    term: "RNG (Random Number Generator)",
+    definition: "Software used in online casinos and electronic games to simulate randomness. RNGs are tested and certified by third parties to ensure fairness. Does not apply to live dealer baccarat (which uses physical cards).",
+    category: "General Gambling"
+  },
+  {
+    term: "RTP (Return to Player)",
+    definition: "The percentage of total wagers a game pays back to players over time. Example: Baccarat Banker bet has an RTP of 98.94% (house edge of 1.06%). Slots have RTPs of 85-98%.",
+    category: "General Gambling"
+  },
+  {
+    term: "Volatility",
+    definition: "How much your results vary from the expected value. High-volatility games (like slots) have big wins and big losses. Low-volatility games (like baccarat) have smaller, more consistent swings.",
+    category: "General Gambling"
+  }
+];
+
+// Generate DefinedTerm schema for each term
+const glossarySchema = {
+  "@context": "https://schema.org",
+  "@graph": [
+    ...terms.map((item, index) => ({
+      "@type": "DefinedTerm",
+      "@id": `https://mikki-mase.com/glossary#${item.term.toLowerCase().replace(/\s+/g, '-').replace(/[()]/g, '')}`,
+      "name": item.term,
+      "description": item.definition,
+      "inDefinedTermSet": "https://mikki-mase.com/glossary"
+    })),
+    {
+      "@type": "DefinedTermSet",
+      "@id": "https://mikki-mase.com/glossary",
+      "name": "Mikki Mase Gambling Glossary",
+      "description": "Complete glossary of baccarat, casino, and gambling terms used by professional high-stakes players.",
+      "hasDefinedTerm": terms.map((item) => ({
+        "@type": "DefinedTerm",
+        "name": item.term,
+        "description": item.definition
+      }))
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": "https://mikki-mase.com/glossary#breadcrumb",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://mikki-mase.com/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Gambling Glossary",
+          "item": "https://mikki-mase.com/glossary"
+        }
+      ]
+    }
+  ]
+};
+
+// Group terms by category
+const categories = {
+  "Baccarat": terms.filter(t => t.category === "Baccarat"),
+  "Advantage Play": terms.filter(t => t.category === "Advantage Play"),
+  "Casino Operations": terms.filter(t => t.category === "Casino Operations"),
+  "High Roller Culture": terms.filter(t => t.category === "High Roller Culture"),
+  "Casino Enforcement": terms.filter(t => t.category === "Casino Enforcement"),
+  "Bankroll Management": terms.filter(t => t.category === "Bankroll Management"),
+  "General Gambling": terms.filter(t => t.category === "General Gambling")
+};
+---
+
+<BaseLayout
+  title="Gambling Glossary - Baccarat, Casino & High Stakes Terms | Mikki Mase"
+  description="Complete glossary of baccarat, casino, and gambling terms. Learn the language of high-stakes players: advantage play, pattern recognition, house edge, and more."
+  ogType="website"
+  schema={glossarySchema}
+>
+  <Header />
+
+  <Hero
+    eyebrow="The Language of High Stakes"
+    title="Gambling Glossary"
+    subtitle="70+ terms every serious player should know — from baccarat basics to advantage play"
+    backgroundImage="/images/mikki-main-1.webp"
+    variant="medium"
+  />
+
+  <!-- BREADCRUMBS -->
+  <div class="bg-black border-b border-gray-800">
+    <Breadcrumbs items={[
+      { label: "Home", href: "/" },
+      { label: "Glossary" }
+    ]} />
+  </div>
+
+  <main class="bg-black text-white">
+    <!-- Introduction -->
+    <section class="container py-16 md:py-24">
+      <div class="max-w-4xl mx-auto">
+        <div class="prose prose-invert prose-lg max-w-none space-y-6 text-gray-300 leading-relaxed">
+          <p>
+            Professional gambling has its own language. If you don't know the difference between a <strong class="text-white">"natural"</strong> and a <strong class="text-white">"squeeze,"</strong> or why casinos fear <strong class="text-white">"advantage play"</strong> more than cheating, you're missing critical context.
+          </p>
+          <p>
+            This glossary covers <strong class="text-white">70+ essential terms</strong> used by Mikki Mase and other high-stakes players. From baccarat rules to casino enforcement tactics, this is your complete reference guide to the world of professional gambling.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Glossary Sections -->
+    {Object.entries(categories).map(([categoryName, categoryTerms]) => (
+      <section class="container py-12 md:py-16 border-t border-gray-800">
+        <div class="max-w-4xl mx-auto">
+          <h2 class="text-3xl md:text-4xl font-black text-gold mb-10 uppercase">{categoryName}</h2>
+
+          <div class="space-y-6">
+            {categoryTerms.map((item) => (
+              <div
+                class="bg-gradient-to-br from-gray-900 to-black border border-gray-800 rounded-xl p-6 md:p-8 hover:border-gold/30 transition-colors"
+                id={item.term.toLowerCase().replace(/\s+/g, '-').replace(/[()]/g, '')}
+              >
+                <dt class="text-gold text-xl md:text-2xl font-bold mb-3">{item.term}</dt>
+                <dd class="text-gray-300 leading-relaxed text-lg" set:html={item.definition}></dd>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+    ))}
+
+    <!-- Related Pages CTA -->
+    <section class="container py-16 md:py-24 border-t border-gray-800">
+      <div class="max-w-4xl mx-auto">
+        <h2 class="text-3xl md:text-4xl font-black text-white mb-8 uppercase text-center">Learn More</h2>
+
+        <div class="grid md:grid-cols-2 gap-6">
+          <a
+            href="/the-system"
+            class="bg-gradient-to-br from-gray-900 to-black border border-gold/30 rounded-xl p-6 md:p-8 hover:border-gold transition-colors group"
+          >
+            <h3 class="text-gold text-xl font-bold mb-3 group-hover:text-gold-light transition-colors">🎯 The System</h3>
+            <p class="text-gray-300 leading-relaxed">
+              Learn Mikki's 4-step baccarat system: pattern recognition, dealer tells, and bankroll management.
+            </p>
+          </a>
+
+          <a
+            href="/banned"
+            class="bg-gradient-to-br from-gray-900 to-black border border-gold/30 rounded-xl p-6 md:p-8 hover:border-gold transition-colors group"
+          >
+            <h3 class="text-gold text-xl font-bold mb-3 group-hover:text-gold-light transition-colors">🚫 Banned From 150+ Casinos</h3>
+            <p class="text-gray-300 leading-relaxed">
+              Why Mikki is banned from every major casino in Las Vegas — and the absurd reasons they gave.
+            </p>
+          </a>
+
+          <a
+            href="/wins"
+            class="bg-gradient-to-br from-gray-900 to-black border border-gold/30 rounded-xl p-6 md:p-8 hover:border-gold transition-colors group"
+          >
+            <h3 class="text-gold text-xl font-bold mb-3 group-hover:text-gold-light transition-colors">💰 Win/Loss Record</h3>
+            <p class="text-gray-300 leading-relaxed">
+              Complete documented history of Mikki's biggest wins and losses at baccarat.
+            </p>
+          </a>
+
+          <a
+            href="/story"
+            class="bg-gradient-to-br from-gray-900 to-black border border-gold/30 rounded-xl p-6 md:p-8 hover:border-gold transition-colors group"
+          >
+            <h3 class="text-gold text-xl font-bold mb-3 group-hover:text-gold-light transition-colors">📖 The Full Story</h3>
+            <p class="text-gray-300 leading-relaxed">
+              From juvenile prison to $32 million in casino winnings — Mikki's complete life story.
+            </p>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Final CTA -->
+    <section class="container py-16 md:py-24 border-t border-gray-800">
+      <div class="max-w-3xl mx-auto text-center">
+        <h2 class="text-3xl md:text-4xl font-black text-white mb-6 uppercase">
+          Ready to Learn the Game?
+        </h2>
+        <p class="text-xl text-gray-300 mb-10 leading-relaxed">
+          Join Mikki's free Telegram community to learn baccarat strategy, get behind-the-scenes stories, and ask questions directly.
+        </p>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+          <a href="/join" class="btn btn-primary">
+            Join Free Telegram Community
+          </a>
+          <a href="/faq" class="btn btn-tertiary">
+            Read FAQ
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  /* Smooth scroll for anchor links */
+  html {
+    scroll-behavior: smooth;
+  }
+
+  /* Add subtle animation on hover */
+  dt {
+    transition: color 0.3s ease;
+  }
+
+  [id]:target {
+    scroll-margin-top: 100px;
+  }
+</style>

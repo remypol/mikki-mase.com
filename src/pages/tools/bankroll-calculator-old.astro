@@ -1,0 +1,408 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import ShareButtons from '../../components/ShareButtons.astro';
+
+const toolSchema = {
+  "@type": "WebApplication",
+  "name": "Baccarat Bankroll Calculator",
+  "applicationCategory": "FinanceApplication",
+  "operatingSystem": "Web Browser",
+  "description": "Free bankroll management calculator for baccarat players. Calculate session bankroll, stop-loss limits, and win goals.",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+  "author": { "@id": "https://mikki-mase.com/#person" }
+};
+---
+
+<BaseLayout
+  title="Baccarat Bankroll Calculator | Mikki Mase"
+  description="Calculate your optimal baccarat session bankroll, stop-loss limits, and win goals. Free tool based on professional bankroll management."
+  schema={toolSchema}
+>
+  <Header />
+  <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "Tools", href: "/tools" }, { label: "Bankroll Calculator" }]} />
+
+  <main id="main-content" class="min-h-screen bg-gradient-to-b from-red-950 via-red-900 to-black">
+    <div class="container mx-auto px-4 py-8 md:py-12">
+
+      <!-- Header -->
+      <div class="text-center mb-10">
+        <a href="/" class="inline-block mb-4">
+          <span class="text-white text-xl font-black">MIKKI</span>
+          <span class="text-gold text-xl font-black">MASE</span>
+        </a>
+        <h1 class="text-3xl md:text-4xl font-black text-white mb-2">Baccarat Bankroll Calculator</h1>
+        <p class="text-red-300/70">Professional session planning for serious players</p>
+      </div>
+
+      <!-- Baccarat Specific Note -->
+      <div class="max-w-md mx-auto mb-6 bg-gold/10 border border-gold/30 rounded-xl p-4 text-center">
+        <p class="text-gray-200 text-sm">
+          <span class="text-gold font-bold">Built for Baccarat:</span> These numbers are based on baccarat's low house edge (1.06% Banker).
+          Proper bankroll = more hands = more opportunity to catch a run.
+        </p>
+      </div>
+
+      <!-- Calculator Card -->
+      <div class="max-w-md mx-auto bg-black/40 backdrop-blur border border-red-800/50 rounded-2xl p-6 md:p-8">
+
+        <!-- Total Bankroll -->
+        <div class="mb-8">
+          <label class="block text-red-400 text-sm font-semibold mb-3 uppercase tracking-wide">
+            Total Bankroll
+          </label>
+          <div class="grid grid-cols-4 gap-2" id="bankroll-options">
+            <button class="amount-btn" data-value="1000">$1K</button>
+            <button class="amount-btn" data-value="5000">$5K</button>
+            <button class="amount-btn" data-value="10000">$10K</button>
+            <button class="amount-btn" data-value="25000">$25K</button>
+            <button class="amount-btn" data-value="50000">$50K</button>
+            <button class="amount-btn" data-value="100000">$100K</button>
+            <button class="amount-btn" data-value="250000">$250K</button>
+            <button class="amount-btn" data-value="500000">$500K</button>
+          </div>
+          <div class="mt-3">
+            <input
+              type="number"
+              id="custom-bankroll"
+              placeholder="Or enter custom amount..."
+              min="100"
+              max="10000000"
+              class="w-full bg-white/5 border border-white/20 rounded-lg py-3 px-4 text-white placeholder-white/40 focus:outline-none focus:border-gold transition-colors"
+              aria-describedby="bankroll-error"
+            />
+            <p id="bankroll-error" class="text-red-400 text-xs mt-2 hidden" role="alert"></p>
+          </div>
+        </div>
+
+        <!-- Risk Level -->
+        <div class="mb-8">
+          <label class="block text-red-400 text-sm font-semibold mb-3 uppercase tracking-wide">
+            Risk Level
+          </label>
+          <div class="grid grid-cols-3 gap-2" id="risk-options">
+            <button class="risk-btn" data-value="conservative">
+              <span class="block text-lg">🛡️</span>
+              <span class="block text-xs mt-1">Safe</span>
+            </button>
+            <button class="risk-btn selected" data-value="moderate">
+              <span class="block text-lg">⚖️</span>
+              <span class="block text-xs mt-1">Balanced</span>
+            </button>
+            <button class="risk-btn" data-value="aggressive">
+              <span class="block text-lg">🔥</span>
+              <span class="block text-xs mt-1">Aggressive</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Results (hidden until bankroll selected) -->
+        <div id="results" class="hidden">
+
+          <!-- Main Results Grid -->
+          <div class="grid grid-cols-2 gap-3 mb-6">
+            <div class="result-card">
+              <span class="result-label">Session Bankroll</span>
+              <span id="session-bankroll" class="result-value gold">$0</span>
+              <span class="result-hint">Bring to the table</span>
+            </div>
+            <div class="result-card">
+              <span class="result-label">Base Bet Unit</span>
+              <span id="bet-size" class="result-value gold">$0</span>
+              <span class="result-hint">Flat bet amount</span>
+            </div>
+            <div class="result-card">
+              <span class="result-label">Stop Loss</span>
+              <span id="stop-loss" class="result-value red">-$0</span>
+              <span class="result-hint">End session here</span>
+            </div>
+            <div class="result-card">
+              <span class="result-label">Win Goal</span>
+              <span id="win-goal" class="result-value green">+$0</span>
+              <span class="result-hint">Lock profits here</span>
+            </div>
+          </div>
+
+          <!-- Quick Stats -->
+          <div class="bg-white/5 rounded-xl p-4 mb-6">
+            <div class="flex justify-between text-sm mb-2">
+              <span class="text-white/60">Reload sessions:</span>
+              <span id="total-sessions" class="text-white font-semibold">~0</span>
+            </div>
+            <div class="flex justify-between text-sm mb-2">
+              <span class="text-white/60">Expected hands/session:</span>
+              <span id="hands-per-session" class="text-white font-semibold">~0</span>
+            </div>
+            <div class="flex justify-between text-sm">
+              <span class="text-white/60">Estimated RoR:</span>
+              <span id="risk-of-ruin" class="text-white font-semibold">0%</span>
+            </div>
+          </div>
+
+          <!-- Pro Tips -->
+          <div id="tips-box" class="bg-white/5 rounded-xl p-4 mb-6">
+            <p class="text-gold text-sm font-semibold mb-2">💡 Pro Tip</p>
+            <p id="pro-tip" class="text-white/80 text-sm"></p>
+          </div>
+
+          <!-- Reset Button -->
+          <button id="reset-btn" class="w-full py-3 bg-white/10 hover:bg-white/20 text-white font-semibold rounded-xl transition-colors">
+            Calculate Again
+          </button>
+        </div>
+
+      </div>
+
+      <!-- Share -->
+      <div class="max-w-md mx-auto mt-8 flex justify-center">
+        <ShareButtons
+          title="Baccarat Bankroll Calculator | Mikki Mase"
+          description="Calculate your optimal baccarat session bankroll, stop-loss limits, and win goals."
+          variant="compact"
+        />
+      </div>
+
+      <!-- Disclaimer -->
+      <div class="max-w-md mx-auto mt-6 text-center">
+        <p class="text-red-400/60 text-sm">
+          Bankroll management doesn't guarantee wins. Variance is real. Only play with money you can afford to lose.
+        </p>
+      </div>
+
+    </div>
+  </main>
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  .amount-btn {
+    background: rgba(255, 255, 255, 0.1);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+    color: white;
+    font-size: 14px;
+    font-weight: 700;
+    padding: 12px 8px;
+    min-height: 44px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .amount-btn:hover {
+    background: rgba(251, 191, 36, 0.2);
+    border-color: #d4a017;
+    transform: scale(1.02);
+  }
+
+  .amount-btn.selected {
+    background: #d4a017;
+    border-color: #d4a017;
+    color: black;
+  }
+
+  .risk-btn {
+    background: rgba(255, 255, 255, 0.1);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+    color: white;
+    padding: 12px 8px;
+    min-height: 44px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .risk-btn:hover {
+    background: rgba(251, 191, 36, 0.2);
+    border-color: #d4a017;
+  }
+
+  .risk-btn.selected {
+    background: rgba(251, 191, 36, 0.3);
+    border-color: #d4a017;
+  }
+
+  .result-card {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    padding: 16px;
+    text-align: center;
+  }
+
+  .result-label {
+    display: block;
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 4px;
+  }
+
+  .result-value {
+    display: block;
+    font-size: 24px;
+    font-weight: 900;
+  }
+
+  .result-value.gold { color: #eab308; }
+  .result-value.red { color: #ef4444; }
+  .result-value.green { color: #22c55e; }
+
+  .result-hint {
+    display: block;
+    color: rgba(255, 255, 255, 0.4);
+    font-size: 10px;
+    margin-top: 4px;
+  }
+</style>
+
+<script>
+  const state = {
+    bankroll: 0,
+    risk: 'moderate'
+  };
+
+  const bankrollBtns = document.querySelectorAll('#bankroll-options .amount-btn');
+  const riskBtns = document.querySelectorAll('#risk-options .risk-btn');
+  const customInput = document.getElementById('custom-bankroll') as HTMLInputElement;
+  const resultsEl = document.getElementById('results');
+  const resetBtn = document.getElementById('reset-btn');
+
+  // Bankroll selection
+  bankrollBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      bankrollBtns.forEach(b => b.classList.remove('selected'));
+      btn.classList.add('selected');
+      state.bankroll = parseInt((btn as HTMLElement).dataset.value!);
+      customInput.value = '';
+      calculate();
+    });
+  });
+
+  // Custom bankroll input with validation
+  const bankrollError = document.getElementById('bankroll-error');
+
+  customInput?.addEventListener('input', () => {
+    const val = parseInt(customInput.value);
+    const inputEl = customInput as HTMLInputElement;
+
+    // Clear previous error state
+    bankrollError?.classList.add('hidden');
+    inputEl.classList.remove('border-red-500');
+    inputEl.classList.add('border-white/20');
+
+    if (customInput.value === '') {
+      return; // Empty is fine, user cleared it
+    }
+
+    if (isNaN(val) || val < 100) {
+      bankrollError!.textContent = 'Minimum bankroll is $100';
+      bankrollError?.classList.remove('hidden');
+      inputEl.classList.remove('border-white/20');
+      inputEl.classList.add('border-red-500');
+      return;
+    }
+
+    if (val > 10000000) {
+      bankrollError!.textContent = 'Maximum bankroll is $10,000,000';
+      bankrollError?.classList.remove('hidden');
+      inputEl.classList.remove('border-white/20');
+      inputEl.classList.add('border-red-500');
+      return;
+    }
+
+    bankrollBtns.forEach(b => b.classList.remove('selected'));
+    state.bankroll = val;
+    calculate();
+  });
+
+  // Risk selection
+  riskBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      riskBtns.forEach(b => b.classList.remove('selected'));
+      btn.classList.add('selected');
+      state.risk = (btn as HTMLElement).dataset.value!;
+      if (state.bankroll > 0) calculate();
+    });
+  });
+
+  function calculate() {
+    if (state.bankroll <= 0) return;
+
+    // Professional baccarat bankroll management
+    // Session = what you bring to play a full shoe or more
+    // Bet unit = 1-2% of session for proper variance coverage
+    const configs = {
+      conservative: {
+        sessionPct: 0.20,        // 20% of roll per session - 5 sessions worth
+        betUnits: 50,            // 50 units per session
+        stopLossUnits: 30,       // Stop at -30 units
+        winGoalUnits: 20,        // Lock at +20 units
+        ruin: 3,
+        tip: "Flat bet Banker only. 50 units gives you variance protection through cold streaks. When you hit +20, lock half and play with house money."
+      },
+      moderate: {
+        sessionPct: 0.25,        // 25% of roll - 4 sessions worth
+        betUnits: 40,            // 40 units per session
+        stopLossUnits: 25,       // Stop at -25 units
+        winGoalUnits: 25,        // Lock at +25 units
+        ruin: 6,
+        tip: "Mix Banker/Player based on patterns. 40 units is enough for 2-3 shoes. Hit your win goal? Lock 50%, play aggressive with the rest."
+      },
+      aggressive: {
+        sessionPct: 0.33,        // 33% of roll - 3 sessions worth
+        betUnits: 30,            // 30 units per session
+        stopLossUnits: 20,       // Stop at -20 units
+        winGoalUnits: 30,        // Lock at +30 units
+        ruin: 12,
+        tip: "Higher variance, bigger swings. 30 units means you're pressing when hot. Catch a streak and you can double the session. Miss it and reload."
+      }
+    };
+
+    const c = configs[state.risk as keyof typeof configs];
+
+    const sessionBankroll = Math.round(state.bankroll * c.sessionPct);
+    const betSize = Math.max(25, Math.round(sessionBankroll / c.betUnits / 25) * 25); // Round to nearest $25
+    const stopLoss = betSize * c.stopLossUnits;
+    const winGoal = betSize * c.winGoalUnits;
+    const totalSessions = Math.round(1 / c.sessionPct);
+    const handsPerSession = Math.round(c.betUnits * 1.5); // Assume ~1.5 hands per unit on average with some wins
+
+    // Update display
+    (document.getElementById('session-bankroll') as HTMLElement).textContent = '$' + sessionBankroll.toLocaleString();
+    (document.getElementById('bet-size') as HTMLElement).textContent = '$' + betSize.toLocaleString();
+    (document.getElementById('stop-loss') as HTMLElement).textContent = '-$' + stopLoss.toLocaleString();
+    (document.getElementById('win-goal') as HTMLElement).textContent = '+$' + winGoal.toLocaleString();
+    (document.getElementById('total-sessions') as HTMLElement).textContent = '~' + totalSessions;
+    (document.getElementById('hands-per-session') as HTMLElement).textContent = '~' + handsPerSession;
+    (document.getElementById('risk-of-ruin') as HTMLElement).textContent = c.ruin + '%';
+    (document.getElementById('pro-tip') as HTMLElement).textContent = c.tip;
+
+    // Show results
+    resultsEl?.classList.remove('hidden');
+  }
+
+  // Reset
+  resetBtn?.addEventListener('click', () => {
+    state.bankroll = 0;
+    state.risk = 'moderate';
+
+    bankrollBtns.forEach(b => b.classList.remove('selected'));
+    riskBtns.forEach(b => b.classList.remove('selected'));
+    document.querySelector('#risk-options .risk-btn[data-value="moderate"]')?.classList.add('selected');
+    customInput.value = '';
+
+    resultsEl?.classList.add('hidden');
+  });
+</script>

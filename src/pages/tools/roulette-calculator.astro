@@ -1,0 +1,1058 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import ShareButtons from '../../components/ShareButtons.astro';
+
+const toolSchema = {
+  "@type": "WebApplication",
+  "name": "Roulette Odds Calculator",
+  "applicationCategory": "GameApplication",
+  "operatingSystem": "Web Browser",
+  "description": "Calculate roulette odds, payouts, and expected value for any bet type. Compare European vs American wheels.",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+  "author": { "@id": "https://mikki-mase.com/#person" }
+};
+---
+
+<BaseLayout
+  title="Roulette Odds Calculator | Mikki Mase"
+  description="Calculate roulette odds, payouts, and house edge for any bet type. Compare European vs American wheels."
+  schema={toolSchema}
+>
+  <Header />
+  <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "Tools", href: "/tools" }, { label: "Roulette Calculator" }]} />
+
+  <main id="main-content" class="min-h-screen bg-black">
+    <div class="container mx-auto px-4 py-8 md:py-12 max-w-7xl">
+
+      <!-- Header -->
+      <div class="text-center mb-10">
+        <h1 class="text-4xl md:text-5xl font-black text-white mb-3">Roulette Odds Calculator</h1>
+        <p class="text-gray-400 text-lg">Know your odds before you spin</p>
+      </div>
+
+      <!-- Spin Tracker - Full Width Above Calculator -->
+      <div class="mb-8 bg-gradient-to-br from-white/5 to-white/[0.02] backdrop-blur-xl border border-white/10 rounded-2xl p-6 md:p-8">
+        <div class="flex items-center justify-between mb-6">
+          <label class="text-white text-lg font-bold uppercase tracking-wide">
+            Recent Spins
+          </label>
+          <button id="clear-spins" class="text-sm text-gray-400 hover:text-white transition-colors px-4 py-2 hover:bg-white/10 rounded-lg font-semibold">
+            Clear
+          </button>
+        </div>
+
+        <!-- Casino Digital Board - Horizontal Ball Display -->
+        <div class="history-board mb-6" id="spin-display">
+          <div class="history-track">
+            <div class="history-slot empty"></div>
+            <div class="history-slot empty"></div>
+            <div class="history-slot empty"></div>
+            <div class="history-slot empty"></div>
+            <div class="history-slot empty"></div>
+            <div class="history-slot empty"></div>
+            <div class="history-slot empty"></div>
+          </div>
+        </div>
+
+        <!-- Instructions -->
+        <p class="text-gray-400 text-sm text-center mb-4">
+          Tap numbers below as they appear (most recent first)
+        </p>
+
+        <!-- Roulette Table Layout -->
+        <div class="mb-4">
+          <!-- Zero row -->
+          <div class="flex justify-center gap-1 mb-2">
+            <button class="table-num zero" data-value="0">0</button>
+            <button class="table-num zero hidden" data-value="00" id="double-zero-btn">00</button>
+          </div>
+
+          <!-- Main betting grid - 3 columns like the table -->
+          <div class="table-grid">
+            <!-- Column 3 (right side of real table) -->
+            <button class="table-num red" data-value="3">3</button>
+            <button class="table-num black" data-value="6">6</button>
+            <button class="table-num red" data-value="9">9</button>
+            <button class="table-num red" data-value="12">12</button>
+            <button class="table-num black" data-value="15">15</button>
+            <button class="table-num red" data-value="18">18</button>
+            <button class="table-num red" data-value="21">21</button>
+            <button class="table-num black" data-value="24">24</button>
+            <button class="table-num red" data-value="27">27</button>
+            <button class="table-num red" data-value="30">30</button>
+            <button class="table-num black" data-value="33">33</button>
+            <button class="table-num red" data-value="36">36</button>
+
+            <!-- Column 2 (middle) -->
+            <button class="table-num black" data-value="2">2</button>
+            <button class="table-num red" data-value="5">5</button>
+            <button class="table-num black" data-value="8">8</button>
+            <button class="table-num black" data-value="11">11</button>
+            <button class="table-num red" data-value="14">14</button>
+            <button class="table-num black" data-value="17">17</button>
+            <button class="table-num black" data-value="20">20</button>
+            <button class="table-num red" data-value="23">23</button>
+            <button class="table-num black" data-value="26">26</button>
+            <button class="table-num black" data-value="29">29</button>
+            <button class="table-num red" data-value="32">32</button>
+            <button class="table-num black" data-value="35">35</button>
+
+            <!-- Column 1 (left side of real table) -->
+            <button class="table-num red" data-value="1">1</button>
+            <button class="table-num black" data-value="4">4</button>
+            <button class="table-num red" data-value="7">7</button>
+            <button class="table-num black" data-value="10">10</button>
+            <button class="table-num black" data-value="13">13</button>
+            <button class="table-num red" data-value="16">16</button>
+            <button class="table-num red" data-value="19">19</button>
+            <button class="table-num black" data-value="22">22</button>
+            <button class="table-num red" data-value="25">25</button>
+            <button class="table-num black" data-value="28">28</button>
+            <button class="table-num black" data-value="31">31</button>
+            <button class="table-num red" data-value="34">34</button>
+          </div>
+        </div>
+
+        <!-- Pattern Analysis -->
+        <div id="spin-analysis" class="hidden">
+          <div class="bg-white/5 rounded-xl p-4 mb-3">
+            <p class="text-gold text-sm font-semibold mb-2">Pattern Analysis</p>
+            <div class="grid grid-cols-2 gap-3 text-sm">
+              <div>
+                <span class="text-gray-500">Red/Black:</span>
+                <span id="color-ratio" class="text-white ml-1">-</span>
+              </div>
+              <div>
+                <span class="text-gray-500">Odd/Even:</span>
+                <span id="odd-even-ratio" class="text-white ml-1">-</span>
+              </div>
+              <div>
+                <span class="text-gray-500">High/Low:</span>
+                <span id="high-low-ratio" class="text-white ml-1">-</span>
+              </div>
+              <div>
+                <span class="text-gray-500">Zeros:</span>
+                <span id="zero-count" class="text-white ml-1">-</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Mikki's Take -->
+          <div class="bg-gradient-to-r from-gold/20 to-gold/5 border border-gold/40 rounded-xl p-4">
+            <div class="flex items-center gap-2 mb-2">
+              <span class="text-gold text-lg">🎰</span>
+              <p class="text-gold font-bold">Mikki's Take</p>
+            </div>
+            <p id="spin-suggestion" class="text-white text-sm leading-relaxed"></p>
+          </div>
+
+          <!-- Disclaimer -->
+          <p class="text-gray-500 text-xs mt-3 text-center">
+            For entertainment only. Gamble responsibly.
+          </p>
+        </div>
+      </div>
+
+      <div class="grid lg:grid-cols-2 gap-8">
+        <!-- LEFT COLUMN: Calculator -->
+        <div class="space-y-6">
+          <!-- Wheel Type -->
+          <div class="bg-gradient-to-br from-white/5 to-white/[0.02] backdrop-blur-xl border border-white/10 rounded-2xl p-6 md:p-8">
+            <label class="block text-gray-400 text-sm font-semibold mb-4 uppercase tracking-wide">
+              Wheel Type
+            </label>
+            <div class="grid grid-cols-2 gap-4" id="wheel-options">
+              <button class="wheel-btn selected" data-value="european">
+                <span class="block text-3xl mb-2">🇪🇺</span>
+                <span class="block text-base font-bold">European</span>
+                <span class="block text-xs text-gray-500 mt-1">Single Zero (0)</span>
+                <span class="block text-gold text-xs mt-2 font-semibold">2.70% Edge</span>
+              </button>
+              <button class="wheel-btn" data-value="american">
+                <span class="block text-3xl mb-2">🇺🇸</span>
+                <span class="block text-base font-bold">American</span>
+                <span class="block text-xs text-gray-500 mt-1">Double Zero (00)</span>
+                <span class="block text-red-400 text-xs mt-2 font-semibold">5.26% Edge</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Bet Type -->
+          <div class="bg-gradient-to-br from-white/5 to-white/[0.02] backdrop-blur-xl border border-white/10 rounded-2xl p-6 md:p-8">
+            <label class="block text-gray-400 text-sm font-semibold mb-4 uppercase tracking-wide">
+              Bet Type
+            </label>
+            <div class="grid grid-cols-2 gap-3" id="bet-options">
+              <button class="bet-btn" data-value="straight">
+                <span class="bet-name">Straight Up</span>
+                <span class="bet-desc">1 number · 35:1</span>
+              </button>
+              <button class="bet-btn" data-value="split">
+                <span class="bet-name">Split</span>
+                <span class="bet-desc">2 numbers · 17:1</span>
+              </button>
+              <button class="bet-btn" data-value="street">
+                <span class="bet-name">Street</span>
+                <span class="bet-desc">3 numbers · 11:1</span>
+              </button>
+              <button class="bet-btn" data-value="corner">
+                <span class="bet-name">Corner</span>
+                <span class="bet-desc">4 numbers · 8:1</span>
+              </button>
+              <button class="bet-btn" data-value="sixline">
+                <span class="bet-name">Six Line</span>
+                <span class="bet-desc">6 numbers · 5:1</span>
+              </button>
+              <button class="bet-btn" data-value="dozen">
+                <span class="bet-name">Dozen/Column</span>
+                <span class="bet-desc">12 numbers · 2:1</span>
+              </button>
+              <button class="bet-btn selected" data-value="even">
+                <span class="bet-name">Even Money</span>
+                <span class="bet-desc">18 numbers · 1:1</span>
+              </button>
+              <button class="bet-btn" data-value="basket">
+                <span class="bet-name">Basket</span>
+                <span class="bet-desc">0,00,1,2,3 · 6:1</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Bet Amount -->
+          <div class="bg-gradient-to-br from-white/5 to-white/[0.02] backdrop-blur-xl border border-white/10 rounded-2xl p-6 md:p-8">
+            <label class="block text-gray-400 text-sm font-semibold mb-4 uppercase tracking-wide">
+              Bet Amount
+            </label>
+            <div class="grid grid-cols-4 gap-3" id="amount-options">
+              <button class="amount-btn" data-value="25">$25</button>
+              <button class="amount-btn" data-value="50">$50</button>
+              <button class="amount-btn selected" data-value="100">$100</button>
+              <button class="amount-btn" data-value="500">$500</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- RIGHT COLUMN: Results & Visualization -->
+        <div class="space-y-6">
+          <!-- Win Probability Visualization -->
+          <div class="bg-gradient-to-br from-white/5 to-white/[0.02] backdrop-blur-xl border border-white/10 rounded-2xl p-6 md:p-8">
+            <h3 class="text-white text-xl font-bold mb-6 text-center">Win Probability</h3>
+
+            <!-- Probability Chart -->
+            <div class="relative mb-6" style="height: 220px;">
+              <canvas id="probability-chart"></canvas>
+            </div>
+
+            <!-- Key Stats -->
+            <div class="grid grid-cols-2 gap-4">
+              <div class="bg-black/30 rounded-xl p-4 text-center">
+                <p class="text-gray-400 text-xs uppercase tracking-wide mb-2">Win Chance</p>
+                <p id="win-prob-display" class="text-gold text-3xl font-black">48.65%</p>
+              </div>
+              <div class="bg-black/30 rounded-xl p-4 text-center">
+                <p class="text-gray-400 text-xs uppercase tracking-wide mb-2">Payout</p>
+                <p id="payout-display" class="text-white text-3xl font-black">1:1</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Payouts -->
+          <div class="bg-gradient-to-br from-white/5 to-white/[0.02] backdrop-blur-xl border border-white/10 rounded-2xl p-6 md:p-8">
+            <h3 class="text-white text-xl font-bold mb-6">Results</h3>
+
+            <div class="space-y-3">
+              <!-- If You Win -->
+              <div class="flex justify-between items-center bg-black/30 rounded-xl p-4">
+                <span class="text-gray-400 text-sm font-semibold">If You Win</span>
+                <span id="win-amount" class="text-green-400 text-2xl font-black">+$100</span>
+              </div>
+
+              <!-- If You Lose -->
+              <div class="flex justify-between items-center bg-black/30 rounded-xl p-4">
+                <span class="text-gray-400 text-sm font-semibold">If You Lose</span>
+                <span id="lose-amount" class="text-red-400 text-2xl font-black">-$100</span>
+              </div>
+
+              <!-- House Edge -->
+              <div class="flex justify-between items-center bg-gradient-to-r from-gold/20 to-gold/5 border border-gold/30 rounded-xl p-4">
+                <span class="text-gold text-sm font-bold uppercase tracking-wide">House Edge</span>
+                <span id="house-edge" class="text-gold text-2xl font-black">2.70%</span>
+              </div>
+
+              <!-- Expected Value -->
+              <div class="flex justify-between items-center bg-gradient-to-r from-red-900/20 to-red-900/5 border border-red-500/30 rounded-xl p-4">
+                <div class="flex items-center gap-2">
+                  <span class="text-red-400 text-sm font-bold uppercase tracking-wide">Expected Value</span>
+                  <div class="group relative">
+                    <svg class="w-4 h-4 text-red-400/50 cursor-help" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                    <div class="hidden group-hover:block absolute bottom-full right-0 mb-2 w-64 px-4 py-3 bg-gray-900 border border-red-700/30 rounded-lg text-xs text-white z-10">
+                      <strong>Expected Value (EV)</strong><br/>
+                      Average $ returned per $1 bet over infinite plays.<br/>
+                      Negative EV = house always wins long-term.
+                    </div>
+                  </div>
+                </div>
+                <span id="ev" class="text-red-400 text-2xl font-black">-$2.70</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Pro Tip -->
+          <div class="bg-gradient-to-br from-gold/10 to-gold/5 border border-gold/30 rounded-2xl p-6">
+            <div class="flex items-center gap-2 mb-3">
+              <span class="text-2xl">💡</span>
+              <p class="text-gold text-sm font-bold uppercase tracking-wide">Pro Tip</p>
+            </div>
+            <p id="pro-tip" class="text-white text-sm leading-relaxed">European wheel has half the house edge of American. Always choose single-zero when available.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bet Comparison Chart -->
+      <div class="mt-8 bg-gradient-to-br from-white/5 to-white/[0.02] backdrop-blur-xl border border-white/10 rounded-2xl p-6 md:p-8">
+        <h3 class="text-white text-2xl font-bold mb-6 text-center">All Bet Types Comparison</h3>
+        <div class="relative" style="height: 300px;">
+          <canvas id="comparison-chart"></canvas>
+        </div>
+        <p class="text-gray-500 text-xs text-center mt-4">Compare win probability vs. payout for all bet types</p>
+      </div>
+
+      <!-- Share -->
+      <div class="mt-8 flex justify-center">
+        <ShareButtons
+          title="Roulette Odds Calculator | Mikki Mase"
+          description="Calculate roulette odds, payouts, and expected value for any bet type."
+          variant="compact"
+        />
+      </div>
+
+      <!-- Disclaimer -->
+      <div class="mt-6 text-center">
+        <p class="text-gray-500 text-sm">
+          Roulette is a negative EV game. The house always has an edge.
+        </p>
+      </div>
+
+    </div>
+  </main>
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  .wheel-btn {
+    background: rgba(255, 255, 255, 0.05);
+    border: 2px solid rgba(255, 255, 255, 0.15);
+    border-radius: 16px;
+    color: white;
+    padding: 20px 16px;
+    min-height: 44px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .wheel-btn:hover {
+    background: rgba(251, 191, 36, 0.1);
+    border-color: rgba(251, 191, 36, 0.5);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(251, 191, 36, 0.2);
+  }
+
+  .wheel-btn.selected {
+    background: rgba(251, 191, 36, 0.15);
+    border-color: #d4a017;
+    box-shadow: 0 0 30px rgba(251, 191, 36, 0.3);
+  }
+
+  .bet-btn {
+    background: rgba(255, 255, 255, 0.05);
+    border: 2px solid rgba(255, 255, 255, 0.15);
+    border-radius: 12px;
+    color: white;
+    padding: 12px 10px;
+    min-height: 44px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .bet-btn:hover {
+    background: rgba(251, 191, 36, 0.1);
+    border-color: rgba(251, 191, 36, 0.5);
+    transform: scale(1.05);
+  }
+
+  .bet-btn.selected {
+    background: rgba(251, 191, 36, 0.2);
+    border-color: #d4a017;
+    box-shadow: 0 0 20px rgba(251, 191, 36, 0.25);
+  }
+
+  .bet-name {
+    display: block;
+    font-size: 14px;
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+
+  .bet-desc {
+    display: block;
+    font-size: 11px;
+    color: rgba(255, 255, 255, 0.5);
+  }
+
+  .amount-btn {
+    background: rgba(255, 255, 255, 0.05);
+    border: 2px solid rgba(255, 255, 255, 0.15);
+    border-radius: 12px;
+    color: white;
+    font-size: 16px;
+    font-weight: 700;
+    padding: 14px 10px;
+    min-height: 44px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .amount-btn:hover {
+    background: rgba(251, 191, 36, 0.1);
+    border-color: rgba(251, 191, 36, 0.5);
+    transform: scale(1.05);
+  }
+
+  .amount-btn.selected {
+    background: #d4a017;
+    border-color: #d4a017;
+    color: black;
+    box-shadow: 0 0 20px rgba(212, 160, 23, 0.5);
+  }
+
+  /* Spin Tracker Styles */
+  .table-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 4px;
+    max-width: 100%;
+  }
+
+  @media (min-width: 480px) {
+    .table-grid {
+      grid-template-columns: repeat(9, 1fr);
+      gap: 3px;
+    }
+  }
+
+  @media (min-width: 640px) {
+    .table-grid {
+      grid-template-columns: repeat(12, 1fr);
+      gap: 2px;
+    }
+  }
+
+  .table-num {
+    aspect-ratio: 1;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: transform 0.1s ease, box-shadow 0.1s ease;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 40px;
+  }
+
+  @media (min-width: 480px) {
+    .table-num {
+      font-size: 12px;
+      min-height: 32px;
+      border-radius: 5px;
+    }
+  }
+
+  @media (min-width: 640px) {
+    .table-num {
+      font-size: 11px;
+      min-height: auto;
+      border-radius: 4px;
+      border-width: 1px;
+    }
+  }
+
+  .table-num:hover {
+    transform: scale(1.1);
+    z-index: 10;
+    box-shadow: 0 0 12px rgba(251, 191, 36, 0.6);
+    border-color: #d4a017;
+  }
+
+  .table-num:active {
+    transform: scale(0.95);
+    background: rgba(251, 191, 36, 0.3) !important;
+  }
+
+  .table-num.red {
+    background: linear-gradient(135deg, #dc2626, #991b1b);
+    color: white;
+  }
+
+  .table-num.black {
+    background: linear-gradient(135deg, #1f2937, #111827);
+    color: white;
+  }
+
+  .table-num.zero {
+    background: linear-gradient(135deg, #16a34a, #15803d);
+    color: white;
+    width: 48px;
+    height: 32px;
+    font-size: 14px;
+    font-weight: 800;
+    border-radius: 6px;
+  }
+
+
+  .history-board {
+    background: #1a1a1a;
+    border: 2px solid #333;
+    border-radius: 12px;
+    padding: 16px;
+  }
+
+  .history-track {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+  }
+
+  .history-slot {
+    width: 36px;
+    height: 36px;
+    min-width: 36px;
+    min-height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: 700;
+    color: white;
+    flex-shrink: 0;
+    border: 2px solid transparent;
+  }
+
+  .history-slot.empty {
+    background: transparent;
+    border: 2px solid #333;
+  }
+
+  .history-slot.red {
+    background: #e41e31;
+  }
+
+  .history-slot.black {
+    background: #1a1a1a;
+    border: 2px solid #666;
+  }
+
+  .history-slot.zero {
+    background: #0e7a3e;
+  }
+</style>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+
+<script>
+  const state = {
+    wheel: 'european',
+    bet: 'even',
+    amount: 100,
+    recentSpins: []
+  };
+
+  const redNumbers = [1, 3, 5, 7, 9, 12, 14, 16, 18, 19, 21, 23, 25, 27, 30, 32, 34, 36];
+
+  const wheelBtns = document.querySelectorAll('#wheel-options .wheel-btn');
+  const betBtns = document.querySelectorAll('#bet-options .bet-btn');
+  const amountBtns = document.querySelectorAll('#amount-options .amount-btn');
+
+  // Bet configurations: [numbers covered, payout multiplier, name]
+  const betConfigs: Record<string, [number, number, string]> = {
+    straight: [1, 35, 'Straight Up'],
+    split: [2, 17, 'Split'],
+    street: [3, 11, 'Street'],
+    corner: [4, 8, 'Corner'],
+    sixline: [6, 5, 'Six Line'],
+    dozen: [12, 2, 'Dozen'],
+    even: [18, 1, 'Even Money'],
+    basket: [5, 6, 'Basket']
+  };
+
+  let probabilityChart: any;
+  let comparisonChart: any;
+
+  // Wheel selection
+  wheelBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      wheelBtns.forEach(b => b.classList.remove('selected'));
+      btn.classList.add('selected');
+      state.wheel = (btn as HTMLElement).dataset.value!;
+      calculate();
+      updateComparisonChart();
+    });
+  });
+
+  // Bet selection
+  betBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      betBtns.forEach(b => b.classList.remove('selected'));
+      btn.classList.add('selected');
+      state.bet = (btn as HTMLElement).dataset.value!;
+      calculate();
+    });
+  });
+
+  // Amount selection
+  amountBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      amountBtns.forEach(b => b.classList.remove('selected'));
+      btn.classList.add('selected');
+      state.amount = parseInt((btn as HTMLElement).dataset.value!);
+      calculate();
+    });
+  });
+
+  function calculate() {
+    const totalSlots = state.wheel === 'european' ? 37 : 38;
+    const [numbersCovered, payoutMultiplier] = betConfigs[state.bet];
+
+    // Basket bet is only valid for American wheel
+    const actualNumbers = state.bet === 'basket' && state.wheel === 'european' ? 3 : numbersCovered;
+
+    const winProb = actualNumbers / totalSlots;
+    const loseProb = 1 - winProb;
+
+    const winAmount = state.amount * payoutMultiplier;
+    const loseAmount = state.amount;
+
+    // Expected value = (prob win × win amount) - (prob lose × lose amount)
+    const ev = (winProb * winAmount) - (loseProb * loseAmount);
+
+    // House edge
+    const houseEdge = state.wheel === 'european' ? 2.70 : 5.26;
+    // Basket bet on American has worst edge at 7.89%
+    const actualHouseEdge = state.bet === 'basket' && state.wheel === 'american' ? 7.89 : houseEdge;
+
+    // Update display
+    const winProbPct = (winProb * 100).toFixed(2);
+    (document.getElementById('win-prob-display') as HTMLElement).textContent = winProbPct + '%';
+    (document.getElementById('payout-display') as HTMLElement).textContent = payoutMultiplier + ':1';
+    (document.getElementById('win-amount') as HTMLElement).textContent = '+$' + winAmount.toLocaleString();
+    (document.getElementById('lose-amount') as HTMLElement).textContent = '-$' + loseAmount.toLocaleString();
+    (document.getElementById('house-edge') as HTMLElement).textContent = actualHouseEdge.toFixed(2) + '%';
+    (document.getElementById('ev') as HTMLElement).textContent = (ev >= 0 ? '+' : '') + '$' + ev.toFixed(2);
+
+    // Pro tips
+    const tips: Record<string, string> = {
+      european: "European wheel has 2.70% house edge vs 5.26% for American. Always choose single-zero when available.",
+      american: "American double-zero doubles the house edge to 5.26%. Find a European wheel if you can.",
+      straight: "35:1 payout looks great but you'll only win 2.7% of the time. High risk, high variance bet - perfect for chasing big wins.",
+      basket: "The basket bet has the WORST odds in roulette (7.89% house edge). Mathematically the dumbest bet on the table. Avoid entirely.",
+      even: "Even money bets give you the best chance to win (~48.6%) but smallest payout. Best for grinding and bankroll management.",
+      dozen: "Dozen/column bets balance risk and reward. 2:1 payout with ~32% win rate. Good middle-ground strategy.",
+      split: "Split bets cover 2 numbers with 17:1 payout. Slightly better odds than straight-up while maintaining high reward potential.",
+      street: "Street bets cover a row of 3 numbers. 11:1 payout with ~8% win rate. Decent balance of risk vs reward.",
+      corner: "Corner bets cover 4 numbers at 8:1. ~10% win rate makes this a solid medium-risk option.",
+      sixline: "Six line covers 6 numbers with 5:1 payout. ~16% win rate gives you reasonable action without massive risk."
+    };
+
+    let tip = tips[state.wheel];
+    if (tips[state.bet]) tip = tips[state.bet];
+
+    (document.getElementById('pro-tip') as HTMLElement).textContent = tip;
+
+    // Update probability chart
+    updateProbabilityChart(winProb, loseProb);
+  }
+
+  function updateProbabilityChart(winProb: number, loseProb: number) {
+    const ctx = (document.getElementById('probability-chart') as HTMLCanvasElement).getContext('2d');
+    if (!ctx) return;
+
+    if (probabilityChart) {
+      probabilityChart.destroy();
+    }
+
+    probabilityChart = new (window as any).Chart(ctx, {
+      type: 'doughnut',
+      data: {
+        labels: ['Win', 'Lose'],
+        datasets: [{
+          data: [(winProb * 100).toFixed(2), (loseProb * 100).toFixed(2)],
+          backgroundColor: [
+            'rgba(34, 197, 94, 0.8)',   // green for win
+            'rgba(239, 68, 68, 0.8)'     // red for lose
+          ],
+          borderColor: [
+            'rgba(34, 197, 94, 1)',
+            'rgba(239, 68, 68, 1)'
+          ],
+          borderWidth: 2
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            position: 'bottom',
+            labels: {
+              color: '#fff',
+              font: { size: 14, weight: 'bold' },
+              padding: 15
+            }
+          },
+          tooltip: {
+            backgroundColor: 'rgba(0, 0, 0, 0.9)',
+            titleColor: '#fff',
+            bodyColor: '#fff',
+            borderColor: 'rgba(251, 191, 36, 0.5)',
+            borderWidth: 1,
+            padding: 12,
+            displayColors: true,
+            callbacks: {
+              label: function(context: any) {
+                return context.label + ': ' + context.parsed + '%';
+              }
+            }
+          }
+        }
+      }
+    });
+  }
+
+  function updateComparisonChart() {
+    const ctx = (document.getElementById('comparison-chart') as HTMLCanvasElement).getContext('2d');
+    if (!ctx) return;
+
+    const totalSlots = state.wheel === 'european' ? 37 : 38;
+
+    // Calculate data for all bet types
+    const betTypes = ['straight', 'split', 'street', 'corner', 'sixline', 'dozen', 'even'];
+    const labels = betTypes.map(bet => betConfigs[bet][2]);
+    const winProbs = betTypes.map(bet => ((betConfigs[bet][0] / totalSlots) * 100).toFixed(2));
+    const payouts = betTypes.map(bet => betConfigs[bet][1]);
+
+    if (comparisonChart) {
+      comparisonChart.destroy();
+    }
+
+    comparisonChart = new (window as any).Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: labels,
+        datasets: [
+          {
+            label: 'Win Probability (%)',
+            data: winProbs,
+            backgroundColor: 'rgba(34, 197, 94, 0.7)',
+            borderColor: 'rgba(34, 197, 94, 1)',
+            borderWidth: 2,
+            yAxisID: 'y'
+          },
+          {
+            label: 'Payout Multiplier',
+            data: payouts,
+            backgroundColor: 'rgba(251, 191, 36, 0.7)',
+            borderColor: 'rgba(251, 191, 36, 1)',
+            borderWidth: 2,
+            yAxisID: 'y1'
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        interaction: {
+          mode: 'index',
+          intersect: false
+        },
+        plugins: {
+          legend: {
+            position: 'top',
+            labels: {
+              color: '#fff',
+              font: { size: 12, weight: 'bold' },
+              padding: 15
+            }
+          },
+          tooltip: {
+            backgroundColor: 'rgba(0, 0, 0, 0.9)',
+            titleColor: '#fff',
+            bodyColor: '#fff',
+            borderColor: 'rgba(251, 191, 36, 0.5)',
+            borderWidth: 1,
+            padding: 12
+          }
+        },
+        scales: {
+          x: {
+            ticks: {
+              color: '#9ca3af',
+              font: { size: 11 }
+            },
+            grid: {
+              color: 'rgba(255, 255, 255, 0.1)'
+            }
+          },
+          y: {
+            type: 'linear',
+            display: true,
+            position: 'left',
+            title: {
+              display: true,
+              text: 'Win Probability (%)',
+              color: '#22c55e',
+              font: { size: 12, weight: 'bold' }
+            },
+            ticks: {
+              color: '#9ca3af',
+              font: { size: 11 }
+            },
+            grid: {
+              color: 'rgba(255, 255, 255, 0.1)'
+            }
+          },
+          y1: {
+            type: 'linear',
+            display: true,
+            position: 'right',
+            title: {
+              display: true,
+              text: 'Payout Multiplier',
+              color: '#fbbf24',
+              font: { size: 12, weight: 'bold' }
+            },
+            ticks: {
+              color: '#9ca3af',
+              font: { size: 11 }
+            },
+            grid: {
+              drawOnChartArea: false
+            }
+          }
+        }
+      }
+    });
+  }
+
+  // Spin Tracker Functionality
+  const tableNumBtns = document.querySelectorAll('.table-num');
+  const spinDisplay = document.getElementById('spin-display');
+  const spinAnalysis = document.getElementById('spin-analysis');
+  const clearSpinsBtn = document.getElementById('clear-spins');
+  const doubleZeroBtn = document.getElementById('double-zero-btn');
+
+  function getNumberColor(num: string): 'red' | 'black' | 'zero' {
+    if (num === '0' || num === '00') return 'zero';
+    const numInt = parseInt(num);
+    return redNumbers.includes(numInt) ? 'red' : 'black';
+  }
+
+  function updateSpinDisplay() {
+    if (state.recentSpins.length === 0) {
+      spinDisplay!.innerHTML = `
+        <div class="history-track">
+          ${Array(7).fill('<div class="history-slot empty"></div>').join('')}
+        </div>
+      `;
+      spinAnalysis!.classList.add('hidden');
+      return;
+    }
+
+    // FIXED: Display spins in the order they were tapped (left to right = oldest to newest)
+    const spinHTML = state.recentSpins.map((num, index) => {
+      const color = getNumberColor(num);
+      const isFirst = index === state.recentSpins.length - 1; // Most recent is last in array
+      const opacity = index < state.recentSpins.length - 4 ?
+        (index === 0 ? 0.55 : index === 1 ? 0.7 : 0.85) : 1;
+
+      let classes = `history-slot ${color}`;
+      let style = opacity < 1 ? `opacity: ${opacity};` : '';
+
+      return `<div class="${classes}" style="${style}">${num}</div>`;
+    });
+
+    const emptySlots = 7 - state.recentSpins.length;
+    const emptyHTML = Array(emptySlots).fill('<div class="history-slot empty"></div>');
+
+    spinDisplay!.innerHTML = `
+      <div class="history-track">
+        ${spinHTML.join('')}${emptyHTML.join('')}
+      </div>
+    `;
+
+    spinAnalysis!.classList.remove('hidden');
+    analyzeSpins();
+  }
+
+  function analyzeSpins() {
+    const spins = state.recentSpins;
+
+    let reds = 0, blacks = 0, zeros = 0;
+    let odds = 0, evens = 0;
+    let highs = 0, lows = 0;
+
+    spins.forEach(spin => {
+      if (spin === '0' || spin === '00') {
+        zeros++;
+        return;
+      }
+      const num = parseInt(spin);
+
+      // Color
+      if (redNumbers.includes(num)) reds++;
+      else blacks++;
+
+      // Odd/Even
+      if (num % 2 === 1) odds++;
+      else evens++;
+
+      // High/Low
+      if (num >= 19) highs++;
+      else lows++;
+    });
+
+    // Update stats
+    (document.getElementById('color-ratio') as HTMLElement).textContent = `${reds} red / ${blacks} black`;
+    (document.getElementById('odd-even-ratio') as HTMLElement).textContent = `${odds} odd / ${evens} even`;
+    (document.getElementById('high-low-ratio') as HTMLElement).textContent = `${highs} high / ${lows} low`;
+    (document.getElementById('zero-count') as HTMLElement).textContent = `${zeros} of ${spins.length}`;
+
+    // Generate Mikki's Take
+    let suggestion = '';
+
+    // Most recent is at the end of the array
+    const mostRecent = spins[spins.length - 1];
+    const mostRecentColor = getNumberColor(mostRecent);
+
+    // Check for streaks (looking backwards from most recent)
+    let streak = 1;
+    let streakColor = mostRecentColor;
+    for (let i = spins.length - 2; i >= 0; i--) {
+      const color = getNumberColor(spins[i]);
+      if (color === streakColor && color !== 'zero') {
+        streak++;
+      } else {
+        break;
+      }
+    }
+
+    if (zeros >= 4) {
+      suggestion = "Four+ zeros already - that's wild. The odds of this are astronomical. I'm putting serious money on zero right now.";
+    } else if (zeros >= 3) {
+      suggestion = "Three zeros in " + spins.length + " spins? That's above average. Could be variance, could be opportunity. Small stake on zero.";
+    } else if (streak >= 4) {
+      suggestion = streakColor === 'red'
+        ? "Four+ reds in a row. Streaks don't 'have to' end. Ride it until it breaks, or wait for one black and bet the chop."
+        : "Four+ blacks straight. The table's locked in. Either ride it or sit out. Never bet against a streak this strong.";
+    } else if (streak >= 3) {
+      suggestion = streakColor === 'red'
+        ? "Three reds running. I'd bet red but hedge with a small black bet. Smart money manages both outcomes."
+        : "Three blacks in a row. I'm staying with black and adding a column 2 bet - heavy black numbers there.";
+    } else if (reds >= 5 && blacks <= 2) {
+      suggestion = "Red dominating. Bet red, bet high, bet odd - stack your exposure on the color that's running.";
+    } else if (blacks >= 5 && reds <= 2) {
+      suggestion = "Black is owning this wheel. Bet black, bet even, bet low - stack your action on the dark side.";
+    } else if (odds >= 5 && evens <= 2) {
+      suggestion = "Odd numbers taking over. Bet odd and look at column 1 - heavy odd presence.";
+    } else if (evens >= 5 && odds <= 2) {
+      suggestion = "Evens running the show. Bet even and consider the second dozen - loaded with even numbers.";
+    } else if (highs >= 5 && lows <= 2) {
+      suggestion = "High side (19-36) is crushing. Bet high, bet third dozen. When the high side runs, it can run for a while.";
+    } else if (lows >= 5 && highs <= 2) {
+      suggestion = "Low numbers (1-18) owning this session. Bet low and first dozen. The wheel wants to stay low.";
+    } else if (spins.length >= 4 && Math.abs(reds - blacks) <= 1) {
+      suggestion = "Perfect balance - " + reds + " red, " + blacks + " black. Look at odd/even or high/low for a tiebreaker.";
+    } else if (spins.length >= 3) {
+      suggestion = "Getting some data. Keep tracking - patterns get clearer once we hit 5-7 spins.";
+    } else {
+      suggestion = "Keep entering results. I'll give you something real once we see the board develop.";
+    }
+
+    (document.getElementById('spin-suggestion') as HTMLElement).textContent = suggestion;
+  }
+
+  // Table number click handlers
+  tableNumBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const value = (btn as HTMLElement).dataset.value!;
+
+      // FIXED: Use push instead of unshift so most recent goes to the end
+      // This way, when displayed left-to-right, it shows in the order tapped
+      state.recentSpins.push(value);
+
+      if (state.recentSpins.length > 7) {
+        state.recentSpins.shift(); // Remove oldest (first element)
+      }
+
+      updateSpinDisplay();
+    });
+  });
+
+  // Clear button
+  clearSpinsBtn?.addEventListener('click', () => {
+    state.recentSpins = [];
+    updateSpinDisplay();
+  });
+
+  // Handle double zero button visibility
+  function updateDoubleZeroBtn() {
+    if (state.wheel === 'american') {
+      doubleZeroBtn?.classList.remove('hidden');
+    } else {
+      doubleZeroBtn?.classList.add('hidden');
+      // Remove any 00 spins when switching to European
+      state.recentSpins = state.recentSpins.filter(s => s !== '00');
+      updateSpinDisplay();
+    }
+  }
+
+  // Update wheel selection handlers to also update double zero
+  wheelBtns.forEach(btn => {
+    const originalHandler = btn.onclick;
+    btn.addEventListener('click', () => {
+      updateDoubleZeroBtn();
+    });
+  });
+
+  // Initial calculation and charts
+  document.addEventListener('DOMContentLoaded', () => {
+    calculate();
+    updateComparisonChart();
+    updateDoubleZeroBtn();
+    updateSpinDisplay();
+  });
+</script>

@@ -1,0 +1,30 @@
+---
+import { LINKS } from '../../data/links';
+
+const organizationSchema = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "Mikki Mase",
+  "alternateName": "Michael David Meiterman",
+  "url": "https://mikki-mase.com",
+  "logo": "https://mikki-mase.com/favicon.svg",
+  "description": "Official website of Mikki Mase, professional gambler who won $32 million from casinos before being banned from 150+ properties worldwide.",
+  "foundingDate": "2018",
+  "founder": {
+    "@type": "Person",
+    "name": "Mikki Mase"
+  },
+  "sameAs": [
+    LINKS.social.instagram,
+    LINKS.social.tiktok,
+    LINKS.social.youtube
+  ],
+  "contactPoint": {
+    "@type": "ContactPoint",
+    "contactType": "Community",
+    "url": LINKS.telegram.url
+  }
+};
+---
+
+<script type="application/ld+json" set:html={JSON.stringify(organizationSchema)} />

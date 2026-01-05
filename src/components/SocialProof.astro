@@ -1,0 +1,83 @@
+---
+/**
+ * SocialProof Component
+ * Displays live community activity indicators
+ * - Total member count
+ * - Weekly joins
+ * - Live activity indicator
+ */
+
+interface Props {
+  totalMembers?: number;
+  weeklyJoins?: number;
+  liveCount?: number;
+  variant?: 'default' | 'compact';
+}
+
+const {
+  totalMembers = 7403,
+  weeklyJoins = 147,
+  liveCount = 12,
+  variant = 'default'
+} = Astro.props;
+---
+
+<div class={`social-proof ${variant === 'compact' ? 'compact' : ''}`}>
+  {variant === 'default' ? (
+    <div class="flex flex-col sm:flex-row items-center justify-center gap-3 md:gap-6 text-sm md:text-base">
+      <!-- Live Indicator -->
+      <div class="flex items-center gap-2 text-gray-300">
+        <span class="relative flex h-2 w-2">
+          <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-500 opacity-75"></span>
+          <span class="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
+        </span>
+        <span class="font-medium">
+          <strong class="text-white">{liveCount}</strong> active now
+        </span>
+      </div>
+
+      <!-- Separator -->
+      <span class="hidden sm:inline text-gray-600">|</span>
+
+      <!-- Weekly Joins -->
+      <div class="text-gray-300">
+        <strong class="text-white">{weeklyJoins}</strong> joined this week
+      </div>
+
+      <!-- Separator -->
+      <span class="hidden sm:inline text-gray-600">|</span>
+
+      <!-- Total Members -->
+      <div class="text-gray-300">
+        <strong class="text-gold">{totalMembers.toLocaleString()}</strong> total members
+      </div>
+    </div>
+  ) : (
+    <!-- Compact variant for use in other sections -->
+    <div class="flex items-center gap-2 text-sm text-gray-400">
+      <span class="relative flex h-1.5 w-1.5">
+        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-500 opacity-75"></span>
+        <span class="relative inline-flex rounded-full h-1.5 w-1.5 bg-green-500"></span>
+      </span>
+      <span>{liveCount} active | {weeklyJoins} joined this week</span>
+    </div>
+  )}
+</div>
+
+<style>
+  .social-proof {
+    @apply w-full;
+  }
+
+  /* Ensure animations work */
+  @keyframes ping {
+    75%, 100% {
+      transform: scale(2);
+      opacity: 0;
+    }
+  }
+
+  .animate-ping {
+    animation: ping 1s cubic-bezier(0, 0, 0.2, 1) infinite;
+  }
+</style>

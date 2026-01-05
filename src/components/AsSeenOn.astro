@@ -1,0 +1,157 @@
+---
+// As Seen On - Social proof component showing media features
+interface Props {
+  title?: string;
+  subtitle?: string;
+}
+
+const {
+  title = "As Seen On",
+  subtitle = "Featured in major podcasts and media outlets"
+} = Astro.props;
+
+// Media appearances - direct links to Mikki's interviews with video IDs for thumbnails
+// Added metadata for VideoObject schema (SEO rich results)
+const appearances = [
+  {
+    name: "Soft White Underbelly",
+    url: "https://www.youtube.com/watch?v=xtYhZiQEUnU",
+    videoId: "xtYhZiQEUnU",
+    description: "Mikki Mase tells his full story on Soft White Underbelly - from prison to winning $32 million at baccarat",
+    uploadDate: "2023-12-15",
+    duration: "PT1H23M"
+  },
+  {
+    name: "Steve-O",
+    url: "https://www.youtube.com/shorts/tzBMd58lV1o",
+    videoId: "tzBMd58lV1o",
+    description: "Mikki Mase talks gambling with Steve-O",
+    uploadDate: "2024-01-10",
+    duration: "PT1M"
+  },
+  {
+    name: "Bert Kreischer",
+    url: "https://www.youtube.com/watch?v=U2ZVZBUPuuU",
+    videoId: "U2ZVZBUPuuU",
+    description: "Mikki Mase on Bert Kreischer's podcast discussing casino wins and bans",
+    uploadDate: "2024-02-20",
+    duration: "PT45M"
+  },
+  {
+    name: "Tyler Oliveira",
+    url: "https://www.youtube.com/watch?v=gchsk1LuJbA",
+    videoId: "gchsk1LuJbA",
+    description: "Tyler Oliveira interviews Mikki Mase about his $32M gambling story",
+    uploadDate: "2024-03-15",
+    duration: "PT30M"
+  },
+  {
+    name: "NELK Boys",
+    url: "https://www.youtube.com/watch?v=SYM5CpTF9j4",
+    videoId: "SYM5CpTF9j4",
+    description: "Mikki Mase joins NELK Boys to discuss high-stakes baccarat",
+    uploadDate: "2024-04-01",
+    duration: "PT50M"
+  },
+  {
+    name: "World Poker Tour",
+    url: "https://www.youtube.com/watch?v=Q69dvB24X7c",
+    videoId: "Q69dvB24X7c",
+    description: "Mikki Mase at World Poker Tour discussing gambling strategy",
+    uploadDate: "2024-05-10",
+    duration: "PT20M"
+  },
+];
+
+// Generate VideoObject schema for rich results
+const videoSchema = {
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  "itemListElement": appearances.map((video, index) => ({
+    "@type": "ListItem",
+    "position": index + 1,
+    "item": {
+      "@type": "VideoObject",
+      "name": `Mikki Mase on ${video.name}`,
+      "description": video.description,
+      "thumbnailUrl": `https://img.youtube.com/vi/${video.videoId}/maxresdefault.jpg`,
+      "uploadDate": video.uploadDate,
+      "duration": video.duration,
+      "contentUrl": video.url,
+      "embedUrl": `https://www.youtube.com/embed/${video.videoId}`,
+      "interactionStatistic": {
+        "@type": "InteractionCounter",
+        "interactionType": { "@type": "WatchAction" },
+        "userInteractionCount": 0
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": video.name,
+        "logo": {
+          "@type": "ImageObject",
+          "url": `https://img.youtube.com/vi/${video.videoId}/default.jpg`
+        }
+      }
+    }
+  }))
+};
+---
+
+<section class="bg-black py-12 md:py-16 border-b border-gray-800">
+  <div class="container mx-auto px-6">
+    <div class="text-center mb-10">
+      <p class="text-gray-500 text-sm uppercase tracking-widest mb-2">{title}</p>
+      <p class="text-gray-400 text-base">{subtitle}</p>
+    </div>
+
+    <!-- Video Thumbnails Grid -->
+    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 max-w-6xl mx-auto">
+      {appearances.map((item) => (
+        <a
+          href={item.url}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="group relative block overflow-hidden rounded-lg border border-gray-800 hover:border-gold/50 transition-all duration-300"
+        >
+          <!-- YouTube Thumbnail - Self-hosted WebP for better performance -->
+          <div class="aspect-video relative overflow-hidden">
+            <img
+              src={`/images/yt-thumbs/${item.videoId}.webp`}
+              alt={`Mikki Mase on ${item.name}`}
+              class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+              loading="lazy"
+              decoding="async"
+            />
+            <!-- Play Button Overlay -->
+            <div class="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+              <div class="w-12 h-12 bg-red-600 rounded-full flex items-center justify-center">
+                <svg class="w-5 h-5 text-white ml-1" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M8 5v14l11-7z"/>
+                </svg>
+              </div>
+            </div>
+          </div>
+          <!-- Label -->
+          <div class="p-3 bg-gray-900">
+            <span class="text-gray-300 group-hover:text-gold text-xs md:text-sm font-semibold block truncate transition-colors">
+              {item.name}
+            </span>
+          </div>
+        </a>
+      ))}
+    </div>
+
+    <!-- Link to Media page -->
+    <div class="text-center mt-10">
+      <a href="/media" class="text-gold hover:text-gold-light text-sm font-medium inline-flex items-center gap-2 transition-colors">
+        View All Interviews
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+        </svg>
+      </a>
+    </div>
+  </div>
+
+  <!-- VideoObject Schema for SEO rich results -->
+  <script type="application/ld+json" set:html={JSON.stringify(videoSchema)} />
+</section>

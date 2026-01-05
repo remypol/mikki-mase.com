@@ -1,0 +1,873 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import Hero from '../components/Hero.astro';
+import Button from '../components/Button.astro';
+import RelatedContent from '../components/RelatedContent.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import ReadingTime from '../components/ReadingTime.astro';
+import ChapterNav from '../components/ChapterNav.astro';
+
+// Chapter Navigation Data
+const netWorthChapters = [
+  { id: "summary", title: "Net Worth Summary" },
+  { id: "timeline", title: "Wealth Timeline (1991-2026)" },
+  { id: "income-sources", title: "Income Sources Breakdown" },
+  { id: "losses", title: "Major Losses & Expenses" },
+  { id: "lifestyle", title: "Lifestyle & Assets" },
+  { id: "calculation", title: "Net Worth Calculation" },
+  { id: "sources", title: "Sources & Verification" },
+  { id: "comparison", title: "Comparison to Other Gamblers" },
+  { id: "faq", title: "Common Questions" }
+];
+
+const netWorthSchema = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Article",
+      "@id": "https://mikki-mase.com/net-worth#article",
+      "headline": "Mikki Mase Net Worth 2026: $32M Casino Wins + Business Sales",
+      "description": "Complete breakdown of Mikki Mase's estimated net worth in 2026: $32M+ casino winnings, pharmacy empire sale, business ventures, and verified financial claims.",
+      "author": {
+        "@type": "Person",
+        "name": "Mikki Mase",
+        "@id": "https://mikki-mase.com/#person"
+      },
+      "datePublished": "2025-11-21",
+      "dateModified": "2026-01-02",
+      "publisher": {
+        "@type": "Person",
+        "name": "Mikki Mase"
+      },
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://mikki-mase.com/net-worth"
+      },
+      "articleSection": "Finance",
+      "keywords": "Mikki Mase net worth, Michael David Meiterman net worth, how much money did Mikki Mase win, casino winnings, professional gambler net worth, baccarat winnings"
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://mikki-mase.com"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Net Worth",
+          "item": "https://mikki-mase.com/net-worth"
+        }
+      ]
+    }
+  ]
+};
+
+const timelineEvents = [
+  {
+    year: "1991",
+    title: "Born in New Jersey",
+    description: "Michael David Meiterman born to a middle-class family in New Jersey.",
+    wealth: "$0",
+    source: "Multiple podcast interviews"
+  },
+  {
+    year: "2006-2012",
+    title: "Incarceration Period",
+    description: "Spent approximately 6 years in juvenile detention and prison between ages 15-21 for drug-related offenses.",
+    wealth: "$0",
+    source: "Soft White Underbelly interview"
+  },
+  {
+    year: "2012-2014",
+    title: "Post-Release Struggles",
+    description: "Released from prison, lived in a halfway house, worked various jobs. Briefly homeless at one point.",
+    wealth: "<$10K",
+    source: "Soft White Underbelly, Steve-O podcast"
+  },
+  {
+    year: "2014-2018",
+    title: "Pharmacy Empire Building",
+    description: "Built network of 300+ pharmacies and rehab facilities in Florida. Exploited gaps in healthcare billing.",
+    wealth: "$1M → $10M+",
+    source: "Multiple interviews, business records"
+  },
+  {
+    year: "2018-2019",
+    title: "Business Sale",
+    description: "Sold pharmacy business empire. Exact sale price undisclosed but estimated $5M-$15M based on industry valuations.",
+    wealth: "$10M-$20M",
+    source: "Mikki's own statements"
+  },
+  {
+    year: "2019-2020",
+    title: "Professional Gambling Begins",
+    description: "Transitioned to full-time baccarat. Started betting $50K-$100K per hand at Vegas casinos.",
+    wealth: "Variable",
+    source: "Casino records, witness accounts"
+  },
+  {
+    year: "2021",
+    title: "Venetian $10M Win",
+    description: "Won over $10 million at the Venetian Las Vegas. Witnessed and verified by poker player Jake Ormand.",
+    wealth: "$20M+",
+    source: "Jake Ormand's testimony, casino sources"
+  },
+  {
+    year: "2021-2022",
+    title: "Peak Winning Period",
+    description: "Accumulated claimed $32M+ in total winnings across multiple casinos including Wynn, MGM, Bellagio.",
+    wealth: "$25M-$40M (peak)",
+    source: "Mikki's claims, casino ban documentation"
+  },
+  {
+    year: "2022",
+    title: "$8M Loss Night",
+    description: "Lost $8 million in a single night at the Wynn. Later won back $2.5M but still net negative.",
+    wealth: "-$5.5M that session",
+    source: "Mikki's detailed account, podcast interviews"
+  },
+  {
+    year: "2022-2023",
+    title: "Casino Bans Escalate",
+    description: "Banned from 150+ casinos worldwide including most major Vegas properties and international casinos.",
+    wealth: "$20M-$35M",
+    source: "Ban documentation, casino confirmations"
+  },
+  {
+    year: "2023",
+    title: "Social Media Rise",
+    description: "Gained millions of followers on Instagram. Soft White Underbelly interview goes viral with 20M+ views.",
+    wealth: "$20M-$35M",
+    source: "YouTube/Instagram analytics"
+  },
+  {
+    year: "2024",
+    title: "Sports Betting Pivot",
+    description: "Shifted to sports betting using network of 3,000+ accounts. Paid out $1.9M to community members.",
+    wealth: "$20M-$40M",
+    source: "Payout receipts, community testimony"
+  },
+  {
+    year: "2026",
+    title: "Current Status",
+    description: "Continues sports betting operation, manages free Telegram community, occasional casino play where not banned.",
+    wealth: "$20M-$40M (est.)",
+    source: "Current activity documentation"
+  }
+];
+
+const lifestyleItems = [
+  {
+    category: "Vehicles",
+    items: [
+      { name: "Mercedes-Maybach S-Class", value: "$200,000+", status: "Owned", note: "Daily driver seen in multiple videos" },
+      { name: "Lamborghini Huracán", value: "$250,000+", status: "Crashed", note: "Totaled in accident, mentioned in interviews" },
+      { name: "Various luxury rentals", value: "$5,000-$20,000/week", status: "Rented", note: "For content and travel" }
+    ]
+  },
+  {
+    category: "Travel",
+    items: [
+      { name: "Private jets", value: "$10,000-$50,000/flight", status: "Casino comps + paid", note: "Mix of casino-provided and personal" },
+      { name: "Penthouse suites", value: "$5,000-$25,000/night", status: "Casino comps", note: "Provided by casinos as RFB comp" },
+      { name: "International travel", value: "$100,000+/year", status: "Paid", note: "Playing at casinos worldwide" }
+    ]
+  },
+  {
+    category: "Lifestyle",
+    items: [
+      { name: "Designer clothing", value: "$50,000+/year", status: "Purchased", note: "Regularly seen in luxury brands" },
+      { name: "Jewelry/watches", value: "$200,000+", status: "Owned", note: "Multiple high-end timepieces" },
+      { name: "Dining/entertainment", value: "$100,000+/year", status: "Mixed", note: "Often comped by casinos" }
+    ]
+  }
+];
+
+const relatedPages = [
+  {
+    category: "Verified Proof",
+    title: "All Wins & Losses",
+    description: "Complete timeline of every documented win and loss from casinos",
+    href: "/wins"
+  },
+  {
+    category: "Background",
+    title: "Full Story",
+    description: "From prison to millions - how Mikki built his fortune",
+    href: "/story"
+  },
+  {
+    category: "Why He Wins",
+    title: "The System",
+    description: "Understanding Mikki's baccarat approach and pattern recognition",
+    href: "/the-system"
+  }
+];
+---
+
+<BaseLayout
+  title="Mikki Mase Net Worth 2026: $32M Casino Wins + Business Sales"
+  description="Complete breakdown of Mikki Mase's estimated net worth in 2026: $32M+ casino winnings, pharmacy empire sale, business ventures, and verified vs. claimed wealth. Full financial analysis with timeline and sources."
+  ogType="article"
+  schema={netWorthSchema}
+>
+  <Header />
+
+  <!-- HERO SECTION -->
+  <Hero
+    eyebrow="Financial Breakdown"
+    title="Mikki Mase Net Worth"
+    subtitle="$32M+ casino wins, pharmacy empire sale. Estimated $20M–$40M net worth."
+    backgroundImage="/images/mikki-main-2.webp"
+    variant="medium"
+  />
+
+  <!-- BREADCRUMBS -->
+  <div class="bg-black border-b border-gray-800">
+    <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "Net Worth" }]} />
+  </div>
+
+  <!-- NET WORTH CONTENT -->
+  <article class="bg-black">
+    <div class="container mx-auto px-6 py-16 md:py-24">
+      <div class="flex flex-col lg:flex-row gap-8 lg:gap-12 max-w-7xl mx-auto">
+
+        <!-- Chapter Navigation (Desktop Sidebar) -->
+        <aside class="hidden lg:block lg:w-64 flex-shrink-0">
+          <ChapterNav chapters={netWorthChapters} />
+        </aside>
+
+        <!-- Main Content -->
+        <div class="flex-1 max-w-4xl">
+
+      <!-- Reading Time -->
+      <ReadingTime words={3600} />
+
+      <!-- Quick Answer Box -->
+      <div id="summary" class="mb-16 bg-gradient-to-br from-gray-900 to-black border-2 border-gold/30 rounded-xl p-8 md:p-10">
+        <div class="text-center">
+          <p class="text-gold text-sm uppercase tracking-widest mb-3">Estimated Net Worth (2026)</p>
+          <h2 class="text-white text-4xl md:text-6xl font-black mb-4">$20M - $40M</h2>
+          <p class="text-gray-400 text-lg max-w-2xl mx-auto">
+            Based on verified casino winnings ($10M+), claimed total ($32M+), business sales (300+ pharmacies), and lifestyle indicators. Exact figure unconfirmed.
+          </p>
+        </div>
+
+        <!-- Quick Stats Grid -->
+        <div class="mt-8 grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+          <div class="bg-black/50 p-4 rounded-lg">
+            <p class="text-green-500 text-2xl font-bold">$10M+</p>
+            <p class="text-gray-500 text-sm">Verified Wins</p>
+          </div>
+          <div class="bg-black/50 p-4 rounded-lg">
+            <p class="text-gold text-2xl font-bold">$32M+</p>
+            <p class="text-gray-500 text-sm">Claimed Wins</p>
+          </div>
+          <div class="bg-black/50 p-4 rounded-lg">
+            <p class="text-red-500 text-2xl font-bold">$10M+</p>
+            <p class="text-gray-500 text-sm">Known Losses</p>
+          </div>
+          <div class="bg-black/50 p-4 rounded-lg">
+            <p class="text-blue-400 text-2xl font-bold">150+</p>
+            <p class="text-gray-500 text-sm">Casino Bans</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Intro -->
+      <div class="mb-16 md:mb-20">
+        <p class="text-gray-300 text-lg md:text-xl leading-relaxed mb-6">
+          Mikki Mase (legal name: <a href="/faq#real-name" class="text-gold hover:text-gold-light underline">Michael David Meiterman</a>) claims to have won over $32 million from casinos, sold a pharmacy empire worth millions, and built multiple successful businesses. But what's his actual net worth in 2026?
+        </p>
+        <p class="text-gray-300 text-lg md:text-xl leading-relaxed mb-6">
+          Unlike most gambling influencers who exaggerate wins, Mikki has verifiable proof for at least $10 million in casino winnings. This comprehensive page breaks down the verified, the claimed, and the estimated based on all available evidence—with sources.
+        </p>
+        <p class="text-gray-300 text-lg md:text-xl leading-relaxed">
+          We've analyzed dozens of podcast interviews, casino documentation, witness accounts, and public records to create the most accurate estimate of Mikki Mase's net worth available anywhere online.
+        </p>
+      </div>
+
+      <!-- Wealth Timeline -->
+      <section id="timeline" class="mb-16 md:mb-20">
+        <h2 class="text-white text-3xl md:text-4xl font-bold mb-4">Mikki Mase Wealth Timeline</h2>
+        <p class="text-gray-400 text-lg mb-8">From prison to millions: a chronological look at how Mikki's net worth evolved.</p>
+
+        <div class="relative">
+          <!-- Timeline Line -->
+          <div class="absolute left-4 md:left-6 top-0 bottom-0 w-0.5 bg-gradient-to-b from-gold via-gold/50 to-gold/20"></div>
+
+          <!-- Timeline Events -->
+          <div class="space-y-8">
+            {timelineEvents.map((event, index) => (
+              <div class="relative pl-12 md:pl-16">
+                <!-- Timeline Dot -->
+                <div class={`absolute left-2 md:left-4 w-4 h-4 rounded-full border-2 ${
+                  event.wealth.includes('+') && !event.wealth.includes('-') && event.wealth !== '$0'
+                    ? 'bg-green-500 border-green-400'
+                    : event.wealth.includes('-')
+                      ? 'bg-red-500 border-red-400'
+                      : 'bg-gray-600 border-gray-500'
+                }`}></div>
+
+                <div class="bg-gray-900 border border-gray-800 rounded-lg p-6 hover:border-gold/30 transition-colors">
+                  <div class="flex flex-wrap items-center gap-3 mb-2">
+                    <span class="text-gold font-bold text-lg">{event.year}</span>
+                    <span class="text-gray-600">|</span>
+                    <span class={`text-sm font-medium px-2 py-0.5 rounded ${
+                      event.wealth.includes('+') && !event.wealth.includes('-') && event.wealth !== '$0'
+                        ? 'bg-green-500/20 text-green-400'
+                        : event.wealth.includes('-')
+                          ? 'bg-red-500/20 text-red-400'
+                          : 'bg-gray-700 text-gray-400'
+                    }`}>{event.wealth}</span>
+                  </div>
+                  <h3 class="text-white text-xl font-bold mb-2">{event.title}</h3>
+                  <p class="text-gray-300 mb-3">{event.description}</p>
+                  <p class="text-gray-500 text-sm">
+                    <span class="text-gray-600">Source:</span> {event.source}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <!-- Income Sources Breakdown -->
+      <section id="income-sources" class="mb-16 md:mb-20">
+        <h2 class="text-white text-3xl md:text-4xl font-bold mb-8">Income Sources</h2>
+
+        <!-- Casino Winnings -->
+        <div class="mb-10 bg-gray-900 border-l-4 border-gold p-8 md:p-10 rounded">
+          <div class="flex items-start gap-4 mb-4">
+            <div class="flex-shrink-0">
+              <svg class="w-8 h-8 text-gold" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M4 4a2 2 0 00-2 2v4a2 2 0 002 2V6h10a2 2 0 00-2-2H4zm2 6a2 2 0 012-2h8a2 2 0 012 2v4a2 2 0 01-2 2H8a2 2 0 01-2-2v-4zm6 4a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"/>
+              </svg>
+            </div>
+            <div class="flex-1">
+              <h3 class="text-white text-2xl font-bold mb-2">Casino Winnings</h3>
+              <p class="text-gold text-xl font-bold mb-3">$32M+ (claimed) | $10M+ (verified)</p>
+              <p class="text-gray-300 text-lg leading-relaxed mb-4">
+                Mikki claims to have won $32 million total from baccarat. The verified amount is over $10 million from the Venetian alone, witnessed by professional poker player Jake Ormand. Additional documented wins at Wynn, MGM, Bellagio, and other properties bring the verified total higher.
+              </p>
+
+              <!-- Detailed Casino Breakdown -->
+              <div class="mt-6 bg-black/50 rounded-lg p-4">
+                <h4 class="text-white font-bold mb-3">Documented Casino Wins:</h4>
+                <ul class="space-y-2 text-gray-300">
+                  <li class="flex justify-between"><span>Venetian Las Vegas</span><span class="text-green-500 font-bold">$10M+ (verified)</span></li>
+                  <li class="flex justify-between"><span>Wynn Las Vegas</span><span class="text-gray-400">$5M+ (claimed)</span></li>
+                  <li class="flex justify-between"><span>MGM Grand</span><span class="text-gray-400">$3M+ (claimed)</span></li>
+                  <li class="flex justify-between"><span>Bellagio</span><span class="text-gray-400">$2M+ (claimed)</span></li>
+                  <li class="flex justify-between"><span>International casinos</span><span class="text-gray-400">$5M+ (claimed)</span></li>
+                  <li class="flex justify-between"><span>Other Vegas properties</span><span class="text-gray-400">$7M+ (claimed)</span></li>
+                </ul>
+              </div>
+
+              <p class="text-gray-400 text-base mt-4">
+                <strong>Verification status:</strong> $10M+ confirmed by witnesses | Remaining $22M+ claimed but unverified | Full breakdown on <a href="/wins" class="text-gold hover:text-gold-light underline">wins page</a>
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Pharmacy Business Sale -->
+        <div class="mb-10 bg-gray-900 border-l-4 border-green-600 p-8 md:p-10 rounded">
+          <div class="flex items-start gap-4 mb-4">
+            <div class="flex-shrink-0">
+              <svg class="w-8 h-8 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"/>
+              </svg>
+            </div>
+            <div class="flex-1">
+              <h3 class="text-white text-2xl font-bold mb-2">Pharmacy Empire Sale</h3>
+              <p class="text-green-500 text-xl font-bold mb-3">$5M - $15M (estimated)</p>
+              <p class="text-gray-300 text-lg leading-relaxed mb-4">
+                Before becoming a professional gambler, Mikki built and sold a network of 300+ pharmacies and multiple drug rehabilitation facilities in Florida. He leveraged gaps in healthcare billing and insurance systems to rapidly scale the business. He sold the entire operation in his late 20s.
+              </p>
+
+              <!-- Business Details -->
+              <div class="mt-6 bg-black/50 rounded-lg p-4">
+                <h4 class="text-white font-bold mb-3">Business Portfolio at Sale:</h4>
+                <ul class="space-y-2 text-gray-300">
+                  <li>• 300+ pharmacy locations (Florida)</li>
+                  <li>• Multiple drug rehabilitation facilities</li>
+                  <li>• Healthcare billing operations</li>
+                  <li>• Real estate holdings (some properties)</li>
+                </ul>
+              </div>
+
+              <p class="text-gray-400 text-base mt-4">
+                <strong>Verification status:</strong> Business existence confirmed via records | Sale amount unconfirmed | Based on typical pharmacy valuations ($50K-$200K each) and rehab facility values
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Sports Betting Operation -->
+        <div class="mb-10 bg-gray-900 border-l-4 border-blue-600 p-8 md:p-10 rounded">
+          <div class="flex items-start gap-4 mb-4">
+            <div class="flex-shrink-0">
+              <svg class="w-8 h-8 text-blue-500" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+              </svg>
+            </div>
+            <div class="flex-1">
+              <h3 class="text-white text-2xl font-bold mb-2">Sports Betting Network</h3>
+              <p class="text-blue-400 text-xl font-bold mb-3">$1.9M paid out (documented)</p>
+              <p class="text-gray-300 text-lg leading-relaxed mb-4">
+                After being banned from 150+ casinos worldwide, Mikki pivoted to sports betting. He operates a network of 3,000+ online sportsbook accounts managed by his team—necessary because sportsbooks limit or ban winning players just like casinos.
+              </p>
+              <p class="text-gray-300 text-lg leading-relaxed mb-4">
+                He's documented paying out over $1.9 million to community members who won using his picks and strategies, suggesting significant personal profits as well.
+              </p>
+              <p class="text-gray-400 text-base">
+                <strong>Verification status:</strong> $1.9M payout receipts shown publicly | 3,000+ accounts claimed | Operation methodology documented
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Other Ventures -->
+        <div class="bg-gray-900 border-l-4 border-gray-700 p-8 md:p-10 rounded">
+          <div class="flex items-start gap-4 mb-4">
+            <div class="flex-shrink-0">
+              <svg class="w-8 h-8 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3zM6 8a2 2 0 11-4 0 2 2 0 014 0zM16 18v-3a5.972 5.972 0 00-.75-2.906A3.005 3.005 0 0119 15v3h-3zM4.75 12.094A5.973 5.973 0 004 15v3H1v-3a3 3 0 013.75-2.906z"/>
+              </svg>
+            </div>
+            <div class="flex-1">
+              <h3 class="text-white text-2xl font-bold mb-2">Community, Media & Partnerships</h3>
+              <p class="text-gray-400 text-xl font-bold mb-3">Unknown revenue (likely minimal)</p>
+              <p class="text-gray-300 text-lg leading-relaxed mb-4">
+                Unlike most gambling influencers, Mikki doesn't monetize his community directly. His Telegram group is completely free—no membership fees, no paid tiers, no courses. YouTube channel generates some ad revenue but viewership is modest compared to his Instagram following.
+              </p>
+              <p class="text-gray-300 text-lg leading-relaxed mb-4">
+                He's endorsed Kirgo (a transparent online casino that gave him backend access) but has explicitly stated he doesn't do paid promotions for platforms he doesn't actually use and trust.
+              </p>
+              <p class="text-gray-400 text-base">
+                <strong>Verification status:</strong> Telegram community confirmed free | No course sales | Limited sponsorship deals documented
+              </p>
+            </div>
+          </div>
+        </div>
+
+      </section>
+
+      <!-- Major Expenses & Losses -->
+      <section id="losses" class="mb-16 md:mb-20">
+        <h2 class="text-white text-3xl md:text-4xl font-bold mb-4">Major Losses & Expenses</h2>
+        <p class="text-gray-400 text-lg mb-8">
+          Net worth isn't just what you win—it's what you keep. Mikki has been transparent about his losses, which is rare among gambling influencers.
+        </p>
+
+        <div class="grid md:grid-cols-2 gap-6 mb-8">
+          <!-- Major Losses -->
+          <div class="space-y-4">
+            <h3 class="text-white text-xl font-bold mb-4">Documented Losses</h3>
+
+            <div class="bg-gray-900 border border-red-900/30 p-6 rounded-lg">
+              <p class="text-red-500 text-xl font-bold mb-2">-$8,000,000</p>
+              <p class="text-white font-medium">Single Night at Wynn</p>
+              <p class="text-gray-400 text-sm">2021-2022 | Discussed in multiple podcasts</p>
+            </div>
+
+            <div class="bg-gray-900 border border-red-900/30 p-6 rounded-lg">
+              <p class="text-red-500 text-xl font-bold mb-2">-$1,500,000</p>
+              <p class="text-white font-medium">Wynn Net Loss (after recovery)</p>
+              <p class="text-gray-400 text-sm">Won back $2.5M but still net negative that trip</p>
+            </div>
+
+            <div class="bg-gray-900 border border-red-900/30 p-6 rounded-lg">
+              <p class="text-red-500 text-xl font-bold mb-2">-$938,000</p>
+              <p class="text-white font-medium">Hustler Casino Live Poker</p>
+              <p class="text-gray-400 text-sm">Verified on stream | Poker not his game</p>
+            </div>
+
+            <div class="bg-gray-900 border border-red-900/30 p-6 rounded-lg">
+              <p class="text-red-500 text-xl font-bold mb-2">-$2,000,000+</p>
+              <p class="text-white font-medium">Various Other Sessions</p>
+              <p class="text-gray-400 text-sm">Accumulated losses discussed in interviews</p>
+            </div>
+          </div>
+
+          <!-- Major Expenses -->
+          <div class="space-y-4">
+            <h3 class="text-white text-xl font-bold mb-4">Known Expenses</h3>
+
+            <div class="bg-gray-900 border border-gray-700 p-6 rounded-lg">
+              <p class="text-gray-300 text-xl font-bold mb-2">$250,000+</p>
+              <p class="text-white font-medium">Lamborghini (crashed)</p>
+              <p class="text-gray-400 text-sm">Totaled | Mentioned in interviews</p>
+            </div>
+
+            <div class="bg-gray-900 border border-gray-700 p-6 rounded-lg">
+              <p class="text-gray-300 text-xl font-bold mb-2">$200,000+</p>
+              <p class="text-white font-medium">Mercedes-Maybach S-Class</p>
+              <p class="text-gray-400 text-sm">Current daily driver</p>
+            </div>
+
+            <div class="bg-gray-900 border border-gray-700 p-6 rounded-lg">
+              <p class="text-gray-300 text-xl font-bold mb-2">$500,000+/year</p>
+              <p class="text-white font-medium">Lifestyle Expenses</p>
+              <p class="text-gray-400 text-sm">Travel, dining, entertainment (estimated)</p>
+            </div>
+
+            <div class="bg-gray-900 border border-gray-700 p-6 rounded-lg">
+              <p class="text-gray-300 text-xl font-bold mb-2">$1,900,000</p>
+              <p class="text-white font-medium">Community Payouts</p>
+              <p class="text-gray-400 text-sm">Paid to followers from sports betting wins</p>
+            </div>
+          </div>
+        </div>
+
+        <p class="text-gray-400 text-base">
+          Full wins and losses breakdown with dates available on the <a href="/wins" class="text-gold hover:text-gold-light underline">wins page</a>.
+        </p>
+      </section>
+
+      <!-- Lifestyle Breakdown -->
+      <section id="lifestyle" class="mb-16 md:mb-20">
+        <h2 class="text-white text-3xl md:text-4xl font-bold mb-4">Lifestyle & Assets</h2>
+        <p class="text-gray-400 text-lg mb-8">
+          A detailed look at Mikki's visible lifestyle, which helps estimate ongoing expenses and asset holdings.
+        </p>
+
+        <div class="space-y-8">
+          {lifestyleItems.map((category) => (
+            <div class="bg-gray-900 rounded-xl p-6 md:p-8">
+              <h3 class="text-gold text-xl font-bold mb-6">{category.category}</h3>
+              <div class="space-y-4">
+                {category.items.map((item) => (
+                  <div class="flex flex-col md:flex-row md:items-center justify-between p-4 bg-black/50 rounded-lg gap-2">
+                    <div class="flex-1">
+                      <p class="text-white font-medium">{item.name}</p>
+                      <p class="text-gray-500 text-sm">{item.note}</p>
+                    </div>
+                    <div class="flex items-center gap-3">
+                      <span class={`text-sm px-2 py-1 rounded ${
+                        item.status === 'Owned' ? 'bg-green-500/20 text-green-400' :
+                        item.status === 'Crashed' ? 'bg-red-500/20 text-red-400' :
+                        item.status === 'Casino comps' ? 'bg-gold/20 text-gold' :
+                        'bg-gray-700 text-gray-400'
+                      }`}>{item.status}</span>
+                      <span class="text-white font-bold">{item.value}</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div class="mt-8 bg-gray-900 border border-gold/20 rounded-xl p-6">
+          <h4 class="text-white font-bold mb-3">Important Note on Casino Comps</h4>
+          <p class="text-gray-300">
+            High-rolling players like Mikki receive substantial "comps" (complimentary services) from casinos, including free penthouse suites, private jets, dining, and entertainment. This is called RFB (Room, Food, Beverage). Casinos comp players based on their expected losses from gambling—Mikki betting $250K per hand would receive top-tier comp treatment. Many of his luxury experiences are casino-provided, not paid out of pocket.
+          </p>
+        </div>
+      </section>
+
+      <!-- Net Worth Calculation -->
+      <section id="calculation" class="mb-16 md:mb-20">
+        <h2 class="text-white text-3xl md:text-4xl font-bold mb-8">Estimated Net Worth Calculation</h2>
+
+        <div class="bg-gradient-to-br from-gray-900 to-black border border-gold/30 rounded-xl p-8 md:p-10">
+          <table class="w-full text-left">
+            <thead>
+              <tr class="border-b border-gray-800">
+                <th class="py-3 text-gray-400 font-medium">Category</th>
+                <th class="py-3 text-right text-gray-400 font-medium">Amount</th>
+              </tr>
+            </thead>
+            <tbody class="text-gray-300">
+              <tr class="border-b border-gray-800">
+                <td class="py-4 text-lg">Verified casino winnings</td>
+                <td class="py-4 text-lg text-right text-green-500 font-bold">+$10M - $15M</td>
+              </tr>
+              <tr class="border-b border-gray-800">
+                <td class="py-4 text-lg">Claimed additional casino winnings</td>
+                <td class="py-4 text-lg text-right text-gray-400 font-bold">+$17M - $22M</td>
+              </tr>
+              <tr class="border-b border-gray-800">
+                <td class="py-4 text-lg">Pharmacy business sale (estimated)</td>
+                <td class="py-4 text-lg text-right text-green-500 font-bold">+$5M - $15M</td>
+              </tr>
+              <tr class="border-b border-gray-800">
+                <td class="py-4 text-lg">Sports betting profits (estimated)</td>
+                <td class="py-4 text-lg text-right text-gray-400 font-bold">+$2M - $5M</td>
+              </tr>
+              <tr class="border-b border-gray-800">
+                <td class="py-4 text-lg text-red-400">Documented gambling losses</td>
+                <td class="py-4 text-lg text-right text-red-500 font-bold">-$10M - $12M</td>
+              </tr>
+              <tr class="border-b border-gray-800">
+                <td class="py-4 text-lg text-red-400">Lifestyle expenses (estimated total)</td>
+                <td class="py-4 text-lg text-right text-red-500 font-bold">-$5M - $10M</td>
+              </tr>
+              <tr class="border-b border-gray-800">
+                <td class="py-4 text-lg text-red-400">Community payouts</td>
+                <td class="py-4 text-lg text-right text-red-500 font-bold">-$1.9M</td>
+              </tr>
+              <tr class="border-t-2 border-gold/50">
+                <td class="py-4 text-xl font-bold text-white">Estimated Net Worth (2026)</td>
+                <td class="py-4 text-xl text-right text-gold font-black">$20M - $40M</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="mt-6 p-4 bg-black/50 rounded-lg">
+            <p class="text-gray-400 text-sm">
+              <strong>Methodology:</strong> This estimate combines verified figures (with sources), reasonable estimates based on industry standards, and conservative assumptions where data is unavailable. The wide range ($20M-$40M) reflects uncertainty in claimed vs. verified amounts.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Sources & Verification -->
+      <section id="sources" class="mb-16 md:mb-20">
+        <h2 class="text-white text-3xl md:text-4xl font-bold mb-8">Sources & Verification</h2>
+
+        <p class="text-gray-300 text-lg mb-8">
+          Unlike most "net worth" articles that cite no sources, we've compiled every verifiable claim with its source. Here's the evidence breakdown:
+        </p>
+
+        <div class="space-y-6">
+          <!-- Verified Claims -->
+          <div class="bg-gray-900 border-l-4 border-green-500 p-6 rounded">
+            <h3 class="text-green-400 text-xl font-bold mb-4">✓ Verified Claims</h3>
+            <ul class="space-y-3 text-gray-300">
+              <li class="flex gap-3">
+                <span class="text-green-500">•</span>
+                <span><strong>$10M+ Venetian win:</strong> Witnessed by Jake Ormand (professional poker player), corroborated by casino sources</span>
+              </li>
+              <li class="flex gap-3">
+                <span class="text-green-500">•</span>
+                <span><strong>$938K Hustler poker loss:</strong> Recorded on Hustler Casino Live stream, publicly available</span>
+              </li>
+              <li class="flex gap-3">
+                <span class="text-green-500">•</span>
+                <span><strong>150+ casino bans:</strong> Documented by multiple casino industry sources, discussed in interviews</span>
+              </li>
+              <li class="flex gap-3">
+                <span class="text-green-500">•</span>
+                <span><strong>$1.9M community payouts:</strong> Payout receipts shown publicly on social media</span>
+              </li>
+              <li class="flex gap-3">
+                <span class="text-green-500">•</span>
+                <span><strong>Pharmacy business existence:</strong> Florida business records confirm operations</span>
+              </li>
+            </ul>
+          </div>
+
+          <!-- Claimed but Unverified -->
+          <div class="bg-gray-900 border-l-4 border-yellow-500 p-6 rounded">
+            <h3 class="text-yellow-400 text-xl font-bold mb-4">○ Claimed but Unverified</h3>
+            <ul class="space-y-3 text-gray-300">
+              <li class="flex gap-3">
+                <span class="text-yellow-500">•</span>
+                <span><strong>$32M total casino winnings:</strong> Mikki's own claim across multiple interviews, partial verification only</span>
+              </li>
+              <li class="flex gap-3">
+                <span class="text-yellow-500">•</span>
+                <span><strong>$8M single night loss:</strong> Mikki's account from podcasts, no independent verification</span>
+              </li>
+              <li class="flex gap-3">
+                <span class="text-yellow-500">•</span>
+                <span><strong>300+ pharmacies:</strong> Mikki's claim, exact number unverified</span>
+              </li>
+              <li class="flex gap-3">
+                <span class="text-yellow-500">•</span>
+                <span><strong>3,000+ sports betting accounts:</strong> Mikki's claim about current operations</span>
+              </li>
+            </ul>
+          </div>
+
+          <!-- Primary Sources -->
+          <div class="bg-gray-900 border-l-4 border-blue-500 p-6 rounded">
+            <h3 class="text-blue-400 text-xl font-bold mb-4">📚 Primary Sources</h3>
+            <ul class="space-y-3 text-gray-300">
+              <li class="flex gap-3">
+                <span class="text-blue-500">•</span>
+                <span><strong>Soft White Underbelly interview</strong> (20M+ views) - Comprehensive life story</span>
+              </li>
+              <li class="flex gap-3">
+                <span class="text-blue-500">•</span>
+                <span><strong>Steve-O's Wild Ride podcast</strong> - Gambling methodology discussion</span>
+              </li>
+              <li class="flex gap-3">
+                <span class="text-blue-500">•</span>
+                <span><strong>Bert Kreischer podcast</strong> - Casino ban stories</span>
+              </li>
+              <li class="flex gap-3">
+                <span class="text-blue-500">•</span>
+                <span><strong>NELK Boys interview</strong> - Business background</span>
+              </li>
+              <li class="flex gap-3">
+                <span class="text-blue-500">•</span>
+                <span><strong>Hustler Casino Live footage</strong> - Poker session documentation</span>
+              </li>
+              <li class="flex gap-3">
+                <span class="text-blue-500">•</span>
+                <span><strong>Jake Ormand's public statements</strong> - Venetian win verification</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- Comparison to Other Gamblers -->
+      <section id="comparison" class="mb-16 md:mb-20">
+        <h2 class="text-white text-3xl md:text-4xl font-bold mb-8">How Does This Compare?</h2>
+
+        <p class="text-gray-300 text-lg leading-relaxed mb-8">
+          For context, here's how Mikki's estimated net worth compares to other famous professional gamblers:
+        </p>
+
+        <div class="space-y-4">
+          <div class="bg-gray-900 p-6 rounded-lg flex justify-between items-center">
+            <div>
+              <p class="text-white text-lg font-bold">Billy Walters (Sports Betting)</p>
+              <p class="text-gray-400">Peak net worth before legal issues</p>
+            </div>
+            <p class="text-gold text-xl font-bold">$200M+</p>
+          </div>
+
+          <div class="bg-gray-900 p-6 rounded-lg flex justify-between items-center">
+            <div>
+              <p class="text-white text-lg font-bold">Phil Ivey (Poker)</p>
+              <p class="text-gray-400">Estimated current net worth</p>
+            </div>
+            <p class="text-gold text-xl font-bold">$100M+</p>
+          </div>
+
+          <div class="bg-gray-900 p-6 rounded-lg flex justify-between items-center">
+            <div>
+              <p class="text-white text-lg font-bold">Archie Karas (Poker/Craps)</p>
+              <p class="text-gray-400">Peak holdings ($40M run)</p>
+            </div>
+            <p class="text-gold text-xl font-bold">$40M</p>
+          </div>
+
+          <div class="bg-gray-900 p-6 rounded-lg flex justify-between items-center border-2 border-gold/30">
+            <div>
+              <p class="text-white text-lg font-bold">Mikki Mase (Baccarat)</p>
+              <p class="text-gray-400">Estimated net worth (2026)</p>
+            </div>
+            <p class="text-gold text-xl font-bold">$20M - $40M</p>
+          </div>
+
+          <div class="bg-gray-900 p-6 rounded-lg flex justify-between items-center">
+            <div>
+              <p class="text-white text-lg font-bold">Don Johnson (Blackjack)</p>
+              <p class="text-gray-400">Known Atlantic City winnings</p>
+            </div>
+            <p class="text-gold text-xl font-bold">$15M+</p>
+          </div>
+
+          <div class="bg-gray-900 p-6 rounded-lg flex justify-between items-center">
+            <div>
+              <p class="text-white text-lg font-bold">MIT Blackjack Team (collective)</p>
+              <p class="text-gray-400">Total estimated winnings over years</p>
+            </div>
+            <p class="text-gold text-xl font-bold">$10M+</p>
+          </div>
+        </div>
+
+        <p class="text-gray-400 text-base mt-6">
+          If Mikki's claimed $32M in casino winnings is accurate, he would rank among the most successful individual casino players in history—and certainly the most successful at baccarat.
+        </p>
+      </section>
+
+      <!-- FAQs About Net Worth -->
+      <section id="faq" class="mb-16 md:mb-20">
+        <h2 class="text-white text-3xl md:text-4xl font-bold mb-8">Frequently Asked Questions</h2>
+
+        <div class="space-y-6">
+          <!-- FAQ 1 -->
+          <div class="bg-gray-900 p-8 rounded-lg">
+            <h3 class="text-white text-xl font-bold mb-3">Is Mikki Mase a billionaire?</h3>
+            <p class="text-gray-300 text-lg leading-relaxed">
+              No. Based on all available evidence, Mikki's estimated net worth is between $20M-$40M. While substantial—and impressive for a professional gambler—this is far from billionaire status. The billionaire claim appears to be internet exaggeration, not something Mikki himself has stated.
+            </p>
+          </div>
+
+          <!-- FAQ 2 -->
+          <div class="bg-gray-900 p-8 rounded-lg">
+            <h3 class="text-white text-xl font-bold mb-3">How much has Mikki actually won from casinos?</h3>
+            <p class="text-gray-300 text-lg leading-relaxed">
+              At minimum, $10M+ is verified from the Venetian win alone (witnessed by Jake Ormand). He claims $32M+ total across all casinos. Given his documented 150+ casino bans (casinos only ban consistent winners), lifestyle, and corroborating evidence, the truth is likely $15M-$32M in gross winnings. See the <a href="/wins" class="text-gold hover:text-gold-light underline">wins page</a> for a full breakdown.
+            </p>
+          </div>
+
+          <!-- FAQ 3 -->
+          <div class="bg-gray-900 p-8 rounded-lg">
+            <h3 class="text-white text-xl font-bold mb-3">Does Mikki make money from his community?</h3>
+            <p class="text-gray-300 text-lg leading-relaxed">
+              The Telegram community is completely free—no membership fees, no paid tiers, no courses for sale. This differentiates Mikki from most gambling influencers who monetize followers. His income appears to come primarily from actual gambling, not from selling gambling advice.
+            </p>
+          </div>
+
+          <!-- FAQ 4 -->
+          <div class="bg-gray-900 p-8 rounded-lg">
+            <h3 class="text-white text-xl font-bold mb-3">What happened to his pharmacy business money?</h3>
+            <p class="text-gray-300 text-lg leading-relaxed">
+              After selling his pharmacy empire (estimated $5M-$15M), Mikki transitioned to professional gambling. Based on his documented casino play—betting $100K-$250K per hand—much of the pharmacy sale proceeds likely became his initial gambling bankroll. This capital base allowed him to play at stakes where significant wins were possible.
+            </p>
+          </div>
+
+          <!-- FAQ 5 -->
+          <div class="bg-gray-900 p-8 rounded-lg">
+            <h3 class="text-white text-xl font-bold mb-3">Has Mikki's net worth increased or decreased recently?</h3>
+            <p class="text-gray-300 text-lg leading-relaxed">
+              With 150+ casino bans limiting his baccarat play, Mikki has pivoted to sports betting. The $1.9M in documented community payouts and ongoing betting activity suggests he's maintaining rather than growing his wealth significantly. His net worth has likely stabilized in the $20M-$40M range rather than continuing to grow at the rate it did during his peak casino years (2019-2022).
+            </p>
+          </div>
+
+          <!-- FAQ 6 -->
+          <div class="bg-gray-900 p-8 rounded-lg">
+            <h3 class="text-white text-xl font-bold mb-3">Why doesn't Mikki disclose his exact net worth?</h3>
+            <p class="text-gray-300 text-lg leading-relaxed">
+              Professional gamblers rarely disclose exact figures for several reasons: tax considerations, security concerns, maintaining betting account access (sportsbooks limit known winners), and strategic advantage. Mikki has been more transparent than most by discussing specific wins and losses, but exact totals remain private.
+            </p>
+          </div>
+        </div>
+
+        <p class="text-gray-400 text-base mt-6">
+          More questions answered on our comprehensive <a href="/faq" class="text-gold hover:text-gold-light underline">FAQ page</a>.
+        </p>
+      </section>
+
+      <!-- Bottom CTA -->
+      <div class="bg-gradient-to-br from-gray-900 to-black border-2 border-gold/30 rounded-2xl p-10 md:p-16 text-center">
+        <h3 class="text-white text-3xl md:text-4xl font-bold mb-4">Want the Full Story?</h3>
+        <p class="text-gray-300 text-lg mb-8 max-w-2xl mx-auto">
+          Learn how Mikki went from prison to winning millions, what's verified vs. claimed, and how he beat the casinos before getting banned.
+        </p>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+          <Button variant="primary" href="/story">
+            Read His Full Story
+          </Button>
+          <Button variant="secondary" href="/wins">
+            See All Wins & Losses
+          </Button>
+        </div>
+      </div>
+
+        </div><!-- End Main Content -->
+      </div><!-- End Flex Container -->
+    </div><!-- End Container -->
+  </article>
+
+  <!-- Related Content -->
+  <RelatedContent items={relatedPages} />
+
+  <Footer />
+</BaseLayout>

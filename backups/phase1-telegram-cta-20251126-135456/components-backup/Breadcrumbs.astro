@@ -1,0 +1,75 @@
+---
+interface Breadcrumb {
+  label: string;
+  href?: string;
+}
+
+interface Props {
+  items: Breadcrumb[];
+}
+
+const { items } = Astro.props;
+
+// Generate JSON-LD BreadcrumbList schema for better SEO
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": items.map((item, index) => ({
+    "@type": "ListItem",
+    "position": index + 1,
+    "name": item.label,
+    ...(item.href && { "item": `https://mikki-mase.com${item.href}` })
+  }))
+};
+---
+
+<nav aria-label="Breadcrumb" class="bg-gray-950 border-b border-gray-800">
+  <div class="container mx-auto px-6 py-3">
+    <ol class="flex items-center gap-2 text-sm flex-wrap" itemscope itemtype="https://schema.org/BreadcrumbList">
+      {items.map((item, index) => {
+        const isLast = index === items.length - 1;
+        const position = index + 1;
+        return (
+          <li
+            class="flex items-center gap-2"
+            itemprop="itemListElement"
+            itemscope
+            itemtype="https://schema.org/ListItem"
+          >
+            {!isLast && item.href ? (
+              <a
+                href={item.href}
+                itemprop="item"
+                class="text-gray-400 hover:text-gold transition-colors"
+              >
+                <span itemprop="name">{item.label}</span>
+              </a>
+            ) : (
+              <span class="text-white font-semibold" aria-current="page" itemprop="name">
+                {item.label}
+              </span>
+            )}
+            <meta itemprop="position" content={String(position)} />
+            {!isLast && (
+              <svg
+                class="w-4 h-4 text-gray-600"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M9 5l7 7-7 7"
+                />
+              </svg>
+            )}
+          </li>
+        );
+      })}
+    </ol>
+  </div>
+  <!-- JSON-LD BreadcrumbList schema for Google rich results -->
+  <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
+</nav>

@@ -1,0 +1,589 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import AnimatedStat from '../components/AnimatedStat.astro';
+
+const joinSchema = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebPage",
+      "@id": "https://mikki-mase.com/join#page",
+      "url": "https://mikki-mase.com/join",
+      "name": "Join the Mikki Mase Telegram Community - Free Access",
+      "description": "Get free access to Mikki Mase's Telegram community. Free guides, cheatsheets, pattern recognition tools, and direct access to behind-the-scenes stories.",
+      "isPartOf": {
+        "@id": "https://mikki-mase.com/#website"
+      },
+      "about": {
+        "@id": "https://mikki-mase.com/#person"
+      },
+      "inLanguage": "en-US"
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://mikki-mase.com"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Join",
+          "item": "https://mikki-mase.com/join"
+        }
+      ]
+    }
+  ]
+};
+---
+
+<BaseLayout
+  title="Join the Mikki Mase Telegram Community - Free Access"
+  description="Get free access to Mikki Mase's Telegram community. Free guides, cheatsheets, pattern recognition tools, and direct access to behind-the-scenes stories."
+  schema={joinSchema}
+>
+  <Header />
+
+  <!-- HERO SECTION - Animated Background -->
+  <section class="relative bg-gradient-to-br from-black via-gray-900 to-black py-12 md:py-32 overflow-hidden min-h-[75vh] md:min-h-0 flex items-center">
+    <!-- Animated gradient overlay -->
+    <div class="absolute inset-0 opacity-30">
+      <div class="absolute inset-0 bg-gradient-to-r from-gold/20 via-transparent to-gold/20 animate-pulse"></div>
+    </div>
+
+    <!-- Dot pattern -->
+    <div class="absolute inset-0 opacity-5">
+      <div class="absolute inset-0" style="background-image: radial-gradient(circle at 2px 2px, #CFB53B 1px, transparent 0); background-size: 40px 40px;"></div>
+    </div>
+
+    <div class="container mx-auto px-6 relative z-10">
+      <div class="max-w-4xl mx-auto text-center">
+        <!-- Live Badge -->
+        <div class="inline-flex items-center gap-2 px-4 py-2 bg-red-bright/20 border border-red-bright/50 rounded-full mb-4 md:mb-8 animate-pulse">
+          <div class="w-2 h-2 bg-red-bright rounded-full animate-ping"></div>
+          <span class="text-red-bright text-sm font-bold uppercase tracking-wider">LIVE Community</span>
+        </div>
+
+        <h1 class="text-white text-4xl md:text-7xl font-black mb-4 md:mb-6 leading-tight">
+          Join the <span class="text-gold">Mikki Mase</span> Community
+        </h1>
+
+        <p class="text-gray-300 text-lg md:text-2xl leading-relaxed mb-6 md:mb-10 max-w-3xl mx-auto">
+          Get free access to exclusive strategies, behind-the-scenes stories, and direct connection with the legend who won <span class="text-gold font-bold">$32M+</span> and got banned from <span class="text-red-400 font-bold">150+ casinos</span>.
+        </p>
+
+        <!-- Primary CTA -->
+        <a
+          href="https://bit.ly/mikkilandingspage"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="cta-button inline-flex items-center gap-3 px-8 md:px-12 py-4 md:py-6 bg-red-bright text-white text-lg md:text-2xl font-bold rounded-2xl hover:scale-105 hover:shadow-2xl transition-all duration-300 mb-4 md:mb-6"
+        >
+          <svg class="w-6 h-6 md:w-8 md:h-8" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69.01-.03.01-.14-.07-.2-.08-.06-.19-.04-.27-.02-.12.03-1.99 1.27-5.61 3.72-.53.36-1.01.54-1.44.53-.47-.01-1.38-.27-2.06-.49-.83-.27-1.49-.42-1.43-.88.03-.24.37-.49.99-.74 3.89-1.69 6.48-2.81 7.77-3.35 3.7-1.54 4.47-1.81 4.97-1.82.11 0 .36.03.52.16.14.11.17.26.19.37.01.08.03.29.01.45z"/>
+          </svg>
+          Join Free on Telegram
+        </a>
+
+        <p class="text-gray-500 text-sm">
+          No credit card. No hidden costs. 100% free forever.
+        </p>
+      </div>
+    </div>
+
+    <!-- Scroll indicator -->
+    <div class="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce">
+      <svg class="w-6 h-6 text-gold/50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
+      </svg>
+    </div>
+  </section>
+
+  <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "Join" }]} />
+
+  <!-- LIVE STATS SECTION -->
+  <section class="bg-black py-20 md:py-24">
+    <div class="container mx-auto px-6">
+      <div class="max-w-6xl mx-auto">
+        <div class="text-center mb-16">
+          <h2 class="text-white text-3xl md:text-4xl font-bold mb-4">
+            Join 7,403 Members Worldwide
+          </h2>
+          <p class="text-gray-400 text-lg">
+            Real-time community statistics
+          </p>
+        </div>
+
+        <!-- Animated Stats Grid -->
+        <div class="grid md:grid-cols-3 gap-6">
+          <AnimatedStat
+            value={7403}
+            label="Community Members"
+            format="number"
+            gradient="gold"
+            delay={0}
+            icon='<svg class="w-full h-full" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" /></svg>'
+          />
+
+          <AnimatedStat
+            value={147}
+            label="Joined This Week"
+            format="number"
+            gradient="green"
+            delay={150}
+            icon='<svg class="w-full h-full" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z" /></svg>'
+          />
+
+          <AnimatedStat
+            value={2487}
+            label="Strategy Posts"
+            format="number"
+            gradient="blue"
+            delay={300}
+            icon='<svg class="w-full h-full" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>'
+          />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BENEFITS SECTION -->
+  <section class="bg-gradient-to-b from-black to-gray-900 py-20 md:py-32">
+    <div class="container mx-auto px-6">
+      <div class="max-w-6xl mx-auto">
+        <div class="text-center mb-16">
+          <h2 class="text-white text-3xl md:text-5xl font-bold mb-6">
+            What You Get Inside
+          </h2>
+          <p class="text-gray-300 text-lg md:text-xl leading-relaxed max-w-3xl mx-auto">
+            No paywalls, no upsells—just real insights from the man who cracked the code. New here? Read <a href="/story" class="text-gold hover:text-gold-light underline">The Story</a> or check the <a href="/faq" class="text-gold hover:text-gold-light underline">FAQ</a> first.
+          </p>
+        </div>
+
+        <!-- Glassmorphism Benefits Grid -->
+        <div class="grid md:grid-cols-2 gap-6 mb-16">
+          <!-- Benefit 1 -->
+          <div class="benefit-card observe-once bg-gradient-to-br from-white/5 to-white/[0.02] backdrop-blur-xl border border-white/10 rounded-2xl p-8 hover:border-gold/50 transition-all duration-300">
+            <div class="w-14 h-14 rounded-xl bg-gold/10 border-2 border-gold flex items-center justify-center mb-6">
+              <svg class="w-7 h-7 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+              </svg>
+            </div>
+            <h3 class="text-white text-2xl font-bold mb-4">Pattern Recognition Tools</h3>
+            <p class="text-gray-400 text-lg leading-relaxed">
+              Learn the same pattern recognition systems Mikki uses at high-stakes tables. Downloadable cheatsheets, betting progression charts, and reference materials you can use in real-time.
+            </p>
+          </div>
+
+          <!-- Benefit 2 -->
+          <div class="benefit-card observe-once bg-gradient-to-br from-white/5 to-white/[0.02] backdrop-blur-xl border border-white/10 rounded-2xl p-8 hover:border-gold/50 transition-all duration-300">
+            <div class="w-14 h-14 rounded-xl bg-gold/10 border-2 border-gold flex items-center justify-center mb-6">
+              <svg class="w-7 h-7 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+              </svg>
+            </div>
+            <h3 class="text-white text-2xl font-bold mb-4">Step-by-Step Strategy Guides</h3>
+            <p class="text-gray-400 text-lg leading-relaxed">
+              Complete breakdowns of baccarat strategy, bankroll management, and risk mitigation. Learn the same approaches Mikki uses at high-stakes tables.
+            </p>
+          </div>
+
+          <!-- Benefit 3 -->
+          <div class="benefit-card observe-once bg-gradient-to-br from-white/5 to-white/[0.02] backdrop-blur-xl border border-white/10 rounded-2xl p-8 hover:border-gold/50 transition-all duration-300">
+            <div class="w-14 h-14 rounded-xl bg-gold/10 border-2 border-gold flex items-center justify-center mb-6">
+              <svg class="w-7 h-7 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
+              </svg>
+            </div>
+            <h3 class="text-white text-2xl font-bold mb-4">Behind-the-Scenes Stories</h3>
+            <p class="text-gray-400 text-lg leading-relaxed">
+              Real-time updates from casino floors, high-roller rooms, and private games. Hear the stories that never make it to social media—straight from Mikki himself.
+            </p>
+          </div>
+
+          <!-- Benefit 4 -->
+          <div class="benefit-card observe-once bg-gradient-to-br from-white/5 to-white/[0.02] backdrop-blur-xl border border-white/10 rounded-2xl p-8 hover:border-gold/50 transition-all duration-300">
+            <div class="w-14 h-14 rounded-xl bg-gold/10 border-2 border-gold flex items-center justify-center mb-6">
+              <svg class="w-7 h-7 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+              </svg>
+            </div>
+            <h3 class="text-white text-2xl font-bold mb-4">Live Session Updates</h3>
+            <p class="text-gray-400 text-lg leading-relaxed">
+              Get notified when Mikki goes live at the tables. Watch strategies unfold in real-time, ask questions during sessions, and learn from live gameplay decisions.
+            </p>
+          </div>
+
+          <!-- Benefit 5 -->
+          <div class="benefit-card observe-once bg-gradient-to-br from-white/5 to-white/[0.02] backdrop-blur-xl border border-white/10 rounded-2xl p-8 hover:border-gold/50 transition-all duration-300">
+            <div class="w-14 h-14 rounded-xl bg-gold/10 border-2 border-gold flex items-center justify-center mb-6">
+              <svg class="w-7 h-7 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+              </svg>
+            </div>
+            <h3 class="text-white text-2xl font-bold mb-4">Active Community Forum</h3>
+            <p class="text-gray-400 text-lg leading-relaxed">
+              Connect with 10,000+ serious players worldwide. Share strategies, discuss patterns, learn from each other's wins and losses. This is not a lecture—it's a conversation.
+            </p>
+          </div>
+
+          <!-- Benefit 6 -->
+          <div class="benefit-card observe-once bg-gradient-to-br from-white/5 to-white/[0.02] backdrop-blur-xl border border-white/10 rounded-2xl p-8 hover:border-gold/50 transition-all duration-300">
+            <div class="w-14 h-14 rounded-xl bg-gold/10 border-2 border-gold flex items-center justify-center mb-6">
+              <svg class="w-7 h-7 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636" />
+              </svg>
+            </div>
+            <h3 class="text-white text-2xl font-bold mb-4">No Courses to Buy</h3>
+            <p class="text-gray-400 text-lg leading-relaxed">
+              Unlike other "gambling gurus," Mikki doesn't sell courses, coaching, or masterclasses. Everything is free. If someone claims to sell Mikki's course, they're scamming you.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SOCIAL PROOF SECTION -->
+  <section class="bg-gray-900 py-20 md:py-24">
+    <div class="container mx-auto px-6">
+      <div class="max-w-6xl mx-auto">
+        <div class="text-center mb-16">
+          <h2 class="text-white text-3xl md:text-4xl font-bold mb-4">
+            What Members Are Saying
+          </h2>
+          <p class="text-gray-400 text-lg">
+            Real feedback from the community
+          </p>
+        </div>
+
+        <!-- Testimonials Grid -->
+        <div class="grid md:grid-cols-2 gap-6 mb-16">
+          <div class="observe-once bg-gradient-to-br from-white/5 to-white/[0.02] backdrop-blur-xl border border-white/10 rounded-2xl p-8">
+            <div class="flex items-start gap-4 mb-4">
+              <div class="flex-shrink-0 w-12 h-12 rounded-full bg-gold/20 border-2 border-gold flex items-center justify-center">
+                <span class="text-gold font-bold">JM</span>
+              </div>
+              <div>
+                <p class="text-white font-bold">James M.</p>
+                <p class="text-gray-500 text-sm">Member since 2023</p>
+              </div>
+            </div>
+            <p class="text-gray-300 leading-relaxed">
+              "I've been in gambling communities before, but this is different. Mikki actually shares real strategies that work. No BS, no upsells. Just pure value."
+            </p>
+          </div>
+
+          <div class="observe-once bg-gradient-to-br from-white/5 to-white/[0.02] backdrop-blur-xl border border-white/10 rounded-2xl p-8">
+            <div class="flex items-start gap-4 mb-4">
+              <div class="flex-shrink-0 w-12 h-12 rounded-full bg-gold/20 border-2 border-gold flex items-center justify-center">
+                <span class="text-gold font-bold">SC</span>
+              </div>
+              <div>
+                <p class="text-white font-bold">Sarah C.</p>
+                <p class="text-gray-500 text-sm">Member since 2024</p>
+              </div>
+            </div>
+            <p class="text-gray-300 leading-relaxed">
+              "The pattern recognition tools helped me understand the game at a much deeper level. I learned so much about strategy and bankroll management. Worth every minute."
+            </p>
+          </div>
+
+          <div class="observe-once bg-gradient-to-br from-white/5 to-white/[0.02] backdrop-blur-xl border border-white/10 rounded-2xl p-8">
+            <div class="flex items-start gap-4 mb-4">
+              <div class="flex-shrink-0 w-12 h-12 rounded-full bg-gold/20 border-2 border-gold flex items-center justify-center">
+                <span class="text-gold font-bold">DK</span>
+              </div>
+              <div>
+                <p class="text-white font-bold">David K.</p>
+                <p class="text-gray-500 text-sm">Member since 2023</p>
+              </div>
+            </div>
+            <p class="text-gray-300 leading-relaxed">
+              "I was skeptical at first—most gambling 'experts' are full of it. But Mikki's transparency and willingness to share real strategies is refreshing. The community is incredible."
+            </p>
+          </div>
+
+          <div class="observe-once bg-gradient-to-br from-white/5 to-white/[0.02] backdrop-blur-xl border border-white/10 rounded-2xl p-8">
+            <div class="flex items-start gap-4 mb-4">
+              <div class="flex-shrink-0 w-12 h-12 rounded-full bg-gold/20 border-2 border-gold flex items-center justify-center">
+                <span class="text-gold font-bold">RL</span>
+              </div>
+              <div>
+                <p class="text-white font-bold">Robert L.</p>
+                <p class="text-gray-500 text-sm">Member since 2022</p>
+              </div>
+            </div>
+            <p class="text-gray-300 leading-relaxed">
+              "Best part? It's completely free. No hidden fees, no 'premium tiers.' Mikki genuinely wants to share what he's learned. Respect."
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ SECTION -->
+  <section class="bg-black py-20 md:py-32">
+    <div class="container mx-auto px-6">
+      <div class="max-w-4xl mx-auto">
+        <div class="text-center mb-16">
+          <h2 class="text-white text-3xl md:text-5xl font-bold mb-6">
+            Frequently Asked Questions
+          </h2>
+          <p class="text-gray-400 text-lg">
+            Everything you need to know before joining
+          </p>
+        </div>
+
+        <!-- FAQ Accordion -->
+        <div class="space-y-4">
+          <details class="faq-item observe-once group bg-gradient-to-br from-white/5 to-white/[0.02] backdrop-blur-xl border border-white/10 rounded-2xl overflow-hidden hover:border-gold/50 transition-all duration-300">
+            <summary class="cursor-pointer px-8 py-6 text-white text-xl font-bold flex items-center justify-between">
+              <span>Is the community really free?</span>
+              <svg class="w-6 h-6 transition-transform group-open:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+              </svg>
+            </summary>
+            <div class="px-8 pb-6 text-gray-400 text-lg leading-relaxed">
+              Yes, 100% free. No credit card, no trial period, no "premium tiers." Mikki doesn't sell courses or coaching. Everything is shared freely in the Telegram group.
+            </div>
+          </details>
+
+          <details class="faq-item observe-once group bg-gradient-to-br from-white/5 to-white/[0.02] backdrop-blur-xl border border-white/10 rounded-2xl overflow-hidden hover:border-gold/50 transition-all duration-300">
+            <summary class="cursor-pointer px-8 py-6 text-white text-xl font-bold flex items-center justify-between">
+              <span>What makes this different from other gambling communities?</span>
+              <svg class="w-6 h-6 transition-transform group-open:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+              </svg>
+            </summary>
+            <div class="px-8 pb-6 text-gray-400 text-lg leading-relaxed">
+              Mikki has a proven $32M+ win record and 150+ casino bans to back it up. This isn't theory—it's battle-tested strategy from someone who's actually done it at the highest levels.
+            </div>
+          </details>
+
+          <details class="faq-item observe-once group bg-gradient-to-br from-white/5 to-white/[0.02] backdrop-blur-xl border border-white/10 rounded-2xl overflow-hidden hover:border-gold/50 transition-all duration-300">
+            <summary class="cursor-pointer px-8 py-6 text-white text-xl font-bold flex items-center justify-between">
+              <span>Do I need to be an experienced gambler?</span>
+              <svg class="w-6 h-6 transition-transform group-open:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+              </svg>
+            </summary>
+            <div class="px-8 pb-6 text-gray-400 text-lg leading-relaxed">
+              No. The community welcomes everyone—from complete beginners to seasoned high-rollers. Mikki breaks down strategies in ways anyone can understand and apply.
+            </div>
+          </details>
+
+          <details class="faq-item observe-once group bg-gradient-to-br from-white/5 to-white/[0.02] backdrop-blur-xl border border-white/10 rounded-2xl overflow-hidden hover:border-gold/50 transition-all duration-300">
+            <summary class="cursor-pointer px-8 py-6 text-white text-xl font-bold flex items-center justify-between">
+              <span>Will Mikki respond to my questions?</span>
+              <svg class="w-6 h-6 transition-transform group-open:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+              </svg>
+            </summary>
+            <div class="px-8 pb-6 text-gray-400 text-lg leading-relaxed">
+              Mikki is active in the group and regularly answers questions, shares updates, and engages with the community. It's not just a broadcast channel—it's a real conversation.
+            </div>
+          </details>
+
+          <details class="faq-item observe-once group bg-gradient-to-br from-white/5 to-white/[0.02] backdrop-blur-xl border border-white/10 rounded-2xl overflow-hidden hover:border-gold/50 transition-all duration-300">
+            <summary class="cursor-pointer px-8 py-6 text-white text-xl font-bold flex items-center justify-between">
+              <span>What if someone tries to sell me a course?</span>
+              <svg class="w-6 h-6 transition-transform group-open:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+              </svg>
+            </summary>
+            <div class="px-8 pb-6 text-gray-400 text-lg leading-relaxed">
+              Report them immediately. Mikki doesn't sell courses, coaching, or any paid products. If someone claims to sell "Mikki's course," they're running a scam. Everything is free.
+            </div>
+          </details>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FINAL CTA SECTION -->
+  <section class="bg-gradient-to-br from-gray-900 via-black to-gray-900 py-20 md:py-32 relative overflow-hidden">
+    <!-- Animated background -->
+    <div class="absolute inset-0 opacity-20">
+      <div class="absolute inset-0 bg-gradient-to-r from-gold/20 via-transparent to-gold/20 animate-pulse"></div>
+    </div>
+
+    <div class="container mx-auto px-6 relative z-10">
+      <div class="max-w-4xl mx-auto text-center">
+        <div class="inline-flex items-center gap-2 px-4 py-2 bg-green-500/20 border border-green-500/50 rounded-full mb-8">
+          <div class="w-2 h-2 bg-green-500 rounded-full"></div>
+          <span class="text-green-400 text-sm font-bold uppercase tracking-wider">Ready to Join?</span>
+        </div>
+
+        <h2 class="text-white text-4xl md:text-6xl font-black mb-6 leading-tight">
+          Your Seat is Waiting
+        </h2>
+
+        <p class="text-gray-300 text-xl md:text-2xl leading-relaxed mb-12 max-w-3xl mx-auto">
+          Click below to join 10,000+ members learning the strategies that won <span class="text-gold font-bold">$32M+</span>. No credit card. No catch. 100% free.
+        </p>
+
+        <!-- Final CTA Button -->
+        <a
+          href="https://bit.ly/mikkilandingspage"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="cta-button inline-flex items-center gap-3 px-12 py-6 bg-red-bright text-white text-xl md:text-2xl font-bold rounded-2xl hover:scale-105 hover:shadow-2xl transition-all duration-300 mb-8"
+        >
+          <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69.01-.03.01-.14-.07-.2-.08-.06-.19-.04-.27-.02-.12.03-1.99 1.27-5.61 3.72-.53.36-1.01.54-1.44.53-.47-.01-1.38-.27-2.06-.49-.83-.27-1.49-.42-1.43-.88.03-.24.37-.49.99-.74 3.89-1.69 6.48-2.81 7.77-3.35 3.7-1.54 4.47-1.81 4.97-1.82.11 0 .36.03.52.16.14.11.17.26.19.37.01.08.03.29.01.45z"/>
+          </svg>
+          Join Telegram Community
+        </a>
+
+        <div class="flex flex-wrap justify-center items-center gap-8 text-gray-500 text-sm">
+          <div class="flex items-center gap-2">
+            <svg class="w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+            </svg>
+            <span>No Credit Card</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <svg class="w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+            </svg>
+            <span>Free Forever</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <svg class="w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+            </svg>
+            <span>10,000+ Members</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SOCIAL MEDIA SECTION -->
+  <section class="bg-black py-16 md:py-20 border-t border-gray-800">
+    <div class="container mx-auto px-6">
+      <div class="max-w-4xl mx-auto text-center">
+        <h3 class="text-white text-2xl font-bold mb-8">Follow Mikki on Social Media</h3>
+        <div class="flex flex-wrap justify-center gap-6">
+          <a
+            href="https://www.youtube.com/@Mikki_Mase"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="social-link flex items-center gap-3 px-6 py-4 bg-gray-900 hover:bg-gray-800 text-white rounded-xl transition-all duration-300 hover:scale-105"
+          >
+            <svg class="w-6 h-6 text-red-500" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+            </svg>
+            <span class="font-semibold">YouTube</span>
+          </a>
+
+          <a
+            href="https://www.instagram.com/mikki_mase_community"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="social-link flex items-center gap-3 px-6 py-4 bg-gray-900 hover:bg-gray-800 text-white rounded-xl transition-all duration-300 hover:scale-105"
+          >
+            <svg class="w-6 h-6 text-pink-500" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+            </svg>
+            <span class="font-semibold">Instagram</span>
+          </a>
+
+          <a
+            href="https://www.facebook.com/mikkimasecommunity"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="social-link flex items-center gap-3 px-6 py-4 bg-gray-900 hover:bg-gray-800 text-white rounded-xl transition-all duration-300 hover:scale-105"
+          >
+            <svg class="w-6 h-6 text-blue-500" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+            </svg>
+            <span class="font-semibold">Facebook</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  .bg-red-bright {
+    background-color: #A8001E;
+  }
+
+  .cta-button {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .cta-button::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.1);
+    transform: translate(-50%, -50%);
+    transition: width 0.6s, height 0.6s;
+  }
+
+  .cta-button:hover::before {
+    width: 300px;
+    height: 300px;
+  }
+
+  .cta-button:hover {
+    background-color: #8B0015;
+  }
+
+  /* FAQ smooth accordion */
+  details[open] summary {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    margin-bottom: 1rem;
+  }
+
+  /* Benefit card entrance animation */
+  .benefit-card {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .benefit-card.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* FAQ entrance animation */
+  .faq-item {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .faq-item.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Social link hover effect */
+  .social-link {
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  }
+
+  .social-link:hover {
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3);
+  }
+</style>

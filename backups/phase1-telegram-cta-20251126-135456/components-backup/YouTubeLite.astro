@@ -1,0 +1,83 @@
+---
+// YouTubeLite - Lazy-loading YouTube embed facade
+// Shows thumbnail until clicked, then loads iframe
+// Reduces initial page load by ~500KB per embed
+
+interface Props {
+  videoId: string;
+  title: string;
+  class?: string;
+}
+
+const { videoId, title, class: className = '' } = Astro.props;
+const thumbnailUrl = `https://i.ytimg.com/vi/${videoId}/maxresdefault.jpg`;
+---
+
+<div
+  class={`youtube-lite relative w-full cursor-pointer group ${className}`}
+  style="padding-bottom: 56.25%;"
+  data-video-id={videoId}
+  data-title={title}
+>
+  <!-- Thumbnail -->
+  <img
+    src={thumbnailUrl}
+    alt={`Play: ${title}`}
+    class="absolute inset-0 w-full h-full object-cover"
+    loading="lazy"
+  />
+
+  <!-- Play button overlay -->
+  <div class="absolute inset-0 flex items-center justify-center bg-black/30 group-hover:bg-black/40 transition-colors">
+    <div class="w-16 h-16 md:w-20 md:h-20 bg-red-600 rounded-full flex items-center justify-center group-hover:bg-red-500 transition-colors shadow-lg">
+      <svg class="w-8 h-8 md:w-10 md:h-10 text-white ml-1" fill="currentColor" viewBox="0 0 24 24">
+        <path d="M8 5v14l11-7z"/>
+      </svg>
+    </div>
+  </div>
+
+  <!-- YouTube logo -->
+  <div class="absolute bottom-4 right-4 opacity-80">
+    <svg class="w-20 h-5" viewBox="0 0 90 20" fill="white">
+      <path d="M27.973 6.267c-.255-.966-.992-1.725-1.932-1.987C24.254 3.773 15 3.773 15 3.773s-9.254 0-11.041.507c-.94.262-1.677 1.021-1.932 1.987C1.52 8.094 1.52 12 1.52 12s0 3.906.507 5.733c.255.966.992 1.725 1.932 1.987 1.787.507 11.041.507 11.041.507s9.254 0 11.041-.507c.94-.262 1.677-1.021 1.932-1.987.507-1.827.507-5.733.507-5.733s0-3.906-.507-5.733zM12.276 15.577V8.423L19.437 12l-7.161 3.577z"/>
+    </svg>
+  </div>
+</div>
+
+<script>
+  // Click handler for YouTube lite embeds
+  document.querySelectorAll('.youtube-lite').forEach(container => {
+    container.addEventListener('click', function() {
+      const videoId = this.getAttribute('data-video-id');
+      const title = this.getAttribute('data-title');
+
+      // Create iframe
+      const iframe = document.createElement('iframe');
+      iframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
+      iframe.title = title || 'YouTube video';
+      iframe.frameBorder = '0';
+      iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
+      iframe.allowFullscreen = true;
+      iframe.className = 'absolute top-0 left-0 w-full h-full';
+
+      // Replace content with iframe
+      this.innerHTML = '';
+      this.appendChild(iframe);
+      this.classList.remove('cursor-pointer');
+    }, { once: true });
+  });
+</script>
+
+<style>
+  .youtube-lite {
+    background-color: #000;
+  }
+
+  .youtube-lite img {
+    transition: opacity 0.2s;
+  }
+
+  .youtube-lite:hover img {
+    opacity: 0.9;
+  }
+</style>

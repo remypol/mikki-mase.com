@@ -1,0 +1,192 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import Button from '../../components/Button.astro';
+import AuthorBox from '../../components/AuthorBox.astro';
+
+const articleSchema = {
+  "@type": "Article",
+  "@id": "https://mikki-mase.com/blog/bankroll-management-101#article",
+  "headline": "Bankroll Management 101: How Pros Protect Their Money",
+  "description": "The difference between gambling and professional play often comes down to one thing: bankroll management. Learn the principles that separate winners from losers.",
+  "author": {
+    "@type": "Person",
+    "name": "Mikki Mase",
+    "@id": "https://mikki-mase.com/#person"
+  },
+  "datePublished": "2025-01-15",
+  "dateModified": "2026-01-02",
+  "publisher": {
+    "@type": "Person",
+    "name": "Mikki Mase"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://mikki-mase.com/blog/bankroll-management-101"
+  },
+  "articleSection": "Strategy",
+  "keywords": "bankroll management, gambling strategy, professional gambling, money management, betting strategy"
+};
+---
+
+<BaseLayout
+  title="Bankroll Management 101: How Pros Protect Their Money | Mikki Mase"
+  description="The difference between gambling and professional play often comes down to one thing: bankroll management. Learn the principles that separate winners from losers."
+  ogType="article"
+  schema={articleSchema}
+>
+  <Header />
+  <div class="h-20"></div>
+
+  <div class="bg-black border-b border-gray-800">
+    <Breadcrumbs items={[
+      { label: "Home", href: "/" },
+      { label: "Blog", href: "/blog" },
+      { label: "Bankroll Management 101" }
+    ]} />
+  </div>
+
+  <article class="bg-black py-12 md:py-20">
+    <div class="container mx-auto px-6 max-w-4xl">
+
+      <header class="mb-12">
+        <div class="flex items-center gap-3 text-sm mb-4">
+          <span class="bg-gold/90 text-black font-bold uppercase px-3 py-1 rounded">Strategy</span>
+          <span class="text-gray-500">•</span>
+          <time datetime="2025-01-15" class="text-gray-500">January 15, 2025</time>
+          <span class="text-gray-500">•</span>
+          <span class="text-gray-500">7 min read</span>
+        </div>
+
+        <h1 class="text-white text-3xl md:text-5xl font-black mb-6">
+          Bankroll Management 101: How Pros Protect Their Money
+        </h1>
+
+        <p class="text-gray-300 text-lg md:text-xl leading-relaxed">
+          You can have the best strategy in the world, but without proper <a href="/glossary#bankroll" class="text-gold hover:text-gold-light underline">bankroll management</a>, you'll eventually go broke. Here's how to protect your money.
+        </p>
+      </header>
+
+      <div class="mb-12 rounded-xl overflow-hidden">
+        <img src="/images/mikki-extra.webp" alt="High stakes gambling chips and money management" class="w-full h-auto" loading="lazy" decoding="async" />
+      </div>
+
+      <div class="prose prose-invert prose-lg max-w-none">
+
+        <h2 class="text-white text-2xl md:text-3xl font-bold mt-12 mb-6">Why Bankroll Management Matters</h2>
+
+        <p class="text-gray-300 leading-relaxed mb-6">
+          Gambling is variance. Even with an edge, you'll have losing streaks. The difference between professionals and amateurs isn't just skill—it's survival. You need to survive the downswings to capitalize on the upswings.
+        </p>
+
+        <p class="text-gray-300 leading-relaxed mb-6">
+          I play $250,000 hands with $3 million buy-ins. That ratio isn't random. It's calculated to ensure I can weather significant losses without going bust.
+        </p>
+
+        <div class="bg-gradient-to-br from-gray-900 to-black border-l-4 border-gold p-6 my-8">
+          <p class="text-white text-lg italic">
+            "The casino's edge is mathematical certainty over time. Your only counter is having enough capital to outlast the variance and enough discipline to walk away at the right moments."
+          </p>
+        </div>
+
+        <h2 class="text-white text-2xl md:text-3xl font-bold mt-12 mb-6">The Basic Rules</h2>
+
+        <h3 class="text-white text-xl font-bold mt-8 mb-4">Rule 1: Never Bet More Than 5% of Your Bankroll</h3>
+        <p class="text-gray-300 leading-relaxed mb-6">
+          If you have $10,000 to gamble with, your maximum bet should be $500. This gives you at least 20 losing bets before you're wiped out—enough to ride through most cold streaks.
+        </p>
+
+        <h3 class="text-white text-xl font-bold mt-8 mb-4">Rule 2: Set Loss Limits</h3>
+        <p class="text-gray-300 leading-relaxed mb-6">
+          Before every session, decide your maximum loss. When you hit it, walk away. No exceptions. No "one more hand." The discipline to stop is what separates winners from losers.
+        </p>
+
+        <h3 class="text-white text-xl font-bold mt-8 mb-4">Rule 3: Set Win Targets</h3>
+        <p class="text-gray-300 leading-relaxed mb-6">
+          This is harder than loss limits. When you're winning, it's tempting to keep playing. But winning sessions can turn into losing sessions fast. Lock in profits.
+        </p>
+
+        <h3 class="text-white text-xl font-bold mt-8 mb-4">Rule 4: Never Chase Losses</h3>
+        <p class="text-gray-300 leading-relaxed mb-6">
+          The moment you start betting bigger to "win back" what you lost, you've lost control. Increasing bets during a losing streak accelerates your path to zero.
+        </p>
+
+        <div class="bg-gray-900 border border-gray-800 rounded-xl p-6 my-8">
+          <h3 class="text-gold font-bold mb-3">My Personal Guidelines</h3>
+          <ul class="text-gray-300 space-y-2">
+            <li>• <strong class="text-white">Session bankroll:</strong> 8-12x my standard bet size</li>
+            <li>• <strong class="text-white">Stop loss:</strong> 50% of session bankroll</li>
+            <li>• <strong class="text-white">Win target:</strong> 30-50% profit, then reassess</li>
+            <li>• <strong class="text-white">Time limit:</strong> Never more than 4 hours straight</li>
+            <li>• <strong class="text-white">Cool-off period:</strong> Minimum 24 hours after a big loss</li>
+          </ul>
+        </div>
+
+        <h2 class="text-white text-2xl md:text-3xl font-bold mt-12 mb-6">The Psychology of Money Management</h2>
+
+        <p class="text-gray-300 leading-relaxed mb-6">
+          Bankroll management is really emotional management. When you're up, greed tells you to keep going. When you're down, desperation tells you to bet bigger. Both are traps.
+        </p>
+
+        <p class="text-gray-300 leading-relaxed mb-6">
+          The best gamblers are emotionally flat. They don't celebrate wins or mourn losses. Each hand is just a data point in a longer statistical journey.
+        </p>
+
+        <h2 class="text-white text-2xl md:text-3xl font-bold mt-12 mb-6">Scaling Up Responsibly</h2>
+
+        <p class="text-gray-300 leading-relaxed mb-6">
+          As your bankroll grows, you can increase bet sizes—but gradually. Double your bets only after your bankroll has doubled. Never let success make you reckless.
+        </p>
+
+        <p class="text-gray-300 leading-relaxed mb-6">
+          I started with much smaller stakes than I play now. The $250K hands came after years of building capital and proving my approach worked at lower levels.
+        </p>
+
+        <div class="bg-red-900/20 border border-red-500/30 rounded-xl p-6 my-8">
+          <h3 class="text-red-400 font-bold mb-3">Warning: Gambling Can Be Addictive</h3>
+          <p class="text-gray-300">
+            If you can't follow these rules—if you find yourself breaking your own limits, chasing losses, or gambling with money you can't afford to lose—stop. Seek help. The National Problem Gambling Helpline is 1-800-522-4700.
+          </p>
+        </div>
+
+        <div class="bg-gray-900 border border-gold/30 rounded-xl p-8 my-12 text-center">
+          <h3 class="text-white text-xl font-bold mb-4">Get More Strategy Content</h3>
+          <p class="text-gray-400 mb-6">
+            Join the free community for cheatsheets, guides, and real-time insights.
+          </p>
+          <Button variant="primary" href="/join">
+            Join Free Community
+          </Button>
+        </div>
+
+      </div>
+
+      <!-- Related Posts -->
+      <div class="mt-16 pt-8 border-t border-gray-800">
+        <h3 class="text-white text-xl font-bold mb-6">Related Articles</h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <a href="/blog/baccarat-basics-complete-guide" class="bg-gray-900 border border-gray-800 rounded-lg p-6 hover:border-gold/30 transition-colors">
+            <span class="text-gold text-sm font-bold uppercase">Strategy</span>
+            <h4 class="text-white font-bold mt-2 mb-2">Baccarat Basics</h4>
+            <p class="text-gray-400 text-sm">The complete beginner's guide to baccarat.</p>
+          </a>
+          <a href="/glossary" class="bg-gray-900 border border-gray-800 rounded-lg p-6 hover:border-gold/30 transition-colors">
+            <span class="text-gold text-sm font-bold uppercase">Reference</span>
+            <h4 class="text-white font-bold mt-2 mb-2">Gambling Glossary</h4>
+            <p class="text-gray-400 text-sm">70+ terms every player should know.</p>
+          </a>
+        </div>
+      </div>
+
+      <!-- Author Box -->
+      <div class="mt-16 pt-12 border-t border-gray-800">
+        <AuthorBox />
+      </div>
+
+    </div>
+  </article>
+
+  <Footer />
+</BaseLayout>

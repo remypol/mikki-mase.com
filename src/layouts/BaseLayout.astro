@@ -1,0 +1,478 @@
+---
+import '../styles/global.css';
+import '../styles/animations.css';
+import MobileNav from '../components/MobileNav.astro';
+import ReadingProgress from '../components/ReadingProgress.astro';
+import BackToTop from '../components/BackToTop.astro';
+import ExitIntentBar from '../components/ExitIntentBar.astro';
+
+interface Props {
+  title: string;
+  description?: string;
+  canonicalURL?: string;
+  ogType?: string;
+  ogImage?: string;
+  schema?: any;
+}
+
+const {
+  title,
+  description = "Mikki Mase - From Prison to $32M Baccarat Legend",
+  canonicalURL,
+  ogType = "website",
+  ogImage,
+  schema
+} = Astro.props;
+
+// Default OG image, can be overridden per-page
+const socialImage = ogImage || "/images/mikki-main-1.webp";
+
+const siteURL = "https://mikki-mase.com";
+const currentURL = canonicalURL || `${siteURL}${Astro.url.pathname}`;
+
+// Check if homepage for LCP preload
+const isHomepage = Astro.url.pathname === '/';
+
+// Global WebSite + Person + Organization Schema
+const globalSchema = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "@id": `${siteURL}/#website`,
+      "url": siteURL,
+      "name": "Mikki Mase",
+      "description": "Official site of Mikki Mase - Professional baccarat player who won $32M+ and got banned from 150+ casinos",
+      "inLanguage": "en-US"
+    },
+    {
+      "@type": "Person",
+      "@id": `${siteURL}/#person`,
+      "name": "Mikki Mase",
+      "alternateName": ["Michael David Meiterman", "Dirty Goth Boi", "The Baccarat Whisperer"],
+      "birthDate": "1991-10-27",
+      "birthPlace": {
+        "@type": "Place",
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": "Marlboro",
+          "addressRegion": "NJ",
+          "addressCountry": "US"
+        }
+      },
+      "description": "Professional gambler known for winning $32 million from casinos before being banned from 150+ properties worldwide",
+      "url": siteURL,
+      "image": `${siteURL}/favicon.svg`,
+      "sameAs": [
+        "https://www.youtube.com/@Mikki_Mase",
+        "https://www.instagram.com/mikki_mase_community",
+        "https://www.facebook.com/mikkimasecommunity"
+      ],
+      "knowsAbout": [
+        "Baccarat",
+        "High-stakes gambling",
+        "Casino gambling systems",
+        "Advantage play",
+        "Professional gambling"
+      ],
+      "jobTitle": "Professional Gambler",
+      "award": "Banned from 150+ casinos worldwide for winning"
+    },
+    {
+      "@type": "Organization",
+      "@id": `${siteURL}/#organization`,
+      "name": "Mikki Mase",
+      "url": siteURL,
+      "logo": {
+        "@type": "ImageObject",
+        "url": `${siteURL}/favicon.svg`
+      },
+      "description": "Professional gambling brand known for winning $32M+ from casinos and teaching baccarat strategy",
+      "foundingDate": "2018",
+      "founder": {
+        "@id": `${siteURL}/#person`
+      },
+      "sameAs": [
+        "https://www.youtube.com/@Mikki_Mase",
+        "https://www.instagram.com/mikki_mase_community",
+        "https://www.facebook.com/mikkimasecommunity"
+      ],
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "contactType": "Community",
+        "url": "https://bit.ly/mikkilandingspage"
+      }
+    }
+  ]
+};
+
+// Merge page-specific schema if provided
+const finalSchema = schema ? {
+  "@context": "https://schema.org",
+  "@graph": [...globalSchema["@graph"], schema]
+} : globalSchema;
+---
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Preconnect FIRST for critical resources (fonts, images) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://img.youtube.com" crossorigin>
+
+    <!-- DNS Prefetch for non-critical resources -->
+    <link rel="dns-prefetch" href="//www.googletagmanager.com" />
+
+    <!-- SEO Meta Tags -->
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={currentURL} />
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+    <meta name="language" content="English" />
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+
+    <!-- Author & E-E-A-T Signals (2026 SEO) -->
+    <meta name="author" content="Mikki Mase (Michael David Meiterman)" />
+    <link rel="author" href="https://www.youtube.com/@Mikki_Mase" />
+    <meta name="creator" content="Mikki Mase" />
+
+    <!-- Theme Color -->
+    <meta name="theme-color" content="#000000" />
+    <meta name="color-scheme" content="dark" />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content={ogType} />
+    <meta property="og:url" content={currentURL} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:site_name" content="Mikki Mase" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:image" content={`${siteURL}${socialImage}`} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={title} />
+    {ogType === 'article' && (
+      <>
+        <meta property="article:author" content="Mikki Mase" />
+        <meta property="article:published_time" content="2026-01-02T00:00:00Z" />
+        <meta property="article:modified_time" content={new Date().toISOString()} />
+      </>
+    )}
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={`${siteURL}${socialImage}`} />
+    <meta name="twitter:image:alt" content={title} />
+
+    <!-- Schema.org JSON-LD -->
+    <script type="application/ld+json" set:html={JSON.stringify(finalSchema)} />
+
+    <!-- Google Analytics loaded at end of body for better performance -->
+
+    <!-- LCP Hero Image Preload (homepage only) - AVIF with WebP fallback -->
+    {isHomepage && (
+      <>
+        {/* Preload AVIF for modern browsers (Chrome, Firefox, Edge) */}
+        <link
+          rel="preload"
+          as="image"
+          type="image/avif"
+          href="/images/mikki-main-2-1440w.avif"
+          imagesrcset="/images/mikki-main-2-mobile.avif 390w, /images/mikki-main-2-500w.avif 500w, /images/mikki-main-2-sm.avif 640w, /images/mikki-main-2-720w.avif 720w, /images/mikki-main-2-1080w.avif 1080w, /images/mikki-main-2-1440w.avif 1440w, /images/mikki-main-2.avif 1920w"
+          imagesizes="100vw"
+          fetchpriority="high"
+        />
+        {/* WebP fallback preload for Safari <16 */}
+        <link
+          rel="preload"
+          as="image"
+          type="image/webp"
+          href="/images/mikki-main-2-1440w.webp"
+          imagesrcset="/images/mikki-main-2-mobile.webp 390w, /images/mikki-main-2-500w.webp 500w, /images/mikki-main-2-sm.webp 640w, /images/mikki-main-2-720w.webp 720w, /images/mikki-main-2-1080w.webp 1080w, /images/mikki-main-2-1440w.webp 1440w, /images/mikki-main-2.webp 1920w"
+          imagesizes="100vw"
+        />
+      </>
+    )}
+
+    <!-- Self-hosted critical fonts (700/900 used in hero) - instant load -->
+    <link rel="preload" href="/fonts/inter-700.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="/fonts/inter-900.woff2" as="font" type="font/woff2" crossorigin>
+
+    <!-- Defer loading other font weights from Google Fonts -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" media="print" onload="this.media='all'">
+    <noscript>
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap">
+    </noscript>
+
+    <!-- Playfair Display (quotes only) - deferred -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" media="print" onload="this.media='all'">
+    <noscript>
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap">
+    </noscript>
+    <!-- Critical CSS - Inlined to eliminate render-blocking -->
+    <style>
+      /* Self-hosted Inter font (critical weights only) */
+      @font-face {
+        font-family: 'Inter';
+        font-style: normal;
+        font-weight: 700;
+        font-display: swap;
+        src: url('/fonts/inter-700.woff2') format('woff2');
+      }
+      @font-face {
+        font-family: 'Inter';
+        font-style: normal;
+        font-weight: 900;
+        font-display: swap;
+        src: url('/fonts/inter-900.woff2') format('woff2');
+      }
+      /* Base reset */
+      *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+      html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; }
+      body {
+        margin: 0;
+        background-color: #000;
+        color: #fff;
+        font-family: 'Inter', system-ui, -apple-system, sans-serif;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        overflow-x: hidden;
+      }
+      img { height: auto; max-width: 100%; display: block; }
+      /* Hero critical styles */
+      .min-h-screen { min-height: 100vh; }
+      .relative { position: relative; }
+      .absolute { position: absolute; }
+      .inset-0 { top: 0; right: 0; bottom: 0; left: 0; }
+      .z-0 { z-index: 0; }
+      .z-10 { z-index: 10; }
+      .flex { display: flex; }
+      .items-start { align-items: flex-start; }
+      .items-center { align-items: center; }
+      .justify-center { justify-content: center; }
+      .w-full { width: 100%; }
+      .h-full { height: 100%; }
+      .text-center { text-align: center; }
+      .text-white { color: #fff; }
+      .bg-black { background-color: #000; }
+      .bg-black\/60 { background-color: rgba(0,0,0,0.6); }
+      .object-cover { object-fit: cover; }
+      .uppercase { text-transform: uppercase; }
+      .container { max-width: 1200px; margin-left: auto; margin-right: auto; }
+      .px-6 { padding-left: 1.5rem; padding-right: 1.5rem; }
+      /* Hero title */
+      .hero-title {
+        font-family: 'Inter', system-ui, sans-serif;
+        font-size: 2rem;
+        line-height: 1.1;
+        font-weight: 900;
+        letter-spacing: -0.01em;
+        max-width: 16ch;
+        margin-left: auto;
+        margin-right: auto;
+      }
+      .hero-subtitle {
+        font-size: 1rem;
+        line-height: 1.625;
+        max-width: 40ch;
+        margin-left: auto;
+        margin-right: auto;
+      }
+      .eyebrow {
+        font-size: 0.75rem;
+        font-weight: 600;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        color: #CFB53B;
+      }
+      /* Button critical */
+      .btn { display: inline-flex; align-items: center; justify-content: center; padding: 1rem 2rem; border-radius: 1rem; font-weight: 700; text-decoration: none; min-height: 44px; }
+      .btn-primary { background: #A8001E; color: #fff; }
+      .btn-tertiary { background: transparent; color: #CFB53B; border: 2px solid #CFB53B; }
+      /* Animation */
+      @keyframes fadeIn { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: translateY(0); } }
+      .animate-\[fadeIn_0\.6s_ease-out\] { animation: fadeIn 0.6s ease-out; }
+      .animate-\[fadeIn_0\.6s_ease-out_0\.2s_both\] { animation: fadeIn 0.6s ease-out 0.2s both; }
+      .animate-\[fadeIn_0\.6s_ease-out_0\.4s_both\] { animation: fadeIn 0.6s ease-out 0.4s both; }
+      .animate-\[fadeIn_0\.6s_ease-out_0\.6s_both\] { animation: fadeIn 0.6s ease-out 0.6s both; }
+      /* Mobile CTA positioning */
+      .bottom-\[25vh\] { bottom: 25vh; }
+      .left-0 { left: 0; }
+      .right-0 { right: 0; }
+      .flex-col { flex-direction: column; }
+      .gap-3 { gap: 0.75rem; }
+      /* Desktop overrides */
+      @media (min-width: 768px) {
+        .hero-title { font-size: 3.5rem; line-height: 1.05; max-width: 14ch; }
+        .hero-subtitle { font-size: 1.25rem; line-height: 1.5; max-width: 36ch; }
+        .eyebrow { font-size: 0.875rem; }
+        .md\:items-center { align-items: center; }
+        .md\:relative { position: relative; }
+        .md\:bottom-auto { bottom: auto; }
+        .md\:object-center { object-position: center; }
+      }
+      @media (min-width: 1024px) {
+        .hero-title { font-size: 4rem; }
+      }
+      /* Reduced motion */
+      @media (prefers-reduced-motion: reduce) {
+        *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+      }
+    </style>
+  </head>
+  <body class="bg-black text-white">
+    <!-- Reading Progress Bar -->
+    <ReadingProgress />
+
+    <!-- Exit Intent Bar -->
+    <ExitIntentBar />
+
+    <!-- Skip to main content (accessibility) -->
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+
+    <slot />
+
+    <!-- Mobile Bottom Navigation -->
+    <MobileNav />
+
+    <!-- Back to Top Button -->
+    <BackToTop />
+
+    <!-- Defer non-critical JS -->
+    <script>
+      // Mark fonts as loaded after they're available
+      if (document.fonts) {
+        document.fonts.ready.then(() => {
+          document.body.classList.add('fonts-loaded');
+        });
+      } else {
+        document.body.classList.add('fonts-loaded');
+      }
+    </script>
+
+    <!-- Analytics: CTA Click Tracking & Scroll Depth -->
+    <script>
+      // Wait for gtag to be available
+      function trackEvent(action, category, label, value) {
+        if (typeof gtag === 'function') {
+          gtag('event', action, {
+            event_category: category,
+            event_label: label,
+            value: value
+          });
+        }
+      }
+
+      // CTA Click Tracking
+      document.addEventListener('DOMContentLoaded', () => {
+        // Track "Join Community" button clicks
+        document.querySelectorAll('a[href="/join"], a[href*="bit.ly/MikkiCommunity"]').forEach(btn => {
+          btn.addEventListener('click', () => {
+            trackEvent('click', 'CTA', 'Join Community', 1);
+          });
+        });
+
+        // Track Telegram links
+        document.querySelectorAll('a[href*="t.me"], a[href*="telegram"]').forEach(link => {
+          link.addEventListener('click', () => {
+            trackEvent('click', 'CTA', 'Telegram Link', 1);
+          });
+        });
+
+        // Track YouTube video plays (YouTubeLite component)
+        document.querySelectorAll('.youtube-lite').forEach(video => {
+          video.addEventListener('click', () => {
+            const title = video.getAttribute('data-title') || 'Unknown';
+            trackEvent('click', 'Video', title, 1);
+          }, { once: true });
+        });
+
+        // Track external links
+        document.querySelectorAll('a[target="_blank"]').forEach(link => {
+          link.addEventListener('click', () => {
+            const href = link.getAttribute('href') || '';
+            if (href.includes('youtube.com')) {
+              trackEvent('click', 'External', 'YouTube', 1);
+            } else if (href.includes('instagram.com')) {
+              trackEvent('click', 'External', 'Instagram', 1);
+            }
+          });
+        });
+      });
+
+      // Scroll Depth Tracking
+      (function() {
+        const thresholds = [25, 50, 75, 90];
+        const triggered = {};
+
+        function getScrollPercent() {
+          const h = document.documentElement;
+          const b = document.body;
+          const st = 'scrollTop';
+          const sh = 'scrollHeight';
+          return Math.round((h[st] || b[st]) / ((h[sh] || b[sh]) - h.clientHeight) * 100);
+        }
+
+        function checkScroll() {
+          const percent = getScrollPercent();
+          thresholds.forEach(threshold => {
+            if (percent >= threshold && !triggered[threshold]) {
+              triggered[threshold] = true;
+              trackEvent('scroll', 'Engagement', `${threshold}%`, threshold);
+            }
+          });
+        }
+
+        // Throttle scroll events
+        let ticking = false;
+        window.addEventListener('scroll', () => {
+          if (!ticking) {
+            window.requestAnimationFrame(() => {
+              checkScroll();
+              ticking = false;
+            });
+            ticking = true;
+          }
+        }, { passive: true });
+      })();
+    </script>
+
+    <!-- Google Analytics - Deferred for better LCP -->
+    <script>
+      // Load GA after page is interactive
+      if (typeof requestIdleCallback === 'function') {
+        requestIdleCallback(() => loadGA());
+      } else {
+        setTimeout(loadGA, 2000);
+      }
+
+      function loadGA() {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-MMKPYY3FB5');
+
+        const script = document.createElement('script');
+        script.src = 'https://www.googletagmanager.com/gtag/js?id=G-MMKPYY3FB5';
+        script.async = true;
+        document.head.appendChild(script);
+      }
+    </script>
+
+    <!-- Scroll Reveal Animation Script -->
+    <script>
+      import { initScrollReveal } from '../scripts/scroll-reveal';
+      initScrollReveal();
+    </script>
+  </body>
+</html>

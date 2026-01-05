@@ -1,0 +1,128 @@
+---
+/**
+ * ExitIntentBar Component
+ * Subtle notification bar that appears when user shows exit intent
+ * Desktop only, once per session, easily dismissible
+ */
+---
+
+<div id="exit-intent-bar" class="exit-intent-bar" data-astro-cid-exitintent>
+  <div class="exit-intent-content" data-astro-cid-exitintent>
+    <div class="flex items-center gap-3" data-astro-cid-exitintent>
+      <span class="text-green-500 text-lg" data-astro-cid-exitintent>🟢</span>
+      <p class="text-white text-sm md:text-base font-medium" data-astro-cid-exitintent>
+        <strong>147 people</strong> joined this week | Join Telegram Free
+      </p>
+    </div>
+    <div class="flex items-center gap-3" data-astro-cid-exitintent>
+      <a href="/join" class="btn btn-primary text-sm py-2 px-6" data-astro-cid-exitintent>
+        Join Now
+      </a>
+      <button id="exit-intent-close" class="exit-intent-close" aria-label="Dismiss" data-astro-cid-exitintent>
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" data-astro-cid-exitintent>
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" data-astro-cid-exitintent></path>
+        </svg>
+      </button>
+    </div>
+  </div>
+</div>
+
+<style>
+  .exit-intent-bar[data-astro-cid-exitintent] {
+    position: fixed;
+    top: 80px; /* Below header */
+    left: 0;
+    right: 0;
+    z-index: 40;
+    background: linear-gradient(135deg, rgba(139, 0, 21, 0.95) 0%, rgba(0, 0, 0, 0.95) 100%);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(218, 165, 32, 0.3);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    transform: translateY(-100%);
+    opacity: 0;
+    transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    pointer-events: none;
+  }
+
+  .exit-intent-bar.show[data-astro-cid-exitintent] {
+    transform: translateY(0);
+    opacity: 1;
+    pointer-events: all;
+  }
+
+  .exit-intent-content[data-astro-cid-exitintent] {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 1rem 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+
+  .exit-intent-close[data-astro-cid-exitintent] {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    background: transparent;
+    border: none;
+    color: rgba(255, 255, 255, 0.7);
+    cursor: pointer;
+    border-radius: 8px;
+    transition: all 0.2s;
+  }
+
+  .exit-intent-close:hover[data-astro-cid-exitintent] {
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+  }
+
+  /* Hide on mobile */
+  @media (max-width: 768px) {
+    .exit-intent-bar[data-astro-cid-exitintent] {
+      display: none;
+    }
+  }
+</style>
+
+<script>
+  // Exit Intent Detection (Desktop only, once per session)
+  if (typeof window !== 'undefined') {
+    const exitIntentBar = document.getElementById('exit-intent-bar');
+    const closeButton = document.getElementById('exit-intent-close');
+
+    // Check if user has already seen the exit intent
+    const hasSeenExitIntent = sessionStorage.getItem('exitIntentShown');
+
+    // Only run on desktop
+    const isDesktop = window.innerWidth >= 768;
+
+    if (exitIntentBar && isDesktop && !hasSeenExitIntent) {
+      let exitIntentTriggered = false;
+
+      const handleMouseLeave = (e: MouseEvent) => {
+        // Only trigger if mouse is moving toward top of viewport (exit intent)
+        if (e.clientY <= 50 && !exitIntentTriggered) {
+          exitIntentTriggered = true;
+          exitIntentBar.classList.add('show');
+          sessionStorage.setItem('exitIntentShown', 'true');
+
+          // Remove listener after triggering
+          document.removeEventListener('mouseleave', handleMouseLeave);
+        }
+      };
+
+      // Add mouse leave listener after 3 seconds (avoid triggering too early)
+      setTimeout(() => {
+        document.addEventListener('mouseleave', handleMouseLeave);
+      }, 3000);
+
+      // Close button handler
+      closeButton?.addEventListener('click', () => {
+        exitIntentBar.classList.remove('show');
+      });
+    }
+  }
+</script>

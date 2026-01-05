@@ -1,0 +1,529 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import Hero from '../components/Hero.astro';
+import Button from '../components/Button.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import RelatedContent from '../components/RelatedContent.astro';
+
+const psychologySchema = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Article",
+      "@id": "https://mikki-mase.com/gambling-psychology#article",
+      "headline": "Gambling Psychology: The Mental Game Behind Winning",
+      "description": "Learn the psychology of gambling from Mikki Mase. Understand tilt, bankroll anxiety, the gambler's fallacy, and how mental discipline separates winners from losers.",
+      "author": {
+        "@type": "Person",
+        "name": "Mikki Mase",
+        "@id": "https://mikki-mase.com/#person"
+      },
+      "datePublished": "2025-01-20",
+      "dateModified": "2025-11-22",
+      "publisher": {
+        "@type": "Person",
+        "name": "Mikki Mase"
+      },
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://mikki-mase.com/gambling-psychology"
+      },
+      "articleSection": "Guide",
+      "keywords": "gambling psychology, gambling mindset, tilt, bankroll management, gambler's fallacy, emotional control, winning mentality"
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://mikki-mase.com"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Gambling Psychology",
+          "item": "https://mikki-mase.com/gambling-psychology"
+        }
+      ]
+    }
+  ]
+};
+---
+
+<BaseLayout
+  title="Gambling Psychology: The Mental Game Behind Winning | Mikki Mase"
+  description="Learn the psychology of gambling from Mikki Mase. Understand tilt, bankroll anxiety, the gambler's fallacy, and how mental discipline separates winners from losers."
+  schema={psychologySchema}
+>
+  <Header />
+
+  <Hero
+    eyebrow="Mental Game"
+    title="Gambling Psychology"
+    subtitle="The mindset that separates winners from losers"
+    backgroundImage="/images/mikki-main-2.webp"
+    variant="medium"
+  />
+
+  <div class="bg-black border-b border-gray-800">
+    <Breadcrumbs items={[
+      { label: "Home", href: "/" },
+      { label: "Gambling Psychology" }
+    ]} />
+  </div>
+
+  <article class="bg-black py-12 md:py-20">
+    <div class="container mx-auto px-6 max-w-4xl">
+
+      <!-- Introduction -->
+      <div class="prose prose-invert prose-lg max-w-none mb-16">
+        <p class="text-gray-300 text-xl leading-relaxed">
+          The difference between me and 99% of gamblers isn't luck, strategy, or bankroll size. It's psychology. I've watched people with better math skills than me go broke because they couldn't control their emotions. I've seen millionaires turn into beggars at the baccarat table—not because they didn't know the odds, but because they didn't know themselves.
+        </p>
+        <p class="text-gray-300 leading-relaxed">
+          This guide covers the psychological traps that destroy gamblers and the mental frameworks that have helped me win $32 million while staying sane.
+        </p>
+      </div>
+
+      <!-- Section 1: Why Psychology Matters -->
+      <section class="mb-16">
+        <h2 class="text-white text-3xl font-bold mb-6">Why Psychology Matters More Than Strategy</h2>
+
+        <p class="text-gray-300 leading-relaxed mb-6">
+          Here's a truth most gambling "experts" won't tell you: <strong class="text-white">knowing the optimal strategy is worthless if you can't execute it under pressure</strong>. Every gambler knows you shouldn't chase losses. Yet almost every gambler does it anyway. Why?
+        </p>
+
+        <p class="text-gray-300 leading-relaxed mb-6">
+          Because gambling triggers primal emotions that override rational thinking. When you're down $50,000, your brain isn't calculating <a href="/glossary#house-edge" class="text-gold hover:text-gold-light underline">house edge</a>—it's screaming at you to win it back. That emotional hijacking is why casinos make billions.
+        </p>
+
+        <div class="bg-gradient-to-br from-gray-900 to-black border-l-4 border-gold p-6 my-8">
+          <p class="text-white text-lg italic">
+            "I've met poker pros who could calculate odds in their sleep but couldn't walk away from a losing session. I've met baccarat players who knew every rule but bet the Tie when desperate. Knowledge without emotional control is just expensive trivia."
+          </p>
+          <p class="text-gray-500 text-sm mt-2">— Mikki Mase</p>
+        </div>
+      </section>
+
+      <!-- Section 2: The Gambler's Fallacy -->
+      <section class="mb-16">
+        <h2 class="text-white text-3xl font-bold mb-6">The Gambler's Fallacy</h2>
+
+        <p class="text-gray-300 leading-relaxed mb-6">
+          The gambler's fallacy is the belief that past results influence future outcomes in games of chance. It's the most dangerous cognitive bias in gambling.
+        </p>
+
+        <div class="bg-gray-900 border border-gray-800 rounded-xl p-6 mb-6">
+          <h3 class="text-white font-bold mb-3">Examples of the Gambler's Fallacy:</h3>
+          <ul class="text-gray-300 space-y-2">
+            <li>• "Red has hit 7 times in a row—black is DUE"</li>
+            <li>• "Banker has won 5 straight—Player must be coming"</li>
+            <li>• "I've lost 10 hands—I'm bound to win soon"</li>
+            <li>• "This slot machine hasn't paid out in hours—it's ready"</li>
+          </ul>
+        </div>
+
+        <p class="text-gray-300 leading-relaxed mb-6">
+          <strong class="text-white">The truth:</strong> Each spin, hand, or roll is independent. The roulette wheel doesn't remember that red hit 7 times. The cards don't know Banker just won. Past results have zero influence on future outcomes.
+        </p>
+
+        <p class="text-gray-300 leading-relaxed mb-6">
+          In 1913 at the Monte Carlo Casino, black came up 26 times in a row on a roulette wheel. Gamblers lost millions betting on red, convinced it was "due." It wasn't. The probability of black on each spin remained exactly 48.6%—regardless of what happened before.
+        </p>
+
+        <div class="bg-red-900/20 border border-red-500/30 rounded-xl p-6">
+          <h3 class="text-red-400 font-bold mb-3">How to Fight It</h3>
+          <p class="text-gray-300">
+            Every time you think "it's due," remind yourself: the cards/dice/wheel have no memory. Write it on your hand if you have to. The moment you start thinking in patterns where none exist, you've lost control.
+          </p>
+        </div>
+      </section>
+
+      <!-- Section 3: Tilt -->
+      <section class="mb-16">
+        <h2 class="text-white text-3xl font-bold mb-6">Understanding Tilt</h2>
+
+        <p class="text-gray-300 leading-relaxed mb-6">
+          "Tilt" is a poker term that's become universal in gambling. It describes the emotional state where frustration, anger, or desperation causes you to make irrational decisions.
+        </p>
+
+        <h3 class="text-white text-xl font-bold mb-4">Signs You're on Tilt</h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+          <div class="bg-gray-900 border border-gray-800 rounded-xl p-4">
+            <span class="text-red-400 font-bold">⚠️</span>
+            <span class="text-gray-300 ml-2">Betting larger than planned</span>
+          </div>
+          <div class="bg-gray-900 border border-gray-800 rounded-xl p-4">
+            <span class="text-red-400 font-bold">⚠️</span>
+            <span class="text-gray-300 ml-2">Chasing losses aggressively</span>
+          </div>
+          <div class="bg-gray-900 border border-gray-800 rounded-xl p-4">
+            <span class="text-red-400 font-bold">⚠️</span>
+            <span class="text-gray-300 ml-2">Playing hands you'd normally fold</span>
+          </div>
+          <div class="bg-gray-900 border border-gray-800 rounded-xl p-4">
+            <span class="text-red-400 font-bold">⚠️</span>
+            <span class="text-gray-300 ml-2">Staying past your time limit</span>
+          </div>
+          <div class="bg-gray-900 border border-gray-800 rounded-xl p-4">
+            <span class="text-red-400 font-bold">⚠️</span>
+            <span class="text-gray-300 ml-2">Blaming dealers or other players</span>
+          </div>
+          <div class="bg-gray-900 border border-gray-800 rounded-xl p-4">
+            <span class="text-red-400 font-bold">⚠️</span>
+            <span class="text-gray-300 ml-2">Physical tension (clenched jaw, sweating)</span>
+          </div>
+        </div>
+
+        <h3 class="text-white text-xl font-bold mb-4">What Causes Tilt</h3>
+        <p class="text-gray-300 leading-relaxed mb-6">
+          Tilt usually starts with a "bad beat"—a loss that feels unfair. Maybe you had 8 against dealer's 6 in blackjack and busted. Maybe Banker won with a 3-card 7 when you had natural 8. The logical part of your brain knows variance happens. The emotional part screams "that shouldn't have happened!"
+        </p>
+
+        <p class="text-gray-300 leading-relaxed mb-6">
+          Once triggered, tilt feeds on itself. You make a bad decision because you're tilted, lose more money, get more tilted, make worse decisions. It's a death spiral that has bankrupted countless gamblers.
+        </p>
+
+        <div class="bg-gray-900 border-l-4 border-gold p-6">
+          <h3 class="text-white font-bold mb-3">My Anti-Tilt Protocol</h3>
+          <ol class="text-gray-300 space-y-2 list-decimal list-inside">
+            <li>Recognize it immediately—tilt thrives on denial</li>
+            <li>Step away from the table, no exceptions</li>
+            <li>Set a timer for 30 minutes minimum before returning</li>
+            <li>If I feel it twice in one session, I'm done for the day</li>
+            <li>After a big loss, mandatory 24-hour break</li>
+          </ol>
+        </div>
+      </section>
+
+      <!-- Section 4: Loss Aversion -->
+      <section class="mb-16">
+        <h2 class="text-white text-3xl font-bold mb-6">Loss Aversion: Why Losing Hurts More Than Winning Feels Good</h2>
+
+        <p class="text-gray-300 leading-relaxed mb-6">
+          Psychologists have proven that humans feel losses roughly <strong class="text-white">twice as intensely</strong> as equivalent gains. Losing $1,000 causes more emotional pain than winning $1,000 causes pleasure. This asymmetry is called loss aversion, and it destroys gamblers.
+        </p>
+
+        <div class="bg-gray-900 border border-gray-800 rounded-xl p-6 mb-6">
+          <h3 class="text-white font-bold mb-3">How Loss Aversion Manifests</h3>
+          <ul class="text-gray-300 space-y-3">
+            <li>
+              <strong class="text-white">Chasing losses:</strong> You're down $5,000 and can't accept going home a loser, so you keep playing hoping to "get even"
+            </li>
+            <li>
+              <strong class="text-white">Refusing to quit ahead:</strong> You're up $3,000 but keep playing because winning $3,000 doesn't feel as significant as losing $3,000 would feel bad
+            </li>
+            <li>
+              <strong class="text-white">Risk-seeking when losing:</strong> You start making riskier bets when down because "what's another $1,000 at this point?"
+            </li>
+          </ul>
+        </div>
+
+        <div class="bg-gradient-to-br from-gray-900 to-black border-l-4 border-gold p-6 my-8">
+          <p class="text-white text-lg italic">
+            "The casino's biggest edge isn't mathematical—it's psychological. They know that once you're losing, loss aversion will keep you at the table far longer than logic would allow. Every casino is designed to exploit this."
+          </p>
+        </div>
+
+        <h3 class="text-white text-xl font-bold mb-4">Combating Loss Aversion</h3>
+        <p class="text-gray-300 leading-relaxed mb-6">
+          The key is reframing how you think about sessions. Don't think "I'm down $5,000"—think "I've played 4 hours of entertainment and it cost me $5,000." Set loss limits BEFORE you play and treat them as the cost of entertainment, not as losses to recover.
+        </p>
+      </section>
+
+      <!-- Section 5: The Hot Hand Fallacy -->
+      <section class="mb-16">
+        <h2 class="text-white text-3xl font-bold mb-6">The Hot Hand Fallacy</h2>
+
+        <p class="text-gray-300 leading-relaxed mb-6">
+          The flip side of the gambler's fallacy: believing that winning streaks will continue because you're "hot." It's just as dangerous.
+        </p>
+
+        <p class="text-gray-300 leading-relaxed mb-6">
+          When you've won 5 hands in a row, your brain releases dopamine. You feel invincible. You start thinking "I can't lose tonight!" So you bet bigger. And bigger. Until variance corrects and you give back everything—plus more.
+        </p>
+
+        <div class="bg-gray-900 border border-gray-800 rounded-xl p-6 mb-6">
+          <h3 class="text-white font-bold mb-3">The Reality</h3>
+          <p class="text-gray-300">
+            In games of pure chance like baccarat or roulette, there is no "hot streak" in a causal sense. Each outcome is independent. Your past 5 wins have zero influence on your next bet. The only thing that's changed is your emotional state—which makes you more likely to make mistakes.
+          </p>
+        </div>
+
+        <p class="text-gray-300 leading-relaxed">
+          This is why I set <strong class="text-white">win limits</strong> as well as loss limits. When I hit my win target, I walk away—not because I think my luck will "run out," but because I know the dopamine high of winning makes me overconfident and prone to errors.
+        </p>
+      </section>
+
+      <!-- Section 6: Bankroll Anxiety -->
+      <section class="mb-16">
+        <h2 class="text-white text-3xl font-bold mb-6">Bankroll Anxiety: Playing With Scared Money</h2>
+
+        <p class="text-gray-300 leading-relaxed mb-6">
+          "Scared money doesn't make money." You've heard it before. But what does it actually mean psychologically?
+        </p>
+
+        <p class="text-gray-300 leading-relaxed mb-6">
+          Bankroll anxiety occurs when you're gambling with money you can't afford to lose—or money that represents too large a percentage of your total bankroll. The symptoms are obvious:
+        </p>
+
+        <ul class="text-gray-300 space-y-2 mb-6">
+          <li>• Hesitation on bets you should make</li>
+          <li>• Relief when you win (instead of neutral acceptance)</li>
+          <li>• Physical stress symptoms during play</li>
+          <li>• Inability to execute your strategy because losses "hurt too much"</li>
+          <li>• Staying at lower-stakes tables when you should move up</li>
+        </ul>
+
+        <div class="bg-gray-900 border-l-4 border-gold p-6 mb-6">
+          <h3 class="text-white font-bold mb-3">The Solution: Proper Bankroll Sizing</h3>
+          <p class="text-gray-300 mb-4">
+            Your session bankroll should be money you're genuinely okay losing. Not theoretically okay—actually okay. If losing tonight's buy-in would cause financial stress, you're playing too high.
+          </p>
+          <p class="text-gray-300">
+            I play $250,000 hands because I have $3 million buy-ins, which represents a fraction of my total bankroll. The amounts are large, but relative to what I can afford to lose, they're appropriate. Scale matters.
+          </p>
+        </div>
+
+        <p class="text-gray-300 leading-relaxed">
+          For more on this, read <a href="/blog/bankroll-management-101" class="text-gold hover:text-gold-light underline">Bankroll Management 101</a>.
+        </p>
+      </section>
+
+      <!-- Section 7: Emotional Flatness -->
+      <section class="mb-16">
+        <h2 class="text-white text-3xl font-bold mb-6">The Goal: Emotional Flatness</h2>
+
+        <p class="text-gray-300 leading-relaxed mb-6">
+          The best gamblers I know share one trait: they're emotionally flat at the table. They don't celebrate wins or mourn losses. Each hand is just a data point in a longer statistical journey.
+        </p>
+
+        <p class="text-gray-300 leading-relaxed mb-6">
+          This isn't about being a robot or suppressing emotions entirely. It's about not letting emotions influence decisions. Feel what you feel—then act on logic anyway.
+        </p>
+
+        <div class="bg-gray-900 border border-gray-800 rounded-xl p-6 mb-6">
+          <h3 class="text-white font-bold mb-3">Emotional Flatness Practices</h3>
+          <ul class="text-gray-300 space-y-3">
+            <li>
+              <strong class="text-white">Pre-session meditation:</strong> 10 minutes of focused breathing before playing
+            </li>
+            <li>
+              <strong class="text-white">Decision journaling:</strong> Write down every bet and your emotional state when making it
+            </li>
+            <li>
+              <strong class="text-white">Post-session review:</strong> Analyze decisions when calm, not outcomes
+            </li>
+            <li>
+              <strong class="text-white">Physical awareness:</strong> Notice when your body tenses and consciously relax
+            </li>
+            <li>
+              <strong class="text-white">Mantras:</strong> "This is just one hand in thousands" repeated when needed
+            </li>
+          </ul>
+        </div>
+
+        <div class="bg-gradient-to-br from-gray-900 to-black border-l-4 border-gold p-6">
+          <p class="text-white text-lg italic">
+            "When I win $500,000, I don't fist pump. When I lose $500,000, I don't curse. Both reactions would mean I'm emotionally invested in individual outcomes—which is exactly where casinos want me. The goal is to be so emotionally detached that winning and losing feel the same."
+          </p>
+        </div>
+      </section>
+
+      <!-- Section 8: Cognitive Biases -->
+      <section class="mb-16">
+        <h2 class="text-white text-3xl font-bold mb-6">Other Cognitive Biases That Kill Gamblers</h2>
+
+        <div class="space-y-6">
+          <div class="bg-gray-900 border border-gray-800 rounded-xl p-6">
+            <h3 class="text-white font-bold mb-2">Confirmation Bias</h3>
+            <p class="text-gray-300 mb-3">
+              Remembering the times your "system" worked and forgetting when it didn't. If you think Banker always wins after 3 Player wins, you'll remember when it happens and forget when it doesn't.
+            </p>
+            <p class="text-gray-400 text-sm">
+              <strong>Counter:</strong> Keep detailed records of every session. Data doesn't lie.
+            </p>
+          </div>
+
+          <div class="bg-gray-900 border border-gray-800 rounded-xl p-6">
+            <h3 class="text-white font-bold mb-2">Sunk Cost Fallacy</h3>
+            <p class="text-gray-300 mb-3">
+              Continuing to play because you've "invested" so much already. "I can't leave now—I've been playing for 6 hours!" Past time and money spent are irrelevant to future decisions.
+            </p>
+            <p class="text-gray-400 text-sm">
+              <strong>Counter:</strong> Ask "If I just walked in fresh, would I make this bet?" If no, leave.
+            </p>
+          </div>
+
+          <div class="bg-gray-900 border border-gray-800 rounded-xl p-6">
+            <h3 class="text-white font-bold mb-2">Hindsight Bias</h3>
+            <p class="text-gray-300 mb-3">
+              After losing, thinking "I knew I should have bet Banker." No you didn't—you're rewriting history. This creates false confidence in your "intuition."
+            </p>
+            <p class="text-gray-400 text-sm">
+              <strong>Counter:</strong> Write down predictions before hands, then compare to results honestly.
+            </p>
+          </div>
+
+          <div class="bg-gray-900 border border-gray-800 rounded-xl p-6">
+            <h3 class="text-white font-bold mb-2">Illusion of Control</h3>
+            <p class="text-gray-300 mb-3">
+              Believing you can influence random outcomes—squeezing cards slowly in baccarat, throwing dice a certain way, picking "your" roulette numbers.
+            </p>
+            <p class="text-gray-400 text-sm">
+              <strong>Counter:</strong> Remember: in games of pure chance, you control nothing but your bet size.
+            </p>
+          </div>
+
+          <div class="bg-gray-900 border border-gray-800 rounded-xl p-6">
+            <h3 class="text-white font-bold mb-2">Near-Miss Effect</h3>
+            <p class="text-gray-300 mb-3">
+              Treating almost-wins as partial successes. "I almost hit that jackpot!" creates false hope that you're "close." In reality, almost-wins and total misses are equally losses.
+            </p>
+            <p class="text-gray-400 text-sm">
+              <strong>Counter:</strong> A loss is a loss. There's no such thing as "close" in gambling math.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 9: When to Stop -->
+      <section class="mb-16">
+        <h2 class="text-white text-3xl font-bold mb-6">Knowing When to Stop (For Good)</h2>
+
+        <p class="text-gray-300 leading-relaxed mb-6">
+          Everything in this guide assumes you can gamble responsibly. But not everyone can. Gambling addiction is real, serious, and destructive.
+        </p>
+
+        <div class="bg-red-900/20 border border-red-500/30 rounded-xl p-6 mb-6">
+          <h3 class="text-red-400 font-bold mb-3">Warning Signs of Problem Gambling</h3>
+          <ul class="text-gray-300 space-y-2">
+            <li>• Gambling with money needed for bills/rent/food</li>
+            <li>• Lying to family about gambling activities</li>
+            <li>• Borrowing money to gamble</li>
+            <li>• Inability to stop despite wanting to</li>
+            <li>• Neglecting work, relationships, or health due to gambling</li>
+            <li>• Gambling to escape problems or negative emotions</li>
+            <li>• Needing to bet larger amounts for the same excitement</li>
+          </ul>
+        </div>
+
+        <p class="text-gray-300 leading-relaxed mb-6">
+          If any of these describe you, please seek help. The National Problem Gambling Helpline is <strong class="text-white">1-800-522-4700</strong>. Available 24/7, confidential.
+        </p>
+
+        <p class="text-gray-300 leading-relaxed">
+          I've been gambling professionally for years and I still check in with myself regularly. No amount of money is worth destroying your life or relationships. If gambling stops being entertainment and becomes compulsion, it's time to stop.
+        </p>
+      </section>
+
+      <!-- Section 10: Building Mental Discipline -->
+      <section class="mb-16">
+        <h2 class="text-white text-3xl font-bold mb-6">Building Mental Discipline</h2>
+
+        <p class="text-gray-300 leading-relaxed mb-6">
+          Mental discipline isn't something you have or don't have—it's a skill you build through practice. Here's how:
+        </p>
+
+        <div class="space-y-4">
+          <div class="bg-gray-900 border-l-4 border-gold p-6">
+            <h3 class="text-white font-bold mb-2">1. Start With Rules</h3>
+            <p class="text-gray-300">
+              Write down your rules: loss limit, win target, time limit, bet sizing. Treat them as inviolable laws, not suggestions.
+            </p>
+          </div>
+
+          <div class="bg-gray-900 border-l-4 border-gold p-6">
+            <h3 class="text-white font-bold mb-2">2. Practice at Low Stakes</h3>
+            <p class="text-gray-300">
+              Build emotional control at stakes where losing doesn't hurt. Once you can maintain discipline there, gradually increase.
+            </p>
+          </div>
+
+          <div class="bg-gray-900 border-l-4 border-gold p-6">
+            <h3 class="text-white font-bold mb-2">3. Review Honestly</h3>
+            <p class="text-gray-300">
+              After every session, ask: "Did I follow my rules? Where did emotions influence decisions?" Be brutally honest.
+            </p>
+          </div>
+
+          <div class="bg-gray-900 border-l-4 border-gold p-6">
+            <h3 class="text-white font-bold mb-2">4. Accept Variance</h3>
+            <p class="text-gray-300">
+              Even perfect play leads to losing sessions. Accept that variance is part of the game. Judge yourself on decisions, not outcomes.
+            </p>
+          </div>
+
+          <div class="bg-gray-900 border-l-4 border-gold p-6">
+            <h3 class="text-white font-bold mb-2">5. Take Breaks</h3>
+            <p class="text-gray-300">
+              Schedule regular breaks from gambling entirely. Perspective is impossible when you're constantly at the tables.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Conclusion -->
+      <section class="mb-16">
+        <h2 class="text-white text-3xl font-bold mb-6">Final Thoughts</h2>
+
+        <p class="text-gray-300 leading-relaxed mb-6">
+          I've won $32 million playing baccarat. But I've also seen people with more money than me lose everything because they couldn't control their psychology. The cards don't care about your feelings, your rent, or your pride. The only thing you can control is yourself.
+        </p>
+
+        <p class="text-gray-300 leading-relaxed mb-6">
+          Master your psychology and you have a chance. Let it master you and you're just another mark for the casino.
+        </p>
+
+        <div class="bg-gradient-to-br from-gray-900 to-black border-l-4 border-gold p-6">
+          <p class="text-white text-xl italic">
+            "The house edge is 1%. My edge is emotional control. Guess which one matters more over 10,000 hands?"
+          </p>
+          <p class="text-gray-500 text-sm mt-2">— Mikki Mase</p>
+        </div>
+      </section>
+
+      <!-- CTA -->
+      <div class="bg-gray-900 border border-gold/30 rounded-xl p-8 text-center">
+        <h3 class="text-white text-2xl font-bold mb-4">Want More Insights?</h3>
+        <p class="text-gray-400 mb-6">
+          Join the free Telegram community for real-time discussion, strategy breakdowns, and behind-the-scenes content.
+        </p>
+        <Button variant="primary" href="/join">
+          Join Free Community
+        </Button>
+      </div>
+
+    </div>
+  </article>
+
+  <RelatedContent
+    title="Continue Learning"
+    items={[
+      {
+        href: "/blog/bankroll-management-101",
+        title: "Bankroll Management 101",
+        description: "The financial discipline that protects your money through variance.",
+        category: "Blog"
+      },
+      {
+        href: "/the-system",
+        title: "The System Explained",
+        description: "Mikki's full approach to pattern recognition and execution.",
+        category: "Strategy"
+      },
+      {
+        href: "/baccarat-guide",
+        title: "Complete Baccarat Guide",
+        description: "Everything you need to know about playing baccarat.",
+        category: "Guide"
+      }
+    ]}
+  />
+
+  <Footer />
+</BaseLayout>

@@ -1,0 +1,668 @@
+---
+/**
+ * Enhanced Timeline Component
+ * State-of-the-art timeline with collapse/expand, animations, and mobile gestures
+ * 2026+ futureproof design
+ */
+
+interface TimelineEvent {
+  year: string;
+  date: string;
+  title: string;
+  description: string;
+  category: 'prison' | 'business' | 'gambling' | 'personal' | 'media';
+  verified: boolean;
+  featured?: boolean;
+}
+
+interface Props {
+  events: TimelineEvent[];
+  defaultCollapsed?: boolean;
+}
+
+const { events, defaultCollapsed = true } = Astro.props;
+
+// Group events by year
+const eventsByYear = events.reduce((acc, event) => {
+  if (!acc[event.year]) {
+    acc[event.year] = [];
+  }
+  acc[event.year].push(event);
+  return acc;
+}, {} as Record<string, TimelineEvent[]>);
+
+const years = Object.keys(eventsByYear).sort();
+
+// Category colors and icons
+const categoryConfig = {
+  prison: {
+    color: 'red',
+    icon: '⚠️',
+    label: 'Prison Years',
+    gradient: 'from-red-500/20 to-red-900/20',
+    border: 'border-red-500/50',
+    text: 'text-red-400'
+  },
+  business: {
+    color: 'green',
+    icon: '💼',
+    label: 'Business',
+    gradient: 'from-green-500/20 to-green-900/20',
+    border: 'border-green-500/50',
+    text: 'text-green-400'
+  },
+  gambling: {
+    color: 'gold',
+    icon: '🎰',
+    label: 'Gambling',
+    gradient: 'from-gold/20 to-gold/10',
+    border: 'border-gold/50',
+    text: 'text-gold'
+  },
+  personal: {
+    color: 'blue',
+    icon: '👤',
+    label: 'Personal',
+    gradient: 'from-blue-500/20 to-blue-900/20',
+    border: 'border-blue-500/50',
+    text: 'text-blue-400'
+  },
+  media: {
+    color: 'purple',
+    icon: '📺',
+    label: 'Media',
+    gradient: 'from-purple-500/20 to-purple-900/20',
+    border: 'border-purple-500/50',
+    text: 'text-purple-400'
+  }
+};
+---
+
+<div class="enhanced-timeline" id="enhanced-timeline" data-default-collapsed={defaultCollapsed}>
+
+  <!-- Timeline Controls -->
+  <div class="timeline-controls">
+    <div class="flex flex-wrap items-center justify-between gap-4 mb-8">
+
+      <!-- View Toggle -->
+      <div class="flex items-center gap-3">
+        <button
+          id="timeline-toggle"
+          class="timeline-toggle-btn"
+          aria-label="Toggle timeline view"
+          aria-expanded={!defaultCollapsed}
+        >
+          <svg class="w-5 h-5 transition-transform" id="toggle-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+          </svg>
+          <span id="toggle-text">{defaultCollapsed ? 'Show All Events' : 'Show Key Events'}</span>
+        </button>
+
+        <div class="text-gray-500 text-sm" id="event-counter">
+          <span id="visible-count">0</span> of {events.length} events
+        </div>
+      </div>
+
+      <!-- Category Filters (Desktop Only) -->
+      <div class="hidden md:flex flex-wrap gap-2">
+        <button class="category-filter active" data-category="all">
+          All
+        </button>
+        {Object.entries(categoryConfig).map(([key, config]) => (
+          <button class="category-filter" data-category={key}>
+            <span class="mr-1">{config.icon}</span>
+            {config.label}
+          </button>
+        ))}
+      </div>
+    </div>
+  </div>
+
+  <!-- Timeline Track -->
+  <div class="timeline-track relative">
+
+    <!-- Vertical Line -->
+    <div class="timeline-line"></div>
+
+    <!-- Progress Indicator -->
+    <div class="timeline-progress" id="timeline-progress"></div>
+
+    <!-- Events -->
+    <div class="timeline-events space-y-8">
+      {years.map((year, yearIndex) => (
+        <div class="timeline-year-group" data-year={year}>
+
+          <!-- Year Marker -->
+          <div class="year-marker" data-year-index={yearIndex}>
+            <div class="year-marker-dot"></div>
+            <h3 class="year-marker-label">{year}</h3>
+          </div>
+
+          <!-- Events for this year -->
+          {eventsByYear[year].map((event, eventIndex) => (
+            <div
+              class={`timeline-event ${event.featured ? 'timeline-event-featured' : ''}`}
+              data-category={event.category}
+              data-featured={event.featured}
+              data-index={`${yearIndex}-${eventIndex}`}
+            >
+
+              <!-- Event Dot -->
+              <div class={`event-dot ${categoryConfig[event.category].border}`}>
+                <div class={`event-dot-inner bg-gradient-to-br ${categoryConfig[event.category].gradient}`}>
+                  <span class="text-lg">{categoryConfig[event.category].icon}</span>
+                </div>
+              </div>
+
+              <!-- Event Card -->
+              <div class={`event-card bg-gradient-to-br ${categoryConfig[event.category].gradient} border ${categoryConfig[event.category].border}`}>
+
+                <!-- Event Header -->
+                <div class="event-header">
+                  <div class="flex items-start justify-between gap-3">
+                    <div class="flex-1">
+                      <div class="flex items-center gap-2 mb-1">
+                        <span class={`text-xs font-bold uppercase tracking-wider ${categoryConfig[event.category].text}`}>
+                          {event.date}
+                        </span>
+                        {event.verified && (
+                          <span class="verified-badge" title="Independently verified">
+                            <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+                              <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                            </svg>
+                          </span>
+                        )}
+                      </div>
+                      <h4 class="event-title">{event.title}</h4>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Event Description -->
+                <p class="event-description">{event.description}</p>
+
+                <!-- Category Badge -->
+                <div class="event-footer">
+                  <span class={`category-badge ${categoryConfig[event.category].text}`}>
+                    {categoryConfig[event.category].icon} {categoryConfig[event.category].label}
+                  </span>
+                </div>
+
+              </div>
+            </div>
+          ))}
+        </div>
+      ))}
+    </div>
+
+  </div>
+
+  <!-- Scroll to Top -->
+  <div class="text-center mt-12">
+    <button class="scroll-to-top-btn" id="scroll-to-timeline-top">
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18" />
+      </svg>
+      Back to Top
+    </button>
+  </div>
+
+</div>
+
+<style>
+  /* Timeline Container */
+  .enhanced-timeline {
+    position: relative;
+  }
+
+  /* Controls */
+  .timeline-controls {
+    position: sticky;
+    top: 90px;
+    z-index: 10;
+    background: linear-gradient(to bottom, #000 0%, #000 90%, transparent 100%);
+    padding-bottom: 20px;
+    margin-bottom: -10px;
+  }
+
+  .timeline-toggle-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 20px;
+    background: linear-gradient(135deg, rgba(212, 160, 23, 0.15) 0%, rgba(212, 160, 23, 0.05) 100%);
+    border: 1px solid rgba(212, 160, 23, 0.3);
+    border-radius: 8px;
+    color: #d4a017;
+    font-weight: 600;
+    font-size: 14px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+  }
+
+  .timeline-toggle-btn:hover {
+    background: rgba(212, 160, 23, 0.2);
+    border-color: #d4a017;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(212, 160, 23, 0.2);
+  }
+
+  .timeline-toggle-btn[aria-expanded="false"] #toggle-icon {
+    transform: rotate(0deg);
+  }
+
+  .timeline-toggle-btn[aria-expanded="true"] #toggle-icon {
+    transform: rotate(180deg);
+  }
+
+  .category-filter {
+    padding: 6px 14px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 6px;
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 13px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    cursor: pointer;
+  }
+
+  .category-filter:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+  }
+
+  .category-filter.active {
+    background: rgba(212, 160, 23, 0.2);
+    border-color: rgba(212, 160, 23, 0.5);
+    color: #d4a017;
+  }
+
+  /* Timeline Track */
+  .timeline-track {
+    position: relative;
+    padding-left: 40px;
+  }
+
+  @media (max-width: 640px) {
+    .timeline-track {
+      padding-left: 30px;
+    }
+  }
+
+  /* Vertical Line */
+  .timeline-line {
+    position: absolute;
+    left: 20px;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: linear-gradient(to bottom,
+      rgba(212, 160, 23, 0.3) 0%,
+      rgba(212, 160, 23, 0.15) 50%,
+      rgba(212, 160, 23, 0) 100%
+    );
+  }
+
+  @media (max-width: 640px) {
+    .timeline-line {
+      left: 15px;
+    }
+  }
+
+  /* Progress Indicator */
+  .timeline-progress {
+    position: absolute;
+    left: 20px;
+    top: 0;
+    width: 2px;
+    height: 0%;
+    background: linear-gradient(to bottom, #d4a017, rgba(212, 160, 23, 0.5));
+    transition: height 0.1s ease-out;
+    box-shadow: 0 0 10px rgba(212, 160, 23, 0.5);
+  }
+
+  @media (max-width: 640px) {
+    .timeline-progress {
+      left: 15px;
+    }
+  }
+
+  /* Year Marker */
+  .year-marker {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 24px;
+    padding-left: 8px;
+  }
+
+  .year-marker-dot {
+    position: absolute;
+    left: -28px;
+    width: 16px;
+    height: 16px;
+    background: #d4a017;
+    border: 3px solid #000;
+    border-radius: 50%;
+    box-shadow: 0 0 0 4px rgba(212, 160, 23, 0.2);
+  }
+
+  @media (max-width: 640px) {
+    .year-marker-dot {
+      left: -23px;
+      width: 14px;
+      height: 14px;
+    }
+  }
+
+  .year-marker-label {
+    font-size: 28px;
+    font-weight: 900;
+    color: #d4a017;
+    letter-spacing: -0.02em;
+  }
+
+  @media (max-width: 640px) {
+    .year-marker-label {
+      font-size: 22px;
+    }
+  }
+
+  /* Timeline Event */
+  .timeline-event {
+    position: relative;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 20px;
+    margin-left: 8px;
+    opacity: 1;
+    transform: translateX(0);
+    transition: all 0.3s ease;
+  }
+
+  @media (max-width: 640px) {
+    .timeline-event {
+      gap: 12px;
+    }
+  }
+
+  /* Hide non-featured events when collapsed */
+  .enhanced-timeline[data-collapsed="true"] .timeline-event:not([data-featured="true"]) {
+    display: none;
+  }
+
+  /* Event Dot */
+  .event-dot {
+    position: relative;
+    width: 48px;
+    height: 48px;
+    flex-shrink: 0;
+    margin-left: -36px;
+    border-width: 2px;
+    border-radius: 12px;
+    background: #000;
+  }
+
+  @media (max-width: 640px) {
+    .event-dot {
+      width: 40px;
+      height: 40px;
+      margin-left: -31px;
+    }
+  }
+
+  .event-dot-inner {
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.3s ease;
+  }
+
+  .timeline-event:hover .event-dot-inner {
+    transform: scale(1.1) rotate(5deg);
+  }
+
+  /* Event Card */
+  .event-card {
+    background: rgba(26, 26, 26, 0.8);
+    backdrop-filter: blur(10px);
+    border-width: 1px;
+    border-radius: 12px;
+    padding: 20px;
+    transition: all 0.3s ease;
+  }
+
+  @media (max-width: 640px) {
+    .event-card {
+      padding: 16px;
+    }
+  }
+
+  .timeline-event:hover .event-card {
+    transform: translateX(4px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+  }
+
+  .timeline-event-featured .event-card {
+    background: linear-gradient(135deg, rgba(212, 160, 23, 0.15) 0%, rgba(26, 26, 26, 0.9) 100%);
+    border-width: 2px;
+  }
+
+  /* Event Content */
+  .event-header {
+    margin-bottom: 12px;
+  }
+
+  .event-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: white;
+    line-height: 1.3;
+  }
+
+  @media (max-width: 640px) {
+    .event-title {
+      font-size: 16px;
+    }
+  }
+
+  .event-description {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 15px;
+    line-height: 1.6;
+    margin-bottom: 12px;
+  }
+
+  @media (max-width: 640px) {
+    .event-description {
+      font-size: 14px;
+    }
+  }
+
+  .event-footer {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .category-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+  }
+
+  .verified-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 16px;
+    height: 16px;
+    background: rgba(34, 197, 94, 0.2);
+    border-radius: 50%;
+    color: #22c55e;
+  }
+
+  /* Scroll to Top Button */
+  .scroll-to-top-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 24px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    color: rgba(255, 255, 255, 0.7);
+    font-weight: 600;
+    transition: all 0.3s ease;
+    cursor: pointer;
+  }
+
+  .scroll-to-top-btn:hover {
+    background: rgba(212, 160, 23, 0.1);
+    border-color: rgba(212, 160, 23, 0.3);
+    color: #d4a017;
+    transform: translateY(-2px);
+  }
+
+  /* Animations */
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .timeline-event {
+    animation: fadeInUp 0.5s ease-out;
+  }
+
+  /* Stagger animation for events */
+  .timeline-event:nth-child(1) { animation-delay: 0.1s; }
+  .timeline-event:nth-child(2) { animation-delay: 0.15s; }
+  .timeline-event:nth-child(3) { animation-delay: 0.2s; }
+  .timeline-event:nth-child(4) { animation-delay: 0.25s; }
+  .timeline-event:nth-child(5) { animation-delay: 0.3s; }
+</style>
+
+<script>
+  // Enhanced Timeline Functionality
+  const timeline = document.getElementById('enhanced-timeline');
+  const toggleBtn = document.getElementById('timeline-toggle');
+  const toggleText = document.getElementById('toggle-text');
+  const visibleCount = document.getElementById('visible-count');
+  const categoryFilters = document.querySelectorAll('.category-filter');
+  const scrollToTopBtn = document.getElementById('scroll-to-timeline-top');
+  const progress = document.getElementById('timeline-progress');
+
+  if (timeline && toggleBtn) {
+    let isCollapsed = timeline.dataset.defaultCollapsed === 'true';
+
+    // Initialize
+    timeline.dataset.collapsed = String(isCollapsed);
+    updateVisibleCount();
+
+    // Toggle expand/collapse
+    toggleBtn.addEventListener('click', () => {
+      isCollapsed = !isCollapsed;
+      timeline.dataset.collapsed = String(isCollapsed);
+      toggleBtn.setAttribute('aria-expanded', String(!isCollapsed));
+      toggleText.textContent = isCollapsed ? 'Show All Events' : 'Show Key Events';
+      updateVisibleCount();
+    });
+
+    // Category filtering
+    let activeCategory = 'all';
+
+    categoryFilters.forEach(filter => {
+      filter.addEventListener('click', () => {
+        // Update active state
+        categoryFilters.forEach(f => f.classList.remove('active'));
+        filter.classList.add('active');
+
+        // Get category
+        activeCategory = filter.dataset.category || 'all';
+
+        // Filter events
+        const allEvents = document.querySelectorAll('.timeline-event');
+        allEvents.forEach(event => {
+          const eventCategory = event.dataset.category;
+          if (activeCategory === 'all' || eventCategory === activeCategory) {
+            event.style.display = '';
+          } else {
+            event.style.display = 'none';
+          }
+        });
+
+        updateVisibleCount();
+      });
+    });
+
+    // Update visible event count
+    function updateVisibleCount() {
+      const visibleEvents = Array.from(document.querySelectorAll('.timeline-event'))
+        .filter(event => {
+          const isDisplayed = event.style.display !== 'none';
+          const isShown = !isCollapsed || event.dataset.featured === 'true';
+          return isDisplayed && isShown;
+        });
+
+      if (visibleCount) {
+        visibleCount.textContent = String(visibleEvents.length);
+      }
+    }
+
+    // Scroll to top
+    scrollToTopBtn?.addEventListener('click', () => {
+      timeline.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+
+    // Progress indicator
+    function updateProgress() {
+      if (!progress) return;
+
+      const timelineTrack = document.querySelector('.timeline-track');
+      if (!timelineTrack) return;
+
+      const rect = timelineTrack.getBoundingClientRect();
+      const scrollTop = window.scrollY;
+      const trackTop = scrollTop + rect.top;
+      const trackHeight = rect.height;
+      const viewportHeight = window.innerHeight;
+
+      // Calculate progress (0-100%)
+      const scrollProgress = Math.max(0, Math.min(100,
+        ((scrollTop + viewportHeight / 2 - trackTop) / trackHeight) * 100
+      ));
+
+      progress.style.height = `${scrollProgress}%`;
+    }
+
+    // Update progress on scroll
+    let ticking = false;
+    window.addEventListener('scroll', () => {
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          updateProgress();
+          ticking = false;
+        });
+        ticking = true;
+      }
+    }, { passive: true });
+
+    // Initialize progress
+    updateProgress();
+  }
+</script>

@@ -1,0 +1,50 @@
+---
+interface Props {
+  title: string;
+  description: string;
+  canonical?: string;
+  image?: string;
+  type?: 'website' | 'article';
+}
+
+const {
+  title,
+  description,
+  canonical,
+  image = '/og-default.jpg',
+  type = 'website',
+} = Astro.props;
+
+const fullTitle = `${title} | Mikki Mase`;
+const siteUrl = 'https://mikki-mase.com';
+
+// Build canonical URL: use provided canonical or current URL path
+// Ensure no trailing slash except for homepage
+let canonicalPath = canonical || Astro.url.pathname;
+if (canonicalPath !== '/' && canonicalPath.endsWith('/')) {
+  canonicalPath = canonicalPath.slice(0, -1);
+}
+const canonicalUrl = `${siteUrl}${canonicalPath}`;
+---
+
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>{fullTitle}</title>
+<meta name="description" content={description} />
+<link rel="canonical" href={canonicalUrl} />
+
+<!-- Open Graph -->
+<meta property="og:type" content={type} />
+<meta property="og:title" content={fullTitle} />
+<meta property="og:description" content={description} />
+<meta property="og:image" content={`${siteUrl}${image}`} />
+<meta property="og:url" content={canonicalUrl} />
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={fullTitle} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={`${siteUrl}${image}`} />
+
+<!-- Favicon -->
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" />

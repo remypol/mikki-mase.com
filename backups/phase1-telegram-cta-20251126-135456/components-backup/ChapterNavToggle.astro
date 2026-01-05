@@ -1,0 +1,139 @@
+---
+// Floating Chapter Nav Toggle Button (Mobile/Tablet)
+// Shows when ChapterNav is present, triggers the sidebar
+---
+
+<button
+  id="chapter-nav-fab"
+  class="chapter-nav-fab"
+  aria-label="Open chapter navigation"
+  aria-expanded="false"
+>
+  <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7" />
+  </svg>
+  <span class="chapter-nav-fab-label">Chapters</span>
+</button>
+
+<style>
+  .chapter-nav-fab {
+    position: fixed;
+    right: 16px;
+    bottom: 160px; /* Above BackToTop button */
+    width: 56px;
+    height: 56px;
+    background: linear-gradient(135deg, #d4a017 0%, #f0c040 100%);
+    color: #000;
+    border: none;
+    border-radius: 50%;
+    box-shadow: 0 4px 12px rgba(212, 160, 23, 0.4);
+    cursor: pointer;
+    display: none; /* Hidden by default, shown by JS */
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 2px;
+    z-index: 45;
+    transition: all 0.3s ease;
+    padding: 0;
+  }
+
+  .chapter-nav-fab:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 16px rgba(212, 160, 23, 0.6);
+  }
+
+  .chapter-nav-fab:active {
+    transform: scale(0.95);
+  }
+
+  .chapter-nav-fab-label {
+    font-size: 9px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    margin-top: -2px;
+  }
+
+  /* Only show on mobile/tablet when chapter nav exists */
+  @media (max-width: 1024px) {
+    .chapter-nav-fab {
+      display: flex;
+    }
+  }
+
+  /* Adjust position on very small mobile screens */
+  @media (max-width: 640px) {
+    .chapter-nav-fab {
+      right: 12px;
+      bottom: 140px;
+      width: 52px;
+      height: 52px;
+    }
+
+    .chapter-nav-fab svg {
+      width: 20px;
+      height: 20px;
+    }
+
+    .chapter-nav-fab-label {
+      font-size: 8px;
+    }
+  }
+
+  /* Hide when chapter nav is open */
+  .chapter-nav-fab.hidden {
+    opacity: 0;
+    pointer-events: none;
+  }
+</style>
+
+<script>
+  // Wait for DOM to be fully loaded
+  document.addEventListener('DOMContentLoaded', () => {
+    const fab = document.getElementById('chapter-nav-fab');
+    const chapterNav = document.getElementById('chapter-nav');
+    const chapterNavToggle = document.getElementById('chapter-nav-toggle');
+
+    if (!fab || !chapterNav) {
+      if (fab) fab.style.display = 'none';
+      return;
+    }
+
+    // Show/hide FAB based on screen size
+    const checkVisibility = () => {
+      if (window.innerWidth <= 1024) {
+        fab.style.display = 'flex';
+      } else {
+        fab.style.display = 'none';
+      }
+    };
+
+    checkVisibility();
+    window.addEventListener('resize', checkVisibility);
+
+    // Toggle function
+    function toggleChapterNav() {
+      const isOpen = chapterNav.classList.contains('open');
+
+      if (isOpen) {
+        // Close the drawer
+        chapterNav.classList.remove('open');
+        fab.setAttribute('aria-expanded', 'false');
+        if (chapterNavToggle) chapterNavToggle.setAttribute('aria-expanded', 'false');
+      } else {
+        // Open the drawer
+        chapterNav.classList.add('open');
+        fab.setAttribute('aria-expanded', 'true');
+        if (chapterNavToggle) chapterNavToggle.setAttribute('aria-expanded', 'true');
+      }
+    }
+
+    // Click handler
+    fab.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      toggleChapterNav();
+    });
+  });
+</script>

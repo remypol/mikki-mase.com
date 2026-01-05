@@ -1,0 +1,182 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import Button from '../../components/Button.astro';
+import AuthorBox from '../../components/AuthorBox.astro';
+
+const articleSchema = {
+  "@type": "Article",
+  "@id": "https://mikki-mase.com/blog/why-casinos-ban-winners#article",
+  "headline": "Why Casinos Ban Winners (Even When They're Not Cheating)",
+  "description": "The legal reality of casino bans, how they identify advantage players, and what happens when you win too much. Mikki's been banned 150+ times.",
+  "author": {
+    "@type": "Person",
+    "name": "Mikki Mase",
+    "@id": "https://mikki-mase.com/#person"
+  },
+  "datePublished": "2025-01-18",
+  "dateModified": "2026-01-02",
+  "publisher": {
+    "@type": "Person",
+    "name": "Mikki Mase"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://mikki-mase.com/blog/why-casinos-ban-winners"
+  },
+  "articleSection": "Industry",
+  "keywords": "casino bans, advantage players, winning at casinos, Mikki Mase banned, casino surveillance"
+};
+---
+
+<BaseLayout
+  title="Why Casinos Ban Winners (Even When They're Not Cheating) | Mikki Mase"
+  description="The legal reality of casino bans, how they identify advantage players, and what happens when you win too much. Mikki's been banned 150+ times."
+  ogType="article"
+  schema={articleSchema}
+>
+  <Header />
+  <div class="h-20"></div>
+
+  <div class="bg-black border-b border-gray-800">
+    <Breadcrumbs items={[
+      { label: "Home", href: "/" },
+      { label: "Blog", href: "/blog" },
+      { label: "Why Casinos Ban Winners" }
+    ]} />
+  </div>
+
+  <article class="bg-black py-12 md:py-20">
+    <div class="container mx-auto px-6 max-w-4xl">
+
+      <header class="mb-12">
+        <div class="flex items-center gap-3 text-sm mb-4">
+          <span class="bg-gold/90 text-black font-bold uppercase px-3 py-1 rounded">Industry</span>
+          <span class="text-gray-500">•</span>
+          <time datetime="2025-01-18" class="text-gray-500">January 18, 2025</time>
+          <span class="text-gray-500">•</span>
+          <span class="text-gray-500">6 min read</span>
+        </div>
+
+        <h1 class="text-white text-3xl md:text-5xl font-black mb-6">
+          Why Casinos Ban Winners (Even When They're Not Cheating)
+        </h1>
+
+        <p class="text-gray-300 text-lg md:text-xl leading-relaxed">
+          I've been banned from over 150 casinos. Not for cheating—they've reviewed the footage countless times. For winning. Here's how it really works.
+        </p>
+      </header>
+
+      <div class="mb-12 rounded-xl overflow-hidden">
+        <img src="/images/mikki-main-2.webp" alt="Casino surveillance and security" class="w-full h-auto" loading="lazy" decoding="async" />
+      </div>
+
+      <div class="prose prose-invert prose-lg max-w-none">
+
+        <h2 class="text-white text-2xl md:text-3xl font-bold mt-12 mb-6">Casinos Are Private Property</h2>
+
+        <p class="text-gray-300 leading-relaxed mb-6">
+          The first thing to understand: casinos can refuse service to anyone for almost any reason. They're private businesses. As long as they're not discriminating based on protected characteristics (race, religion, etc.), they can tell you to leave.
+        </p>
+
+        <p class="text-gray-300 leading-relaxed mb-6">
+          Winning too much isn't illegal. But it's a perfectly legal reason for a casino to ban you. They're not running a charity—they're protecting their profits.
+        </p>
+
+        <h2 class="text-white text-2xl md:text-3xl font-bold mt-12 mb-6">How Casinos Identify Winners</h2>
+
+        <p class="text-gray-300 leading-relaxed mb-6">
+          Modern casinos use sophisticated surveillance and player tracking. Every high-stakes table has multiple camera angles. Every bet is recorded. They have teams of analysts watching for patterns.
+        </p>
+
+        <div class="bg-gray-900 border border-gray-800 rounded-xl p-6 my-8">
+          <h3 class="text-gold font-bold mb-3">Red Flags Casinos Watch For:</h3>
+          <ul class="text-gray-300 space-y-2">
+            <li>• <strong class="text-white">Consistent winning</strong> over multiple sessions</li>
+            <li>• <strong class="text-white">Betting patterns</strong> that deviate from random play</li>
+            <li>• <strong class="text-white">Table selection</strong> - choosing specific dealers or shoes</li>
+            <li>• <strong class="text-white">Session timing</strong> - leaving at strategic moments</li>
+            <li>• <strong class="text-white">Bankroll management</strong> - playing within strict limits</li>
+          </ul>
+        </div>
+
+        <h2 class="text-white text-2xl md:text-3xl font-bold mt-12 mb-6">The Absurd Reasons They Give</h2>
+
+        <p class="text-gray-300 leading-relaxed mb-6">
+          Casinos rarely say "you're banned for winning." Instead, they make up ridiculous excuses:
+        </p>
+
+        <ul class="text-gray-300 space-y-3 mb-6">
+          <li>• "You touched too many forks at the buffet"</li>
+          <li>• "You made a pit boss uncomfortable"</li>
+          <li>• "Policy decision"</li>
+          <li>• "We reserve the right to refuse service"</li>
+        </ul>
+
+        <p class="text-gray-300 leading-relaxed mb-6">
+          The real reason is always the same: you're cutting into their edge.
+        </p>
+
+        <h2 class="text-white text-2xl md:text-3xl font-bold mt-12 mb-6">What Happens During a Ban</h2>
+
+        <p class="text-gray-300 leading-relaxed mb-6">
+          When they decide to ban you, security approaches—usually politely at first. They'll ask for ID, take your photo, and inform you that you're no longer welcome. Some casinos share ban lists with sister properties, so one ban can mean losing access to an entire corporate family.
+        </p>
+
+        <p class="text-gray-300 leading-relaxed mb-6">
+          In Nevada, trespassing on casino property after a ban is a misdemeanor. The casinos take it seriously. They have facial recognition technology now.
+        </p>
+
+        <div class="bg-gradient-to-br from-gray-900 to-black border-l-4 border-gold p-6 my-8">
+          <p class="text-white text-lg italic">
+            "The irony is, they banned me at the Wynn after I lost $1.5M net. Not because I won—because they could see my approach was systematic. They knew if I kept playing, the math would eventually favor me."
+          </p>
+        </div>
+
+        <h2 class="text-white text-2xl md:text-3xl font-bold mt-12 mb-6">Why I Keep Playing</h2>
+
+        <p class="text-gray-300 leading-relaxed mb-6">
+          150+ bans hasn't stopped me. There are always new casinos, new jurisdictions, online platforms. The game continues. Read about my full approach on the <a href="/banned" class="text-gold hover:text-gold-light underline">Banned page</a> or learn <a href="/the-system" class="text-gold hover:text-gold-light underline">The System</a> that got me there.
+        </p>
+
+        <div class="bg-gray-900 border border-gold/30 rounded-xl p-8 my-12 text-center">
+          <h3 class="text-white text-xl font-bold mb-4">Get the Full Story</h3>
+          <p class="text-gray-400 mb-6">
+            Learn more about my journey, the wins, the losses, and what really happens behind casino doors.
+          </p>
+          <Button variant="primary" href="/story">
+            Read the Full Story
+          </Button>
+        </div>
+
+      </div>
+
+      <!-- Related Posts -->
+      <div class="mt-16 pt-8 border-t border-gray-800">
+        <h3 class="text-white text-xl font-bold mb-6">Related Articles</h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <a href="/banned" class="bg-gray-900 border border-gray-800 rounded-lg p-6 hover:border-gold/30 transition-colors">
+            <span class="text-gold text-sm font-bold uppercase">Deep Dive</span>
+            <h4 class="text-white font-bold mt-2 mb-2">Full Ban List & Details</h4>
+            <p class="text-gray-400 text-sm">The complete breakdown of 150+ casino bans.</p>
+          </a>
+          <a href="/wins" class="bg-gray-900 border border-gray-800 rounded-lg p-6 hover:border-gold/30 transition-colors">
+            <span class="text-gold text-sm font-bold uppercase">Results</span>
+            <h4 class="text-white font-bold mt-2 mb-2">Verified Wins & Losses</h4>
+            <p class="text-gray-400 text-sm">The documented results that led to those bans.</p>
+          </a>
+        </div>
+      </div>
+
+      <!-- Author Box -->
+      <div class="mt-16 pt-12 border-t border-gray-800">
+        <AuthorBox />
+      </div>
+
+    </div>
+  </article>
+
+  <Footer />
+</BaseLayout>

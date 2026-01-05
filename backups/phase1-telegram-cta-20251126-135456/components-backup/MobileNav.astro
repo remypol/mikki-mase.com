@@ -1,0 +1,342 @@
+---
+// Mobile bottom navigation - sticky on mobile, hidden on desktop
+// Key actions: Home, Story, Wins, More (dropdown), Join Community
+---
+
+<nav class="mobile-nav md:hidden" aria-label="Mobile navigation">
+  <a href="/" class="mobile-nav-item" aria-label="Home">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="mobile-nav-icon">
+      <path d="M11.47 3.84a.75.75 0 011.06 0l8.69 8.69a.75.75 0 101.06-1.06l-8.689-8.69a2.25 2.25 0 00-3.182 0l-8.69 8.69a.75.75 0 001.061 1.06l8.69-8.69z" />
+      <path d="M12 5.432l8.159 8.159c.03.03.06.058.091.086v6.198c0 1.035-.84 1.875-1.875 1.875H15a.75.75 0 01-.75-.75v-4.5a.75.75 0 00-.75-.75h-3a.75.75 0 00-.75.75V21a.75.75 0 01-.75.75H5.625a1.875 1.875 0 01-1.875-1.875v-6.198a2.29 2.29 0 00.091-.086L12 5.43z" />
+    </svg>
+    <span class="mobile-nav-label">Home</span>
+  </a>
+
+  <a href="/story" class="mobile-nav-item" aria-label="Story">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="mobile-nav-icon">
+      <path d="M11.25 4.533A9.707 9.707 0 006 3a9.735 9.735 0 00-3.25.555.75.75 0 00-.5.707v14.25a.75.75 0 001 .707A8.237 8.237 0 016 18.75c1.995 0 3.823.707 5.25 1.886V4.533zM12.75 20.636A8.214 8.214 0 0118 18.75c.966 0 1.89.166 2.75.47a.75.75 0 001-.708V4.262a.75.75 0 00-.5-.707A9.735 9.735 0 0018 3a9.707 9.707 0 00-5.25 1.533v16.103z" />
+    </svg>
+    <span class="mobile-nav-label">Story</span>
+  </a>
+
+  <a href="/wins" class="mobile-nav-item" aria-label="Wins">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="mobile-nav-icon">
+      <path fill-rule="evenodd" d="M5.166 2.621v.858c-1.035.148-2.059.33-3.071.543a.75.75 0 00-.584.859 6.753 6.753 0 006.138 5.6 6.73 6.73 0 002.743 1.346A6.707 6.707 0 019.279 15H8.54c-1.036 0-1.875.84-1.875 1.875V19.5h-.75a2.25 2.25 0 00-2.25 2.25c0 .414.336.75.75.75h15a.75.75 0 00.75-.75 2.25 2.25 0 00-2.25-2.25h-.75v-2.625c0-1.036-.84-1.875-1.875-1.875h-.739a6.706 6.706 0 01-1.112-3.173 6.73 6.73 0 002.743-1.347 6.753 6.753 0 006.139-5.6.75.75 0 00-.585-.858 47.077 47.077 0 00-3.07-.543V2.62a.75.75 0 00-.658-.744 49.22 49.22 0 00-6.093-.377c-2.063 0-4.096.128-6.093.377a.75.75 0 00-.657.744zm0 2.629c0 1.196.312 2.32.857 3.294A5.266 5.266 0 013.16 5.337a45.6 45.6 0 012.006-.343v.256zm13.5 0v-.256c.674.1 1.343.214 2.006.343a5.265 5.265 0 01-2.863 3.207 6.72 6.72 0 00.857-3.294z" clip-rule="evenodd" />
+    </svg>
+    <span class="mobile-nav-label">Wins</span>
+  </a>
+
+  <!-- More dropdown button -->
+  <button id="mobile-more-toggle" class="mobile-nav-item" aria-label="More pages" aria-expanded="false" aria-controls="mobile-more-menu">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="mobile-nav-icon">
+      <path fill-rule="evenodd" d="M4.5 12a1.5 1.5 0 113 0 1.5 1.5 0 01-3 0zm6 0a1.5 1.5 0 113 0 1.5 1.5 0 01-3 0zm6 0a1.5 1.5 0 113 0 1.5 1.5 0 01-3 0z" clip-rule="evenodd" />
+    </svg>
+    <span class="mobile-nav-label">More</span>
+  </button>
+
+  <a href="/join" class="mobile-nav-item mobile-nav-cta" aria-label="Join Community">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="mobile-nav-icon">
+      <path fill-rule="evenodd" d="M8.25 6.75a3.75 3.75 0 117.5 0 3.75 3.75 0 01-7.5 0zM15.75 9.75a3 3 0 116 0 3 3 0 01-6 0zM2.25 9.75a3 3 0 116 0 3 3 0 01-6 0zM6.31 15.117A6.745 6.745 0 0112 12a6.745 6.745 0 016.709 7.498.75.75 0 01-.372.568A12.696 12.696 0 0112 21.75c-2.305 0-4.47-.612-6.337-1.684a.75.75 0 01-.372-.568 6.787 6.787 0 011.019-4.38z" clip-rule="evenodd" />
+      <path d="M5.082 14.254a8.287 8.287 0 00-1.308 5.135 9.687 9.687 0 01-1.764-.44l-.115-.04a.563.563 0 01-.373-.487l-.01-.121a3.75 3.75 0 013.57-4.047zM20.226 19.389a8.287 8.287 0 00-1.308-5.135 3.75 3.75 0 013.57 4.047l-.01.121a.563.563 0 01-.373.486l-.115.04c-.567.2-1.156.349-1.764.441z" />
+    </svg>
+    <span class="mobile-nav-label">Join</span>
+  </a>
+</nav>
+
+<!-- More dropdown menu (slides up from bottom) -->
+<div id="mobile-more-menu" class="mobile-more-menu md:hidden" aria-hidden="true">
+  <div class="mobile-more-backdrop"></div>
+  <div class="mobile-more-content">
+    <div class="mobile-more-header">
+      <span class="mobile-more-title">More Pages</span>
+      <button id="mobile-more-close" class="mobile-more-close" aria-label="Close menu">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
+          <path fill-rule="evenodd" d="M5.47 5.47a.75.75 0 011.06 0L12 10.94l5.47-5.47a.75.75 0 111.06 1.06L13.06 12l5.47 5.47a.75.75 0 11-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 01-1.06-1.06L10.94 12 5.47 6.53a.75.75 0 010-1.06z" clip-rule="evenodd" />
+        </svg>
+      </button>
+    </div>
+    <div class="mobile-more-links">
+      <!-- Priority order: FAQ → Net Worth → Timeline → Strategy → Banned → Tools → Media -->
+      <a href="/faq" class="mobile-more-link">
+        <span>FAQ</span>
+        <span class="mobile-more-desc">40+ questions answered</span>
+      </a>
+      <a href="/net-worth" class="mobile-more-link">
+        <span>Net Worth</span>
+        <span class="mobile-more-desc">$20M-$40M breakdown</span>
+      </a>
+      <a href="/timeline" class="mobile-more-link">
+        <span>Timeline</span>
+        <span class="mobile-more-desc">34 life events mapped</span>
+      </a>
+      <a href="/the-system" class="mobile-more-link">
+        <span>Strategy</span>
+        <span class="mobile-more-desc">How Mikki beats baccarat</span>
+      </a>
+      <a href="/banned" class="mobile-more-link">
+        <span>Banned</span>
+        <span class="mobile-more-desc">150+ casino bans</span>
+      </a>
+      <a href="/tools" class="mobile-more-link">
+        <span>Tools</span>
+        <span class="mobile-more-desc">Free calculators</span>
+      </a>
+      <a href="/media" class="mobile-more-link">
+        <span>Media</span>
+        <span class="mobile-more-desc">Interviews & videos</span>
+      </a>
+    </div>
+  </div>
+</div>
+
+<style>
+  .mobile-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 50;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    background: rgba(0, 0, 0, 0.95);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 8px 0;
+    padding-bottom: calc(8px + env(safe-area-inset-bottom, 0px));
+  }
+
+  .mobile-nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-width: 64px;
+    min-height: 48px;
+    padding: 4px 12px;
+    border-radius: 8px;
+    color: rgba(255, 255, 255, 0.6);
+    text-decoration: none;
+    transition: all 0.15s ease;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .mobile-nav-item:hover,
+  .mobile-nav-item:active {
+    color: #d4a017;
+    background: rgba(212, 160, 23, 0.1);
+  }
+
+  .mobile-nav-item:focus-visible {
+    outline: 2px solid #d4a017;
+    outline-offset: 2px;
+  }
+
+  .mobile-nav-icon {
+    width: 24px;
+    height: 24px;
+    margin-bottom: 2px;
+  }
+
+  .mobile-nav-label {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+  }
+
+  /* CTA button highlight */
+  .mobile-nav-cta {
+    color: #d4a017;
+  }
+
+  .mobile-nav-cta:hover,
+  .mobile-nav-cta:active {
+    color: #fbbf24;
+    background: rgba(212, 160, 23, 0.15);
+  }
+
+  /* More dropdown menu styles */
+  .mobile-more-menu {
+    position: fixed;
+    inset: 0;
+    z-index: 60;
+    display: none;
+  }
+
+  .mobile-more-menu.open {
+    display: block;
+  }
+
+  .mobile-more-backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+  }
+
+  .mobile-more-content {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: #1a1a1a;
+    border-top: 1px solid rgba(212, 160, 23, 0.3);
+    border-radius: 16px 16px 0 0;
+    padding-bottom: calc(16px + env(safe-area-inset-bottom, 0px));
+    transform: translateY(100%);
+    transition: transform 0.3s ease;
+  }
+
+  .mobile-more-menu.open .mobile-more-content {
+    transform: translateY(0);
+  }
+
+  .mobile-more-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 20px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .mobile-more-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.6);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .mobile-more-close {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgba(255, 255, 255, 0.6);
+    background: transparent;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+
+  .mobile-more-close:hover {
+    color: #d4a017;
+    background: rgba(212, 160, 23, 0.1);
+  }
+
+  .mobile-more-links {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 4px;
+    padding: 12px;
+  }
+
+  .mobile-more-link {
+    display: flex;
+    flex-direction: column;
+    padding: 16px;
+    border-radius: 12px;
+    color: white;
+    text-decoration: none;
+    transition: all 0.15s ease;
+  }
+
+  .mobile-more-link:hover,
+  .mobile-more-link:active {
+    background: rgba(212, 160, 23, 0.1);
+  }
+
+  .mobile-more-link span:first-child {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 4px;
+  }
+
+  .mobile-more-desc {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.5);
+  }
+
+  /* Hide on desktop (md breakpoint = 768px) */
+  @media (min-width: 768px) {
+    .mobile-nav,
+    .mobile-more-menu {
+      display: none !important;
+    }
+  }
+</style>
+
+<script>
+  // Highlight active nav item based on current path
+  const currentPath = window.location.pathname;
+  const navItems = document.querySelectorAll('.mobile-nav-item');
+
+  navItems.forEach(item => {
+    const href = item.getAttribute('href');
+    if (!href) return;
+
+    // Check if current path matches or starts with the nav item href
+    const isActive = currentPath === href ||
+      (href !== '/' && currentPath.startsWith(href));
+
+    if (isActive) {
+      item.classList.add('mobile-nav-active');
+      (item as HTMLElement).style.color = '#d4a017';
+    }
+  });
+
+  // More dropdown toggle functionality
+  const moreToggle = document.getElementById('mobile-more-toggle');
+  const moreMenu = document.getElementById('mobile-more-menu');
+  const moreClose = document.getElementById('mobile-more-close');
+  const moreBackdrop = document.querySelector('.mobile-more-backdrop');
+
+  function openMoreMenu() {
+    if (!moreMenu || !moreToggle) return;
+    moreMenu.classList.add('open');
+    moreMenu.setAttribute('aria-hidden', 'false');
+    moreToggle.setAttribute('aria-expanded', 'true');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeMoreMenu() {
+    if (!moreMenu || !moreToggle) return;
+    moreMenu.classList.remove('open');
+    moreMenu.setAttribute('aria-hidden', 'true');
+    moreToggle.setAttribute('aria-expanded', 'false');
+    document.body.style.overflow = '';
+  }
+
+  // Toggle button click
+  moreToggle?.addEventListener('click', () => {
+    const isOpen = moreMenu?.classList.contains('open');
+    if (isOpen) {
+      closeMoreMenu();
+    } else {
+      openMoreMenu();
+    }
+  });
+
+  // Close button click
+  moreClose?.addEventListener('click', closeMoreMenu);
+
+  // Backdrop click to close
+  moreBackdrop?.addEventListener('click', closeMoreMenu);
+
+  // Close on Escape key
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && moreMenu?.classList.contains('open')) {
+      closeMoreMenu();
+    }
+  });
+
+  // Close menu when a link is clicked
+  const moreLinks = document.querySelectorAll('.mobile-more-link');
+  moreLinks.forEach(link => {
+    link.addEventListener('click', closeMoreMenu);
+  });
+</script>

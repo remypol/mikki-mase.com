@@ -1,0 +1,133 @@
+---
+import Button from './Button.astro';
+
+interface Props {
+  eyebrow?: string;
+  title: string;
+  subtitle?: string;
+  primaryCTA?: {
+    text: string;
+    href: string;
+  };
+  secondaryCTA?: {
+    text: string;
+    href: string;
+  };
+  backgroundImage?: string;
+  variant?: 'full' | 'medium';
+}
+
+const {
+  eyebrow,
+  title,
+  subtitle,
+  primaryCTA,
+  secondaryCTA,
+  backgroundImage,
+  variant = 'full'
+} = Astro.props;
+
+const heightClass = variant === 'full' ? 'min-h-screen' : 'h-[360px] sm:h-[480px] md:h-[640px]';
+---
+
+<section class={`relative ${heightClass} ${variant === 'medium' ? 'overflow-hidden' : 'flex items-start md:items-center justify-center'} bg-black`}>
+  <!-- Background Image - LCP optimized with AVIF + WebP -->
+  {backgroundImage && (
+    <div class="relative z-0 w-full">
+      {variant === 'medium' ? (
+        <picture>
+          {/* AVIF source for desktop */}
+          <source
+            type="image/avif"
+            srcset={backgroundImage.replace('.webp', '.avif')}
+          />
+          {/* WebP fallback */}
+          <source srcset={backgroundImage} />
+          <img
+            src={backgroundImage}
+            alt="Mikki Mase high stakes baccarat Las Vegas casino luxury gambling table"
+            class="w-full h-auto block"
+            loading="eager"
+            fetchpriority="high"
+            decoding="async"
+          />
+        </picture>
+      ) : (
+        <picture>
+          {/* AVIF sources - optimized for mobile DPR (720w max for mobile) */}
+          <source
+            type="image/avif"
+            srcset={`${backgroundImage.replace('.webp', '-mobile.avif')} 390w, ${backgroundImage.replace('.webp', '-500w.avif')} 500w, ${backgroundImage.replace('.webp', '-sm.avif')} 640w, ${backgroundImage.replace('.webp', '-720w.avif')} 720w, ${backgroundImage.replace('.webp', '-1080w.avif')} 1080w, ${backgroundImage.replace('.webp', '-1440w.avif')} 1440w, ${backgroundImage.replace('.webp', '.avif')} 1920w`}
+            sizes="100vw"
+          />
+          {/* WebP fallback */}
+          <source
+            type="image/webp"
+            srcset={`${backgroundImage.replace('.webp', '-mobile.webp')} 390w, ${backgroundImage.replace('.webp', '-500w.webp')} 500w, ${backgroundImage.replace('.webp', '-sm.webp')} 640w, ${backgroundImage.replace('.webp', '-720w.webp')} 720w, ${backgroundImage.replace('.webp', '-1080w.webp')} 1080w, ${backgroundImage.replace('.webp', '-1440w.webp')} 1440w, ${backgroundImage} 1920w`}
+            sizes="100vw"
+          />
+          <img
+            src={backgroundImage}
+            srcset={`${backgroundImage.replace('.webp', '-mobile.webp')} 390w, ${backgroundImage.replace('.webp', '-500w.webp')} 500w, ${backgroundImage.replace('.webp', '-sm.webp')} 640w, ${backgroundImage.replace('.webp', '-720w.webp')} 720w, ${backgroundImage.replace('.webp', '-1080w.webp')} 1080w, ${backgroundImage.replace('.webp', '-1440w.webp')} 1440w, ${backgroundImage} 1920w`}
+            sizes="100vw"
+            width="1920"
+            height="1283"
+            alt="Mikki Mase high stakes baccarat Las Vegas casino luxury gambling table"
+            class={`w-full h-full object-cover object-[50%_35%] md:object-center`}
+            loading="eager"
+            fetchpriority="high"
+            decoding="async"
+          />
+        </picture>
+      )}
+      <!-- Overlay for readability + bottom fade on mobile -->
+      <div class="absolute inset-0 bg-black/60"></div>
+      <div class="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-black/80 to-transparent md:hidden"></div>
+    </div>
+  )}
+
+  <!-- Content -->
+  <div class={`absolute inset-0 z-10 flex items-center justify-center w-full ${variant === 'full' ? 'md:min-h-0' : ''}`}>
+    <div class={`container px-6 text-center ${variant === 'full' ? 'pt-6 pb-4 md:py-32' : 'py-2 md:py-8'} flex flex-col justify-center max-h-[75vh] md:min-h-0`}>
+      <!-- Text Block: Cinematic Hierarchy -->
+      <div class="flex-shrink-0">
+        {eyebrow && (
+          <p class={`eyebrow animate-[fadeIn_0.6s_ease-out] ${variant === 'full' ? 'mb-2 md:mb-6' : 'mb-0.5 md:mb-2'}`}>
+            {eyebrow}
+          </p>
+        )}
+
+        <h1 class={`hero-title text-white animate-[fadeIn_0.6s_ease-out_0.2s_both] uppercase ${variant === 'full' ? 'mb-2 md:mb-8' : 'mb-0 md:mb-4'}`}>
+          {title}
+        </h1>
+
+        {subtitle && variant === 'full' && (
+          <p class="hero-subtitle text-gray-200 animate-[fadeIn_0.6s_ease-out_0.4s_both] mb-4 md:mb-12">
+            {subtitle}
+          </p>
+        )}
+        {subtitle && variant === 'medium' && (
+          <p class="hero-subtitle text-gray-200 animate-[fadeIn_0.6s_ease-out_0.4s_both] hidden md:block mb-0">
+            {subtitle}
+          </p>
+        )}
+      </div>
+
+      <!-- CTAs: Now in flow on mobile for guaranteed visibility -->
+      {(primaryCTA || secondaryCTA) && (
+        <div class="flex flex-col sm:flex-row gap-3 md:gap-6 justify-center px-6 animate-[fadeIn_0.6s_ease-out_0.6s_both] mt-auto md:mt-0">
+          {primaryCTA && (
+            <Button variant="primary" href={primaryCTA.href}>
+              {primaryCTA.text}
+            </Button>
+          )}
+          {secondaryCTA && (
+            <Button variant="tertiary" href={secondaryCTA.href}>
+              {secondaryCTA.text}
+            </Button>
+          )}
+        </div>
+      )}
+    </div>
+  </div>
+</section>

@@ -1,0 +1,119 @@
+---
+// Reading Time Indicator - shows estimated read time and live progress
+// Only displays on long-form content pages (Story, Wins, Net Worth, etc.)
+interface Props {
+  words: number; // Total word count of article
+}
+
+const { words } = Astro.props;
+
+// Average reading speed: 200 words per minute
+const readingSpeed = 200;
+const minutes = Math.ceil(words / readingSpeed);
+---
+
+<div id="reading-time" class="reading-time" data-total-words={words}>
+  <svg class="reading-time-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+  </svg>
+  <span id="reading-time-text" class="reading-time-text">
+    {minutes} min read
+  </span>
+  <span class="reading-time-separator">·</span>
+  <span id="reading-progress-text" class="reading-progress-text">
+    0% complete
+  </span>
+</div>
+
+<style>
+  .reading-time {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.5);
+    margin-bottom: 16px;
+  }
+
+  .reading-time-icon {
+    width: 16px;
+    height: 16px;
+    color: #d4a017;
+  }
+
+  .reading-time-text {
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.7);
+  }
+
+  .reading-time-separator {
+    color: rgba(255, 255, 255, 0.3);
+    font-weight: 400;
+  }
+
+  .reading-progress-text {
+    font-weight: 500;
+    color: #d4a017;
+    transition: opacity 0.2s ease;
+  }
+
+  /* Fade in progress after user starts reading */
+  .reading-progress-text.reading-started {
+    opacity: 1;
+  }
+
+  @media (max-width: 640px) {
+    .reading-time {
+      font-size: 13px;
+    }
+
+    .reading-time-icon {
+      width: 14px;
+      height: 14px;
+    }
+  }
+</style>
+
+<script>
+  const readingTime = document.getElementById('reading-time');
+  const progressText = document.getElementById('reading-progress-text');
+
+  if (readingTime && progressText) {
+    let ticking = false;
+    let hasStartedReading = false;
+
+    function updateProgress() {
+      const scrollTop = window.scrollY;
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const progress = docHeight > 0 ? Math.min(Math.round((scrollTop / docHeight) * 100), 100) : 0;
+
+      // Show progress after user scrolls past 5%
+      if (progress > 5 && !hasStartedReading) {
+        hasStartedReading = true;
+        progressText.classList.add('reading-started');
+      }
+
+      progressText.textContent = `${progress}% complete`;
+
+      // Change color when near completion
+      if (progress >= 90) {
+        progressText.style.color = '#10b981'; // Green for "almost done"
+      } else {
+        progressText.style.color = '#d4a017'; // Gold default
+      }
+    }
+
+    window.addEventListener('scroll', () => {
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          updateProgress();
+          ticking = false;
+        });
+        ticking = true;
+      }
+    }, { passive: true });
+
+    // Initial update
+    updateProgress();
+  }
+</script>

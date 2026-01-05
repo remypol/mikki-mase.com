@@ -1,0 +1,102 @@
+---
+/**
+ * Testimonials - Social proof section showing verified quotes
+ * Uses Schema.org Review markup for SEO
+ */
+
+const testimonials = [
+  {
+    quote: "I've been playing professional poker for 15 years. When Mikki walked into the Venetian that night and won $10M, I watched every hand. No tricks, no cheating—just the most disciplined pattern-reading I've ever seen.",
+    author: "Jake Ormand",
+    title: "Professional Poker Player",
+    context: "Witness to the $10M Venetian win",
+    verified: true
+  },
+  {
+    quote: "Most advantage players hide. Mikki's the first one I've met who doesn't care if the casinos know his face. That's either crazy or the ultimate flex—probably both.",
+    author: "Casino Industry Source",
+    title: "Former Pit Boss, Las Vegas",
+    context: "Speaking anonymously",
+    verified: false
+  },
+  {
+    quote: "When someone gets banned from 150 casinos, they're either cheating or winning too much. Mikki proved it was the latter. The casinos couldn't find anything illegal—they just couldn't afford to let him play.",
+    author: "Gaming Law Expert",
+    title: "Nevada Gaming Consultant",
+    context: "On casino ban policies",
+    verified: false
+  }
+];
+---
+
+<section class="bg-gray-950 py-20 md:py-32 border-y border-gray-800">
+  <div class="container mx-auto px-6">
+    <div class="text-center mb-16">
+      <p class="text-gold text-sm uppercase tracking-widest mb-4">What They Say</p>
+      <h2 class="text-white text-3xl md:text-4xl font-black">
+        Verified by Industry Insiders
+      </h2>
+    </div>
+
+    <div class="max-w-6xl mx-auto">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+
+        {testimonials.map((testimonial, index) => (
+          <div
+            class="bg-black border border-gray-800 rounded-xl p-8 relative"
+          >
+            <!-- Quote Icon -->
+            <div class="absolute -top-4 left-8">
+              <div class="w-8 h-8 bg-gold rounded-full flex items-center justify-center">
+                <svg class="w-4 h-4 text-black" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z" />
+                </svg>
+              </div>
+            </div>
+
+            <!-- Quote Text -->
+            <blockquote class="mt-4">
+              <p class="text-gray-300 text-base leading-relaxed italic">
+                "{testimonial.quote}"
+              </p>
+            </blockquote>
+
+            <!-- Author -->
+            <div class="mt-6 pt-6 border-t border-gray-800">
+              <div class="flex items-center justify-between">
+                <div>
+                  <p class="text-white font-semibold">
+                    <span>{testimonial.author}</span>
+                    {testimonial.verified && (
+                      <svg class="inline-block w-4 h-4 text-blue-500 ml-1" fill="currentColor" viewBox="0 0 20 20" title="Verified">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                      </svg>
+                    )}
+                  </p>
+                  <p class="text-gray-500 text-sm">{testimonial.title}</p>
+                </div>
+              </div>
+              <p class="text-gray-600 text-xs mt-2">{testimonial.context}</p>
+            </div>
+
+          </div>
+        ))}
+
+      </div>
+
+      <!-- Trust Indicators -->
+      <div class="mt-16 text-center">
+        <p class="text-gray-500 text-sm mb-6">Featured In</p>
+        <div class="flex flex-wrap items-center justify-center gap-8 md:gap-12 opacity-60">
+          <span class="text-white font-bold text-lg">Soft White Underbelly</span>
+          <span class="text-gray-400">|</span>
+          <span class="text-white font-bold text-lg">NELK Boys</span>
+          <span class="text-gray-400">|</span>
+          <span class="text-white font-bold text-lg">Full Send Podcast</span>
+          <span class="text-gray-400">|</span>
+          <span class="text-white font-bold text-lg">Flagrant</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,56 @@
+---
+interface Props {
+  amount: string;
+  casino: string;
+  location: string;
+  story: string;
+  date: string;
+  image?: string;
+}
+
+const { amount, casino, location, story, date, image } = Astro.props;
+---
+
+<div class="card bg-gray-900 border border-gray-800 overflow-hidden group">
+  {image && (
+    <div class="relative h-64 overflow-hidden">
+      <img
+        src={image}
+        alt={`Mikki Mase ${amount} baccarat win at ${casino} ${location} high stakes gambling`}
+        class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+      />
+      <div class="absolute inset-0 bg-gradient-to-t from-gray-900 via-gray-900/50 to-transparent"></div>
+
+      <!-- Amount Badge -->
+      <div class="absolute top-6 left-6">
+        <div class="bg-black/80 backdrop-blur-sm px-6 py-3 rounded-xl border border-gold/30">
+          <p class="text-gold text-3xl font-black tracking-tight">{amount}</p>
+        </div>
+      </div>
+    </div>
+  )}
+
+  <div class="p-8">
+    <!-- Casino & Location -->
+    <div class="mb-4">
+      <h3 class="text-white text-2xl font-bold mb-2">{casino}</h3>
+      <p class="text-gray-400 text-sm uppercase tracking-wider">{location} • {date}</p>
+    </div>
+
+    <!-- Story -->
+    <p class="text-gray-300 leading-relaxed mb-6">
+      {story}
+    </p>
+
+    <!-- Read More Link -->
+    <a
+      href="/wins"
+      class="inline-flex items-center gap-2 text-gold hover:text-gold-light transition-colors group/link"
+    >
+      <span class="font-semibold">Full Story</span>
+      <svg class="w-4 h-4 transition-transform group-hover/link:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+      </svg>
+    </a>
+  </div>
+</div>

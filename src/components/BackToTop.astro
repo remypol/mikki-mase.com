@@ -1,0 +1,81 @@
+---
+// Back to Top Button - appears after scrolling down
+// Smooth scroll back to top on click
+---
+
+<button
+  id="back-to-top"
+  class="fixed right-4 md:right-8 z-50 w-12 h-12 bg-gold hover:bg-gold-light text-black rounded-full shadow-lg flex items-center justify-center opacity-0 invisible transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-gold focus:ring-offset-2 focus:ring-offset-black"
+  style="bottom: 88px;"
+  aria-label="Back to top"
+>
+  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18" />
+  </svg>
+</button>
+
+<script>
+  const backToTop = document.getElementById('back-to-top');
+
+  if (backToTop) {
+    let ticking = false;
+
+    // Adaptive positioning: avoid mobile nav collision
+    function updatePosition() {
+      const isMobile = window.innerWidth < 768;
+      const mobileNav = document.querySelector('.mobile-nav');
+
+      if (isMobile && mobileNav) {
+        // Mobile: position above nav (nav height ~64px + safe area + spacing)
+        const navHeight = mobileNav.offsetHeight;
+        const safeAreaBottom = parseInt(getComputedStyle(mobileNav).paddingBottom) || 0;
+        backToTop.style.bottom = `${navHeight + 12}px`;
+      } else {
+        // Desktop: standard position
+        backToTop.style.bottom = '32px';
+      }
+    }
+
+    function toggleVisibility() {
+      if (window.scrollY > 400) {
+        backToTop.classList.remove('opacity-0', 'invisible');
+        backToTop.classList.add('opacity-100', 'visible');
+      } else {
+        backToTop.classList.add('opacity-0', 'invisible');
+        backToTop.classList.remove('opacity-100', 'visible');
+      }
+    }
+
+    // Update position on load and resize
+    updatePosition();
+    window.addEventListener('resize', () => {
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          updatePosition();
+          ticking = false;
+        });
+        ticking = true;
+      }
+    }, { passive: true });
+
+    window.addEventListener('scroll', () => {
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          toggleVisibility();
+          ticking = false;
+        });
+        ticking = true;
+      }
+    }, { passive: true });
+
+    backToTop.addEventListener('click', () => {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    });
+
+    // Initial check
+    toggleVisibility();
+  }
+</script>

@@ -1,0 +1,544 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import Hero from '../components/Hero.astro';
+import Button from '../components/Button.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import RelatedContent from '../components/RelatedContent.astro';
+
+const advantageSchema = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Article",
+      "@id": "https://mikki-mase.com/casino-advantage-play#article",
+      "headline": "Advantage Play Explained: How Players Beat Casinos Legally",
+      "description": "Learn what advantage play is, the different types of advantage players, legal considerations, and why casinos ban winners even when they're not cheating.",
+      "author": {
+        "@type": "Person",
+        "name": "Mikki Mase",
+        "@id": "https://mikki-mase.com/#person"
+      },
+      "datePublished": "2025-01-20",
+      "dateModified": "2025-11-22",
+      "publisher": {
+        "@type": "Person",
+        "name": "Mikki Mase"
+      },
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://mikki-mase.com/casino-advantage-play"
+      },
+      "articleSection": "Guide",
+      "keywords": "advantage play, card counting, casino advantage, edge sorting, hole carding, legal gambling strategies, casino bans"
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://mikki-mase.com"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Advantage Play",
+          "item": "https://mikki-mase.com/casino-advantage-play"
+        }
+      ]
+    }
+  ]
+};
+---
+
+<BaseLayout
+  title="Advantage Play Explained: How Players Beat Casinos Legally | Mikki Mase"
+  description="Learn what advantage play is, the different types of advantage players, legal considerations, and why casinos ban winners even when they're not cheating."
+  schema={advantageSchema}
+>
+  <Header />
+
+  <Hero
+    eyebrow="Beating the House"
+    title="Advantage Play Explained"
+    subtitle="How skilled players legally beat casinos—and why casinos hate it"
+    backgroundImage="/images/mikki-extra.webp"
+    variant="medium"
+  />
+
+  <div class="bg-black border-b border-gray-800">
+    <Breadcrumbs items={[
+      { label: "Home", href: "/" },
+      { label: "Advantage Play" }
+    ]} />
+  </div>
+
+  <article class="bg-black py-12 md:py-20">
+    <div class="container mx-auto px-6 max-w-4xl">
+
+      <!-- Introduction -->
+      <div class="prose prose-invert prose-lg max-w-none mb-16">
+        <p class="text-gray-300 text-xl leading-relaxed">
+          "Advantage play" is the umbrella term for legal strategies that give players an edge over the casino. Card counting in blackjack is the most famous example, but there are many others. I've used various advantage play techniques to win <a href="/wins" class="text-gold hover:text-gold-light underline">$32 million</a>—and gotten <a href="/banned" class="text-gold hover:text-gold-light underline">banned from 150+ casinos</a> for it.
+        </p>
+        <p class="text-gray-300 leading-relaxed">
+          This guide explains what advantage play is, the different types, whether it's legal, and why casinos respond the way they do.
+        </p>
+      </div>
+
+      <!-- Section 1: What is Advantage Play -->
+      <section class="mb-16">
+        <h2 class="text-white text-3xl font-bold mb-6">What is Advantage Play?</h2>
+
+        <p class="text-gray-300 leading-relaxed mb-6">
+          Advantage play refers to any legal gambling strategy that shifts the mathematical edge from the casino to the player. Unlike cheating, advantage play doesn't involve any illegal activity—just superior skill, knowledge, or information exploitation.
+        </p>
+
+        <div class="bg-gray-900 border border-gray-800 rounded-xl p-6 mb-6">
+          <h3 class="text-white font-bold mb-3">Key Characteristics of Advantage Play</h3>
+          <ul class="text-gray-300 space-y-2">
+            <li>• <strong class="text-white">100% legal</strong> - Uses only information available to all players</li>
+            <li>• <strong class="text-white">Skill-based</strong> - Requires knowledge, practice, and discipline</li>
+            <li>• <strong class="text-white">Mathematical edge</strong> - Provides positive expected value over time</li>
+            <li>• <strong class="text-white">Casino-hated</strong> - Results in bans despite being legal</li>
+          </ul>
+        </div>
+
+        <div class="bg-gradient-to-br from-gray-900 to-black border-l-4 border-gold p-6 my-8">
+          <p class="text-white text-lg italic">
+            "Casinos built their business model on having the edge. Advantage players flip that script. We use the same math they do—we just use it better."
+          </p>
+          <p class="text-gray-500 text-sm mt-2">— Mikki Mase</p>
+        </div>
+      </section>
+
+      <!-- Section 2: Types of Advantage Play -->
+      <section class="mb-16">
+        <h2 class="text-white text-3xl font-bold mb-6">Types of Advantage Play</h2>
+
+        <!-- Card Counting -->
+        <div class="bg-gray-900 border border-gray-800 rounded-xl p-6 mb-6">
+          <div class="flex items-start justify-between mb-4">
+            <h3 class="text-white text-xl font-bold">Card Counting (Blackjack)</h3>
+            <span class="bg-green-900/30 text-green-400 text-xs font-bold px-2 py-1 rounded">LEGAL</span>
+          </div>
+          <p class="text-gray-300 mb-4">
+            The most famous advantage play technique. Card counters track the ratio of high cards to low cards remaining in the deck. When the deck is "hot" (more high cards), they bet more. When it's "cold," they bet less.
+          </p>
+          <div class="grid grid-cols-2 gap-4 text-sm">
+            <div>
+              <span class="text-gray-500">Edge Possible:</span>
+              <span class="text-gold font-bold ml-2">0.5% - 1.5%</span>
+            </div>
+            <div>
+              <span class="text-gray-500">Difficulty:</span>
+              <span class="text-white font-bold ml-2">Medium-High</span>
+            </div>
+          </div>
+          <p class="text-gray-400 text-sm mt-4">
+            <strong>Status:</strong> Legal everywhere, but casinos will ban suspected counters.
+          </p>
+        </div>
+
+        <!-- Shuffle Tracking -->
+        <div class="bg-gray-900 border border-gray-800 rounded-xl p-6 mb-6">
+          <div class="flex items-start justify-between mb-4">
+            <h3 class="text-white text-xl font-bold">Shuffle Tracking</h3>
+            <span class="bg-green-900/30 text-green-400 text-xs font-bold px-2 py-1 rounded">LEGAL</span>
+          </div>
+          <p class="text-gray-300 mb-4">
+            Advanced technique that tracks clumps of cards through the shuffle. Skilled trackers can predict where favorable card sequences will appear in the new shoe.
+          </p>
+          <div class="grid grid-cols-2 gap-4 text-sm">
+            <div>
+              <span class="text-gray-500">Edge Possible:</span>
+              <span class="text-gold font-bold ml-2">1% - 3%</span>
+            </div>
+            <div>
+              <span class="text-gray-500">Difficulty:</span>
+              <span class="text-white font-bold ml-2">Very High</span>
+            </div>
+          </div>
+          <p class="text-gray-400 text-sm mt-4">
+            <strong>Status:</strong> Legal but nearly impossible with modern shuffling machines.
+          </p>
+        </div>
+
+        <!-- Hole Carding -->
+        <div class="bg-gray-900 border border-gray-800 rounded-xl p-6 mb-6">
+          <div class="flex items-start justify-between mb-4">
+            <h3 class="text-white text-xl font-bold">Hole Carding</h3>
+            <span class="bg-yellow-900/30 text-yellow-400 text-xs font-bold px-2 py-1 rounded">GRAY AREA</span>
+          </div>
+          <p class="text-gray-300 mb-4">
+            Spotting the dealer's hole card (face-down card) due to sloppy dealing. If the dealer accidentally exposes their card, using that information is legal in most jurisdictions.
+          </p>
+          <div class="grid grid-cols-2 gap-4 text-sm">
+            <div>
+              <span class="text-gray-500">Edge Possible:</span>
+              <span class="text-gold font-bold ml-2">6% - 13%</span>
+            </div>
+            <div>
+              <span class="text-gray-500">Difficulty:</span>
+              <span class="text-white font-bold ml-2">Medium</span>
+            </div>
+          </div>
+          <p class="text-gray-400 text-sm mt-4">
+            <strong>Status:</strong> Legal if you're just observing. Using devices to see cards = illegal.
+          </p>
+        </div>
+
+        <!-- Edge Sorting -->
+        <div class="bg-gray-900 border border-gray-800 rounded-xl p-6 mb-6">
+          <div class="flex items-start justify-between mb-4">
+            <h3 class="text-white text-xl font-bold">Edge Sorting</h3>
+            <span class="bg-red-900/30 text-red-400 text-xs font-bold px-2 py-1 rounded">DISPUTED</span>
+          </div>
+          <p class="text-gray-300 mb-4">
+            Exploiting tiny manufacturing imperfections on card backs. Phil Ivey famously used this technique to win millions at baccarat before casinos sued to recover their losses.
+          </p>
+          <div class="grid grid-cols-2 gap-4 text-sm">
+            <div>
+              <span class="text-gray-500">Edge Possible:</span>
+              <span class="text-gold font-bold ml-2">6% - 10%</span>
+            </div>
+            <div>
+              <span class="text-gray-500">Difficulty:</span>
+              <span class="text-white font-bold ml-2">High</span>
+            </div>
+          </div>
+          <p class="text-gray-400 text-sm mt-4">
+            <strong>Status:</strong> Courts have ruled against players using this technique. Effectively illegal now.
+          </p>
+        </div>
+
+        <!-- Bonus Hunting -->
+        <div class="bg-gray-900 border border-gray-800 rounded-xl p-6 mb-6">
+          <div class="flex items-start justify-between mb-4">
+            <h3 class="text-white text-xl font-bold">Bonus Hunting (Online)</h3>
+            <span class="bg-green-900/30 text-green-400 text-xs font-bold px-2 py-1 rounded">LEGAL</span>
+          </div>
+          <p class="text-gray-300 mb-4">
+            Systematically exploiting online casino bonuses, free spins, and promotions. With proper strategy, some bonuses have positive expected value.
+          </p>
+          <div class="grid grid-cols-2 gap-4 text-sm">
+            <div>
+              <span class="text-gray-500">Edge Possible:</span>
+              <span class="text-gold font-bold ml-2">Varies (0-5%)</span>
+            </div>
+            <div>
+              <span class="text-gray-500">Difficulty:</span>
+              <span class="text-white font-bold ml-2">Low-Medium</span>
+            </div>
+          </div>
+          <p class="text-gray-400 text-sm mt-4">
+            <strong>Status:</strong> Legal but casinos will limit or ban winning accounts.
+          </p>
+        </div>
+
+        <!-- Sports Betting Arbitrage -->
+        <div class="bg-gray-900 border border-gray-800 rounded-xl p-6 mb-6">
+          <div class="flex items-start justify-between mb-4">
+            <h3 class="text-white text-xl font-bold">Sports Betting Arbitrage</h3>
+            <span class="bg-green-900/30 text-green-400 text-xs font-bold px-2 py-1 rounded">LEGAL</span>
+          </div>
+          <p class="text-gray-300 mb-4">
+            Betting on all outcomes across different sportsbooks where odds discrepancies guarantee profit regardless of result.
+          </p>
+          <div class="grid grid-cols-2 gap-4 text-sm">
+            <div>
+              <span class="text-gray-500">Edge Possible:</span>
+              <span class="text-gold font-bold ml-2">1% - 5%</span>
+            </div>
+            <div>
+              <span class="text-gray-500">Difficulty:</span>
+              <span class="text-white font-bold ml-2">Medium</span>
+            </div>
+          </div>
+          <p class="text-gray-400 text-sm mt-4">
+            <strong>Status:</strong> Legal but requires multiple accounts and fast execution.
+          </p>
+        </div>
+
+        <!-- Progressive Hunting -->
+        <div class="bg-gray-900 border border-gray-800 rounded-xl p-6">
+          <div class="flex items-start justify-between mb-4">
+            <h3 class="text-white text-xl font-bold">Progressive Hunting</h3>
+            <span class="bg-green-900/30 text-green-400 text-xs font-bold px-2 py-1 rounded">LEGAL</span>
+          </div>
+          <p class="text-gray-300 mb-4">
+            Playing slot machines or video poker only when progressive jackpots reach a level where the expected value turns positive.
+          </p>
+          <div class="grid grid-cols-2 gap-4 text-sm">
+            <div>
+              <span class="text-gray-500">Edge Possible:</span>
+              <span class="text-gold font-bold ml-2">Situational</span>
+            </div>
+            <div>
+              <span class="text-gray-500">Difficulty:</span>
+              <span class="text-white font-bold ml-2">Low</span>
+            </div>
+          </div>
+          <p class="text-gray-400 text-sm mt-4">
+            <strong>Status:</strong> Legal and tolerated since high-jackpot machines attract other players.
+          </p>
+        </div>
+      </section>
+
+      <!-- Section 3: Is Advantage Play Legal -->
+      <section class="mb-16">
+        <h2 class="text-white text-3xl font-bold mb-6">Is Advantage Play Legal?</h2>
+
+        <p class="text-gray-300 leading-relaxed mb-6">
+          <strong class="text-white">Yes—in almost all cases.</strong> Using your brain to gain an edge is not illegal. Card counting is legal. Shuffle tracking is legal. Observing sloppy dealers is legal.
+        </p>
+
+        <p class="text-gray-300 leading-relaxed mb-6">
+          What's illegal is using devices (hidden cameras, computers, phones) to assist your play, or colluding with casino employees, or marking cards. The line is simple: using only what's available to any player = legal. Using external aids or inside help = illegal.
+        </p>
+
+        <div class="bg-gray-900 border border-gray-800 rounded-xl p-6 mb-6">
+          <h3 class="text-white font-bold mb-3">Legal vs. Illegal</h3>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <h4 class="text-green-400 font-bold mb-2">✓ Legal</h4>
+              <ul class="text-gray-300 text-sm space-y-1">
+                <li>• Card counting with your brain</li>
+                <li>• Observing dealer mistakes</li>
+                <li>• Tracking shuffles visually</li>
+                <li>• Exploiting bonus terms</li>
+                <li>• Pattern recognition</li>
+              </ul>
+            </div>
+            <div>
+              <h4 class="text-red-400 font-bold mb-2">✗ Illegal</h4>
+              <ul class="text-gray-300 text-sm space-y-1">
+                <li>• Using electronic devices</li>
+                <li>• Colluding with dealers</li>
+                <li>• Marking or switching cards</li>
+                <li>• Past-posting (late bets)</li>
+                <li>• Chip manipulation</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-gradient-to-br from-gray-900 to-black border-l-4 border-gold p-6">
+          <p class="text-white text-lg italic">
+            "Every casino investigation of my play has found nothing illegal. Zero. That's why they can only ban me—not arrest me. I use my brain and discipline. That's not cheating. That's being better than they expected."
+          </p>
+        </div>
+      </section>
+
+      <!-- Section 4: Why Casinos Ban Winners -->
+      <section class="mb-16">
+        <h2 class="text-white text-3xl font-bold mb-6">Why Casinos Ban Advantage Players</h2>
+
+        <p class="text-gray-300 leading-relaxed mb-6">
+          If advantage play is legal, why do casinos ban players for it? Simple: <strong class="text-white">casinos are private businesses</strong>. They can refuse service to anyone for any reason (except protected classes like race or religion).
+        </p>
+
+        <p class="text-gray-300 leading-relaxed mb-6">
+          Casinos exist to make money. Advantage players cost them money. The solution? Remove the advantage players. It's business, not personal.
+        </p>
+
+        <div class="bg-gray-900 border border-gray-800 rounded-xl p-6 mb-6">
+          <h3 class="text-white font-bold mb-3">How Casinos Identify Advantage Players</h3>
+          <ul class="text-gray-300 space-y-2">
+            <li>• <strong class="text-white">Bet spread analysis:</strong> Dramatic bet increases signal counting</li>
+            <li>• <strong class="text-white">Win rate tracking:</strong> Consistent winners get flagged</li>
+            <li>• <strong class="text-white">Play pattern analysis:</strong> Optimal strategy execution stands out</li>
+            <li>• <strong class="text-white">Facial recognition:</strong> Known APs are in databases</li>
+            <li>• <strong class="text-white">Shared ban lists:</strong> Casinos share information about winners</li>
+            <li>• <strong class="text-white">Surveillance review:</strong> Play is recorded and analyzed</li>
+          </ul>
+        </div>
+
+        <p class="text-gray-300 leading-relaxed">
+          I've been <a href="/banned" class="text-gold hover:text-gold-light underline">banned from 150+ casinos</a>. Not because I cheated—because I won. For more on this, read <a href="/blog/why-casinos-ban-winners" class="text-gold hover:text-gold-light underline">Why Casinos Ban Winners</a>.
+        </p>
+      </section>
+
+      <!-- Section 5: The Reality of AP Life -->
+      <section class="mb-16">
+        <h2 class="text-white text-3xl font-bold mb-6">The Reality of Advantage Play Life</h2>
+
+        <p class="text-gray-300 leading-relaxed mb-6">
+          Movies romanticize advantage play. The reality is different.
+        </p>
+
+        <div class="space-y-6">
+          <div class="bg-gray-900 border border-gray-800 rounded-xl p-6">
+            <h3 class="text-white font-bold mb-2">It's a Grind</h3>
+            <p class="text-gray-300">
+              Even with an edge, variance means long losing streaks. You might have a 1% edge but lose for weeks. The math works out over thousands of hours, not single sessions.
+            </p>
+          </div>
+
+          <div class="bg-gray-900 border border-gray-800 rounded-xl p-6">
+            <h3 class="text-white font-bold mb-2">Constant Cat and Mouse</h3>
+            <p class="text-gray-300">
+              Casinos are always trying to identify and remove you. You need to constantly adapt—new disguises, new casinos, new techniques. It's exhausting.
+            </p>
+          </div>
+
+          <div class="bg-gray-900 border border-gray-800 rounded-xl p-6">
+            <h3 class="text-white font-bold mb-2">Bankroll Requirements</h3>
+            <p class="text-gray-300">
+              To survive the variance, you need a substantial bankroll. A 1% edge can easily swing 50+ buy-ins negative before recovering. Most people can't handle that.
+            </p>
+          </div>
+
+          <div class="bg-gray-900 border border-gray-800 rounded-xl p-6">
+            <h3 class="text-white font-bold mb-2">Loneliness</h3>
+            <p class="text-gray-300">
+              You can't tell people what you really do. Friends don't understand. You travel constantly. It's not the glamorous life movies show.
+            </p>
+          </div>
+        </div>
+
+        <div class="bg-gradient-to-br from-gray-900 to-black border-l-4 border-gold p-6 mt-8">
+          <p class="text-white text-lg italic">
+            "People see the $32 million and think it's easy. They don't see the 16-hour sessions, the bans, the fake identities, the constant stress. Advantage play is a career, not a get-rich-quick scheme."
+          </p>
+        </div>
+      </section>
+
+      <!-- Section 6: My Approach -->
+      <section class="mb-16">
+        <h2 class="text-white text-3xl font-bold mb-6">My Approach to Advantage Play</h2>
+
+        <p class="text-gray-300 leading-relaxed mb-6">
+          I don't reveal my exact methods—that would get them countered immediately. But I can share the principles:
+        </p>
+
+        <div class="space-y-4">
+          <div class="bg-gray-900 border-l-4 border-gold p-6">
+            <h3 class="text-white font-bold mb-2">Pattern Recognition</h3>
+            <p class="text-gray-300">
+              Shuffles aren't perfectly random. Dealers have habits. Tables have rhythms. I look for exploitable patterns that the math says shouldn't exist but do.
+            </p>
+          </div>
+
+          <div class="bg-gray-900 border-l-4 border-gold p-6">
+            <h3 class="text-white font-bold mb-2">Bankroll Discipline</h3>
+            <p class="text-gray-300">
+              My edge is small. To survive variance, I need massive bankroll relative to bet size. $3M buy-ins for $250K hands isn't random—it's calculated survival math.
+            </p>
+          </div>
+
+          <div class="bg-gray-900 border-l-4 border-gold p-6">
+            <h3 class="text-white font-bold mb-2">Psychological Warfare</h3>
+            <p class="text-gray-300">
+              Part of my edge is reading the table—not just cards. Dealer fatigue, pit boss attention, other player energy. Human factors matter.
+            </p>
+          </div>
+
+          <div class="bg-gray-900 border-l-4 border-gold p-6">
+            <h3 class="text-white font-bold mb-2">Mobility</h3>
+            <p class="text-gray-300">
+              When you get banned, move on. There are thousands of casinos worldwide. Don't fight bans—they're part of the game. Find new hunting grounds.
+            </p>
+          </div>
+        </div>
+
+        <p class="text-gray-300 leading-relaxed mt-8">
+          For more on my specific approach, see <a href="/the-system" class="text-gold hover:text-gold-light underline">The System</a>.
+        </p>
+      </section>
+
+      <!-- Section 7: Getting Started -->
+      <section class="mb-16">
+        <h2 class="text-white text-3xl font-bold mb-6">Should You Try Advantage Play?</h2>
+
+        <p class="text-gray-300 leading-relaxed mb-6">
+          Honestly? For most people, no. Advantage play requires:
+        </p>
+
+        <ul class="text-gray-300 space-y-2 mb-6">
+          <li>• Substantial bankroll (six figures minimum for serious play)</li>
+          <li>• Hundreds of hours of practice</li>
+          <li>• Mathematical aptitude</li>
+          <li>• Emotional control under pressure</li>
+          <li>• Willingness to be banned and move on</li>
+          <li>• Acceptance of high variance swings</li>
+        </ul>
+
+        <p class="text-gray-300 leading-relaxed mb-6">
+          If you don't have all of these, advantage play will likely cost you money, not make it.
+        </p>
+
+        <div class="bg-gray-900 border border-gray-800 rounded-xl p-6 mb-6">
+          <h3 class="text-white font-bold mb-3">Better Options for Most People</h3>
+          <ul class="text-gray-300 space-y-2">
+            <li>• <strong class="text-white">Play for entertainment:</strong> Accept the house edge as cost of fun</li>
+            <li>• <strong class="text-white">Set strict limits:</strong> Budget what you can afford to lose</li>
+            <li>• <strong class="text-white">Choose best odds:</strong> Banker bets in baccarat, pass line in craps</li>
+            <li>• <strong class="text-white">Take breaks:</strong> Don't let gambling consume your life</li>
+          </ul>
+        </div>
+
+        <div class="bg-red-900/20 border border-red-500/30 rounded-xl p-6">
+          <h3 class="text-red-400 font-bold mb-3">Warning</h3>
+          <p class="text-gray-300">
+            Advantage play is not a get-rich-quick scheme. Most people who try it fail. If you're considering it because you need money, stop. That's not advantage play—that's desperate gambling, and it will destroy you.
+          </p>
+        </div>
+      </section>
+
+      <!-- Conclusion -->
+      <section class="mb-16">
+        <h2 class="text-white text-3xl font-bold mb-6">Final Thoughts</h2>
+
+        <p class="text-gray-300 leading-relaxed mb-6">
+          Advantage play is real. It's legal. And it can be profitable. But it's not for everyone. The casinos built an empire on math. Some of us learned to use that same math against them.
+        </p>
+
+        <p class="text-gray-300 leading-relaxed">
+          Whether you pursue advantage play or just want to gamble smarter, understanding these concepts will make you a better, more informed player. Knowledge is the first edge.
+        </p>
+      </section>
+
+      <!-- CTA -->
+      <div class="bg-gray-900 border border-gold/30 rounded-xl p-8 text-center">
+        <h3 class="text-white text-2xl font-bold mb-4">Learn More Strategy</h3>
+        <p class="text-gray-400 mb-6">
+          Join the free Telegram community for strategy discussions, pattern recognition insights, and real-time updates.
+        </p>
+        <Button variant="primary" href="/join">
+          Join Free Community
+        </Button>
+      </div>
+
+    </div>
+  </article>
+
+  <RelatedContent
+    title="Related Content"
+    items={[
+      {
+        href: "/banned",
+        title: "Casino Bans Explained",
+        description: "Why casinos ban winners and what happens when you get kicked out.",
+        category: "Industry"
+      },
+      {
+        href: "/the-system",
+        title: "The System",
+        description: "Mikki's approach to pattern recognition and execution.",
+        category: "Strategy"
+      },
+      {
+        href: "/blog/why-casinos-ban-winners",
+        title: "Why Casinos Ban Winners",
+        description: "The legal reality of casino bans and advantage player targeting.",
+        category: "Blog"
+      }
+    ]}
+  />
+
+  <Footer />
+</BaseLayout>

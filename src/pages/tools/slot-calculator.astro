@@ -1,0 +1,643 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import ShareButtons from '../../components/ShareButtons.astro';
+
+const toolSchema = {
+  "@type": "WebApplication",
+  "name": "Slot Bonus Calculator",
+  "applicationCategory": "FinanceApplication",
+  "operatingSystem": "Web Browser",
+  "description": "Calculate average spins and cost to hit bonus rounds on popular slots. Compare RTP, volatility, and expected bonus frequency.",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+  "author": { "@id": "https://mikki-mase.com/#person" }
+};
+
+// Popular slots data with realistic bonus frequencies
+const slots = [
+  {
+    id: "big-bass-bonanza",
+    name: "Big Bass Bonanza",
+    provider: "Pragmatic Play",
+    rtp: 96.71,
+    volatility: "High",
+    avgSpinsToBonus: 95,
+    bonusBuyMultiplier: 100,
+    maxWin: "2100x",
+    theme: "fishing"
+  },
+  {
+    id: "sweet-bonanza",
+    name: "Sweet Bonanza",
+    provider: "Pragmatic Play",
+    rtp: 96.51,
+    volatility: "High",
+    avgSpinsToBonus: 80,
+    bonusBuyMultiplier: 100,
+    maxWin: "21175x",
+    theme: "candy"
+  },
+  {
+    id: "gates-of-olympus",
+    name: "Gates of Olympus",
+    provider: "Pragmatic Play",
+    rtp: 96.50,
+    volatility: "Very High",
+    avgSpinsToBonus: 110,
+    bonusBuyMultiplier: 100,
+    maxWin: "5000x",
+    theme: "zeus"
+  },
+  {
+    id: "sugar-rush",
+    name: "Sugar Rush",
+    provider: "Pragmatic Play",
+    rtp: 96.50,
+    volatility: "High",
+    avgSpinsToBonus: 85,
+    bonusBuyMultiplier: 100,
+    maxWin: "5000x",
+    theme: "candy"
+  },
+  {
+    id: "dog-house",
+    name: "The Dog House",
+    provider: "Pragmatic Play",
+    rtp: 96.51,
+    volatility: "High",
+    avgSpinsToBonus: 70,
+    bonusBuyMultiplier: 80,
+    maxWin: "6750x",
+    theme: "dogs"
+  },
+  {
+    id: "starlight-princess",
+    name: "Starlight Princess",
+    provider: "Pragmatic Play",
+    rtp: 96.50,
+    volatility: "Very High",
+    avgSpinsToBonus: 100,
+    bonusBuyMultiplier: 100,
+    maxWin: "5000x",
+    theme: "anime"
+  },
+  {
+    id: "fruit-party",
+    name: "Fruit Party",
+    provider: "Pragmatic Play",
+    rtp: 96.47,
+    volatility: "High",
+    avgSpinsToBonus: 75,
+    bonusBuyMultiplier: 100,
+    maxWin: "5000x",
+    theme: "fruit"
+  },
+  {
+    id: "wild-west-gold",
+    name: "Wild West Gold",
+    provider: "Pragmatic Play",
+    rtp: 96.51,
+    volatility: "High",
+    avgSpinsToBonus: 90,
+    bonusBuyMultiplier: 100,
+    maxWin: "10000x",
+    theme: "western"
+  }
+];
+---
+
+<BaseLayout
+  title="Slot Bonus Calculator | How Many Spins to Bonus? | Mikki Mase"
+  description="Calculate average spins and cost to hit bonus rounds on popular slots. Compare RTP, volatility, and bonus frequency for Big Bass Bonanza, Sweet Bonanza, Gates of Olympus and more."
+  schema={toolSchema}
+>
+  <Header />
+  <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "Tools", href: "/tools" }, { label: "Slot Calculator" }]} />
+
+  <main id="main-content" class="min-h-screen bg-black">
+    <div class="container mx-auto px-4 py-8 md:py-12 max-w-7xl">
+
+      <!-- Header -->
+      <div class="text-center mb-10">
+        <h1 class="text-4xl md:text-5xl font-black text-white mb-3">Slot Bonus Calculator</h1>
+        <p class="text-gray-400 text-lg">See the math before you spin</p>
+      </div>
+
+      <!-- Info Banner -->
+      <div class="max-w-3xl mx-auto mb-8 bg-gradient-to-br from-gold/10 to-gold/5 border border-gold/30 rounded-2xl p-6 text-center">
+        <div class="flex items-start gap-4">
+          <span class="text-3xl">📊</span>
+          <div class="text-left">
+            <p class="text-white font-bold mb-2">Know the numbers:</p>
+            <p class="text-gray-300 text-sm leading-relaxed">
+              Average spins to bonus varies by slot. Could hit on spin 2, could take 300.
+              This shows you <span class="text-gold font-semibold">what to expect on average</span> based on slot mechanics and real player data.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bet Size Input -->
+      <div class="max-w-4xl mx-auto mb-8 bg-gradient-to-br from-white/5 to-white/[0.02] backdrop-blur-xl border border-white/10 rounded-2xl p-6 md:p-8">
+        <label class="block text-gray-400 text-sm font-semibold mb-4 uppercase tracking-wide">
+          Your Bet Size
+        </label>
+        <div class="grid grid-cols-4 sm:grid-cols-8 gap-2 mb-4" id="bet-options">
+          <button class="bet-btn" data-value="0.20">$0.20</button>
+          <button class="bet-btn" data-value="0.50">$0.50</button>
+          <button class="bet-btn selected" data-value="1">$1</button>
+          <button class="bet-btn" data-value="2">$2</button>
+          <button class="bet-btn" data-value="5">$5</button>
+          <button class="bet-btn" data-value="10">$10</button>
+          <button class="bet-btn" data-value="20">$20</button>
+          <button class="bet-btn" data-value="50">$50</button>
+        </div>
+        <div>
+          <input
+            type="number"
+            id="custom-bet"
+            placeholder="Or enter custom bet ($0.10 - $10,000)..."
+            step="0.01"
+            min="0.10"
+            max="10000"
+            class="w-full bg-white/5 border border-white/20 rounded-xl py-3 px-4 text-white placeholder-white/40 focus:outline-none focus:border-gold transition-colors"
+            aria-describedby="bet-error"
+          />
+          <p id="bet-error" class="text-red-400 text-xs mt-2 hidden" role="alert"></p>
+        </div>
+      </div>
+
+      <!-- Comparison Charts -->
+      <div class="grid md:grid-cols-2 gap-6 mb-8 max-w-6xl mx-auto">
+        <!-- Bonus Frequency Chart -->
+        <div class="bg-gradient-to-br from-white/5 to-white/[0.02] backdrop-blur-xl border border-white/10 rounded-2xl p-6">
+          <h3 class="text-white text-lg font-bold mb-4 text-center">Bonus Frequency Comparison</h3>
+          <div class="relative" style="height: 280px;">
+            <canvas id="frequency-chart"></canvas>
+          </div>
+        </div>
+
+        <!-- Max Win Potential Chart -->
+        <div class="bg-gradient-to-br from-white/5 to-white/[0.02] backdrop-blur-xl border border-white/10 rounded-2xl p-6">
+          <h3 class="text-white text-lg font-bold mb-4 text-center">Max Win Potential</h3>
+          <div class="relative" style="height: 280px;">
+            <canvas id="maxwin-chart"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <!-- Slots Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto" id="slots-grid">
+        {slots.map((slot) => (
+          <div class="slot-card group bg-gradient-to-br from-white/5 to-white/[0.02] backdrop-blur-xl border border-white/10 rounded-2xl p-6 hover:border-gold/50 hover:shadow-2xl hover:shadow-gold/10 transition-all duration-300" data-slot={JSON.stringify(slot)}>
+            <!-- Header -->
+            <div class="flex justify-between items-start mb-4">
+              <div>
+                <h3 class="text-white font-bold text-lg group-hover:text-gold transition-colors">{slot.name}</h3>
+                <p class="text-gray-500 text-xs">{slot.provider}</p>
+              </div>
+              <span class={`text-xs px-2 py-1 rounded-lg font-semibold ${slot.volatility === 'Very High' ? 'bg-red-500/20 text-red-400 border border-red-500/30' : 'bg-orange-500/20 text-orange-400 border border-orange-500/30'}`}>
+                {slot.volatility}
+              </span>
+            </div>
+
+            <!-- Stats Grid -->
+            <div class="grid grid-cols-2 gap-3 mb-4">
+              <div class="bg-black/30 rounded-xl p-3 text-center">
+                <span class="block text-gray-500 text-xs uppercase tracking-wide mb-1">RTP</span>
+                <span class="block text-white text-lg font-black">{slot.rtp}%</span>
+              </div>
+              <div class="bg-black/30 rounded-xl p-3 text-center">
+                <span class="block text-gray-500 text-xs uppercase tracking-wide mb-1">Max Win</span>
+                <span class="block text-gold text-lg font-black">{slot.maxWin}</span>
+              </div>
+            </div>
+
+            <!-- Calculations -->
+            <div class="space-y-3 border-t border-white/10 pt-4">
+              <div class="flex justify-between items-center">
+                <span class="text-gray-400 text-sm">Avg spins to bonus:</span>
+                <span class="text-white font-bold avg-spins">{slot.avgSpinsToBonus}</span>
+              </div>
+              <div class="flex justify-between items-center">
+                <span class="text-gray-400 text-sm">Expected cost:</span>
+                <span class="text-gold font-bold cost-to-bonus" data-base-spins={slot.avgSpinsToBonus}>$0</span>
+              </div>
+              <div class="flex justify-between items-center">
+                <span class="text-gray-400 text-sm">Max win at bet:</span>
+                <span class="text-green-400 font-bold potential-win" data-max-win={slot.maxWin}>$0</span>
+              </div>
+              <div class="flex justify-between items-center">
+                <span class="text-gray-400 text-sm">Bonus buy cost:</span>
+                <span class="text-gray-300 font-bold bonus-buy" data-multiplier={slot.bonusBuyMultiplier}>$0</span>
+              </div>
+            </div>
+
+            <!-- Insight -->
+            <div class="mt-4 pt-4 border-t border-white/10">
+              <p class="text-gray-400 text-xs italic leading-relaxed slot-insight"></p>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <!-- The Math Section -->
+      <div class="mt-8 max-w-4xl mx-auto bg-gradient-to-br from-white/5 to-white/[0.02] backdrop-blur-xl border border-white/10 rounded-2xl p-6 md:p-8">
+        <h2 class="text-white font-bold text-2xl mb-6 flex items-center gap-3">
+          <span class="text-3xl">🧮</span> How This Works
+        </h2>
+        <div class="grid md:grid-cols-2 gap-6">
+          <div class="space-y-4">
+            <div class="bg-black/30 rounded-xl p-4">
+              <h3 class="text-gold font-bold text-sm mb-2 uppercase tracking-wide">Average Spins to Bonus</h3>
+              <p class="text-gray-300 text-sm leading-relaxed">
+                Based on slot mechanics and player data. It's an average, so you might hit on spin 2 or spin 400.
+              </p>
+            </div>
+            <div class="bg-black/30 rounded-xl p-4">
+              <h3 class="text-gold font-bold text-sm mb-2 uppercase tracking-wide">Expected Cost</h3>
+              <p class="text-gray-300 text-sm leading-relaxed">
+                Average spins × bet size. What you'd typically spend to reach a bonus round.
+              </p>
+            </div>
+          </div>
+          <div class="space-y-4">
+            <div class="bg-black/30 rounded-xl p-4">
+              <h3 class="text-gold font-bold text-sm mb-2 uppercase tracking-wide">Potential Win</h3>
+              <p class="text-gray-300 text-sm leading-relaxed">
+                What a max win would pay at your bet size. These are rare but they do happen.
+              </p>
+            </div>
+            <div class="bg-black/30 rounded-xl p-4">
+              <h3 class="text-gold font-bold text-sm mb-2 uppercase tracking-wide">Bonus Buy</h3>
+              <p class="text-gray-300 text-sm leading-relaxed">
+                Skips the base game (usually 100x bet). Sometimes worth it when you're feeling it.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Share -->
+      <div class="mt-8 flex justify-center">
+        <ShareButtons
+          title="Slot Bonus Calculator | Mikki Mase"
+          description="Calculate average spins and cost to hit bonus rounds on popular slots."
+          variant="compact"
+        />
+      </div>
+
+      <!-- Disclaimer -->
+      <div class="mt-6 text-center">
+        <p class="text-gray-500 text-sm">
+          Only gamble what you can afford to lose. RTP and bonus frequencies are approximate.
+        </p>
+      </div>
+
+    </div>
+  </main>
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  .bet-btn {
+    background: rgba(255, 255, 255, 0.05);
+    border: 2px solid rgba(255, 255, 255, 0.15);
+    border-radius: 12px;
+    color: white;
+    font-size: 13px;
+    font-weight: 700;
+    padding: 12px 8px;
+    min-height: 44px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .bet-btn:hover {
+    background: rgba(251, 191, 36, 0.1);
+    border-color: rgba(251, 191, 36, 0.5);
+    transform: scale(1.05);
+  }
+
+  .bet-btn.selected {
+    background: #d4a017;
+    border-color: #d4a017;
+    color: black;
+    box-shadow: 0 0 20px rgba(212, 160, 23, 0.4);
+  }
+
+  .slot-card {
+    transition: all 0.3s ease;
+  }
+
+  .slot-card:hover {
+    transform: translateY(-4px);
+  }
+
+  @media (max-width: 480px) {
+    .bet-btn {
+      font-size: 11px;
+      padding: 10px 6px;
+    }
+  }
+</style>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+
+<script>
+  let currentBet = 1;
+
+  const betBtns = document.querySelectorAll('#bet-options .bet-btn');
+  const customBetInput = document.getElementById('custom-bet') as HTMLInputElement;
+
+  // Insights based on slot characteristics
+  const insights: Record<string, string[]> = {
+    "big-bass-bonanza": [
+      "Fish symbols during free spins are where the money's at.",
+      "The money collector mechanic can lead to huge multipliers.",
+      "Lower hit rate but bigger potential wins."
+    ],
+    "sweet-bonanza": [
+      "Tumble mechanic means wins can chain together.",
+      "Look for those bomb multipliers in free spins.",
+      "One of the most played slots for a reason."
+    ],
+    "gates-of-olympus": [
+      "Zeus throws multipliers like candy in free spins.",
+      "Very high variance - prepare for dry spells.",
+      "The retriggers are where dreams are made."
+    ],
+    "sugar-rush": [
+      "Multiplier spots build up throughout the bonus.",
+      "Longer bonus rounds typically pay better.",
+      "Sweet spot between volatility and hit rate."
+    ],
+    "dog-house": [
+      "Sticky wilds with multipliers are the key feature.",
+      "Lower bonus buy cost than most Pragmatic slots.",
+      "More consistent bonus payouts than some others."
+    ],
+    "starlight-princess": [
+      "Similar to Gates but with an anime aesthetic.",
+      "Multipliers can stack insanely high.",
+      "Prepare for long dry spells between bonuses."
+    ],
+    "fruit-party": [
+      "Random multipliers keep things interesting.",
+      "More frequent bonuses than Gates/Starlight.",
+      "Good balance for extended sessions."
+    ],
+    "wild-west-gold": [
+      "Sticky wilds with multipliers up to 5x.",
+      "One of the highest max wins in the lineup.",
+      "Respins can save a mediocre bonus."
+    ]
+  };
+
+  // Slot data for charts
+  const slotData = [
+    { id: "big-bass-bonanza", name: "Big Bass", avgSpinsToBonus: 95, maxWin: 2100 },
+    { id: "sweet-bonanza", name: "Sweet Bonanza", avgSpinsToBonus: 80, maxWin: 21175 },
+    { id: "gates-of-olympus", name: "Gates Olympus", avgSpinsToBonus: 110, maxWin: 5000 },
+    { id: "sugar-rush", name: "Sugar Rush", avgSpinsToBonus: 85, maxWin: 5000 },
+    { id: "dog-house", name: "Dog House", avgSpinsToBonus: 70, maxWin: 6750 },
+    { id: "starlight-princess", name: "Starlight", avgSpinsToBonus: 100, maxWin: 5000 },
+    { id: "fruit-party", name: "Fruit Party", avgSpinsToBonus: 75, maxWin: 5000 },
+    { id: "wild-west-gold", name: "Wild West", avgSpinsToBonus: 90, maxWin: 10000 }
+  ];
+
+  let frequencyChart: any;
+  let maxWinChart: any;
+
+  function initCharts() {
+    // Bonus Frequency Chart
+    const freqCtx = (document.getElementById('frequency-chart') as HTMLCanvasElement).getContext('2d');
+    if (freqCtx) {
+      frequencyChart = new (window as any).Chart(freqCtx, {
+        type: 'bar',
+        data: {
+          labels: slotData.map(s => s.name),
+          datasets: [{
+            label: 'Avg Spins to Bonus',
+            data: slotData.map(s => s.avgSpinsToBonus),
+            backgroundColor: 'rgba(251, 191, 36, 0.7)',
+            borderColor: 'rgba(251, 191, 36, 1)',
+            borderWidth: 2,
+            borderRadius: 6
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { display: false },
+            tooltip: {
+              backgroundColor: 'rgba(0, 0, 0, 0.9)',
+              titleColor: '#fff',
+              bodyColor: '#fff',
+              borderColor: 'rgba(251, 191, 36, 0.5)',
+              borderWidth: 1,
+              padding: 12,
+              callbacks: {
+                label: function(context: any) {
+                  return context.parsed.y + ' spins (avg)';
+                }
+              }
+            }
+          },
+          scales: {
+            x: {
+              ticks: {
+                color: '#9ca3af',
+                font: { size: 10 }
+              },
+              grid: {
+                color: 'rgba(255, 255, 255, 0.1)'
+              }
+            },
+            y: {
+              ticks: {
+                color: '#9ca3af',
+                font: { size: 11 }
+              },
+              grid: {
+                color: 'rgba(255, 255, 255, 0.1)'
+              },
+              title: {
+                display: true,
+                text: 'Spins',
+                color: '#fbbf24',
+                font: { size: 12, weight: 'bold' }
+              }
+            }
+          }
+        }
+      });
+    }
+
+    // Max Win Chart
+    const maxCtx = (document.getElementById('maxwin-chart') as HTMLCanvasElement).getContext('2d');
+    if (maxCtx) {
+      maxWinChart = new (window as any).Chart(maxCtx, {
+        type: 'bar',
+        data: {
+          labels: slotData.map(s => s.name),
+          datasets: [{
+            label: 'Max Win Multiplier',
+            data: slotData.map(s => s.maxWin),
+            backgroundColor: 'rgba(34, 197, 94, 0.7)',
+            borderColor: 'rgba(34, 197, 94, 1)',
+            borderWidth: 2,
+            borderRadius: 6
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { display: false },
+            tooltip: {
+              backgroundColor: 'rgba(0, 0, 0, 0.9)',
+              titleColor: '#fff',
+              bodyColor: '#fff',
+              borderColor: 'rgba(34, 197, 94, 0.5)',
+              borderWidth: 1,
+              padding: 12,
+              callbacks: {
+                label: function(context: any) {
+                  return context.parsed.y.toLocaleString() + 'x max win';
+                }
+              }
+            }
+          },
+          scales: {
+            x: {
+              ticks: {
+                color: '#9ca3af',
+                font: { size: 10 }
+              },
+              grid: {
+                color: 'rgba(255, 255, 255, 0.1)'
+              }
+            },
+            y: {
+              ticks: {
+                color: '#9ca3af',
+                font: { size: 11 },
+                callback: function(value: any) {
+                  return value >= 1000 ? (value/1000) + 'k' : value;
+                }
+              },
+              grid: {
+                color: 'rgba(255, 255, 255, 0.1)'
+              },
+              title: {
+                display: true,
+                text: 'Multiplier',
+                color: '#22c55e',
+                font: { size: 12, weight: 'bold' }
+              }
+            }
+          }
+        }
+      });
+    }
+  }
+
+  function updateCalculations() {
+    document.querySelectorAll('.slot-card').forEach((card) => {
+      const slotData = JSON.parse((card as HTMLElement).dataset.slot || '{}');
+
+      // Cost to bonus
+      const costToBonus = (slotData.avgSpinsToBonus * currentBet).toFixed(2);
+      const costEl = card.querySelector('.cost-to-bonus');
+      if (costEl) costEl.textContent = '$' + costToBonus;
+
+      // Potential max win (parse "2100x" to get multiplier)
+      const maxWinMultiplier = parseInt(slotData.maxWin.replace('x', '').replace(',', ''));
+      const potentialWin = maxWinMultiplier * currentBet;
+      const potentialEl = card.querySelector('.potential-win');
+      if (potentialEl) {
+        if (potentialWin >= 1000000) {
+          potentialEl.textContent = '$' + (potentialWin / 1000000).toFixed(1) + 'M';
+        } else if (potentialWin >= 1000) {
+          potentialEl.textContent = '$' + (potentialWin / 1000).toFixed(0) + 'K';
+        } else {
+          potentialEl.textContent = '$' + potentialWin.toFixed(0);
+        }
+      }
+
+      // Bonus buy cost
+      const bonusBuyCost = (slotData.bonusBuyMultiplier * currentBet).toFixed(2);
+      const buyEl = card.querySelector('.bonus-buy');
+      if (buyEl) buyEl.textContent = '$' + bonusBuyCost;
+
+      // Insight
+      const insightEl = card.querySelector('.slot-insight');
+      if (insightEl && insights[slotData.id]) {
+        const slotInsights = insights[slotData.id];
+        insightEl.textContent = slotInsights[Math.floor(Math.random() * slotInsights.length)];
+      }
+    });
+  }
+
+  // Bet button selection
+  betBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      betBtns.forEach(b => b.classList.remove('selected'));
+      btn.classList.add('selected');
+      currentBet = parseFloat((btn as HTMLElement).dataset.value || '1');
+      customBetInput.value = '';
+      updateCalculations();
+    });
+  });
+
+  // Custom bet input with validation
+  const betError = document.getElementById('bet-error');
+
+  customBetInput?.addEventListener('input', () => {
+    const val = parseFloat(customBetInput.value);
+    const inputEl = customBetInput as HTMLInputElement;
+
+    // Clear previous error state
+    betError?.classList.add('hidden');
+    inputEl.classList.remove('border-red-500');
+    inputEl.classList.add('border-white/20');
+
+    if (customBetInput.value === '') {
+      return; // Empty is fine
+    }
+
+    if (isNaN(val) || val < 0.10) {
+      betError!.textContent = 'Minimum bet is $0.10';
+      betError?.classList.remove('hidden');
+      inputEl.classList.remove('border-white/20');
+      inputEl.classList.add('border-red-500');
+      return;
+    }
+
+    if (val > 10000) {
+      betError!.textContent = 'Maximum bet is $10,000';
+      betError?.classList.remove('hidden');
+      inputEl.classList.remove('border-white/20');
+      inputEl.classList.add('border-red-500');
+      return;
+    }
+
+    betBtns.forEach(b => b.classList.remove('selected'));
+    currentBet = val;
+    updateCalculations();
+  });
+
+  // Initialize
+  document.addEventListener('DOMContentLoaded', () => {
+    initCharts();
+    updateCalculations();
+  });
+</script>

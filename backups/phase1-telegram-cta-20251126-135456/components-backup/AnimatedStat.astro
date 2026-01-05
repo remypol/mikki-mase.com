@@ -1,0 +1,257 @@
+---
+/**
+ * Animated Stat Component
+ * 2026+ state-of-the-art counter with intelligent formatting
+ * Handles large numbers elegantly without visual chaos
+ */
+
+interface Props {
+  value: number;
+  label: string;
+  suffix?: string;
+  prefix?: string;
+  format?: 'number' | 'currency' | 'compact';
+  icon?: string;
+  gradient?: 'gold' | 'red' | 'green' | 'blue';
+  large?: boolean;
+  delay?: number;
+}
+
+const {
+  value,
+  label,
+  suffix = '',
+  prefix = '',
+  format = 'number',
+  icon,
+  gradient = 'gold',
+  large = false,
+  delay = 0
+} = Astro.props;
+
+// Generate unique ID for this stat
+const statId = `stat-${Math.random().toString(36).substr(2, 9)}`;
+
+const gradientClasses = {
+  gold: 'from-gold/20 via-gold/10 to-transparent border-gold/50 hover:border-gold',
+  red: 'from-red-900/30 via-red-900/10 to-transparent border-red-500/50 hover:border-red-500',
+  green: 'from-green-900/30 via-green-900/10 to-transparent border-green-500/50 hover:border-green-500',
+  blue: 'from-blue-900/30 via-blue-900/10 to-transparent border-blue-500/50 hover:border-blue-500'
+};
+
+const textClasses = {
+  gold: 'text-gold',
+  red: 'text-red-400',
+  green: 'text-green-400',
+  blue: 'text-blue-400'
+};
+---
+
+<div
+  class={`animated-stat group relative bg-gradient-to-br ${gradientClasses[gradient]} border-2 rounded-2xl p-8 hover:shadow-xl transition-all duration-300 ${large ? 'md:col-span-2' : ''}`}
+  data-stat-id={statId}
+  data-value={value}
+  data-format={format}
+  data-prefix={prefix}
+  data-suffix={suffix}
+  data-delay={delay}
+>
+  <div class="flex items-start gap-4">
+    {icon && (
+      <div class="flex-shrink-0 w-14 h-14 bg-black/20 backdrop-blur-sm rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform">
+        <div class={`text-2xl ${textClasses[gradient]}`} set:html={icon} />
+      </div>
+    )}
+    <div class="flex-1">
+      <p class={`${textClasses[gradient]} text-sm font-bold uppercase tracking-wider mb-2`}>
+        {label}
+      </p>
+      <p
+        class="stat-value text-white text-4xl md:text-5xl font-black transition-all duration-300"
+        data-target={value}
+      >
+        {prefix}0{suffix}
+      </p>
+    </div>
+  </div>
+</div>
+
+<style>
+  .animated-stat {
+    will-change: transform;
+  }
+
+  .stat-value {
+    font-variant-numeric: tabular-nums;
+    will-change: transform;
+  }
+
+  .stat-value.counting {
+    animation: subtle-pulse 0.3s ease-in-out;
+  }
+
+  .stat-value.complete {
+    animation: lock-in 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  @keyframes subtle-pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.02); }
+  }
+
+  @keyframes lock-in {
+    0% { transform: scale(1.05); opacity: 0.8; }
+    50% { transform: scale(0.98); }
+    100% { transform: scale(1); opacity: 1; }
+  }
+</style>
+
+<script>
+  /**
+   * Intelligent counter with smart formatting for large numbers
+   * - Accelerates then decelerates (easeOutExpo)
+   * - Formats numbers appropriately ($32M not $32,000,000)
+   * - Stagger delays for visual hierarchy
+   * - GPU accelerated
+   */
+
+  class SmartCounter {
+    private element: HTMLElement;
+    private target: number;
+    private format: string;
+    private prefix: string;
+    private suffix: string;
+    private delay: number;
+    private current: number = 0;
+    private startTime: number = 0;
+    private duration: number = 2000; // 2 seconds total
+    private animationFrame: number | null = null;
+
+    constructor(element: HTMLElement) {
+      this.element = element;
+      const stat = element.closest('.animated-stat') as HTMLElement;
+
+      this.target = parseFloat(stat.dataset.value || '0');
+      this.format = stat.dataset.format || 'number';
+      this.prefix = stat.dataset.prefix || '';
+      this.suffix = stat.dataset.suffix || '';
+      this.delay = parseFloat(stat.dataset.delay || '0');
+    }
+
+    // Easing function: easeOutExpo (fast start, slow end)
+    private easeOutExpo(t: number): number {
+      return t === 1 ? 1 : 1 - Math.pow(2, -10 * t);
+    }
+
+    // Format number intelligently based on size
+    private formatNumber(value: number): string {
+      const absValue = Math.abs(value);
+
+      if (this.format === 'compact' || absValue >= 1000000) {
+        // Use compact notation for millions
+        if (absValue >= 1000000000) {
+          return `${this.prefix}${(value / 1000000000).toFixed(1)}B${this.suffix}`;
+        } else if (absValue >= 1000000) {
+          return `${this.prefix}${(value / 1000000).toFixed(0)}M${this.suffix}`;
+        } else if (absValue >= 1000) {
+          return `${this.prefix}${(value / 1000).toFixed(0)}K${this.suffix}`;
+        }
+      }
+
+      if (this.format === 'currency') {
+        return `${this.prefix}${value.toLocaleString('en-US', { maximumFractionDigits: 0 })}${this.suffix}`;
+      }
+
+      return `${this.prefix}${Math.round(value).toLocaleString('en-US')}${this.suffix}`;
+    }
+
+    // Animation step
+    private animate(currentTime: number) {
+      if (!this.startTime) this.startTime = currentTime;
+
+      const elapsed = currentTime - this.startTime;
+      const progress = Math.min(elapsed / this.duration, 1);
+
+      // Apply easing
+      const easedProgress = this.easeOutExpo(progress);
+
+      // Calculate current value
+      this.current = this.target * easedProgress;
+
+      // Update display
+      this.element.textContent = this.formatNumber(this.current);
+
+      // Add counting class
+      this.element.classList.add('counting');
+
+      if (progress < 1) {
+        this.animationFrame = requestAnimationFrame((t) => this.animate(t));
+      } else {
+        // Animation complete
+        this.element.textContent = this.formatNumber(this.target);
+        this.element.classList.remove('counting');
+        this.element.classList.add('complete');
+
+        // Remove complete class after animation
+        setTimeout(() => {
+          this.element.classList.remove('complete');
+        }, 400);
+      }
+    }
+
+    // Start animation with delay
+    public start() {
+      setTimeout(() => {
+        this.animationFrame = requestAnimationFrame((t) => this.animate(t));
+      }, this.delay);
+    }
+
+    // Clean up
+    public stop() {
+      if (this.animationFrame) {
+        cancelAnimationFrame(this.animationFrame);
+      }
+    }
+  }
+
+  // Initialize all counters when they scroll into view
+  if (typeof window !== 'undefined') {
+    const initCounters = () => {
+      const statValues = document.querySelectorAll('.stat-value[data-target]');
+      const counters: SmartCounter[] = [];
+
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              const element = entry.target as HTMLElement;
+              const counter = new SmartCounter(element);
+              counters.push(counter);
+              counter.start();
+
+              // Stop observing after animation starts
+              observer.unobserve(element);
+            }
+          });
+        },
+        {
+          threshold: 0.3,
+          rootMargin: '0px 0px -100px 0px'
+        }
+      );
+
+      statValues.forEach((el) => observer.observe(el));
+
+      // Cleanup on page unload
+      window.addEventListener('beforeunload', () => {
+        counters.forEach(c => c.stop());
+      });
+    };
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initCounters);
+    } else {
+      initCounters();
+    }
+  }
+</script>

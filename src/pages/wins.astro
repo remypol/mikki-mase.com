@@ -1,0 +1,1411 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import Hero from '../components/Hero.astro';
+import Button from '../components/Button.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import RelatedContent from '../components/RelatedContent.astro';
+import QuickAnswer from '../components/QuickAnswer.astro';
+import ReadingTime from '../components/ReadingTime.astro';
+import ChapterNav from '../components/ChapterNav.astro';
+
+// Chapter Navigation Data
+const winsChapters = [
+  { id: "verified-wins", title: "Verified Wins" },
+  { id: "documented-losses", title: "Documented Losses" },
+  { id: "claimed-unverified", title: "Claimed But Unverified" },
+  { id: "verdict", title: "The Verdict" },
+  { id: "behind-wins", title: "Behind the Wins" },
+  { id: "harassment-tactics", title: "Casino Harassment Tactics" },
+  { id: "betting-strategy", title: "Betting Strategy" },
+  { id: "complete-record", title: "Complete Win/Loss Record" }
+];
+
+const winsSchema = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Article",
+      "@id": "https://mikki-mase.com/wins#article",
+      "headline": "Mikki Mase's Biggest Wins: Verified $10M+ and Documented Losses",
+      "description": "Complete timeline of Mikki Mase's casino wins and losses with verification status.",
+      "author": {
+        "@type": "Person",
+        "name": "Mikki Mase",
+        "@id": "https://mikki-mase.com/#person"
+      },
+      "datePublished": "2025-01-15",
+      "dateModified": "2026-01-02",
+      "publisher": {
+        "@type": "Person",
+        "name": "Mikki Mase"
+      },
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://mikki-mase.com/wins"
+      },
+      "articleSection": "Casino Results",
+      "keywords": "Mikki Mase wins, casino winnings, verified wins, Venetian, documented losses, Wynn, Hustler Casino Live",
+      "inLanguage": "en-US"
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://mikki-mase.com"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Wins",
+          "item": "https://mikki-mase.com/wins"
+        }
+      ]
+    }
+  ]
+};
+---
+
+<BaseLayout
+  title="Mikki Mase Wins & Losses - Verified Casino Results"
+  description="Complete breakdown of Mikki Mase's casino wins and losses: $10M+ verified at the Venetian, $1.5M loss at Wynn, $938K poker losses, and $32M claimed total. Verified facts vs. unverified claims."
+  schema={winsSchema}
+>
+  <Header />
+
+  <!-- HERO SECTION -->
+  <Hero
+    eyebrow="Complete Win/Loss Breakdown"
+    title="Wins & Losses"
+    subtitle="$10M+ verified, $32M claimed. Every documented win and loss."
+    backgroundImage="/images/mikki-main-2.webp"
+    variant="medium"
+  />
+
+  <!-- BREADCRUMBS -->
+  <div class="bg-black border-b border-gray-800">
+    <Breadcrumbs items={[
+      { label: "Home", href: "/" },
+      { label: "Wins & Losses" }
+    ]} />
+  </div>
+
+  <!-- MAIN CONTENT -->
+  <article class="bg-black">
+    <div class="container mx-auto px-6 py-16 md:py-24">
+      <div class="flex flex-col lg:flex-row gap-8 lg:gap-12 max-w-7xl mx-auto">
+
+        <!-- Chapter Navigation (Desktop Sidebar) -->
+        <aside class="hidden lg:block lg:w-64 flex-shrink-0">
+          <ChapterNav chapters={winsChapters} />
+        </aside>
+
+        <!-- Main Content -->
+        <div class="flex-1 max-w-4xl">
+
+      <!-- Reading Time -->
+      <div class="max-w-4xl mx-auto">
+        <ReadingTime words={4200} />
+      </div>
+
+      <!-- Intro -->
+      <div class="max-w-4xl mx-auto mb-16 md:mb-20">
+        <p class="text-gray-300 text-lg md:text-xl leading-relaxed mb-6">
+          Unlike most gambling "experts" who only show their wins, <a href="/story" class="text-gold hover:text-gold-light underline">Mikki Mase's story</a> includes both verified victories and documented losses. This transparency actually adds credibility. Here's the complete breakdown.
+        </p>
+        <p class="text-gray-300 text-lg md:text-xl leading-relaxed">
+          Understanding what's verified versus what's claimed is crucial to evaluating his story. The mix of huge wins, documented losses, and transparent reporting separates fact from fiction. For the chronological context of these wins and losses, explore the <a href="/timeline" class="text-gold hover:text-gold-light underline">interactive timeline</a>. For more on what's independently confirmed, see the <a href="/faq" class="text-gold hover:text-gold-light underline">FAQ</a>.
+        </p>
+      </div>
+
+      <!-- VISUALIZATION DASHBOARD -->
+      <section class="max-w-7xl mx-auto mb-20 md:mb-32">
+        <div class="text-center mb-12">
+          <h2 class="text-white text-3xl md:text-5xl font-bold mb-6">Win/Loss Breakdown</h2>
+          <p class="text-gray-400 text-lg max-w-3xl mx-auto">
+            Interactive visualization of all documented results
+          </p>
+        </div>
+
+        <!-- Filter Buttons -->
+        <div class="flex flex-wrap justify-center gap-3 mb-10">
+          <button class="filter-btn active" data-filter="all">
+            All Results
+          </button>
+          <button class="filter-btn" data-filter="verified">
+            ✓ Verified Only
+          </button>
+          <button class="filter-btn" data-filter="unverified">
+            ? Unverified Only
+          </button>
+          <button class="filter-btn" data-filter="losses">
+            ⚠ Losses Only
+          </button>
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-8 mb-12">
+          <!-- Win Distribution Chart -->
+          <div class="bg-gradient-to-br from-white/5 to-white/[0.02] backdrop-blur-xl border border-white/10 rounded-2xl p-6">
+            <h3 class="text-white text-xl font-bold mb-4 text-center">Win Distribution</h3>
+            <div class="relative" style="height: 280px;">
+              <canvas id="distribution-chart"></canvas>
+            </div>
+            <p class="text-gray-500 text-xs text-center mt-4">
+              Verified vs Claimed winnings breakdown
+            </p>
+          </div>
+
+          <!-- Timeline Chart -->
+          <div class="bg-gradient-to-br from-white/5 to-white/[0.02] backdrop-blur-xl border border-white/10 rounded-2xl p-6">
+            <h3 class="text-white text-xl font-bold mb-4 text-center">Major Results Timeline</h3>
+            <div class="relative" style="height: 280px;">
+              <canvas id="timeline-chart"></canvas>
+            </div>
+            <p class="text-gray-500 text-xs text-center mt-4">
+              Click bars for details
+            </p>
+          </div>
+        </div>
+
+        <!-- Summary Stats -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12">
+          <div class="bg-gradient-to-br from-green-900/20 to-green-900/5 border border-green-500/30 rounded-xl p-6 text-center">
+            <p class="text-green-400 text-3xl md:text-4xl font-black mb-2">$10M+</p>
+            <p class="text-gray-400 text-sm uppercase tracking-wide">Verified Wins</p>
+          </div>
+          <div class="bg-gradient-to-br from-yellow-900/20 to-yellow-900/5 border border-yellow-500/30 rounded-xl p-6 text-center">
+            <p class="text-yellow-400 text-3xl md:text-4xl font-black mb-2">$22M+</p>
+            <p class="text-gray-400 text-sm uppercase tracking-wide">Claimed Wins</p>
+          </div>
+          <div class="bg-gradient-to-br from-red-900/20 to-red-900/5 border border-red-500/30 rounded-xl p-6 text-center">
+            <p class="text-red-400 text-3xl md:text-4xl font-black mb-2">$10.4M</p>
+            <p class="text-gray-400 text-sm uppercase tracking-wide">Total Losses</p>
+          </div>
+          <div class="bg-gradient-to-br from-gold/20 to-gold/5 border border-gold/30 rounded-xl p-6 text-center">
+            <p class="text-gold text-3xl md:text-4xl font-black mb-2">$32M+</p>
+            <p class="text-gray-400 text-sm uppercase tracking-wide">Net Total</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- VERIFIED WINS -->
+      <section id="verified-wins" class="max-w-6xl mx-auto mb-20 md:mb-32 filter-section" data-category="verified">
+        <div class="text-center mb-12 md:mb-16">
+          <div class="inline-block px-4 py-2 bg-green-900/30 border border-green-500/50 rounded-full mb-4">
+            <span class="text-green-400 text-sm font-bold uppercase tracking-wider">✓ Verified</span>
+          </div>
+          <h2 class="text-white text-3xl md:text-5xl font-bold mb-4">Independently Confirmed Wins</h2>
+          <p class="text-gray-400 text-lg max-w-3xl mx-auto">
+            These wins have been verified by third-party witnesses, casino staff confirmations, or documented public records.
+          </p>
+        </div>
+
+        <!-- Venetian Win -->
+        <div class="bg-gradient-to-br from-gray-900 to-black border-2 border-green-500/30 rounded-2xl p-8 md:p-12 mb-8">
+          <div class="flex flex-col md:flex-row items-start gap-8">
+            <div class="flex-shrink-0">
+              <div class="w-24 h-24 rounded-full bg-green-500/10 border-2 border-green-500 flex items-center justify-center">
+                <span class="text-green-400 text-3xl font-black">✓</span>
+              </div>
+            </div>
+            <div class="flex-1">
+              <div class="flex flex-wrap items-center gap-3 mb-4">
+                <h3 class="text-white text-2xl md:text-3xl font-bold">The Venetian</h3>
+                <span class="px-3 py-1 bg-green-900/30 border border-green-500/50 rounded-full text-green-400 text-sm font-bold">VERIFIED</span>
+              </div>
+              <div class="mb-6">
+                <p class="text-gold text-4xl md:text-5xl font-black mb-2">$10,000,000+</p>
+                <p class="text-gray-400 text-sm uppercase tracking-wider">Las Vegas, NV • 2021-2022</p>
+              </div>
+              <div class="space-y-4 mb-6">
+                <p class="text-gray-300 text-lg leading-relaxed">
+                  <strong class="text-white">Witness:</strong> Professional poker player Jake Ormand was present at the table and publicly confirmed the win. Ormand is a well-known figure in the poker community with no reason to fabricate the story.
+                </p>
+                <p class="text-gray-300 text-lg leading-relaxed">
+                  <strong class="text-white">Casino Response:</strong> The Venetian reviewed surveillance footage extensively. They found no evidence of cheating, card counting, or any illegal activity. Despite this, they <a href="/banned" class="text-gold hover:text-gold-light underline">banned Mikki for life</a>.
+                </p>
+                <p class="text-gray-300 text-lg leading-relaxed">
+                  <strong class="text-white">Why This Matters:</strong> This is the only win with independent third-party verification. Everything else is either self-reported or unverified.
+                </p>
+              </div>
+              <div class="bg-black/50 border-l-4 border-green-500 p-6 rounded">
+                <p class="text-green-400 font-semibold mb-2">Verification Status: ✓ CONFIRMED</p>
+                <p class="text-gray-400 text-sm">Third-party witness (Jake Ormand) + Casino investigation (no cheating found)</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </section>
+
+      <!-- DOCUMENTED LOSSES -->
+      <section id="documented-losses" class="max-w-6xl mx-auto mb-20 md:mb-32 filter-section" data-category="losses">
+        <div class="text-center mb-12 md:mb-16">
+          <div class="inline-block px-4 py-2 bg-red-900/30 border border-red-500/50 rounded-full mb-4">
+            <span class="text-red-400 text-sm font-bold uppercase tracking-wider">⚠ Documented Losses</span>
+          </div>
+          <h2 class="text-white text-3xl md:text-5xl font-bold mb-4">Where He Lost Money</h2>
+          <p class="text-gray-400 text-lg max-w-3xl mx-auto">
+            Transparency matters. These losses are publicly documented and add credibility to his overall story.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+
+          <!-- Wynn Loss -->
+          <div class="bg-gradient-to-br from-gray-900 to-black border-2 border-red-500/30 rounded-2xl p-8">
+            <div class="mb-6">
+              <div class="flex items-center gap-3 mb-4">
+                <h3 class="text-white text-2xl font-bold">Wynn Las Vegas</h3>
+                <span class="px-3 py-1 bg-red-900/30 border border-red-500/50 rounded-full text-red-400 text-xs font-bold">NET LOSS</span>
+              </div>
+              <p class="text-red-400 text-3xl font-black mb-2">-$1,500,000</p>
+              <p class="text-gray-400 text-sm uppercase tracking-wider mb-4">Las Vegas, NV • 2021-2022</p>
+            </div>
+            <div class="space-y-3 mb-6">
+              <p class="text-gray-300 leading-relaxed">
+                <strong class="text-white">What Happened:</strong> Lost $4 million, won back $2.5 million, walked away net negative $1.5 million.
+              </p>
+              <p class="text-gray-300 leading-relaxed">
+                <strong class="text-white">The Twist:</strong> The Wynn still banned him despite the net loss. Why? Because casinos saw he was using <a href="/the-system" class="text-gold hover:text-gold-light underline">a systematic approach</a>, not gambling randomly.
+              </p>
+            </div>
+            <div class="bg-black/50 border-l-4 border-red-500 p-4 rounded">
+              <p class="text-red-400 text-sm font-semibold">Why This Adds Credibility</p>
+              <p class="text-gray-400 text-xs">If the story was fake, he'd only claim wins. Documenting losses shows honesty.</p>
+            </div>
+          </div>
+
+          <!-- Biggest Loss -->
+          <div class="bg-gradient-to-br from-gray-900 to-black border-2 border-red-500/30 rounded-2xl p-8">
+            <div class="mb-6">
+              <div class="flex items-center gap-3 mb-4">
+                <h3 class="text-white text-2xl font-bold">Biggest Single Loss</h3>
+                <span class="px-3 py-1 bg-red-900/30 border border-red-500/50 rounded-full text-red-400 text-xs font-bold">SELF-REPORTED</span>
+              </div>
+              <p class="text-red-400 text-3xl font-black mb-2">-$8,000,000</p>
+              <p class="text-gray-400 text-sm uppercase tracking-wider mb-4">One Night • Self-Reported</p>
+            </div>
+            <div class="space-y-3 mb-6">
+              <p class="text-gray-300 leading-relaxed">
+                <strong class="text-white">What Happened:</strong> Mikki claims his biggest single loss was $8 million in one night. According to him, he figured out the casino was using manual card manipulation.
+              </p>
+              <p class="text-gray-300 leading-relaxed">
+                <strong class="text-white">The Comeback:</strong> After reverse-engineering their cheating method, he claims he won back $9 million from the same casino, turning an $8M loss into a +$1M net profit.
+              </p>
+            </div>
+            <div class="bg-black/50 border-l-4 border-red-500 p-4 rounded">
+              <p class="text-red-400 text-sm font-semibold">Why This Matters</p>
+              <p class="text-gray-400 text-xs">Shows he has massive losses too, not just wins. Adds realism to the story.</p>
+            </div>
+          </div>
+
+          <!-- Hustler Casino Live Loss -->
+          <div class="bg-gradient-to-br from-gray-900 to-black border-2 border-red-500/30 rounded-2xl p-8">
+            <div class="mb-6">
+              <div class="flex items-center gap-3 mb-4">
+                <h3 class="text-white text-2xl font-bold">Hustler Casino Live</h3>
+                <span class="px-3 py-1 bg-red-900/30 border border-red-500/50 rounded-full text-red-400 text-xs font-bold">POKER LOSSES</span>
+              </div>
+              <p class="text-red-400 text-3xl font-black mb-2">-$938,950</p>
+              <p class="text-gray-400 text-sm uppercase tracking-wider mb-4">Livestream • Documented</p>
+            </div>
+            <div class="space-y-3 mb-6">
+              <p class="text-gray-300 leading-relaxed">
+                <strong class="text-white">What Happened:</strong> Mikki played poker on Hustler Casino Live, a popular livestreamed poker show. His results are publicly tracked.
+              </p>
+              <p class="text-gray-300 leading-relaxed">
+                <strong class="text-white">Key Insight:</strong> He's transparent about not being a poker crusher. His edge is in baccarat pattern recognition, not poker.
+              </p>
+            </div>
+            <div class="bg-black/50 border-l-4 border-red-500 p-4 rounded">
+              <p class="text-red-400 text-sm font-semibold">Why This Matters</p>
+              <p class="text-gray-400 text-xs">Shows his edge is specific to baccarat, not all casino games. Adds credibility.</p>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- CLAIMED BUT UNVERIFIED -->
+      <section id="claimed-unverified" class="max-w-6xl mx-auto mb-20 md:mb-32 filter-section" data-category="unverified">
+        <div class="text-center mb-12 md:mb-16">
+          <div class="inline-block px-4 py-2 bg-yellow-900/30 border border-yellow-500/50 rounded-full mb-4">
+            <span class="text-yellow-400 text-sm font-bold uppercase tracking-wider">? Unverified Claims</span>
+          </div>
+          <h2 class="text-white text-3xl md:text-5xl font-bold mb-4">Self-Reported Wins</h2>
+          <p class="text-gray-400 text-lg max-w-3xl mx-auto">
+            These wins are claimed by Mikki but lack independent third-party verification. They may be true, but should be viewed with appropriate skepticism.
+          </p>
+        </div>
+
+        <div class="space-y-6">
+
+          <!-- Total $32M Claim -->
+          <div class="bg-gradient-to-br from-gray-900 to-black border-2 border-yellow-500/30 rounded-2xl p-8 md:p-10">
+            <div class="flex flex-col md:flex-row items-start gap-6">
+              <div class="flex-1">
+                <div class="flex flex-wrap items-center gap-3 mb-4">
+                  <h3 class="text-white text-2xl md:text-3xl font-bold">Total Career Winnings</h3>
+                  <span class="px-3 py-1 bg-yellow-900/30 border border-yellow-500/50 rounded-full text-yellow-400 text-sm font-bold">UNVERIFIED</span>
+                </div>
+                <p class="text-yellow-400 text-4xl md:text-5xl font-black mb-6">$32,000,000+</p>
+                <div class="space-y-3">
+                  <p class="text-gray-300 text-lg leading-relaxed">
+                    <strong class="text-white">The Claim:</strong> Mikki states he has won over $32 million total from casino baccarat since 2018.
+                  </p>
+                  <p class="text-gray-300 text-lg leading-relaxed">
+                    <strong class="text-white">What's Verified:</strong> Only the $10M+ Venetian win is independently confirmed. The remaining ~$22M is self-reported without third-party verification.
+                  </p>
+                  <p class="text-gray-300 text-lg leading-relaxed">
+                    <strong class="text-white">Reality Check:</strong> Given his documented $10M win, business empire sale proceeds, and lifestyle, multi-million dollar total winnings are plausible but not independently verified.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Biggest Single Session -->
+          <div class="bg-gradient-to-br from-gray-900 to-black border-2 border-yellow-500/30 rounded-2xl p-8 md:p-10 mb-6">
+            <div class="flex flex-col md:flex-row items-start gap-6">
+              <div class="flex-1">
+                <div class="flex flex-wrap items-center gap-3 mb-4">
+                  <h3 class="text-white text-2xl md:text-3xl font-bold">Biggest Single Session Win</h3>
+                  <span class="px-3 py-1 bg-yellow-900/30 border border-yellow-500/50 rounded-full text-yellow-400 text-sm font-bold">SELF-REPORTED</span>
+                </div>
+                <p class="text-yellow-400 text-4xl md:text-5xl font-black mb-6">$11,526,000</p>
+                <div class="space-y-3 mb-6">
+                  <p class="text-gray-300 text-lg leading-relaxed">
+                    <strong class="text-white">The Claim:</strong> Mikki states his largest single session win was $11,526,000 over 7 days of play. He played $250,000 per hand in short bursts, hitting the table strategically rather than grinding for hours.
+                  </p>
+                  <p class="text-gray-300 text-lg leading-relaxed">
+                    <strong class="text-white">The Strategy:</strong> He didn't sit at tables for extended sessions. Instead, he'd observe patterns, make a few massive bets ($250K/hand), extract millions, then disappear for weeks to avoid casino heat.
+                  </p>
+                  <p class="text-gray-300 text-lg leading-relaxed">
+                    <strong class="text-white">Casino Response:</strong> According to Mikki, the casino comped him Maybachs, Rolls Royces, private jets, Vegas Villas with 24/7 butler service, ringside boxing tickets—then eventually banned him anyway.
+                  </p>
+                  <p class="text-gray-300 text-lg leading-relaxed">
+                    <strong class="text-white">Verification Status:</strong> Self-reported in VladTV interview. No independent third-party verification available. Could match the previously claimed "$11.5M Borgata win," but details remain unverified.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Peak Earning Period -->
+          <div class="bg-gradient-to-br from-gray-900 to-black border-2 border-yellow-500/30 rounded-2xl p-8 md:p-10 mb-6">
+            <div class="flex flex-col md:flex-row items-start gap-6">
+              <div class="flex-1">
+                <div class="flex flex-wrap items-center gap-3 mb-4">
+                  <h3 class="text-white text-2xl md:text-3xl font-bold">Peak Earning Period</h3>
+                  <span class="px-3 py-1 bg-yellow-900/30 border border-yellow-500/50 rounded-full text-yellow-400 text-sm font-bold">SELF-REPORTED</span>
+                </div>
+                <p class="text-yellow-400 text-4xl md:text-5xl font-black mb-6">$1M/Week Average</p>
+                <div class="space-y-3">
+                  <p class="text-gray-300 text-lg leading-relaxed">
+                    <strong class="text-white">Year 3 Performance:</strong> Mikki claims that during his third year of professional baccarat play, he averaged $1 million per week in wins.
+                  </p>
+                  <p class="text-gray-300 text-lg leading-relaxed">
+                    <strong class="text-white">First Million Win:</strong> His first seven-figure session came about 18 months into his gambling career, winning between $1.125M and $1.25M in a single session.
+                  </p>
+                  <p class="text-gray-300 text-lg leading-relaxed">
+                    <strong class="text-white">The Comps:</strong> Casinos gave him Maybachs, Rolls Royces, private jets, Villas with butlers, ringside boxing tickets. He even crashed a Lamborghini during a race track experience comp.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Specific Additional Claims -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+            <div class="bg-gray-900 border border-yellow-500/20 rounded-xl p-6">
+              <h4 class="text-white text-xl font-bold mb-3">150+ Casino Bans</h4>
+              <p class="text-yellow-400 text-2xl font-black mb-3">Exact Number Unknown</p>
+              <p class="text-gray-400 text-sm mb-4">Claimed • 2018-2024</p>
+              <p class="text-gray-300 leading-relaxed text-sm">
+                <strong class="text-white">Status:</strong> Multiple bans confirmed (Venetian, Wynn). Exact total unverified. Banned from "basically all casinos" according to VladTV interview.
+              </p>
+            </div>
+
+            <div class="bg-gray-900 border border-yellow-500/20 rounded-xl p-6">
+              <h4 class="text-white text-xl font-bold mb-3">Now Funds Other Players</h4>
+              <p class="text-yellow-400 text-2xl font-black mb-3">3,000+ Accounts</p>
+              <p class="text-gray-400 text-sm mb-4">October 2023 - Present</p>
+              <p class="text-gray-300 leading-relaxed text-sm">
+                <strong class="text-white">Status:</strong> Confirmed. Claims $1.9M paid out to fans by end of 2024, using 3,000+ online betting accounts since he's banned from physical casinos.
+              </p>
+            </div>
+
+          </div>
+
+        </div>
+      </section>
+
+      <!-- THE VERDICT -->
+      <section id="verdict" class="max-w-4xl mx-auto mb-16">
+        <div class="bg-gradient-to-br from-gray-900 to-black border-2 border-gold/30 rounded-2xl p-10 md:p-16">
+          <h2 class="text-white text-3xl md:text-4xl font-bold mb-8 text-center">The Verdict</h2>
+
+          <div class="space-y-6 mb-8">
+            <div class="flex items-start gap-4">
+              <div class="flex-shrink-0 w-8 h-8 rounded-full bg-green-500/20 border border-green-500 flex items-center justify-center mt-1">
+                <span class="text-green-400 text-sm">✓</span>
+              </div>
+              <div>
+                <h3 class="text-white font-bold mb-2">What's Definitely True</h3>
+                <p class="text-gray-300 leading-relaxed">$10M+ win at the Venetian (verified by Jake Ormand), net loss at Wynn, poker losses documented, banned from multiple casinos, real name is Michael David Meiterman.</p>
+              </div>
+            </div>
+
+            <div class="flex items-start gap-4">
+              <div class="flex-shrink-0 w-8 h-8 rounded-full bg-yellow-500/20 border border-yellow-500 flex items-center justify-center mt-1">
+                <span class="text-yellow-400 text-sm">?</span>
+              </div>
+              <div>
+                <h3 class="text-white font-bold mb-2">What's Plausible But Unverified</h3>
+                <p class="text-gray-300 leading-relaxed">Total of $32M in wins, 150+ casino bans, specific wins at Borgata/Cosmopolitan/Bellagio. These could be true but lack independent verification.</p>
+              </div>
+            </div>
+
+            <div class="flex items-start gap-4">
+              <div class="flex-shrink-0 w-8 h-8 rounded-full bg-red-500/20 border border-red-500 flex items-center justify-center mt-1">
+                <span class="text-red-400 text-sm">!</span>
+              </div>
+              <div>
+                <h3 class="text-white font-bold mb-2">What Adds Credibility</h3>
+                <p class="text-gray-300 leading-relaxed">The documented losses. If the story was fake, he'd only claim wins. Transparency about poker losses and the Wynn loss suggests honesty.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="border-t border-gray-800 pt-8">
+            <p class="text-gray-300 text-lg leading-relaxed text-center">
+              The mix of verified wins, documented losses, and unverified claims makes Mikki Mase's story more credible than typical gambling "gurus" who only show wins. The $10M Venetian win alone, combined with his business empire exit, explains his wealth without requiring belief in every claimed win.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- BEHIND THE WINS: SESSION STORIES -->
+      <section id="behind-wins" class="max-w-6xl mx-auto mb-20 md:mb-32">
+        <div class="text-center mb-12 md:mb-16">
+          <div class="inline-block px-4 py-2 bg-gold/10 border border-gold/50 rounded-full mb-4">
+            <span class="text-gold text-sm font-bold uppercase tracking-wider">💡 Inside Stories</span>
+          </div>
+          <h2 class="text-white text-3xl md:text-5xl font-bold mb-4">Behind the Wins</h2>
+          <p class="text-gray-400 text-lg max-w-3xl mx-auto">
+            The real stories, rituals, and moments that define his biggest sessions. What actually happens when you win $11M.
+          </p>
+        </div>
+
+        <div class="space-y-6">
+
+          <!-- The $11.5M Win Story -->
+          <details class="group bg-gradient-to-br from-gray-900 to-black border-2 border-gold/20 rounded-2xl overflow-hidden hover:border-gold/40 transition-all">
+            <summary class="p-8 cursor-pointer list-none flex items-center justify-between">
+              <div class="flex-1">
+                <h3 class="text-white text-2xl md:text-3xl font-bold mb-2">The $11.526M Win: What Happens After</h3>
+                <p class="text-gray-400">The ritual, the emotional shutdown, and the PB&J sandwich</p>
+              </div>
+              <div class="flex-shrink-0 ml-6">
+                <svg class="w-8 h-8 text-gold transition-transform group-open:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                </svg>
+              </div>
+            </summary>
+            <div class="px-8 pb-8 border-t border-gray-800">
+              <div class="pt-6 space-y-4 text-gray-300 leading-relaxed">
+                <p class="text-lg">
+                  <strong class="text-white">The Win:</strong> $11,526,000 over 7 days. $250,000 per hand, flat betting. This remains his biggest single session to date.
+                </p>
+                <p>
+                  <strong class="text-white">What Happens Immediately After:</strong> Nothing. Zero emotion. "Every time I do something like that, I actually shut off," Mikki says. He sends everybody home. Acts like nothing happened.
+                </p>
+                <p>
+                  <strong class="text-white">The Ritual:</strong> The first thing he always does after a massive win? Orders a peanut butter and jelly sandwich, lightly toasted, with sliced banana on it. Crusts cut off.
+                </p>
+                <p class="text-gold italic">
+                  "I'll go like the first thing I always do is I order a peanut butter and jelly sandwich lightly toasted with sliced banana on it and the crusts cut off."
+                </p>
+                <p>
+                  <strong class="text-white">The Psychology:</strong> This isn't celebration—it's emotional regulation. From his years in high-stress environments (juvenile detention, jail, high-stakes situations), he learned that staying calm and clear-headed is how you survive. Celebrating clouds judgment.
+                </p>
+                <div class="bg-black/50 border-l-4 border-gold p-6 rounded mt-6">
+                  <p class="text-gold font-semibold mb-2">Why This Matters</p>
+                  <p class="text-gray-400 text-sm">Most gamblers lose because they let emotions drive decisions. Mikki's "shutdown" response is the opposite—he treats $11M the same way he treated his first $25k win. The emotional flatline is the edge.</p>
+                </div>
+              </div>
+            </div>
+          </details>
+
+          <!-- The $7M Security Block Story -->
+          <details class="group bg-gradient-to-br from-gray-900 to-black border-2 border-red-500/20 rounded-2xl overflow-hidden hover:border-red-500/40 transition-all">
+            <summary class="p-8 cursor-pointer list-none flex items-center justify-between">
+              <div class="flex-1">
+                <h3 class="text-white text-2xl md:text-3xl font-bold mb-2">The Security Block: $7M Held Hostage</h3>
+                <p class="text-gray-400">When casino security physically blocked him from his chips</p>
+              </div>
+              <div class="flex-shrink-0 ml-6">
+                <svg class="w-8 h-8 text-gold transition-transform group-open:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                </svg>
+              </div>
+            </summary>
+            <div class="px-8 pb-8 border-t border-gray-800">
+              <div class="pt-6 space-y-4 text-gray-300 leading-relaxed">
+                <p class="text-lg">
+                  <strong class="text-white">The Setup:</strong> Mikki had $7 million in chips sitting on the table. He was up big—very big. The casino knew it.
+                </p>
+                <p>
+                  <strong class="text-white">What Happened:</strong> Security approached. Three guards. They pushed his chair against the table so he couldn't stand up. He couldn't reach his $7 million.
+                </p>
+                <p>
+                  <strong class="text-white">His Move:</strong> "I ended up jumping up, standing on the chair, screaming at the top of my lungs."
+                </p>
+                <p>
+                  <strong class="text-white">Why He Did It:</strong> "I was just trying to get people's attention before these three security guards—who get paid $12 an hour—rob me for $7 million. They'd be in a great position to do it."
+                </p>
+                <div class="bg-black/50 border-l-4 border-red-500 p-6 rounded mt-6">
+                  <p class="text-red-400 font-semibold mb-2">Reality Check</p>
+                  <p class="text-gray-400 text-sm">This is what happens when you win too much. Casinos will use intimidation tactics to rattle you, slow you down, or create a scene that makes you leave. Mikki's response? Make an even bigger scene to protect his money.</p>
+                </div>
+              </div>
+            </div>
+          </details>
+
+          <!-- The MGM Cheating Incident -->
+          <details class="group bg-gradient-to-br from-gray-900 to-black border-2 border-red-500/20 rounded-2xl overflow-hidden hover:border-red-500/40 transition-all">
+            <summary class="p-8 cursor-pointer list-none flex items-center justify-between">
+              <div class="flex-1">
+                <h3 class="text-white text-2xl md:text-3xl font-bold mb-2">Caught Them Cheating: The MGM Monitor</h3>
+                <p class="text-gray-400">Monitor showed 7-2, felt showed 5-4—proof of casino manipulation</p>
+              </div>
+              <div class="flex-shrink-0 ml-6">
+                <svg class="w-8 h-8 text-gold transition-transform group-open:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                </svg>
+              </div>
+            </summary>
+            <div class="px-8 pb-8 border-t border-gray-800">
+              <div class="pt-6 space-y-4 text-gray-300 leading-relaxed">
+                <p class="text-lg">
+                  <strong class="text-white">The Setup:</strong> MGM changed everything for Mikki's session—new table, new felt, new cards, new card shoe, new monitors. Everything. He didn't know why.
+                </p>
+                <p>
+                  <strong class="text-white">Hand #2:</strong> Mikki bet Player. Bank came out natural 9. He lost. No big deal—it's one hand.
+                </p>
+                <p>
+                  <strong class="text-white">The Catch:</strong> The monitor displayed: <span class="text-red-400 font-mono">Bank: 7-2</span><br/>
+                  The felt showed: <span class="text-green-400 font-mono">Bank: 5-4</span>
+                </p>
+                <p class="text-red-400 font-bold">
+                  Both equal natural 9—but they're completely different cards.
+                </p>
+                <p>
+                  <strong class="text-white">Mikki's Confrontation:</strong> "Everybody stop. Don't touch the cards. Please explain: there's a 5 and a 4 on the board but the monitor says 7 and a 2."
+                </p>
+                <p>
+                  Nobody had an answer. Executive came down. Mikki said: <span class="text-gold italic">"I caught you cheating. If the monitor is making up what cards are displayed, it's also making up all the data I use to make betting decisions."</span>
+                </p>
+                <p>
+                  <strong class="text-white">The Response:</strong> "You have 30 minutes to pack your bags and get out."
+                </p>
+                <p>
+                  <strong class="text-white">The Ban:</strong> He posted about it. Tagged MGM. They saw it. Got a call: banned for 6 months for "throwing a glass and scaring dealers." (He was on a date with one of the dealers the night before.)
+                </p>
+                <p>
+                  <strong class="text-white">Current Status:</strong> The "6-month ban" has lasted 2+ years.
+                </p>
+                <div class="bg-black/50 border-l-4 border-red-500 p-6 rounded mt-6">
+                  <p class="text-red-400 font-semibold mb-2">Why This Matters</p>
+                  <p class="text-gray-400 text-sm">This is documented proof of casino manipulation. The monitor was feeding fake data to influence betting decisions. If it lied on hand #2, how many other hands were fabricated? Mikki caught it immediately—most players never would.</p>
+                </div>
+              </div>
+            </div>
+          </details>
+
+          <!-- The 3 of Clubs Prediction -->
+          <details class="group bg-gradient-to-br from-gray-900 to-black border-2 border-purple-500/20 rounded-2xl overflow-hidden hover:border-purple-500/40 transition-all">
+            <summary class="p-8 cursor-pointer list-none flex items-center justify-between">
+              <div class="flex-1">
+                <h3 class="text-white text-2xl md:text-3xl font-bold mb-2">The 3 of Clubs Prediction with 2 Chainz</h3>
+                <p class="text-gray-400">Called the exact card before it was dealt—on camera</p>
+              </div>
+              <div class="flex-shrink-0 ml-6">
+                <svg class="w-8 h-8 text-gold transition-transform group-open:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                </svg>
+              </div>
+            </summary>
+            <div class="px-8 pb-8 border-t border-gray-800">
+              <div class="pt-6 space-y-4 text-gray-300 leading-relaxed">
+                <p class="text-lg">
+                  <strong class="text-white">The Scene:</strong> Mikki was playing with 2 Chainz (ToSee, the hip hop artist). Ian was there. Camera was rolling.
+                </p>
+                <p>
+                  <strong class="text-white">The Setup:</strong> Mikki turned to 2 Chainz and said: <span class="text-purple-400 italic">"Do you want to see a trick?"</span>
+                </p>
+                <p>
+                  2 Chainz: <span class="text-gray-400 italic">"Yeah."</span>
+                </p>
+                <p>
+                  Mikki: <span class="text-purple-400 italic">"I bet you the next card that comes out is the 3 of clubs."</span>
+                </p>
+                <p>
+                  <strong class="text-white">The Result:</strong> Dealer opens the card. <span class="text-green-400 font-bold">3 of clubs.</span>
+                </p>
+                <p>
+                  2 Chainz couldn't believe it. Turned to the camera: <span class="text-gray-400 italic">"Yeah, it's correct. How the fuck did you know that?"</span>
+                </p>
+                <p class="text-gold font-bold">
+                  Mikki's answer: "Because I know they're cheating."
+                </p>
+                <p>
+                  <strong class="text-white">How It's Possible:</strong> If a casino is using pre-shuffled decks or manual card manipulation, the sequence becomes predictable. Mikki identified the pattern and proved it—on camera, with a celebrity witness.
+                </p>
+                <div class="bg-black/50 border-l-4 border-purple-500 p-6 rounded mt-6">
+                  <p class="text-purple-400 font-semibold mb-2">Video Evidence</p>
+                  <p class="text-gray-400 text-sm">This is a one-shot, unedited clip. Camera never cuts. Ian was standing there. 2 Chainz confirmed it to camera. This is the kind of "proof" that's impossible to fake—and why casinos don't want Mikki in their buildings.</p>
+                </div>
+              </div>
+            </div>
+          </details>
+
+          <!-- The First $500 Bet -->
+          <details class="group bg-gradient-to-br from-gray-900 to-black border-2 border-blue-500/20 rounded-2xl overflow-hidden hover:border-blue-500/40 transition-all">
+            <summary class="p-8 cursor-pointer list-none flex items-center justify-between">
+              <div class="flex-1">
+                <h3 class="text-white text-2xl md:text-3xl font-bold mb-2">How It Started: The $500 Bet That Changed Everything</h3>
+                <p class="text-gray-400">Learned baccarat in 2 hands, never looked back</p>
+              </div>
+              <div class="flex-shrink-0 ml-6">
+                <svg class="w-8 h-8 text-gold transition-transform group-open:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                </svg>
+              </div>
+            </summary>
+            <div class="px-8 pb-8 border-t border-gray-800">
+              <div class="pt-6 space-y-4 text-gray-300 leading-relaxed">
+                <p class="text-lg">
+                  <strong class="text-white">The Problem:</strong> Mikki was "the biggest blackjack player" in South Florida. But the casinos had terrible betting limits—$5k table max. Even with a $5M deposit, he could only bet $100k/hand. In LA, strangers walk in and bet $100k with zero deposit.
+                </p>
+                <p>
+                  <strong class="text-white">The Complaint:</strong> Mikki kept telling his friend (who played both blackjack and baccarat): <span class="text-gray-400 italic">"Bro, they won't let me bet enough. They won't let me bet enough."</span>
+                </p>
+                <p>
+                  <strong class="text-white">The Solution:</strong> His friend said: <span class="text-blue-400 italic">"Just try baccarat. You can bet twice as much."</span>
+                </p>
+                <p>
+                  Mikki: <span class="text-gold italic">"Say less."</span>
+                </p>
+                <p>
+                  <strong class="text-white">The First Bet:</strong> They walked from blackjack tables to the baccarat pit (L-shaped high-limit room). Mikki gave his friend a purple chip—$500. Said: <span class="text-gray-400 italic">"Make a bet."</span>
+                </p>
+                <p>
+                  They won. Mikki: <span class="text-gray-400 italic">"Hold on. Tell me why we won."</span>
+                </p>
+                <p>
+                  Friend explained. Made sense.
+                </p>
+                <p>
+                  Mikki: <span class="text-gray-400 italic">"Okay, take the $500 profit, bet it again."</span>
+                </p>
+                <p>
+                  They lost. Mikki: <span class="text-gray-400 italic">"No problem. Why did we lose?"</span>
+                </p>
+                <p>
+                  Friend explained. Made sense.
+                </p>
+                <p class="text-gold font-bold">
+                  Mikki sat down and started playing. His first-ever baccarat bet: $500. Just to learn.
+                </p>
+                <p>
+                  <strong class="text-white">5-6 Years Later:</strong> $11.526M single session. $32M+ claimed career total. Banned from 150+ casinos.
+                </p>
+                <div class="bg-black/50 border-l-4 border-blue-500 p-6 rounded mt-6">
+                  <p class="text-blue-400 font-semibold mb-2">The Takeaway</p>
+                  <p class="text-gray-400 text-sm">Mikki learned baccarat in two hands. Most people take years to "master" games. He identified the logic immediately, scaled to $250k/hand, and maintained the same win rate from $500 to $11M. That's not luck—that's pattern recognition.</p>
+                </div>
+              </div>
+            </div>
+          </details>
+
+        </div>
+      </section>
+
+      <!-- CASINO HARASSMENT TACTICS -->
+      <section id="harassment-tactics" class="max-w-6xl mx-auto mb-20 md:mb-32">
+        <div class="text-center mb-12 md:mb-16">
+          <div class="inline-block px-4 py-2 bg-red-900/30 border border-red-500/50 rounded-full mb-4">
+            <span class="text-red-400 text-sm font-bold uppercase tracking-wider">⚠️ Documented Tactics</span>
+          </div>
+          <h2 class="text-white text-3xl md:text-5xl font-bold mb-4">How Casinos Fight Back</h2>
+          <p class="text-gray-400 text-lg max-w-3xl mx-auto">
+            When you win too much, they don't just ask you to leave. Here's what they actually do.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+          <!-- Wi-Fi / Signal Jamming -->
+          <div class="bg-gradient-to-br from-gray-900 to-black border border-red-500/30 rounded-xl p-6">
+            <div class="w-12 h-12 rounded-full bg-red-500/10 border-2 border-red-500 flex items-center justify-center mb-4">
+              <svg class="w-6 h-6 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 5.636a9 9 0 010 12.728m0 0l-2.829-2.829m2.829 2.829L21 21M15.536 8.464a5 5 0 010 7.072m0 0l-2.829-2.829m-4.243 2.829a4.978 4.978 0 01-1.414-2.83m-1.414 5.658a9 9 0 01-2.167-9.238m7.824 2.167a1 1 0 111.414 1.414m-1.414-1.414L3 3m8.293 8.293l1.414 1.414"></path>
+              </svg>
+            </div>
+            <h3 class="text-white text-xl font-bold mb-3">Wi-Fi / Signal Jamming</h3>
+            <p class="text-gray-300 text-sm leading-relaxed mb-4">
+              <strong class="text-white">What They Do:</strong> Block your phone signal and Wi-Fi in hotel rooms booked under your name.
+            </p>
+            <p class="text-gray-300 text-sm leading-relaxed mb-4">
+              <strong class="text-white">How Mikki Tested It:</strong> Booked two adjacent rooms—one in his name, one in his dad's. His room: zero signal. Dad's room (under his name): perfect signal.
+            </p>
+            <p class="text-gray-400 text-xs italic">
+              "For the life of him, he couldn't get his phone to work. No signal. No Wi-Fi. Nothing. But me in the room under his name? Everything worked perfectly."
+            </p>
+          </div>
+
+          <!-- Hot Water Shutoff -->
+          <div class="bg-gradient-to-br from-gray-900 to-black border border-red-500/30 rounded-xl p-6">
+            <div class="w-12 h-12 rounded-full bg-red-500/10 border-2 border-red-500 flex items-center justify-center mb-4">
+              <svg class="w-6 h-6 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
+              </svg>
+            </div>
+            <h3 class="text-white text-xl font-bold mb-3">Hot Water Shutoff</h3>
+            <p class="text-gray-300 text-sm leading-relaxed mb-4">
+              <strong class="text-white">What They Do:</strong> Turn off hot water in your hotel room.
+            </p>
+            <p class="text-gray-300 text-sm leading-relaxed mb-4">
+              <strong class="text-white">Why:</strong> Minor inconvenience to throw you off your routine, make you uncomfortable, frustrate you before sessions.
+            </p>
+            <p class="text-gray-400 text-xs italic">
+              "They've done everything from turn off hot water, lock me in elevators..."
+            </p>
+          </div>
+
+          <!-- Elevator Locks -->
+          <div class="bg-gradient-to-br from-gray-900 to-black border border-red-500/30 rounded-xl p-6">
+            <div class="w-12 h-12 rounded-full bg-red-500/10 border-2 border-red-500 flex items-center justify-center mb-4">
+              <svg class="w-6 h-6 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+              </svg>
+            </div>
+            <h3 class="text-white text-xl font-bold mb-3">Locked in Elevators</h3>
+            <p class="text-gray-300 text-sm leading-relaxed mb-4">
+              <strong class="text-white">What They Do:</strong> "Malfunction" elevators when you're inside, trapping you temporarily.
+            </p>
+            <p class="text-gray-300 text-sm leading-relaxed mb-4">
+              <strong class="text-white">Purpose:</strong> Make you late for your session, stress you out, disrupt your timing.
+            </p>
+          </div>
+
+          <!-- Table Disruptions -->
+          <div class="bg-gradient-to-br from-gray-900 to-black border border-red-500/30 rounded-xl p-6">
+            <div class="w-12 h-12 rounded-full bg-red-500/10 border-2 border-red-500 flex items-center justify-center mb-4">
+              <svg class="w-6 h-6 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
+              </svg>
+            </div>
+            <h3 class="text-white text-xl font-bold mb-3">Random Table Disruptions</h3>
+            <p class="text-gray-300 text-sm leading-relaxed mb-4">
+              <strong class="text-white">What They Do:</strong> Staff "accidentally" drops items on your table mid-session.
+            </p>
+            <p class="text-gray-300 text-sm leading-relaxed mb-4">
+              <strong class="text-white">Example:</strong> Playing for millions. Up several million. Random staff member walks by, drops a box of tissues in the middle of the table, keeps walking. Never seen again.
+            </p>
+            <p class="text-gray-400 text-xs italic">
+              "All they're trying to do is just confuse me."
+            </p>
+          </div>
+
+          <!-- Security Intimidation -->
+          <div class="bg-gradient-to-br from-gray-900 to-black border border-red-500/30 rounded-xl p-6">
+            <div class="w-12 h-12 rounded-full bg-red-500/10 border-2 border-red-500 flex items-center justify-center mb-4">
+              <svg class="w-6 h-6 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+              </svg>
+            </div>
+            <h3 class="text-white text-xl font-bold mb-3">Security Intimidation</h3>
+            <p class="text-gray-300 text-sm leading-relaxed mb-4">
+              <strong class="text-white">What They Do:</strong> Surround you with security, physically block you, push your chair against the table so you can't stand up or reach your chips.
+            </p>
+            <p class="text-gray-300 text-sm leading-relaxed mb-4">
+              <strong class="text-white">The $7M Incident:</strong> Three security guards blocked him from accessing his $7 million on the table. He jumped on his chair and screamed to get witnesses.
+            </p>
+            <p class="text-gray-400 text-xs italic">
+              "Before these three security guards get paid $12 bucks an hour trying to rob me for $7 million, they'd be in a great position to do it."
+            </p>
+          </div>
+
+          <!-- Changing Equipment -->
+          <div class="bg-gradient-to-br from-gray-900 to-black border border-red-500/30 rounded-xl p-6">
+            <div class="w-12 h-12 rounded-full bg-red-500/10 border-2 border-red-500 flex items-center justify-center mb-4">
+              <svg class="w-6 h-6 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+              </svg>
+            </div>
+            <h3 class="text-white text-xl font-bold mb-3">Changing Table Equipment</h3>
+            <p class="text-gray-300 text-sm leading-relaxed mb-4">
+              <strong class="text-white">What They Do:</strong> Replace everything—table, felt, cards, card shoe, monitors—specifically when you're scheduled to play.
+            </p>
+            <p class="text-gray-300 text-sm leading-relaxed mb-4">
+              <strong class="text-white">Why:</strong> Disrupt your patterns, introduce new variables, potentially introduce rigged equipment (like the MGM monitor that showed fake cards).
+            </p>
+            <p class="text-gray-400 text-xs italic">
+              "They changed the table, they changed the felt, they changed the card manufacturer, they changed the plastic shoe that holds the cards, they changed the monitors..."
+            </p>
+          </div>
+
+        </div>
+
+        <div class="mt-10 bg-gradient-to-br from-red-900/10 to-black border-2 border-red-500/30 rounded-2xl p-8 md:p-10">
+          <h3 class="text-white text-2xl font-bold mb-4">Why They Do This</h3>
+          <div class="space-y-3 text-gray-300 leading-relaxed">
+            <p>
+              <strong class="text-white">It's not about catching cheaters.</strong> If Mikki was cheating, they'd arrest him and prosecute. They can't—because he's not breaking any laws.
+            </p>
+            <p>
+              <strong class="text-white">It's about psychological warfare.</strong> If they can frustrate you, stress you out, disrupt your routine, cloud your judgment—you'll make mistakes. And when you make mistakes, the house edge kicks in.
+            </p>
+            <p class="text-gold font-semibold">
+              "The calmer I can keep my brain, the clearer I can make a decision to save myself in whatever scenario."
+            </p>
+            <p>
+              That's why Mikki's emotional shutdown works. They can't rattle someone who treats $11M wins the same as $25k wins. The flatline is the advantage.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- BETTING STRATEGY DETAILS -->
+      <section id="betting-strategy" class="max-w-4xl mx-auto mb-20 md:mb-32">
+        <div class="text-center mb-12">
+          <div class="inline-block px-4 py-2 bg-blue-900/30 border border-blue-500/50 rounded-full mb-4">
+            <span class="text-blue-400 text-sm font-bold uppercase tracking-wider">📊 Strategy Insights</span>
+          </div>
+          <h2 class="text-white text-3xl md:text-4xl font-bold mb-4">How He Actually Bets</h2>
+          <p class="text-gray-400 text-lg max-w-2xl mx-auto">
+            The betting mechanics, mathematical decisions, and approach that produced consistent wins from $500 to $11M.
+          </p>
+        </div>
+
+        <div class="space-y-6">
+
+          <!-- Bet Sizing -->
+          <div class="bg-gradient-to-br from-gray-900 to-black border border-blue-500/30 rounded-xl p-8">
+            <h3 class="text-white text-2xl font-bold mb-4">Bet Sizing: $250K/Hand</h3>
+            <div class="space-y-3 text-gray-300 leading-relaxed">
+              <p>
+                <strong class="text-white">Current Max:</strong> $250,000 per hand
+              </p>
+              <p>
+                <strong class="text-white">Previous Max:</strong> $300,000 per hand (some casinos allowed this)
+              </p>
+              <p>
+                <strong class="text-white">Why $250K?</strong> Mathematical exposure calculation. "I know the math on it. The exposure I have to bet $300k at hand versus exposure I have to bet $250k at hand—for me, mathematically, it always makes sense to bet $250."
+              </p>
+              <p class="text-blue-400 italic">
+                Translation: He's calculated the optimal bet size based on bankroll exposure, variance, and house edge. $250k is the sweet spot.
+              </p>
+            </div>
+          </div>
+
+          <!-- Flat Betting -->
+          <div class="bg-gradient-to-br from-gray-900 to-black border border-blue-500/30 rounded-xl p-8">
+            <h3 class="text-white text-2xl font-bold mb-4">Flat Betting Strategy</h3>
+            <div class="space-y-3 text-gray-300 leading-relaxed">
+              <p>
+                <strong class="text-white">Approach:</strong> "I mostly flat bet."
+              </p>
+              <p>
+                <strong class="text-white">What This Means:</strong> He bets the same amount ($250k) repeatedly, regardless of wins or losses. No Martingale, no progressive betting, no "chasing losses."
+              </p>
+              <p>
+                <strong class="text-white">Why This Works:</strong> Betting systems (Martingale, Fibonacci, etc.) don't change house edge. They change variance. Mikki's edge comes from pattern recognition, not bet sizing manipulation.
+              </p>
+              <p class="text-blue-400 italic">
+                Flat betting + edge = consistent profit. Flat betting + no edge = slow bleed. The difference is the pattern recognition system.
+              </p>
+            </div>
+          </div>
+
+          <!-- Session Structure -->
+          <div class="bg-gradient-to-br from-gray-900 to-black border border-blue-500/30 rounded-xl p-8">
+            <h3 class="text-white text-2xl font-bold mb-4">Session Structure: Hit & Run</h3>
+            <div class="space-y-3 text-gray-300 leading-relaxed">
+              <p>
+                <strong class="text-white">Not This:</strong> Sitting at a table for 8 hours straight, grinding out hands.
+              </p>
+              <p>
+                <strong class="text-white">His Approach:</strong> "He didn't sit at tables for extended sessions. Instead, he'd observe patterns, make a few massive bets ($250K/hand), extract millions, then disappear for weeks to avoid casino heat."
+              </p>
+              <p>
+                <strong class="text-white">The $11.5M Win:</strong> 7 days total. But not 7 consecutive days at the table. Strategic appearances, pattern observation, execution, exit.
+              </p>
+              <p class="text-blue-400 italic">
+                This is the opposite of how most gamblers operate. They sit, grind, tilt, lose. Mikki watches, executes, leaves.
+              </p>
+            </div>
+          </div>
+
+          <!-- Win Rate Consistency -->
+          <div class="bg-gradient-to-br from-gray-900 to-black border border-gold/30 rounded-xl p-8">
+            <h3 class="text-white text-2xl font-bold mb-4">The Win Rate That Got Him Banned</h3>
+            <div class="space-y-3 text-gray-300 leading-relaxed">
+              <p class="text-lg">
+                <strong class="text-white">The Pattern:</strong> His win rate stayed consistent whether he was betting $25k, $50k, $100k, $1M, or $11M.
+              </p>
+              <p>
+                <strong class="text-white">What Casinos Noticed:</strong> "I started winning like six figures and they're like, well, you know, not that many people win six figures but you know it's not uncommon... but I never lost it back. And then I started playing for millions and I had the same win rate I had when it was $25k, $30k, and $50k."
+              </p>
+              <p class="text-gold font-bold text-xl">
+                "Now it's $1M, $2M, $3M, $5M, $7M, $9M, $10M, $11M and the win rate stayed the same. And they go, 'We have a problem here.'"
+              </p>
+              <p class="text-blue-400 italic">
+                This is the smoking gun. Anyone can get lucky once. But maintaining the SAME win rate as bet size scales 400x? That's not luck. That's an edge.
+              </p>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="mt-10 bg-gradient-to-br from-blue-900/10 to-black border-2 border-blue-500/30 rounded-2xl p-8">
+          <p class="text-gray-300 text-lg leading-relaxed mb-4">
+            <strong class="text-white">The System Is Secret.</strong> Only one person knows it (Ian, his coach). But the mechanics above show HOW he applies it: flat betting, strategic session timing, consistent execution, emotional control.
+          </p>
+          <p class="text-blue-400 text-lg font-semibold">
+            Most people lose because they bet emotionally and play too long. Mikki wins because he bets mathematically and leaves when done.
+          </p>
+        </div>
+      </section>
+
+      <!-- MACHINE-READABLE WIN/LOSS TABLE (for SEO) -->
+      <section id="complete-record" class="max-w-6xl mx-auto mb-20">
+        <div class="text-center mb-12">
+          <h2 class="text-white text-3xl md:text-4xl font-bold mb-4">Complete Win/Loss Record</h2>
+          <p class="text-gray-400 text-lg max-w-3xl mx-auto">
+            Machine-readable table of all documented casino results with verification status.
+          </p>
+        </div>
+
+        <div class="overflow-x-auto">
+          <table class="w-full border-collapse">
+            <thead>
+              <tr class="border-b-2 border-gold">
+                <th class="text-left py-4 px-4 text-gold font-bold uppercase tracking-wide text-sm">Casino/Venue</th>
+                <th class="text-left py-4 px-4 text-gold font-bold uppercase tracking-wide text-sm">Game</th>
+                <th class="text-right py-4 px-4 text-gold font-bold uppercase tracking-wide text-sm">Amount</th>
+                <th class="text-left py-4 px-4 text-gold font-bold uppercase tracking-wide text-sm">Type</th>
+                <th class="text-left py-4 px-4 text-gold font-bold uppercase tracking-wide text-sm">Period</th>
+                <th class="text-left py-4 px-4 text-gold font-bold uppercase tracking-wide text-sm">Verification</th>
+              </tr>
+            </thead>
+            <tbody class="text-gray-300">
+
+              <!-- VERIFIED WINS -->
+              <tr class="border-b border-gray-800 hover:bg-gray-900/30 transition-colors bg-green-900/10">
+                <td class="py-4 px-4 text-white font-semibold">The Venetian (Las Vegas)</td>
+                <td class="py-4 px-4">Baccarat</td>
+                <td class="py-4 px-4 text-right text-green-400 font-bold">+$10,000,000</td>
+                <td class="py-4 px-4"><span class="px-2 py-1 bg-green-900/30 border border-green-500/50 rounded text-green-400 text-xs font-bold">WIN</span></td>
+                <td class="py-4 px-4">2021-2022</td>
+                <td class="py-4 px-4"><span class="px-2 py-1 bg-green-900/30 border border-green-500/50 rounded text-green-400 text-xs font-bold">✓ VERIFIED</span><br><span class="text-gray-500 text-xs">Witness: Jake Ormand</span></td>
+              </tr>
+
+              <!-- DOCUMENTED LOSSES -->
+              <tr class="border-b border-gray-800 hover:bg-gray-900/30 transition-colors bg-red-900/10">
+                <td class="py-4 px-4 text-white font-semibold">Wynn Las Vegas</td>
+                <td class="py-4 px-4">Baccarat</td>
+                <td class="py-4 px-4 text-right text-red-400 font-bold">-$1,500,000</td>
+                <td class="py-4 px-4"><span class="px-2 py-1 bg-red-900/30 border border-red-500/50 rounded text-red-400 text-xs font-bold">NET LOSS</span></td>
+                <td class="py-4 px-4">2021-2022</td>
+                <td class="py-4 px-4"><span class="px-2 py-1 bg-green-900/30 border border-green-500/50 rounded text-green-400 text-xs font-bold">✓ DOCUMENTED</span><br><span class="text-gray-500 text-xs">Lost $4M, won back $2.5M</span></td>
+              </tr>
+
+              <tr class="border-b border-gray-800 hover:bg-gray-900/30 transition-colors bg-red-900/10">
+                <td class="py-4 px-4 text-white font-semibold">Hustler Casino Live</td>
+                <td class="py-4 px-4">Poker (Livestream)</td>
+                <td class="py-4 px-4 text-right text-red-400 font-bold">-$938,950</td>
+                <td class="py-4 px-4"><span class="px-2 py-1 bg-red-900/30 border border-red-500/50 rounded text-red-400 text-xs font-bold">NET LOSS</span></td>
+                <td class="py-4 px-4">2022-2023</td>
+                <td class="py-4 px-4"><span class="px-2 py-1 bg-green-900/30 border border-green-500/50 rounded text-green-400 text-xs font-bold">✓ DOCUMENTED</span><br><span class="text-gray-500 text-xs">Publicly tracked</span></td>
+              </tr>
+
+              <tr class="border-b border-gray-800 hover:bg-gray-900/30 transition-colors bg-red-900/10">
+                <td class="py-4 px-4 text-white font-semibold">Biggest Single Loss</td>
+                <td class="py-4 px-4">Baccarat</td>
+                <td class="py-4 px-4 text-right text-red-400 font-bold">-$8,000,000</td>
+                <td class="py-4 px-4"><span class="px-2 py-1 bg-red-900/30 border border-red-500/50 rounded text-red-400 text-xs font-bold">LOSS</span></td>
+                <td class="py-4 px-4">One Night</td>
+                <td class="py-4 px-4"><span class="px-2 py-1 bg-yellow-900/30 border border-yellow-500/50 rounded text-yellow-400 text-xs font-bold">SELF-REPORTED</span><br><span class="text-gray-500 text-xs">Won back $9M later</span></td>
+              </tr>
+
+              <!-- CLAIMED/UNVERIFIED WINS -->
+              <tr class="border-b border-gray-800 hover:bg-gray-900/30 transition-colors bg-yellow-900/10">
+                <td class="py-4 px-4 text-white font-semibold">Total Career Winnings</td>
+                <td class="py-4 px-4">Baccarat</td>
+                <td class="py-4 px-4 text-right text-yellow-400 font-bold">+$32,000,000</td>
+                <td class="py-4 px-4"><span class="px-2 py-1 bg-yellow-900/30 border border-yellow-500/50 rounded text-yellow-400 text-xs font-bold">TOTAL WIN</span></td>
+                <td class="py-4 px-4">2018-2024</td>
+                <td class="py-4 px-4"><span class="px-2 py-1 bg-yellow-900/30 border border-yellow-500/50 rounded text-yellow-400 text-xs font-bold">CLAIMED</span><br><span class="text-gray-500 text-xs">Only $10M+ verified</span></td>
+              </tr>
+
+              <tr class="border-b border-gray-800 hover:bg-gray-900/30 transition-colors bg-yellow-900/10">
+                <td class="py-4 px-4 text-white font-semibold">Biggest Single Session</td>
+                <td class="py-4 px-4">Baccarat</td>
+                <td class="py-4 px-4 text-right text-yellow-400 font-bold">+$11,526,000</td>
+                <td class="py-4 px-4"><span class="px-2 py-1 bg-yellow-900/30 border border-yellow-500/50 rounded text-yellow-400 text-xs font-bold">WIN</span></td>
+                <td class="py-4 px-4">7 Days</td>
+                <td class="py-4 px-4"><span class="px-2 py-1 bg-yellow-900/30 border border-yellow-500/50 rounded text-yellow-400 text-xs font-bold">SELF-REPORTED</span><br><span class="text-gray-500 text-xs">$250K/hand</span></td>
+              </tr>
+
+              <tr class="border-b border-gray-800 hover:bg-gray-900/30 transition-colors bg-yellow-900/10">
+                <td class="py-4 px-4 text-white font-semibold">First Million-Dollar Win</td>
+                <td class="py-4 px-4">Baccarat</td>
+                <td class="py-4 px-4 text-right text-yellow-400 font-bold">+$1,125,000 - $1,250,000</td>
+                <td class="py-4 px-4"><span class="px-2 py-1 bg-yellow-900/30 border border-yellow-500/50 rounded text-yellow-400 text-xs font-bold">WIN</span></td>
+                <td class="py-4 px-4">Single Session</td>
+                <td class="py-4 px-4"><span class="px-2 py-1 bg-yellow-900/30 border border-yellow-500/50 rounded text-yellow-400 text-xs font-bold">SELF-REPORTED</span><br><span class="text-gray-500 text-xs">~18 months into career</span></td>
+              </tr>
+
+              <tr class="border-b border-gray-800 hover:bg-gray-900/30 transition-colors bg-yellow-900/10">
+                <td class="py-4 px-4 text-white font-semibold">Peak Earning Period</td>
+                <td class="py-4 px-4">Baccarat</td>
+                <td class="py-4 px-4 text-right text-yellow-400 font-bold">+$1,000,000/week</td>
+                <td class="py-4 px-4"><span class="px-2 py-1 bg-yellow-900/30 border border-yellow-500/50 rounded text-yellow-400 text-xs font-bold">AVERAGE</span></td>
+                <td class="py-4 px-4">Year 3 of Career</td>
+                <td class="py-4 px-4"><span class="px-2 py-1 bg-yellow-900/30 border border-yellow-500/50 rounded text-yellow-400 text-xs font-bold">SELF-REPORTED</span><br><span class="text-gray-500 text-xs">Average during peak</span></td>
+              </tr>
+
+              <!-- OTHER CLAIMS -->
+              <tr class="border-b border-gray-800 hover:bg-gray-900/30 transition-colors">
+                <td class="py-4 px-4 text-white font-semibold">Casino Bans</td>
+                <td class="py-4 px-4">Multiple</td>
+                <td class="py-4 px-4 text-right text-white font-bold">150+</td>
+                <td class="py-4 px-4"><span class="px-2 py-1 bg-gray-700 border border-gray-600 rounded text-gray-300 text-xs font-bold">BANS</span></td>
+                <td class="py-4 px-4">2018-2024</td>
+                <td class="py-4 px-4"><span class="px-2 py-1 bg-yellow-900/30 border border-yellow-500/50 rounded text-yellow-400 text-xs font-bold">CLAIMED</span><br><span class="text-gray-500 text-xs">Some confirmed (Venetian, Wynn)</span></td>
+              </tr>
+
+              <tr class="hover:bg-gray-900/30 transition-colors">
+                <td class="py-4 px-4 text-white font-semibold">Community Payouts</td>
+                <td class="py-4 px-4">Online Betting (3,000+ accounts)</td>
+                <td class="py-4 px-4 text-right text-green-400 font-bold">+$1,900,000</td>
+                <td class="py-4 px-4"><span class="px-2 py-1 bg-green-900/30 border border-green-500/50 rounded text-green-400 text-xs font-bold">PAID OUT</span></td>
+                <td class="py-4 px-4">2024</td>
+                <td class="py-4 px-4"><span class="px-2 py-1 bg-yellow-900/30 border border-yellow-500/50 rounded text-yellow-400 text-xs font-bold">CLAIMED</span><br><span class="text-gray-500 text-xs">To fans/community members</span></td>
+              </tr>
+
+            </tbody>
+          </table>
+        </div>
+
+        <div class="mt-6 bg-gray-900 border border-gray-800 rounded-lg p-6">
+          <h3 class="text-white font-bold mb-3">Legend</h3>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
+            <div>
+              <span class="px-2 py-1 bg-green-900/30 border border-green-500/50 rounded text-green-400 text-xs font-bold">✓ VERIFIED</span>
+              <p class="text-gray-400 mt-2">Independent third-party confirmation</p>
+            </div>
+            <div>
+              <span class="px-2 py-1 bg-green-900/30 border border-green-500/50 rounded text-green-400 text-xs font-bold">✓ DOCUMENTED</span>
+              <p class="text-gray-400 mt-2">Publicly tracked/recorded</p>
+            </div>
+            <div>
+              <span class="px-2 py-1 bg-yellow-900/30 border border-yellow-500/50 rounded text-yellow-400 text-xs font-bold">CLAIMED</span>
+              <p class="text-gray-400 mt-2">Self-reported, no independent verification</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- CTA -->
+      <div class="max-w-4xl mx-auto text-center">
+        <h3 class="text-white text-2xl md:text-3xl font-bold mb-4">Want the Full Story?</h3>
+        <p class="text-gray-400 text-lg mb-8 max-w-2xl mx-auto">
+          Read the complete biography or join the Telegram community for behind-the-scenes insights.
+        </p>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+          <Button variant="primary" href="/story">
+            Read the Full Story
+          </Button>
+          <Button variant="tertiary" href="/join">
+            Join Telegram Community
+          </Button>
+        </div>
+      </div>
+
+        </div><!-- End Main Content -->
+      </div><!-- End Flex Container -->
+    </div><!-- End Container -->
+  </article>
+
+  <!-- Sources & Verification Section (for AI search) -->
+  <section class="bg-gray-950 border-t border-gray-800 py-12">
+    <div class="container mx-auto px-6 max-w-4xl">
+      <h3 class="text-gray-500 text-sm uppercase tracking-wider mb-4">Sources & Verification</h3>
+      <ul class="space-y-2 text-sm text-gray-400">
+        <li>• Jake Ormand (poker professional) - Third-party witness to $10M+ Venetian win (2021-2022)</li>
+        <li>• Venetian Las Vegas surveillance review - No cheating detected, lifetime ban issued for winning</li>
+        <li>• Wynn Las Vegas documented results - Net loss of $1.5M ($4M lost, $2.5M won back, still banned)</li>
+        <li>• Hustler Casino Live public records - $938,950 documented poker losses across multiple sessions</li>
+        <li>• VladTV interview - Self-reported $11.526M biggest session, $32M+ career total (unverified)</li>
+        <li>• Casino industry sources - 150+ casino bans across multiple gaming networks (MGM, Caesars, Wynn)</li>
+      </ul>
+      <p class="text-gray-500 text-xs mt-4 italic">Last verified: November 24, 2025</p>
+    </div>
+  </section>
+
+  <RelatedContent
+    title="Related Pages"
+    items={[
+      {
+        href: "/story",
+        title: "The Full Story",
+        description: "From juvenile prison to $32M - the complete Mikki Mase biography.",
+        category: "Biography"
+      },
+      {
+        href: "/banned",
+        title: "Casino Bans Explained",
+        description: "Why casinos ban winners and how Mikki got kicked out of 150+ properties.",
+        category: "Industry"
+      },
+      {
+        href: "/the-system",
+        title: "The Winning System",
+        description: "The pattern recognition and bankroll strategies behind the wins.",
+        category: "Strategy"
+      }
+    ]}
+  />
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  .filter-btn {
+    padding: 0.75rem 1.5rem;
+    background: rgba(255, 255, 255, 0.05);
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    border-radius: 0.75rem;
+    color: rgba(255, 255, 255, 0.7);
+    font-weight: 600;
+    font-size: 0.875rem;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .filter-btn:hover {
+    background: rgba(212, 160, 23, 0.15);
+    border-color: #d4a017;
+    color: #d4a017;
+    transform: translateY(-2px);
+  }
+
+  .filter-btn.active {
+    background: #d4a017;
+    border-color: #d4a017;
+    color: black;
+    transform: scale(1.05);
+  }
+
+  .filter-section {
+    transition: all 0.4s ease;
+  }
+
+  .filter-section.hidden-filter {
+    display: none;
+  }
+</style>
+
+<script>
+  import Chart from 'chart.js/auto';
+
+  let distributionChart: Chart | null = null;
+  let timelineChart: Chart | null = null;
+
+  // Initialize charts
+  function initCharts() {
+    // Distribution Chart (Donut)
+    const distCtx = document.getElementById('distribution-chart') as HTMLCanvasElement;
+    if (distCtx) {
+      distributionChart = new Chart(distCtx, {
+        type: 'doughnut',
+        data: {
+          labels: ['Verified Wins', 'Claimed Wins', 'Documented Losses'],
+          datasets: [{
+            data: [10, 22, 10.4],
+            backgroundColor: [
+              'rgba(34, 197, 94, 0.8)',
+              'rgba(234, 179, 8, 0.8)',
+              'rgba(239, 68, 68, 0.8)'
+            ],
+            borderColor: [
+              'rgba(34, 197, 94, 1)',
+              'rgba(234, 179, 8, 1)',
+              'rgba(239, 68, 68, 1)'
+            ],
+            borderWidth: 2
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              position: 'bottom',
+              labels: {
+                color: 'rgba(255, 255, 255, 0.9)',
+                padding: 15,
+                font: { size: 12, weight: 'bold' }
+              }
+            },
+            tooltip: {
+              backgroundColor: 'rgba(0, 0, 0, 0.9)',
+              padding: 12,
+              titleFont: { size: 14, weight: 'bold' },
+              bodyFont: { size: 13 },
+              callbacks: {
+                label: (context) => {
+                  const label = context.label || '';
+                  const value = context.parsed || 0;
+                  return `${label}: $${value}M`;
+                }
+              }
+            }
+          }
+        }
+      });
+    }
+
+    // Timeline Chart (Bar)
+    const timelineCtx = document.getElementById('timeline-chart') as HTMLCanvasElement;
+    if (timelineCtx) {
+      timelineChart = new Chart(timelineCtx, {
+        type: 'bar',
+        data: {
+          labels: ['Venetian\n2021-22', 'Wynn\n2021-22', 'Biggest Loss\nOne Night', 'Hustler Live\n2022-23', 'Biggest Win\n7 Days', 'Peak Period\nYear 3'],
+          datasets: [{
+            label: 'Amount ($M)',
+            data: [10, -1.5, -8, -0.939, 11.526, 52], // Year 3: $1M/week × 52 weeks
+            backgroundColor: [
+              'rgba(34, 197, 94, 0.8)',   // Venetian - green
+              'rgba(239, 68, 68, 0.8)',   // Wynn - red
+              'rgba(239, 68, 68, 0.8)',   // Biggest loss - red
+              'rgba(239, 68, 68, 0.8)',   // Hustler - red
+              'rgba(234, 179, 8, 0.8)',   // Biggest win - yellow (unverified)
+              'rgba(234, 179, 8, 0.8)'    // Peak period - yellow (unverified)
+            ],
+            borderColor: [
+              'rgba(34, 197, 94, 1)',
+              'rgba(239, 68, 68, 1)',
+              'rgba(239, 68, 68, 1)',
+              'rgba(239, 68, 68, 1)',
+              'rgba(234, 179, 8, 1)',
+              'rgba(234, 179, 8, 1)'
+            ],
+            borderWidth: 2,
+            borderRadius: 6
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              display: false
+            },
+            tooltip: {
+              backgroundColor: 'rgba(0, 0, 0, 0.9)',
+              padding: 12,
+              titleFont: { size: 14, weight: 'bold' },
+              bodyFont: { size: 13 },
+              callbacks: {
+                label: (context) => {
+                  const value = context.parsed.y;
+                  if (value < 0) {
+                    return `Loss: -$${Math.abs(value).toFixed(2)}M`;
+                  } else {
+                    return `Win: +$${value.toFixed(2)}M`;
+                  }
+                }
+              }
+            }
+          },
+          scales: {
+            y: {
+              grid: {
+                color: 'rgba(255, 255, 255, 0.1)'
+              },
+              ticks: {
+                color: 'rgba(255, 255, 255, 0.7)',
+                callback: (value) => {
+                  const num = value as number;
+                  return num >= 0 ? `+$${num}M` : `-$${Math.abs(num)}M`;
+                }
+              }
+            },
+            x: {
+              grid: {
+                display: false
+              },
+              ticks: {
+                color: 'rgba(255, 255, 255, 0.9)',
+                font: { size: 10, weight: 'bold' }
+              }
+            }
+          }
+        }
+      });
+    }
+  }
+
+  // Filter functionality
+  const filterBtns = document.querySelectorAll('.filter-btn');
+  const filterSections = document.querySelectorAll('.filter-section');
+
+  filterBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const filter = (btn as HTMLElement).dataset.filter;
+
+      // Update active state
+      filterBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      // Show/hide sections
+      if (filter === 'all') {
+        filterSections.forEach(section => section.classList.remove('hidden-filter'));
+      } else {
+        filterSections.forEach(section => {
+          const category = (section as HTMLElement).dataset.category;
+          if (category === filter) {
+            section.classList.remove('hidden-filter');
+          } else {
+            section.classList.add('hidden-filter');
+          }
+        });
+      }
+
+      // Scroll to first visible section
+      const firstVisible = document.querySelector('.filter-section:not(.hidden-filter)');
+      if (firstVisible && filter !== 'all') {
+        firstVisible.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
+  });
+
+  // Initialize charts when page loads
+  if (typeof window !== 'undefined') {
+    window.addEventListener('DOMContentLoaded', initCharts);
+  }
+</script>

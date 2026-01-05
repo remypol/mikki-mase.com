@@ -1,0 +1,424 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import Hero from '../components/Hero.astro';
+import Button from '../components/Button.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import RelatedContent from '../components/RelatedContent.astro';
+import QuickAnswer from '../components/QuickAnswer.astro';
+
+const systemSchema = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "HowTo",
+      "@id": "https://mikki-mase.com/the-system#howto",
+      "name": "Mikki Mase's Baccarat System - Pattern Recognition Strategy",
+      "description": "Complete breakdown of Mikki Mase's baccarat system: pattern recognition, bankroll management, dealer tells, and why he claims casinos are beatable. Includes mathematical analysis and gambling theory.",
+      "totalTime": "PT5Y",
+      "supply": [
+        {
+          "@type": "HowToSupply",
+          "name": "Multi-million dollar bankroll ($3M+ recommended)"
+        },
+        {
+          "@type": "HowToSupply",
+          "name": "Years of pattern recognition training"
+        },
+        {
+          "@type": "HowToSupply",
+          "name": "Psychological discipline"
+        }
+      ],
+      "step": [
+        {
+          "@type": "HowToStep",
+          "name": "Observe without betting",
+          "text": "Watch baccarat tables for hours without placing bets to identify dealer patterns and shoe flows"
+        },
+        {
+          "@type": "HowToStep",
+          "name": "Identify exploitable patterns",
+          "text": "Look for dealer tells, mechanical shuffling patterns, and statistical deviations"
+        },
+        {
+          "@type": "HowToStep",
+          "name": "Execute massive bets strategically",
+          "text": "Bet $100K-$250K per hand only when patterns align"
+        },
+        {
+          "@type": "HowToStep",
+          "name": "Exit before detection",
+          "text": "Win $1-3M and disappear for weeks to avoid casino heat"
+        }
+      ]
+    },
+    {
+      "@type": "Article",
+      "@id": "https://mikki-mase.com/the-system#article",
+      "headline": "The Mikki Mase Baccarat System - How He Claims to Beat Casinos",
+      "description": "Deep dive into Mikki Mase's controversial baccarat system: pattern recognition, dealer tells, bankroll strategy, and the mathematical debate over whether baccarat is truly beatable.",
+      "author": {
+        "@type": "Person",
+        "name": "Mikki Mase",
+        "@id": "https://mikki-mase.com/#person"
+      },
+      "datePublished": "2025-01-21",
+      "dateModified": "2026-01-02"
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://mikki-mase.com"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "The System",
+          "item": "https://mikki-mase.com/the-system"
+        }
+      ]
+    }
+  ]
+};
+---
+
+<BaseLayout
+  title="Mikki Mase Baccarat Strategy: How He Wins $100K-$250K Hands (2026)"
+  description="How does Mikki Mase beat baccarat? His pattern recognition system explained: dealer tells, shoe tracking, $250K bets. Why casinos banned him and what gambling math says about his claims."
+  ogType="article"
+  schema={systemSchema}
+>
+  <Header />
+
+  <!-- HERO SECTION -->
+  <Hero
+    eyebrow="The Controversial Method"
+    title="The System"
+    subtitle="How Mikki Mase claims to beat baccarat—and why casinos banned him for it."
+    backgroundImage="/images/mikki-main-1.webp"
+    variant="medium"
+  />
+
+  <!-- BREADCRUMBS -->
+  <div class="bg-black border-b border-gray-800">
+    <Breadcrumbs items={[
+      { label: "Home", href: "/" },
+      { label: "The System" }
+    ]} />
+  </div>
+
+  <!-- MAIN CONTENT -->
+  <article class="bg-black">
+    <div class="container mx-auto px-6 py-16 md:py-24 max-w-4xl">
+
+      <!-- Quick Answer for AI Search -->
+      <QuickAnswer
+        question="How does Mikki Mase's baccarat system work?"
+        answer="Mikki Mase claims to beat baccarat through pattern recognition, dealer observation, and strategic timing—not card counting. He watches tables for hours without betting, identifies patterns in dealer shuffling and card distribution, then places massive bets ($100K-$250K per hand) only when conditions align. Traditional gambling math says baccarat is unbeatable, but Mikki has verifiably won millions and been banned from 150+ casinos for his methods."
+        facts={[
+          { label: "Bet Size", value: "$100K-$250K" },
+          { label: "Method", value: "Pattern Recognition" },
+          { label: "Claimed Wins", value: "$32M+" },
+          { label: "Result", value: "150+ Bans" }
+        ]}
+      />
+
+      <!-- Intro -->
+      <div class="mb-16 md:mb-20">
+        <p class="text-gray-300 text-lg md:text-xl leading-relaxed mb-6">
+          Mikki Mase doesn't call it gambling. He calls it <strong class="text-white">execution</strong>. Over five years, he claims to have won <a href="/wins" class="text-gold hover:text-gold-light underline">$32 million from casinos</a> using a system based on pattern recognition, dealer observation, and strategic timing. The result? <strong class="text-white">Banned from 150+ casinos</strong>—not for cheating, but for winning.
+        </p>
+        <p class="text-gray-300 text-lg md:text-xl leading-relaxed">
+          This page breaks down exactly what Mikki claims to do, why traditional gambling math says it shouldn't work, and what the evidence suggests about whether baccarat is truly beatable.
+        </p>
+      </div>
+
+      <!-- What Is Baccarat? -->
+      <section class="mb-16 md:mb-20">
+        <h2 class="text-white text-3xl md:text-4xl font-bold mb-6">What Is Baccarat?</h2>
+
+        <p class="text-gray-300 text-lg leading-relaxed mb-6">
+          Baccarat is a casino card game where you bet on one of three outcomes: <strong class="text-white">Banker</strong>, <strong class="text-white">Player</strong>, or <strong class="text-white">Tie</strong>. Two hands are dealt (Player and Banker), and whichever is closer to 9 wins. You don't play the hand—you just bet on which side will win.
+        </p>
+
+        <div class="bg-gray-900 border border-gray-800 rounded-xl p-6 md:p-8 mb-6">
+          <h3 class="text-white text-xl font-bold mb-4">House Edge by Bet Type</h3>
+          <ul class="space-y-3 text-gray-300">
+            <li><strong class="text-white">Banker Bet:</strong> 1.06% house edge (best odds)</li>
+            <li><strong class="text-white">Player Bet:</strong> 1.24% house edge</li>
+            <li><strong class="text-white">Tie Bet:</strong> 14.36% house edge (never bet this)</li>
+          </ul>
+        </div>
+
+        <p class="text-gray-300 text-lg leading-relaxed">
+          Unlike blackjack (where card counting works) or poker (where skill matters), baccarat is considered a <strong class="text-white">pure probability game</strong>. The house edge is small, but it's built in mathematically. Over time, the casino always wins.
+        </p>
+      </section>
+
+      <!-- Why Casinos Say Baccarat Is Unbeatable -->
+      <section class="mb-16 md:mb-20">
+        <h2 class="text-white text-3xl md:text-4xl font-bold mb-6">Why Casinos Say Baccarat Is Unbeatable</h2>
+
+        <p class="text-gray-300 text-lg leading-relaxed mb-6">
+          Professional gamblers and mathematicians agree: <strong class="text-white">baccarat cannot be beaten long-term</strong> through traditional advantage play techniques. Here's why:
+        </p>
+
+        <div class="space-y-6">
+          <div class="bg-gradient-to-br from-gray-900 to-black border-l-4 border-red-500 p-6 rounded">
+            <h3 class="text-white text-xl font-bold mb-3">1. Card Counting Doesn't Work</h3>
+            <p class="text-gray-300 leading-relaxed">
+              In blackjack, counting cards gives you a 1-2% edge. In baccarat, even perfect card counting gives you less than 0.1% edge—and only on specific hands. It's mathematically useless.
+            </p>
+          </div>
+
+          <div class="bg-gradient-to-br from-gray-900 to-black border-l-4 border-red-500 p-6 rounded">
+            <h3 class="text-white text-xl font-bold mb-3">2. Past Results Don't Affect Future Outcomes</h3>
+            <p class="text-gray-300 leading-relaxed">
+              The "Banker won 7 times in a row" pattern means nothing. Each hand is independent. This is basic probability theory—the gambler's fallacy.
+            </p>
+          </div>
+
+          <div class="bg-gradient-to-br from-gray-900 to-black border-l-4 border-red-500 p-6 rounded">
+            <h3 class="text-white text-xl font-bold mb-3">3. The House Edge Never Disappears</h3>
+            <p class="text-gray-300 leading-relaxed">
+              Even if you bet perfectly, the 1.06% edge grinds you down over time. Bet $100M lifetime? You'll lose $1.06M on average. Math doesn't care about "systems."
+            </p>
+          </div>
+        </div>
+
+        <div class="mt-8 bg-red-900/20 border border-red-500/50 rounded-xl p-6 md:p-8">
+          <p class="text-red-400 text-lg font-semibold mb-2">⚠️ The Industry Consensus</p>
+          <p class="text-gray-300 leading-relaxed">
+            Every professional gambling expert—from Stanford Wong to Ed Thorp—agrees baccarat is unbeatable through pattern recognition. If Mikki has found an edge, it's not through traditional advantage play.
+          </p>
+        </div>
+      </section>
+
+      <!-- What Mikki Mase Claims -->
+      <section class="mb-16 md:mb-20">
+        <h2 class="text-white text-3xl md:text-4xl font-bold mb-6">What Mikki Mase Claims</h2>
+
+        <p class="text-gray-300 text-lg leading-relaxed mb-8">
+          Mikki's system rejects traditional gambling theory. He claims casinos <strong class="text-white">actively cheat at baccarat</strong> through dealer manipulation, and that he <strong class="text-white">reverse-engineered their methods</strong> to beat them. Here's his approach:
+        </p>
+
+        <div class="space-y-8">
+          <!-- Step 1 -->
+          <div class="bg-gradient-to-br from-gray-900 to-black border border-gold/30 rounded-xl p-6 md:p-8">
+            <div class="flex items-start gap-4">
+              <div class="flex-shrink-0 w-10 h-10 bg-gold/10 rounded-full flex items-center justify-center">
+                <span class="text-gold font-black">1</span>
+              </div>
+              <div>
+                <h3 class="text-white text-xl font-bold mb-3">Observe Without Betting</h3>
+                <p class="text-gray-300 leading-relaxed mb-4">
+                  Mikki watches tables for <strong class="text-white">hours</strong> before placing a single bet. He's looking for:
+                </p>
+                <ul class="space-y-2 text-gray-300">
+                  <li>• <strong class="text-white">Dealer tells:</strong> Physical movements, card placement timing, shuffling patterns</li>
+                  <li>• <strong class="text-white">Shoe flows:</strong> Statistical deviations from expected Banker/Player distributions</li>
+                  <li>• <strong class="text-white">Pit boss behavior:</strong> How staff react to wins and losses</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <!-- Step 2 -->
+          <div class="bg-gradient-to-br from-gray-900 to-black border border-gold/30 rounded-xl p-6 md:p-8">
+            <div class="flex items-start gap-4">
+              <div class="flex-shrink-0 w-10 h-10 bg-gold/10 rounded-full flex items-center justify-center">
+                <span class="text-gold font-black">2</span>
+              </div>
+              <div>
+                <h3 class="text-white text-xl font-bold mb-3">Pattern Recognition</h3>
+                <p class="text-gray-300 leading-relaxed mb-4">
+                  Unlike traditional "pattern betting" (which doesn't work), Mikki claims to identify <strong class="text-white">exploitable dealer errors</strong> and <strong class="text-white">mechanical predictability</strong> in how shoes are shuffled. This is distinct from the gambler's fallacy—he's not betting on streaks, he's betting on <strong class="text-white">human execution flaws</strong>.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Step 3 -->
+          <div class="bg-gradient-to-br from-gray-900 to-black border border-gold/30 rounded-xl p-6 md:p-8">
+            <div class="flex items-start gap-4">
+              <div class="flex-shrink-0 w-10 h-10 bg-gold/10 rounded-full flex items-center justify-center">
+                <span class="text-gold font-black">3</span>
+              </div>
+              <div>
+                <h3 class="text-white text-xl font-bold mb-3">Massive, Strategic Bets</h3>
+                <p class="text-gray-300 leading-relaxed mb-4">
+                  When patterns align, Mikki bets <strong class="text-white">$100,000 to $250,000 per hand</strong>. This isn't gradual grinding—it's surgical execution. He doesn't play for hours. He plays for <strong class="text-white">minutes</strong>, extracting $1-3M, then leaves.
+                </p>
+                <div class="bg-black/50 border border-gold/30 rounded p-4 mt-4">
+                  <p class="text-gold text-sm font-semibold mb-1">Example Session:</p>
+                  <p class="text-gray-400 text-sm">$3M buy-in → 12 hands at $250K each → +$2.5M profit → Walk away. Total time: 18 minutes.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Step 4 -->
+          <div class="bg-gradient-to-br from-gray-900 to-black border border-gold/30 rounded-xl p-6 md:p-8">
+            <div class="flex items-start gap-4">
+              <div class="flex-shrink-0 w-10 h-10 bg-gold/10 rounded-full flex items-center justify-center">
+                <span class="text-gold font-black">4</span>
+              </div>
+              <div>
+                <h3 class="text-white text-xl font-bold mb-3">Disappear Before Detection</h3>
+                <p class="text-gray-300 leading-relaxed">
+                  After winning, Mikki doesn't return for <strong class="text-white">weeks</strong>. This prevents casinos from studying his play or adjusting their procedures. He rotates between casinos, using different buy-in methods, and now plays under other people's accounts since he's <a href="/banned" class="text-gold hover:text-gold-light underline">banned from 150+ properties</a>.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- The Bankroll Strategy -->
+      <section class="mb-16 md:mb-20">
+        <h2 class="text-white text-3xl md:text-4xl font-bold mb-6">The Bankroll Strategy</h2>
+
+        <p class="text-gray-300 text-lg leading-relaxed mb-6">
+          Mikki's approach requires <strong class="text-white">massive capital</strong>. Here's why:
+        </p>
+
+        <div class="bg-gradient-to-br from-gray-900 to-black border border-gray-800 rounded-xl p-6 md:p-8 mb-6">
+          <h3 class="text-white text-xl font-bold mb-4">Minimum Requirements</h3>
+          <ul class="space-y-3 text-gray-300">
+            <li><strong class="text-white">Buy-in per session:</strong> $3,000,000</li>
+            <li><strong class="text-white">Bet size per hand:</strong> $100,000 - $250,000</li>
+            <li><strong class="text-white">Total bankroll needed:</strong> $10,000,000+ (to survive variance)</li>
+          </ul>
+        </div>
+
+        <p class="text-gray-300 text-lg leading-relaxed mb-6">
+          Why so much? <strong class="text-white">Variance</strong>. Even with an edge, you can lose millions in a single session. Mikki's documented <a href="/wins" class="text-gold hover:text-gold-light underline">$1.5M loss at the Wynn</a> shows this isn't risk-free. You need enough capital to survive losing streaks until patterns align again.
+        </p>
+
+        <div class="bg-red-900/20 border border-red-500/50 rounded-xl p-6">
+          <p class="text-red-400 font-semibold mb-2">⚠️ Why This Isn't Replicable for Most People</p>
+          <p class="text-gray-300 text-sm">
+            If you don't have $10M+ in liquid capital, this system is irrelevant. Trying to replicate it with $50K or even $500K will result in ruin the first time variance goes against you.
+          </p>
+        </div>
+      </section>
+
+      <!-- Does It Actually Work? -->
+      <section class="mb-16 md:mb-20">
+        <h2 class="text-white text-3xl md:text-4xl font-bold mb-6">Does It Actually Work?</h2>
+
+        <p class="text-gray-300 text-lg leading-relaxed mb-8">
+          The evidence is mixed. Let's separate what's proven from what's claimed:
+        </p>
+
+        <div class="space-y-6">
+          <!-- Proven -->
+          <div class="bg-green-900/20 border border-green-500/50 rounded-xl p-6 md:p-8">
+            <h3 class="text-green-400 text-xl font-bold mb-4">✓ What's Proven</h3>
+            <ul class="space-y-2 text-gray-300">
+              <li>• <strong class="text-white">$10M+ win at The Venetian</strong> (verified by poker player Jake Ormand)</li>
+              <li>• <strong class="text-white">Casino bans</strong> (Venetian, Wynn, and others confirmed)</li>
+              <li>• <strong class="text-white">No cheating found</strong> (casinos reviewed footage, found nothing illegal)</li>
+              <li>• <strong class="text-white">Documented losses</strong> ($1.5M at Wynn, $938K in poker) proving transparency</li>
+            </ul>
+          </div>
+
+          <!-- Unverified -->
+          <div class="bg-yellow-900/20 border border-yellow-500/50 rounded-xl p-6 md:p-8">
+            <h3 class="text-yellow-400 text-xl font-bold mb-4">? What's Unverified</h3>
+            <ul class="space-y-2 text-gray-300">
+              <li>• <strong class="text-white">$32M total winnings claim</strong> (only $10M+ verified)</li>
+              <li>• <strong class="text-white">Casino cheating allegations</strong> (casinos deny this)</li>
+              <li>• <strong class="text-white">Specific pattern recognition methods</strong> (not disclosed in detail)</li>
+            </ul>
+          </div>
+        </div>
+
+        <p class="text-gray-300 text-lg leading-relaxed mt-8">
+          <strong class="text-white">The Bottom Line:</strong> Mikki has demonstrably won millions from casinos using legal methods. Whether it's through <em class="text-gold italic">exploiting dealer errors</em>, <em class="text-gold italic">extreme variance luck</em>, or <em class="text-gold italic">something else entirely</em> remains debated. The fact that casinos banned him despite finding no cheating suggests they believe he has <em class="italic">some</em> edge—even if they don't understand it.
+        </p>
+      </section>
+
+      <!-- Can You Replicate This? -->
+      <section class="mb-16">
+        <h2 class="text-white text-3xl md:text-4xl font-bold mb-6">Can You Replicate This?</h2>
+
+        <div class="bg-gradient-to-br from-gray-900 to-black border-2 border-red-500/50 rounded-2xl p-8 md:p-12 mb-8">
+          <p class="text-red-400 text-2xl font-bold mb-4">⚠️ Honest Answer: Probably Not</p>
+          <p class="text-gray-300 text-lg leading-relaxed mb-4">
+            Even if Mikki's system works, you likely can't execute it. Here's why:
+          </p>
+          <ul class="space-y-3 text-gray-300">
+            <li>• <strong class="text-white">You don't have $10M+ in capital</strong> (required to survive variance)</li>
+            <li>• <strong class="text-white">You don't have 5+ years of pattern recognition training</strong></li>
+            <li>• <strong class="text-white">You don't have casino host relationships</strong> to negotiate $250K/hand limits</li>
+            <li>• <strong class="text-white">You'll get banned immediately</strong> if you try to replicate this at scale</li>
+          </ul>
+        </div>
+
+        <p class="text-gray-300 text-lg leading-relaxed mb-6">
+          Mikki shares insights in his <a href="/join" class="text-gold hover:text-gold-light underline">free Telegram community</a>, but he doesn't promise anyone will replicate his results. He's transparent that his system requires <strong class="text-white">resources 99.9% of people don't have</strong>.
+        </p>
+
+        <div class="bg-gray-900 border border-gold/30 rounded-xl p-6 md:p-8">
+          <h3 class="text-white text-xl font-bold mb-4">What You CAN Learn</h3>
+          <ul class="space-y-2 text-gray-300">
+            <li>• <strong class="text-white">Bankroll management principles</strong> (bet sizing, risk of ruin)</li>
+            <li>• <strong class="text-white">When to walk away</strong> (most gamblers don't quit when ahead)</li>
+            <li>• <strong class="text-white">How casinos think</strong> (why they ban winners, how they track play)</li>
+            <li>• <strong class="text-white">Transparency matters</strong> (Mikki shows losses, not just wins)</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- CTA -->
+      <div class="text-center pt-12 border-t border-gray-800">
+        <h3 class="text-white text-2xl md:text-3xl font-bold mb-4">Want the Full Story?</h3>
+        <p class="text-gray-400 text-lg mb-8 max-w-2xl mx-auto">
+          Read how Mikki developed this system, see his <a href="/wins" class="text-gold hover:text-gold-light underline">complete win/loss record</a>, and learn why <a href="/banned" class="text-gold hover:text-gold-light underline">150+ casinos banned him</a>.
+        </p>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+          <Button variant="primary" href="/story">
+            Read the Full Story
+          </Button>
+          <Button variant="tertiary" href="/join">
+            Join Telegram Community
+          </Button>
+        </div>
+      </div>
+
+    </div>
+  </article>
+
+  <RelatedContent
+    title="Related Content"
+    items={[
+      {
+        href: "/blog/baccarat-basics-complete-guide",
+        title: "Baccarat Basics Guide",
+        description: "Complete beginner's guide to baccarat rules, odds, and bet types.",
+        category: "Blog"
+      },
+      {
+        href: "/blog/bankroll-management-101",
+        title: "Bankroll Management 101",
+        description: "How professional gamblers protect their money and survive downswings.",
+        category: "Blog"
+      },
+      {
+        href: "/glossary",
+        title: "Gambling Glossary",
+        description: "70+ terms every serious player should know, from house edge to shoe.",
+        category: "Reference"
+      }
+    ]}
+  />
+
+  <Footer />
+</BaseLayout>

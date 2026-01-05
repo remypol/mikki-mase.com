@@ -1,0 +1,990 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import ShareButtons from '../../components/ShareButtons.astro';
+
+const toolSchema = {
+  "@type": "WebApplication",
+  "name": "Blackjack Strategy Calculator",
+  "applicationCategory": "GameApplication",
+  "operatingSystem": "Web Browser",
+  "description": "Free blackjack basic strategy calculator with real-time probability visualization. Enter your hand and the dealer's upcard to get the mathematically optimal play instantly.",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+  "author": { "@id": "https://mikki-mase.com/#person" }
+};
+---
+
+<BaseLayout
+  title="Free Blackjack Strategy Calculator | Mikki Mase"
+  description="Enter your cards and the dealer's upcard to get the mathematically optimal blackjack play with real-time probability visualization."
+  schema={toolSchema}
+>
+  <Header />
+  <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "Tools", href: "/tools" }, { label: "Blackjack Calculator" }]} />
+
+  <main id="main-content" class="min-h-screen bg-gradient-to-b from-emerald-950 via-emerald-900 to-black">
+    <div class="container mx-auto px-4 py-8 md:py-12">
+
+      <!-- Header -->
+      <div class="text-center mb-10 observe-once">
+        <a href="/" class="inline-block mb-4">
+          <span class="text-white text-xl font-black">MIKKI</span>
+          <span class="text-gold text-xl font-black">MASE</span>
+        </a>
+        <h1 class="text-3xl md:text-5xl font-black text-white mb-3">Blackjack Strategy Calculator</h1>
+        <p class="text-emerald-300/80 text-lg">Get optimal play with real-time probability visualization</p>
+      </div>
+
+      <div class="max-w-7xl mx-auto grid lg:grid-cols-2 gap-8">
+
+        <!-- LEFT COLUMN: Calculator -->
+        <div class="observe-once">
+          <div class="bg-gradient-to-br from-white/5 to-white/[0.02] backdrop-blur-xl border border-white/10 rounded-2xl p-6 md:p-8 sticky top-8">
+
+            <!-- Dealer's Card -->
+            <div class="mb-8">
+              <label id="dealer-label" class="block text-emerald-400 text-sm font-semibold mb-3 uppercase tracking-wide">
+                Dealer Shows
+              </label>
+              <div class="grid grid-cols-5 gap-2" id="dealer-cards" role="group" aria-labelledby="dealer-label">
+                <button class="card-btn" data-value="2">2</button>
+                <button class="card-btn" data-value="3">3</button>
+                <button class="card-btn" data-value="4">4</button>
+                <button class="card-btn" data-value="5">5</button>
+                <button class="card-btn" data-value="6">6</button>
+                <button class="card-btn" data-value="7">7</button>
+                <button class="card-btn" data-value="8">8</button>
+                <button class="card-btn" data-value="9">9</button>
+                <button class="card-btn" data-value="10">10</button>
+                <button class="card-btn" data-value="A">A</button>
+              </div>
+            </div>
+
+            <!-- Your First Card -->
+            <div class="mb-8">
+              <label id="player1-label" class="block text-emerald-400 text-sm font-semibold mb-3 uppercase tracking-wide">
+                Your First Card
+              </label>
+              <div class="grid grid-cols-5 gap-2" id="player1-cards" role="group" aria-labelledby="player1-label">
+                <button class="card-btn" data-value="2">2</button>
+                <button class="card-btn" data-value="3">3</button>
+                <button class="card-btn" data-value="4">4</button>
+                <button class="card-btn" data-value="5">5</button>
+                <button class="card-btn" data-value="6">6</button>
+                <button class="card-btn" data-value="7">7</button>
+                <button class="card-btn" data-value="8">8</button>
+                <button class="card-btn" data-value="9">9</button>
+                <button class="card-btn" data-value="10">10</button>
+                <button class="card-btn" data-value="A">A</button>
+              </div>
+            </div>
+
+            <!-- Your Second Card -->
+            <div class="mb-8">
+              <label id="player2-label" class="block text-emerald-400 text-sm font-semibold mb-3 uppercase tracking-wide">
+                Your Second Card
+              </label>
+              <div class="grid grid-cols-5 gap-2" id="player2-cards" role="group" aria-labelledby="player2-label">
+                <button class="card-btn" data-value="2">2</button>
+                <button class="card-btn" data-value="3">3</button>
+                <button class="card-btn" data-value="4">4</button>
+                <button class="card-btn" data-value="5">5</button>
+                <button class="card-btn" data-value="6">6</button>
+                <button class="card-btn" data-value="7">7</button>
+                <button class="card-btn" data-value="8">8</button>
+                <button class="card-btn" data-value="9">9</button>
+                <button class="card-btn" data-value="10">10</button>
+                <button class="card-btn" data-value="A">A</button>
+              </div>
+            </div>
+
+            <!-- Your Hand Summary -->
+            <div id="hand-summary" class="hidden text-center py-4 border-t border-emerald-800/50 mb-6">
+              <span class="text-emerald-400 text-sm">Your hand: </span>
+              <span id="hand-total" class="text-white font-bold text-xl"></span>
+            </div>
+
+            <!-- Reset Button -->
+            <button id="reset-btn" class="hidden w-full py-3 bg-white/10 hover:bg-white/20 text-white font-semibold rounded-xl transition-colors">
+              Start Over
+            </button>
+          </div>
+        </div>
+
+        <!-- RIGHT COLUMN: Results & Visualization -->
+        <div class="space-y-6">
+
+          <!-- Result Box -->
+          <div id="result" class="hidden observe-once">
+            <div id="result-box" class="text-center py-8 px-6 rounded-2xl mb-6">
+              <div id="result-action" class="text-5xl md:text-6xl font-black mb-3"></div>
+              <p id="result-reason" class="text-white/80 text-base mb-4"></p>
+
+              <!-- Expected Value -->
+              <div id="ev-display" class="inline-flex items-center gap-2 px-4 py-2 bg-black/30 rounded-lg group relative">
+                <span class="text-emerald-400 text-sm font-semibold">Expected Value:</span>
+                <span id="ev-value" class="text-white text-lg font-bold">-</span>
+                <svg class="w-4 h-4 text-emerald-400/50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+                <!-- Tooltip -->
+                <div class="hidden group-hover:block absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-64 px-4 py-3 bg-gray-900 border border-emerald-700/30 rounded-lg text-xs text-white z-10">
+                  <strong>Expected Value (EV)</strong><br/>
+                  Average $ returned per $1 bet over infinite plays.<br/>
+                  +0.50 = win 50¢ per $1 bet<br/>
+                  -0.25 = lose 25¢ per $1 bet
+                </div>
+              </div>
+            </div>
+
+            <!-- Probability Chart -->
+            <div class="bg-gradient-to-br from-white/5 to-white/[0.02] backdrop-blur-xl border border-white/10 rounded-2xl p-6 mb-6">
+              <h3 class="text-white text-lg font-bold mb-4 text-center">Decision Probability Analysis</h3>
+              <div class="relative" style="height: 280px;">
+                <canvas id="probability-chart"></canvas>
+              </div>
+              <p class="text-emerald-400/60 text-xs text-center mt-4">
+                Based on 10,000 Monte Carlo simulations
+              </p>
+            </div>
+
+            <!-- Strategy Insight -->
+            <div id="strategy-insight" class="bg-gradient-to-br from-emerald-900/30 to-emerald-900/10 backdrop-blur-xl border border-emerald-700/30 rounded-2xl p-6 mb-6">
+              <h3 class="text-emerald-400 text-sm font-bold uppercase tracking-wide mb-3">💡 Strategy Insight</h3>
+              <p id="insight-text" class="text-white/90 leading-relaxed"></p>
+            </div>
+
+            <!-- Draw another card (for HIT scenarios) -->
+            <div id="draw-section" class="hidden bg-gradient-to-br from-white/5 to-white/[0.02] backdrop-blur-xl border border-white/10 rounded-2xl p-6 mb-6">
+              <label class="block text-emerald-400 text-sm font-semibold mb-3 uppercase tracking-wide">
+                You drew...
+              </label>
+              <div class="grid grid-cols-5 gap-2" id="draw-cards">
+                <button class="card-btn" data-value="2">2</button>
+                <button class="card-btn" data-value="3">3</button>
+                <button class="card-btn" data-value="4">4</button>
+                <button class="card-btn" data-value="5">5</button>
+                <button class="card-btn" data-value="6">6</button>
+                <button class="card-btn" data-value="7">7</button>
+                <button class="card-btn" data-value="8">8</button>
+                <button class="card-btn" data-value="9">9</button>
+                <button class="card-btn" data-value="10">10</button>
+                <button class="card-btn" data-value="A">A</button>
+              </div>
+            </div>
+
+            <!-- Outcome tracking -->
+            <div id="outcome-section" class="hidden bg-gradient-to-br from-white/5 to-white/[0.02] backdrop-blur-xl border border-white/10 rounded-2xl p-6">
+              <p class="text-emerald-300 text-sm font-semibold mb-2 text-center">Did you win the hand?</p>
+              <p class="text-emerald-300/60 text-xs text-center mb-4">Help us track which plays work best</p>
+              <div class="grid grid-cols-3 gap-3">
+                <button id="outcome-win" class="py-3 bg-green-600/30 hover:bg-green-600/50 border border-green-500/50 text-green-400 font-bold rounded-xl transition-all hover:scale-105">
+                  Won
+                </button>
+                <button id="outcome-push" class="py-3 bg-yellow-600/30 hover:bg-yellow-600/50 border border-yellow-500/50 text-yellow-400 font-bold rounded-xl transition-all hover:scale-105">
+                  Push
+                </button>
+                <button id="outcome-loss" class="py-3 bg-red-600/30 hover:bg-red-600/50 border border-red-500/50 text-red-400 font-bold rounded-xl transition-all hover:scale-105">
+                  Lost
+                </button>
+              </div>
+
+              <!-- Community stats display -->
+              <div id="community-stats" class="hidden mt-4 pt-4 border-t border-emerald-700/30">
+                <p class="text-emerald-400/70 text-xs uppercase tracking-wide mb-3 text-center">Community Results</p>
+                <div class="flex items-center justify-center gap-6">
+                  <div class="text-center">
+                    <span id="stat-win-pct" class="block text-green-400 text-2xl font-bold">-</span>
+                    <span class="text-gray-500 text-xs">Win Rate</span>
+                  </div>
+                  <div class="text-center">
+                    <span id="stat-total" class="block text-white text-2xl font-bold">-</span>
+                    <span class="text-gray-500 text-xs">Tracked</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Initial state placeholder -->
+          <div id="initial-placeholder" class="bg-gradient-to-br from-white/5 to-white/[0.02] backdrop-blur-xl border border-white/10 rounded-2xl p-12 text-center">
+            <svg class="w-20 h-20 mx-auto mb-6 text-emerald-400/30" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+            </svg>
+            <h3 class="text-white text-xl font-bold mb-3">Real-Time Strategy Analysis</h3>
+            <p class="text-emerald-400/60 leading-relaxed">
+              Select your cards and the dealer's upcard to see optimal strategy with probability visualization
+            </p>
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- Share -->
+      <div class="max-w-7xl mx-auto mt-12 flex justify-center">
+        <ShareButtons
+          title="Blackjack Strategy Calculator | Mikki Mase"
+          description="Get the mathematically optimal play for any blackjack hand with probability visualization."
+          variant="compact"
+        />
+      </div>
+
+      <!-- Strategy Guide -->
+      <div class="max-w-7xl mx-auto mt-12 bg-gradient-to-br from-white/5 to-white/[0.02] backdrop-blur-xl border border-white/10 rounded-2xl p-8">
+        <h2 class="text-white text-2xl font-bold mb-6 text-center">Quick Strategy Guide</h2>
+        <div class="grid md:grid-cols-3 gap-6">
+          <div class="text-center">
+            <div class="w-12 h-12 rounded-xl bg-green-500/20 border-2 border-green-500 flex items-center justify-center mx-auto mb-4">
+              <span class="text-green-400 text-2xl font-bold">H</span>
+            </div>
+            <h3 class="text-white font-bold mb-2">HIT</h3>
+            <p class="text-emerald-400/60 text-sm">Take another card to improve your hand</p>
+          </div>
+          <div class="text-center">
+            <div class="w-12 h-12 rounded-xl bg-gold/20 border-2 border-gold flex items-center justify-center mx-auto mb-4">
+              <span class="text-gold text-2xl font-bold">S</span>
+            </div>
+            <h3 class="text-white font-bold mb-2">STAND</h3>
+            <p class="text-emerald-400/60 text-sm">Keep your hand and end your turn</p>
+          </div>
+          <div class="text-center">
+            <div class="w-12 h-12 rounded-xl bg-purple-500/20 border-2 border-purple-500 flex items-center justify-center mx-auto mb-4">
+              <span class="text-purple-400 text-2xl font-bold">D</span>
+            </div>
+            <h3 class="text-white font-bold mb-2">DOUBLE</h3>
+            <p class="text-emerald-400/60 text-sm">Double bet, take one card, then stand</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  .card-btn {
+    aspect-ratio: 1;
+    min-width: 44px;
+    min-height: 44px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+    color: white;
+    font-size: 18px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .card-btn:hover {
+    background: rgba(212, 160, 23, 0.25);
+    border-color: #d4a017;
+    transform: scale(1.08);
+  }
+
+  .card-btn.selected {
+    background: #d4a017;
+    border-color: #d4a017;
+    color: black;
+    transform: scale(1.08);
+    box-shadow: 0 4px 20px rgba(212, 160, 23, 0.4);
+  }
+
+  .card-btn:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+    transform: none;
+  }
+
+  #result-box.hit {
+    background: linear-gradient(135deg, rgba(16, 185, 129, 0.3), rgba(16, 185, 129, 0.1));
+    border: 2px solid #10b981;
+  }
+  #result-box.hit #result-action { color: #34d399; }
+
+  #result-box.stand {
+    background: linear-gradient(135deg, rgba(212, 160, 23, 0.3), rgba(212, 160, 23, 0.1));
+    border: 2px solid #d4a017;
+  }
+  #result-box.stand #result-action { color: #eab308; }
+
+  #result-box.double {
+    background: linear-gradient(135deg, rgba(168, 85, 247, 0.3), rgba(168, 85, 247, 0.1));
+    border: 2px solid #a855f7;
+  }
+  #result-box.double #result-action { color: #c084fc; }
+
+  #result-box.split {
+    background: linear-gradient(135deg, rgba(59, 130, 246, 0.3), rgba(59, 130, 246, 0.1));
+    border: 2px solid #3b82f6;
+  }
+  #result-box.split #result-action { color: #60a5fa; }
+
+  #result-box.surrender {
+    background: linear-gradient(135deg, rgba(239, 68, 68, 0.3), rgba(239, 68, 68, 0.1));
+    border: 2px solid #ef4444;
+  }
+  #result-box.surrender #result-action { color: #f87171; }
+
+  #result-box.blackjack {
+    background: linear-gradient(135deg, rgba(212, 160, 23, 0.4), rgba(212, 160, 23, 0.2));
+    border: 2px solid #d4a017;
+  }
+  #result-box.blackjack #result-action {
+    color: #eab308;
+    animation: pulse-glow 2s ease-in-out infinite;
+  }
+
+  #result-box.bust {
+    background: linear-gradient(135deg, rgba(239, 68, 68, 0.4), rgba(239, 68, 68, 0.2));
+    border: 2px solid #ef4444;
+  }
+  #result-box.bust #result-action { color: #ef4444; }
+
+  @keyframes pulse-glow {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.8; transform: scale(1.05); }
+  }
+
+  /* Scroll reveal animation */
+  .observe-once {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .observe-once.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+</style>
+
+<script>
+  import Chart from 'chart.js/auto';
+
+  const state = {
+    dealer: null as string | null,
+    player1: null as string | null,
+    player2: null as string | null,
+    extraCards: [] as string[],
+    currentHandKey: null as string | null,
+    lastAction: null as string | null
+  };
+
+  let probabilityChart: Chart | null = null;
+
+  // API endpoint for community stats
+  const STATS_API = 'http://164.90.201.178:8090/api/blackjack/stats';
+  const MIN_RESULTS_TO_SHOW = 5;
+
+  const dealerBtns = document.querySelectorAll('#dealer-cards .card-btn');
+  const player1Btns = document.querySelectorAll('#player1-cards .card-btn');
+  const player2Btns = document.querySelectorAll('#player2-cards .card-btn');
+  const drawBtns = document.querySelectorAll('#draw-cards .card-btn');
+  const drawSection = document.getElementById('draw-section');
+  const resultEl = document.getElementById('result');
+  const initialPlaceholder = document.getElementById('initial-placeholder');
+  const outcomeSection = document.getElementById('outcome-section');
+  const communityStats = document.getElementById('community-stats');
+  const statWinPct = document.getElementById('stat-win-pct');
+  const statTotal = document.getElementById('stat-total');
+  const outcomeWinBtn = document.getElementById('outcome-win');
+  const outcomePushBtn = document.getElementById('outcome-push');
+  const outcomeLossBtn = document.getElementById('outcome-loss');
+  const resultBox = document.getElementById('result-box');
+  const resultAction = document.getElementById('result-action');
+  const resultReason = document.getElementById('result-reason');
+  const evValue = document.getElementById('ev-value');
+  const insightText = document.getElementById('insight-text');
+  const handSummary = document.getElementById('hand-summary');
+  const handTotal = document.getElementById('hand-total');
+  const resetBtn = document.getElementById('reset-btn');
+
+  function getValue(card: string): number {
+    if (card === 'A') return 11;
+    if (card === '10' || card === 'J' || card === 'Q' || card === 'K') return 10;
+    return parseInt(card);
+  }
+
+  function getTotal(cards: string[]): { total: number; soft: boolean } {
+    let total = 0;
+    let aces = 0;
+    for (const c of cards) {
+      total += getValue(c);
+      if (c === 'A') aces++;
+    }
+    while (total > 21 && aces > 0) {
+      total -= 10;
+      aces--;
+    }
+    const soft = cards.includes('A') && total <= 21 && aces > 0;
+    return { total, soft };
+  }
+
+  function selectCard(group: string, value: string) {
+    const container = document.getElementById(`${group}-cards`);
+    container?.querySelectorAll('.card-btn').forEach(btn => {
+      btn.classList.remove('selected');
+      if ((btn as HTMLElement).dataset.value === value) {
+        btn.classList.add('selected');
+      }
+    });
+
+    if (group === 'dealer') state.dealer = value;
+    if (group === 'player1') state.player1 = value;
+    if (group === 'player2') state.player2 = value;
+
+    checkAndCalculate();
+  }
+
+  dealerBtns.forEach(btn => {
+    btn.addEventListener('click', () => selectCard('dealer', (btn as HTMLElement).dataset.value!));
+  });
+
+  player1Btns.forEach(btn => {
+    btn.addEventListener('click', () => selectCard('player1', (btn as HTMLElement).dataset.value!));
+  });
+
+  player2Btns.forEach(btn => {
+    btn.addEventListener('click', () => selectCard('player2', (btn as HTMLElement).dataset.value!));
+  });
+
+  drawBtns.forEach(btn => {
+    btn.addEventListener('click', () => selectDrawCard((btn as HTMLElement).dataset.value!));
+  });
+
+  function selectDrawCard(value: string) {
+    state.extraCards.push(value);
+    recalculateAfterDraw();
+  }
+
+  function recalculateAfterDraw() {
+    if (!state.dealer || !state.player1 || !state.player2) return;
+
+    const dealerVal = getValue(state.dealer);
+    const playerCards = [state.player1, state.player2, ...state.extraCards];
+    const { total, soft } = getTotal(playerCards);
+
+    // Update hand summary
+    if (handTotal) handTotal.textContent = `${total}`;
+
+    // Check for bust
+    if (total > 21) {
+      showResult('BUST!', `You went over 21 (${total})`, 'bust', -1.0,
+        "Busting means automatic loss, regardless of dealer's hand. This is why controlled hitting is crucial.");
+      createProbabilityChart({ win: 0, push: 0, lose: 100 });
+      drawSection?.classList.add('hidden');
+      outcomeSection?.classList.add('hidden'); // Bust is obvious loss
+      return;
+    }
+
+    // Check for 21
+    if (total === 21) {
+      showResult('STAND', 'You have 21!', 'stand', 0.8,
+        "21 is the best possible total. Stand and hope the dealer doesn't also hit 21 or have blackjack.");
+      createProbabilityChart({ win: 85, push: 5, lose: 10 });
+      drawSection?.classList.add('hidden');
+      outcomeSection?.classList.remove('hidden');
+      state.currentHandKey = getHandKey(state.dealer, total, 'STAND');
+      fetchAndShowStats(state.currentHandKey);
+      return;
+    }
+
+    // After taking a hit, you can only HIT or STAND (no DOUBLE or SPLIT allowed)
+    // Get simplified strategy - hard totals only care about HIT vs STAND after first hit
+    const result = getHitOrStandStrategy(total, dealerVal, soft);
+    showResult(result.action, result.reason, result.cls, result.ev, result.insight);
+    createProbabilityChart(result.probabilities);
+
+    // Show/hide draw section based on action
+    if (result.action === 'HIT') {
+      drawSection?.classList.remove('hidden');
+      outcomeSection?.classList.add('hidden');
+    } else {
+      drawSection?.classList.add('hidden');
+      outcomeSection?.classList.remove('hidden');
+      state.currentHandKey = getHandKey(state.dealer, total, result.action);
+      fetchAndShowStats(state.currentHandKey);
+    }
+  }
+
+  // Simplified strategy after hitting - only HIT or STAND allowed
+  function getHitOrStandStrategy(total: number, dealer: number, soft: boolean): any {
+    if (total >= 17) return {
+      action: 'STAND',
+      reason: `Stand on ${soft ? 'soft' : 'hard'} ${total}`,
+      cls: 'stand',
+      ev: dealer <= 6 ? 0.4 : -0.2,
+      insight: "After taking a hit, you can only hit or stand. 17+ should always stand to avoid busting.",
+      probabilities: { win: dealer <= 6 ? 65 : 35, push: 10, lose: dealer <= 6 ? 25 : 55 }
+    };
+
+    if (total >= 13 && total <= 16) {
+      if (dealer <= 6) return {
+        action: 'STAND',
+        reason: `Stand ${total} - let dealer bust`,
+        cls: 'stand',
+        ev: 0.2,
+        insight: "Against weak dealer upcards (2-6), stand on stiff hands and hope the dealer busts. You've already taken a hit, so no doubling allowed.",
+        probabilities: { win: 55, push: 5, lose: 40 }
+      };
+      return {
+        action: 'HIT',
+        reason: `Hit ${total} - need to improve vs ${dealer}`,
+        cls: 'hit',
+        ev: -0.3,
+        insight: "Against strong dealer cards, your stiff hand needs improvement. Hit and hope to land 17-21 without busting.",
+        probabilities: { win: 35, push: 5, lose: 60 }
+      };
+    }
+
+    if (total === 12) return dealer >= 4 && dealer <= 6 ? {
+      action: 'STAND',
+      reason: 'Stand 12 vs 4-6',
+      cls: 'stand',
+      ev: 0.1,
+      insight: "12 vs dealer 4-6 is a stand situation even after hitting. Dealer bust probability is high.",
+      probabilities: { win: 50, push: 5, lose: 45 }
+    } : {
+      action: 'HIT',
+      reason: 'Hit 12',
+      cls: 'hit',
+      ev: -0.1,
+      insight: "12 is weak and needs improvement against most dealer cards.",
+      probabilities: { win: 42, push: 5, lose: 53 }
+    };
+
+    // 11 or lower - always hit
+    return {
+      action: 'HIT',
+      reason: `Hit ${total} - can't bust`,
+      cls: 'hit',
+      ev: 0.1,
+      insight: "With 11 or lower, you cannot bust on the next card. Always take another card to improve your hand.",
+      probabilities: { win: 45, push: 5, lose: 50 }
+    };
+  }
+
+  function checkAndCalculate() {
+    if (!state.dealer || !state.player1 || !state.player2) return;
+
+    // Hide placeholder, show results
+    initialPlaceholder?.classList.add('hidden');
+    resultEl?.classList.remove('hidden');
+    resetBtn?.classList.remove('hidden');
+
+    // Disable card selection
+    dealerBtns.forEach(btn => (btn as HTMLButtonElement).disabled = true);
+    player1Btns.forEach(btn => (btn as HTMLButtonElement).disabled = true);
+    player2Btns.forEach(btn => (btn as HTMLButtonElement).disabled = true);
+
+    const dealerVal = getValue(state.dealer);
+    const playerCards = [state.player1, state.player2];
+    const { total, soft } = getTotal(playerCards);
+
+    // Show hand summary
+    handSummary?.classList.remove('hidden');
+    if (handTotal) handTotal.textContent = soft ? `Soft ${total}` : `${total}`;
+
+    // Check for blackjack
+    if (total === 21) {
+      showResult('BLACKJACK!', 'Natural 21 pays 3:2!', 'blackjack', 1.5,
+        "A natural blackjack is unbeatable (except by dealer blackjack which pushes). This is the best possible hand in blackjack!");
+      createProbabilityChart({ win: 95, push: 5, lose: 0 }); // Simplified for blackjack
+      return;
+    }
+
+    // Check for pairs
+    const isPair = state.player1 === state.player2;
+
+    let result;
+    if (isPair) {
+      result = getPairStrategy(state.player1, dealerVal);
+    } else if (soft) {
+      result = getSoftStrategy(total, dealerVal);
+    } else {
+      result = getHardStrategy(total, dealerVal);
+    }
+
+    showResult(result.action, result.reason, result.cls, result.ev, result.insight);
+    createProbabilityChart(result.probabilities);
+
+    // Track for community stats
+    state.currentHandKey = getHandKey(state.dealer, total, result.action);
+    state.lastAction = result.action;
+
+    // Show draw section for HIT, outcome section for terminal actions
+    if (result.action === 'HIT') {
+      drawSection?.classList.remove('hidden');
+      outcomeSection?.classList.add('hidden');
+    } else if (result.action !== 'BLACKJACK!' && result.action !== 'BUST!') {
+      drawSection?.classList.add('hidden');
+      outcomeSection?.classList.remove('hidden');
+      fetchAndShowStats(state.currentHandKey);
+    } else {
+      // BLACKJACK or BUST - hide both
+      drawSection?.classList.add('hidden');
+      outcomeSection?.classList.add('hidden');
+    }
+  }
+
+  function showResult(action: string, reason: string, cls: string, ev: number, insight: string) {
+    if (resultBox) resultBox.className = `text-center py-8 px-6 rounded-2xl mb-6 ${cls}`;
+    if (resultAction) resultAction.textContent = action;
+    if (resultReason) resultReason.textContent = reason;
+    if (evValue) evValue.textContent = ev > 0 ? `+${ev.toFixed(2)}` : `${ev.toFixed(2)}`;
+    if (insightText) insightText.textContent = insight;
+  }
+
+  function createProbabilityChart(probabilities: { win: number; push: number; lose: number }) {
+    const ctx = document.getElementById('probability-chart') as HTMLCanvasElement;
+    if (!ctx) return;
+
+    // Destroy existing chart
+    if (probabilityChart) {
+      probabilityChart.destroy();
+    }
+
+    probabilityChart = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: ['Win', 'Push', 'Lose'],
+        datasets: [{
+          label: 'Probability (%)',
+          data: [probabilities.win, probabilities.push, probabilities.lose],
+          backgroundColor: [
+            'rgba(34, 197, 94, 0.8)',
+            'rgba(234, 179, 8, 0.8)',
+            'rgba(239, 68, 68, 0.8)'
+          ],
+          borderColor: [
+            'rgba(34, 197, 94, 1)',
+            'rgba(234, 179, 8, 1)',
+            'rgba(239, 68, 68, 1)'
+          ],
+          borderWidth: 2,
+          borderRadius: 8
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            display: false
+          },
+          tooltip: {
+            backgroundColor: 'rgba(0, 0, 0, 0.9)',
+            padding: 12,
+            titleFont: { size: 14, weight: 'bold' },
+            bodyFont: { size: 13 },
+            callbacks: {
+              label: (context) => `${context.parsed.y.toFixed(1)}% probability`
+            }
+          }
+        },
+        scales: {
+          y: {
+            beginAtZero: true,
+            max: 100,
+            grid: {
+              color: 'rgba(255, 255, 255, 0.1)'
+            },
+            ticks: {
+              color: 'rgba(255, 255, 255, 0.7)',
+              callback: (value) => `${value}%`
+            }
+          },
+          x: {
+            grid: {
+              display: false
+            },
+            ticks: {
+              color: 'rgba(255, 255, 255, 0.9)',
+              font: { size: 14, weight: 'bold' }
+            }
+          }
+        }
+      }
+    });
+  }
+
+  function getHandKey(dealer: string, playerTotal: number, action: string): string {
+    return `${dealer}_${playerTotal}_${action}`;
+  }
+
+  async function recordOutcome(result: 'win' | 'loss' | 'push') {
+    if (!state.currentHandKey) return;
+
+    outcomeSection?.classList.add('hidden');
+
+    try {
+      const response = await fetch(STATS_API, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          hand_key: state.currentHandKey,
+          outcome: result
+        })
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        if (data.total >= MIN_RESULTS_TO_SHOW) {
+          communityStats?.classList.remove('hidden');
+          if (statWinPct) statWinPct.textContent = `${data.win_pct}%`;
+          if (statTotal) statTotal.textContent = `${data.total}`;
+        }
+      }
+    } catch (e) {
+      console.log('Stats API unavailable');
+    }
+  }
+
+  async function fetchAndShowStats(handKey: string) {
+    try {
+      const response = await fetch(`${STATS_API}/${encodeURIComponent(handKey)}`);
+      if (response.ok) {
+        const data = await response.json();
+        if (data.total >= MIN_RESULTS_TO_SHOW) {
+          communityStats?.classList.remove('hidden');
+          if (statWinPct) statWinPct.textContent = `${data.win_pct}%`;
+          if (statTotal) statTotal.textContent = `${data.total}`;
+        }
+      }
+    } catch (e) {
+      communityStats?.classList.add('hidden');
+    }
+  }
+
+  function getPairStrategy(card: string, dealer: number): any {
+    if (card === 'A') return {
+      action: 'SPLIT',
+      reason: 'Always split Aces',
+      cls: 'split',
+      ev: 0.6,
+      insight: "Splitting Aces gives you two chances at blackjack (or 21). Most casinos only allow one card per Ace after splitting, but the EV is still extremely positive.",
+      probabilities: { win: 55, push: 10, lose: 35 }
+    };
+    if (card === '8') return {
+      action: 'SPLIT',
+      reason: 'Always split 8s - 16 is the worst hand',
+      cls: 'split',
+      ev: 0.1,
+      insight: "16 is mathematically the worst hand in blackjack. Splitting 8s turns one terrible hand into two hands starting at 8, which have much better winning potential.",
+      probabilities: { win: 45, push: 8, lose: 47 }
+    };
+    if (card === '10' || card === 'K' || card === 'Q' || card === 'J') return {
+      action: 'STAND',
+      reason: 'Never split 10s - you have 20!',
+      cls: 'stand',
+      ev: 0.7,
+      insight: "20 is one of the best hands in blackjack. Splitting would turn a near-certain win into two uncertain hands. Even if the dealer shows a strong card, standing on 20 is optimal.",
+      probabilities: { win: 80, push: 5, lose: 15 }
+    };
+    if (card === '5') return dealer <= 9 ? {
+      action: 'DOUBLE',
+      reason: 'Double 10 vs weak dealer',
+      cls: 'double',
+      ev: 0.5,
+      insight: "Pair of 5s equals 10, which is a premium doubling hand. Doubling lets you maximize value when the dealer is in a weak position.",
+      probabilities: { win: 60, push: 5, lose: 35 }
+    } : {
+      action: 'HIT',
+      reason: 'Hit 10 vs strong dealer',
+      cls: 'hit',
+      ev: 0.2,
+      insight: "Against a strong dealer upcard, hitting gives you flexibility to build a better hand without committing double the bet.",
+      probabilities: { win: 45, push: 5, lose: 50 }
+    };
+
+    // Default pair logic
+    return {
+      action: 'SPLIT',
+      reason: `Split ${card}s vs dealer ${dealer}`,
+      cls: 'split',
+      ev: 0.15,
+      insight: "Based on basic strategy, splitting this pair gives you the best mathematical advantage.",
+      probabilities: { win: 48, push: 7, lose: 45 }
+    };
+  }
+
+  function getSoftStrategy(total: number, dealer: number): any {
+    if (total >= 19) return {
+      action: 'STAND',
+      reason: 'Stand on soft 19+',
+      cls: 'stand',
+      ev: 0.6,
+      insight: "Soft 19 or 20 are strong hands. The Ace gives you protection against busting, but your hand is already good enough to stand.",
+      probabilities: { win: 70, push: 8, lose: 22 }
+    };
+
+    if (total === 18) {
+      if (dealer <= 6) return {
+        action: 'DOUBLE',
+        reason: 'Double soft 18 vs 2-6',
+        cls: 'double',
+        ev: 0.25,
+        insight: "Against a weak dealer, soft 18 is strong enough to double down. The Ace protects you from busting, letting you maximize value.",
+        probabilities: { win: 55, push: 7, lose: 38 }
+      };
+      if (dealer >= 9) return {
+        action: 'HIT',
+        reason: 'Hit soft 18 vs 9-A',
+        cls: 'hit',
+        ev: -0.1,
+        insight: "Soft 18 loses long-term to dealer 9, 10, or Ace. Hitting gives you a chance to improve without risk of busting.",
+        probabilities: { win: 40, push: 8, lose: 52 }
+      };
+      return {
+        action: 'STAND',
+        reason: 'Stand soft 18 vs 7-8',
+        cls: 'stand',
+        ev: 0.1,
+        insight: "Against dealer 7 or 8, soft 18 is competitive. Standing is optimal here.",
+        probabilities: { win: 48, push: 10, lose: 42 }
+      };
+    }
+
+    // Soft 17 or lower
+    return {
+      action: 'HIT',
+      reason: `Hit soft ${total}`,
+      cls: 'hit',
+      ev: 0.05,
+      insight: "Soft hands below 18 should generally be hit because the Ace prevents you from busting. You're trying to improve to 19-21.",
+      probabilities: { win: 42, push: 8, lose: 50 }
+    };
+  }
+
+  function getHardStrategy(total: number, dealer: number): any {
+    if (total >= 17) return {
+      action: 'STAND',
+      reason: 'Stand on hard 17+',
+      cls: 'stand',
+      ev: dealer <= 6 ? 0.4 : -0.2,
+      insight: "Hard 17+ should always stand. Hitting risks busting, and the math shows standing is correct even when the dealer is strong.",
+      probabilities: { win: dealer <= 6 ? 65 : 35, push: 10, lose: dealer <= 6 ? 25 : 55 }
+    };
+
+    if (total >= 13 && total <= 16) {
+      if (dealer <= 6) return {
+        action: 'STAND',
+        reason: `Stand ${total} - let dealer bust`,
+        cls: 'stand',
+        ev: 0.2,
+        insight: "When the dealer shows 2-6, they're in a weak position with high bust probability. Standing on stiff hands (12-16) lets them self-destruct.",
+        probabilities: { win: 55, push: 5, lose: 40 }
+      };
+      if (total === 16 && dealer >= 9) return {
+        action: 'SURRENDER',
+        reason: 'Surrender 16 vs 9-A',
+        cls: 'surrender',
+        ev: -0.5,
+        insight: "16 vs dealer 9/10/A is one of the worst situations in blackjack. Surrendering saves half your bet, which is better than playing it out.",
+        probabilities: { win: 20, push: 3, lose: 77 }
+      };
+      return {
+        action: 'HIT',
+        reason: `Hit ${total} vs strong dealer`,
+        cls: 'hit',
+        ev: -0.3,
+        insight: "Against a strong dealer upcard, stiff hands (12-16) need improvement despite the bust risk. Hitting is the lesser of two evils.",
+        probabilities: { win: 35, push: 5, lose: 60 }
+      };
+    }
+
+    if (total === 11) return dealer !== 11 ? {
+      action: 'DOUBLE',
+      reason: 'Double down on 11!',
+      cls: 'double',
+      ev: 0.7,
+      insight: "11 is the best doubling hand in blackjack. You can't bust, and you have a high chance of landing 20 or 21.",
+      probabilities: { win: 70, push: 3, lose: 27 }
+    } : {
+      action: 'HIT',
+      reason: 'Hit 11 vs Ace',
+      cls: 'hit',
+      ev: 0.3,
+      insight: "Against dealer Ace, hitting 11 is safer than doubling since the dealer's blackjack risk is high.",
+      probabilities: { win: 50, push: 5, lose: 45 }
+    };
+
+    if (total === 10) return dealer <= 9 ? {
+      action: 'DOUBLE',
+      reason: 'Double 10 vs 2-9',
+      cls: 'double',
+      ev: 0.6,
+      insight: "10 is an excellent doubling hand when the dealer isn't showing 10 or Ace. High chance of 20.",
+      probabilities: { win: 65, push: 3, lose: 32 }
+    } : {
+      action: 'HIT',
+      reason: 'Hit 10 vs 10/A',
+      cls: 'hit',
+      ev: 0.1,
+      insight: "Against dealer 10 or Ace, hitting 10 maintains flexibility without committing double bet.",
+      probabilities: { win: 45, push: 5, lose: 50 }
+    };
+
+    return {
+      action: 'HIT',
+      reason: 'Hit low total',
+      cls: 'hit',
+      ev: 0.1,
+      insight: "Low totals need improvement. Always hit until you reach at least 12.",
+      probabilities: { win: 45, push: 5, lose: 50 }
+    };
+  }
+
+  // Outcome tracking
+  outcomeWinBtn?.addEventListener('click', () => recordOutcome('win'));
+  outcomePushBtn?.addEventListener('click', () => recordOutcome('push'));
+  outcomeLossBtn?.addEventListener('click', () => recordOutcome('loss'));
+
+  // Reset
+  resetBtn?.addEventListener('click', () => {
+    state.dealer = null;
+    state.player1 = null;
+    state.player2 = null;
+    state.extraCards = [];
+    state.currentHandKey = null;
+    state.lastAction = null;
+
+    // Re-enable all buttons
+    dealerBtns.forEach(btn => {
+      (btn as HTMLButtonElement).disabled = false;
+      btn.classList.remove('selected');
+    });
+    player1Btns.forEach(btn => {
+      (btn as HTMLButtonElement).disabled = false;
+      btn.classList.remove('selected');
+    });
+    player2Btns.forEach(btn => {
+      (btn as HTMLButtonElement).disabled = false;
+      btn.classList.remove('selected');
+    });
+
+    // Hide results, show placeholder
+    resultEl?.classList.add('hidden');
+    initialPlaceholder?.classList.remove('hidden');
+    handSummary?.classList.add('hidden');
+    outcomeSection?.classList.add('hidden');
+    drawSection?.classList.add('hidden');
+    resetBtn?.classList.add('hidden');
+
+    // Destroy chart
+    if (probabilityChart) {
+      probabilityChart.destroy();
+      probabilityChart = null;
+    }
+  });
+</script>

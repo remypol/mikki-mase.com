@@ -1,0 +1,171 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import Hero from '../../components/Hero.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import Button from '../../components/Button.astro';
+
+// Blog posts data - will be expanded over time
+const posts = [
+  {
+    slug: "do-casinos-cheat-the-truth",
+    title: "Do Casinos Cheat? The Truth About What Happens Behind the Scenes",
+    excerpt: "Mikki exposes what really happens in casino backend systems. Plus, why Kirgo was the only online casino to give him full transparency and access to their systems.",
+    date: "2025-01-22",
+    readTime: "9 min read",
+    category: "Industry",
+    image: "/images/mikki-main-2.webp"
+  },
+  {
+    slug: "baccarat-basics-complete-guide",
+    title: "Baccarat Basics: The Complete Beginner's Guide",
+    excerpt: "Everything you need to know about baccarat before sitting at a table. Learn the rules, understand the odds, and discover why this game attracts high rollers.",
+    date: "2025-01-20",
+    readTime: "8 min read",
+    category: "Strategy",
+    image: "/images/mikki-main-1.webp"
+  },
+  {
+    slug: "why-casinos-ban-winners",
+    title: "Why Casinos Ban Winners (Even When They're Not Cheating)",
+    excerpt: "The legal reality of casino bans, how they identify advantage players, and what happens when you win too much. Mikki's been banned 150+ times.",
+    date: "2025-01-18",
+    readTime: "6 min read",
+    category: "Industry",
+    image: "/images/mikki-extra.webp"
+  },
+  {
+    slug: "bankroll-management-101",
+    title: "Bankroll Management 101: How Pros Protect Their Money",
+    excerpt: "The difference between gambling and professional play often comes down to one thing: bankroll management. Learn the principles that separate winners from losers.",
+    date: "2025-01-15",
+    readTime: "7 min read",
+    category: "Strategy",
+    image: "/images/mikki-main-1.webp"
+  }
+];
+
+const blogSchema = {
+  "@type": "Blog",
+  "@id": "https://mikki-mase.com/blog#blog",
+  "name": "Mikki Mase Blog - Gambling Strategy & Casino Insights",
+  "description": "Expert gambling insights, baccarat strategy, and behind-the-scenes stories from Mikki Mase - the man who won $32M and got banned from 150+ casinos.",
+  "url": "https://mikki-mase.com/blog",
+  "author": {
+    "@type": "Person",
+    "name": "Mikki Mase",
+    "@id": "https://mikki-mase.com/#person"
+  },
+  "blogPost": posts.map(post => ({
+    "@type": "BlogPosting",
+    "headline": post.title,
+    "description": post.excerpt,
+    "datePublished": post.date,
+    "url": `https://mikki-mase.com/blog/${post.slug}`
+  }))
+};
+---
+
+<BaseLayout
+  title="Blog - Gambling Strategy & Casino Insights | Mikki Mase"
+  description="Expert gambling insights, baccarat strategy, and behind-the-scenes stories from Mikki Mase. Learn from the man who won $32M and got banned from 150+ casinos."
+  schema={blogSchema}
+>
+  <Header />
+
+  <!-- HERO SECTION -->
+  <Hero
+    eyebrow="Insights & Strategy"
+    title="The Blog"
+    subtitle="Gambling strategy, casino insights, and lessons from $32M in wins"
+    backgroundImage="/images/mikki-main-1.webp"
+    variant="medium"
+  />
+
+  <!-- BREADCRUMBS -->
+  <div class="bg-black border-b border-gray-800">
+    <Breadcrumbs items={[
+      { label: "Home", href: "/" },
+      { label: "Blog" }
+    ]} />
+  </div>
+
+  <main class="bg-black py-16 md:py-24">
+    <div class="container mx-auto px-6">
+
+      <!-- Intro -->
+      <div class="max-w-3xl mx-auto text-center mb-16">
+        <p class="text-gray-300 text-lg md:text-xl leading-relaxed">
+          Insights from the tables, strategies that work, and the truth about casino gambling.
+          No fluff, no get-rich-quick promises—just real knowledge from someone who's been there.
+        </p>
+      </div>
+
+      <!-- Blog Posts Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
+        {posts.map((post) => (
+          <article class="bg-gray-900 border border-gray-800 rounded-xl overflow-hidden group hover:border-gold/30 transition-colors">
+            <!-- Image -->
+            <a href={`/blog/${post.slug}`} class="block relative h-48 overflow-hidden">
+              <img
+                src={post.image}
+                alt={post.title}
+                class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+              />
+              <div class="absolute inset-0 bg-gradient-to-t from-gray-900 to-transparent"></div>
+              <span class="absolute top-4 left-4 bg-gold/90 text-black text-xs font-bold uppercase px-3 py-1 rounded">
+                {post.category}
+              </span>
+            </a>
+
+            <!-- Content -->
+            <div class="p-6">
+              <div class="flex items-center gap-3 text-gray-500 text-sm mb-3">
+                <time datetime={post.date}>
+                  {new Date(post.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
+                </time>
+                <span>•</span>
+                <span>{post.readTime}</span>
+              </div>
+
+              <h2 class="text-white text-xl font-bold mb-3 group-hover:text-gold transition-colors">
+                <a href={`/blog/${post.slug}`}>{post.title}</a>
+              </h2>
+
+              <p class="text-gray-400 text-sm leading-relaxed mb-4">
+                {post.excerpt}
+              </p>
+
+              <a
+                href={`/blog/${post.slug}`}
+                class="inline-flex items-center gap-2 text-gold hover:text-gold-light text-sm font-semibold transition-colors"
+              >
+                Read More
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                </svg>
+              </a>
+            </div>
+          </article>
+        ))}
+      </div>
+
+      <!-- Newsletter CTA -->
+      <div class="max-w-3xl mx-auto mt-20 bg-gradient-to-br from-gray-900 to-black border border-gold/30 rounded-xl p-8 md:p-12 text-center">
+        <h3 class="text-white text-2xl md:text-3xl font-bold mb-4">
+          Get Strategy Updates
+        </h3>
+        <p class="text-gray-400 mb-6">
+          Join the free Telegram community for exclusive content, cheatsheets, and real-time updates.
+        </p>
+        <Button variant="primary" href="/join">
+          Join Free Community
+        </Button>
+      </div>
+
+    </div>
+  </main>
+
+  <Footer />
+</BaseLayout>

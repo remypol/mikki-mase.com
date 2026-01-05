@@ -1,0 +1,31 @@
+---
+/**
+ * UrgencyBadge Component
+ * Displays urgency message with subtle alert styling
+ * Option A: Casino Industry Trying to Shut This Down
+ */
+---
+
+<div class="urgency-badge w-full mx-auto px-4 mb-4 md:mb-6" style="max-width: 48rem;">
+  <div class="flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg bg-gradient-to-r from-red-900/30 to-amber-900/30 border border-red-500/30">
+    <span class="text-red-400 text-lg">⚠️</span>
+    <p class="text-white text-xs md:text-sm font-medium tracking-wide">
+      Casino Industry Trying to Shut This Down - Join Before It's Gone
+    </p>
+  </div>
+</div>
+
+<style>
+  .urgency-badge {
+    animation: subtlePulse 3s ease-in-out infinite;
+  }
+
+  @keyframes subtlePulse {
+    0%, 100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.95;
+    }
+  }
+</style>

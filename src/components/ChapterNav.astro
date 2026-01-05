@@ -1,0 +1,335 @@
+---
+// Chapter Navigation Component
+// Sticky sidebar TOC for long-form content
+// Auto-highlights current section as user scrolls
+
+interface Chapter {
+  id: string;
+  title: string;
+}
+
+interface Props {
+  chapters: Chapter[];
+}
+
+const { chapters } = Astro.props;
+---
+
+<nav id="chapter-nav" class="chapter-nav" aria-label="Chapter navigation">
+  <div class="chapter-nav-header">
+    <h2 class="chapter-nav-title">Contents</h2>
+    <button id="chapter-nav-toggle" class="chapter-nav-toggle" aria-label="Toggle chapter navigation" aria-expanded="false">
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+      </svg>
+    </button>
+  </div>
+
+  <ul id="chapter-nav-list" class="chapter-nav-list">
+    {chapters.map((chapter, index) => (
+      <li class="chapter-nav-item">
+        <a
+          href={`#${chapter.id}`}
+          class="chapter-nav-link"
+          data-chapter-id={chapter.id}
+        >
+          <span class="chapter-number">{String(index + 1).padStart(2, '0')}</span>
+          <span class="chapter-title">{chapter.title}</span>
+        </a>
+      </li>
+    ))}
+  </ul>
+
+  <!-- Progress Bar -->
+  <div class="chapter-progress-container">
+    <div class="chapter-progress-label">Reading Progress</div>
+    <div class="chapter-progress-bar">
+      <div id="chapter-progress-fill" class="chapter-progress-fill"></div>
+    </div>
+    <div id="chapter-progress-percent" class="chapter-progress-percent">0%</div>
+  </div>
+</nav>
+
+<style>
+  .chapter-nav {
+    position: sticky;
+    top: 100px; /* Account for fixed header */
+    background: linear-gradient(135deg, #1a1a1a 0%, #0f0f0f 100%);
+    border: 1px solid rgba(212, 160, 23, 0.2);
+    border-radius: 12px;
+    padding: 20px;
+    max-height: calc(100vh - 120px);
+    overflow-y: auto;
+    overflow-x: hidden;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  }
+
+  /* Custom scrollbar */
+  .chapter-nav::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  .chapter-nav::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 3px;
+  }
+
+  .chapter-nav::-webkit-scrollbar-thumb {
+    background: rgba(212, 160, 23, 0.3);
+    border-radius: 3px;
+  }
+
+  .chapter-nav::-webkit-scrollbar-thumb:hover {
+    background: rgba(212, 160, 23, 0.5);
+  }
+
+  .chapter-nav-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 16px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid rgba(212, 160, 23, 0.2);
+  }
+
+  .chapter-nav-title {
+    font-size: 14px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #d4a017;
+    margin: 0;
+  }
+
+  .chapter-nav-toggle {
+    display: none; /* Hidden on desktop */
+    background: none;
+    border: none;
+    color: #d4a017;
+    cursor: pointer;
+    padding: 4px;
+  }
+
+  .chapter-nav-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .chapter-nav-item {
+    margin: 0;
+  }
+
+  .chapter-nav-link {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 10px 12px;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    border-left: 3px solid transparent;
+  }
+
+  .chapter-nav-link:hover {
+    background: rgba(212, 160, 23, 0.1);
+    border-left-color: rgba(212, 160, 23, 0.5);
+  }
+
+  .chapter-nav-link.active {
+    background: rgba(212, 160, 23, 0.15);
+    border-left-color: #d4a017;
+  }
+
+  .chapter-number {
+    font-size: 13px;
+    font-weight: 700;
+    color: rgba(212, 160, 23, 0.6);
+    flex-shrink: 0;
+    min-width: 24px;
+  }
+
+  .chapter-nav-link.active .chapter-number {
+    color: #d4a017;
+  }
+
+  .chapter-title {
+    font-size: 14px;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.7);
+    line-height: 1.4;
+  }
+
+  .chapter-nav-link.active .chapter-title {
+    color: white;
+    font-weight: 600;
+  }
+
+  /* Progress Bar */
+  .chapter-progress-container {
+    margin-top: 20px;
+    padding-top: 16px;
+    border-top: 1px solid rgba(212, 160, 23, 0.2);
+  }
+
+  .chapter-progress-label {
+    font-size: 12px;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.5);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 8px;
+  }
+
+  .chapter-progress-bar {
+    width: 100%;
+    height: 6px;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 3px;
+    overflow: hidden;
+    margin-bottom: 6px;
+  }
+
+  .chapter-progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #d4a017 0%, #f0c040 100%);
+    border-radius: 3px;
+    width: 0%;
+    transition: width 0.3s ease;
+  }
+
+  .chapter-progress-percent {
+    font-size: 12px;
+    font-weight: 700;
+    color: #d4a017;
+    text-align: right;
+  }
+
+  /* Mobile Responsiveness - DISABLED (Desktop only for now) */
+  @media (max-width: 1024px) {
+    .chapter-nav {
+      display: none;
+    }
+  }
+</style>
+
+<script>
+  // Chapter Navigation Functionality
+  const chapterNav = document.getElementById('chapter-nav');
+  const chapterToggle = document.getElementById('chapter-nav-toggle');
+  const chapterLinks = document.querySelectorAll('.chapter-nav-link');
+  const progressFill = document.getElementById('chapter-progress-fill');
+  const progressPercent = document.getElementById('chapter-progress-percent');
+
+  if (chapterNav && chapterLinks.length > 0) {
+    let ticking = false;
+
+    // Toggle mobile menu
+    chapterToggle?.addEventListener('click', () => {
+      const isOpen = chapterNav.classList.contains('open');
+      chapterNav.classList.toggle('open');
+      chapterToggle.setAttribute('aria-expanded', String(!isOpen));
+    });
+
+    // Get all section elements
+    const sections = Array.from(chapterLinks).map(link => {
+      const id = link.getAttribute('data-chapter-id');
+      return id ? document.getElementById(id) : null;
+    }).filter(Boolean);
+
+    // Update active chapter based on scroll position
+    function updateActiveChapter() {
+      const scrollPos = window.scrollY + 150; // Offset for header
+
+      let activeIndex = 0;
+      for (let i = 0; i < sections.length; i++) {
+        const section = sections[i];
+        if (section && scrollPos >= section.offsetTop) {
+          activeIndex = i;
+        }
+      }
+
+      // Remove active class from all links
+      chapterLinks.forEach(link => link.classList.remove('active'));
+
+      // Add active class to current chapter
+      if (chapterLinks[activeIndex]) {
+        chapterLinks[activeIndex].classList.add('active');
+      }
+
+      // Update progress bar
+      updateProgress();
+    }
+
+    // Update reading progress
+    function updateProgress() {
+      const scrollTop = window.scrollY;
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const progress = docHeight > 0 ? Math.min(Math.round((scrollTop / docHeight) * 100), 100) : 0;
+
+      if (progressFill) {
+        progressFill.style.width = `${progress}%`;
+      }
+      if (progressPercent) {
+        progressPercent.textContent = `${progress}%`;
+      }
+    }
+
+    // Scroll event with requestAnimationFrame for performance
+    window.addEventListener('scroll', () => {
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          updateActiveChapter();
+          ticking = false;
+        });
+        ticking = true;
+      }
+    }, { passive: true });
+
+    // Smooth scroll on click
+    chapterLinks.forEach(link => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        const targetId = link.getAttribute('data-chapter-id');
+        const targetSection = targetId ? document.getElementById(targetId) : null;
+
+        if (targetSection) {
+          const headerOffset = 100; // Account for fixed header
+          const elementPosition = targetSection.offsetTop;
+          const offsetPosition = elementPosition - headerOffset;
+
+          window.scrollTo({
+            top: offsetPosition,
+            behavior: 'smooth'
+          });
+
+          // Close mobile menu after click
+          if (window.innerWidth <= 1024) {
+            chapterNav.classList.remove('open');
+            chapterToggle?.setAttribute('aria-expanded', 'false');
+          }
+        }
+      });
+    });
+
+    // Initialize on load
+    updateActiveChapter();
+
+    // Close mobile menu when clicking outside
+    document.addEventListener('click', (e) => {
+      if (window.innerWidth <= 1024 && chapterNav.classList.contains('open')) {
+        const fab = document.getElementById('chapter-nav-fab');
+        const target = e.target as Node;
+
+        // Don't close if clicking the nav itself or the FAB button
+        if (!chapterNav.contains(target) && !fab?.contains(target)) {
+          chapterNav.classList.remove('open');
+          chapterToggle?.setAttribute('aria-expanded', 'false');
+        }
+      }
+    });
+  }
+</script>

@@ -1,0 +1,50 @@
+---
+// Related Content - Cross-linking component for article pages
+interface RelatedItem {
+  href: string;
+  title: string;
+  description: string;
+  category: string;
+}
+
+interface Props {
+  title?: string;
+  items: RelatedItem[];
+}
+
+const {
+  title = "Continue Reading",
+  items
+} = Astro.props;
+---
+
+<section class="bg-gray-950 py-16 md:py-20 border-t border-gray-800">
+  <div class="container mx-auto px-6">
+    <div class="max-w-5xl mx-auto">
+      <h2 class="text-white text-2xl md:text-3xl font-bold mb-8 text-center">{title}</h2>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {items.map((item) => (
+          <a
+            href={item.href}
+            class="group bg-gray-900 border border-gray-800 rounded-xl p-6 hover:border-gold/30 transition-all duration-300"
+          >
+            <span class="text-gold text-xs font-bold uppercase tracking-wider">{item.category}</span>
+            <h3 class="text-white text-lg font-bold mt-2 mb-3 group-hover:text-gold transition-colors">
+              {item.title}
+            </h3>
+            <p class="text-gray-400 text-sm leading-relaxed">
+              {item.description}
+            </p>
+            <span class="inline-flex items-center gap-2 text-gold text-sm font-semibold mt-4 group-hover:gap-3 transition-all">
+              Read More
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+              </svg>
+            </span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>

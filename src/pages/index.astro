@@ -1,16 +1,455 @@
 ---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import Hero from '../components/Hero.astro';
+import Section from '../components/Section.astro';
+import Button from '../components/Button.astro';
+import Stats from '../components/Stats.astro';
+import WinCard from '../components/WinCard.astro';
+import Testimonials from '../components/Testimonials.astro';
+import QuickAnswer from '../components/QuickAnswer.astro';
+import AnimatedStat from '../components/AnimatedStat.astro';
 
+// Enhanced schema with dates for AI search
+const personSchema = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "@id": "https://mikki-mase.com/#person",
+  "name": "Mikki Mase",
+  "alternateName": "Michael David Meiterman",
+  "birthDate": "1991-10-27",
+  "birthPlace": {
+    "@type": "Place",
+    "address": {
+      "@type": "PostalAddress",
+      "addressRegion": "New Jersey",
+      "addressCountry": "US"
+    }
+  },
+  "knowsAbout": "Baccarat",
+  "award": "150+ casino bans for advantage play",
+  "description": "Professional gambler who claims $32M+ in baccarat wins and has been banned from 150+ casinos worldwide.",
+  "url": "https://mikki-mase.com",
+  "dateModified": "2026-01-02"
+};
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<BaseLayout
+  title="Mikki Mase - $32M Baccarat Winner Banned From 150+ Casinos (2026)"
+  description="Mikki Mase (real name Michael Meiterman) claims $32M+ in baccarat wins and 150+ casino bans. Verified wins, documented losses, his controversial system, and free Telegram community."
+  schema={personSchema}
+>
+  <Header />
+
+  <main id="main-content">
+  <!-- HERO SECTION -->
+  <Hero
+    title="MIKKI MASE"
+    subtitle="$32M in baccarat winnings. Banned from 150 casinos. Now sharing strategies with 7,403 members."
+    primaryCTA={{
+      text: "Join Free Telegram",
+      href: "/join"
+    }}
+    secondaryCTA={{
+      text: "Read His Story",
+      href: "/story"
+    }}
+    backgroundImage="/images/mikki-main-2.webp"
+    variant="full"
+  />
+
+  <!-- QUICK FACTS SECTION -->
+  <section class="bg-gradient-to-b from-gray-900 to-black py-16 md:py-24 border-y border-gray-800">
+    <div class="container mx-auto px-6">
+      <div class="max-w-5xl mx-auto">
+        <div class="text-center mb-12">
+          <h2 class="text-white text-2xl md:text-4xl font-black mb-3">The Numbers Don't Lie</h2>
+          <p class="text-gray-400 text-lg">The legend in facts</p>
+        </div>
+
+        <div itemscope itemtype="https://schema.org/Person">
+          <!-- HERO STATS - 2 big animated cards -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+            <AnimatedStat
+              value={32000000}
+              label="Total Winnings"
+              format="compact"
+              prefix="$"
+              suffix="+"
+              gradient="gold"
+              large={true}
+              delay={0}
+              icon='<svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>'
+            />
+
+            <AnimatedStat
+              value={150}
+              label="Casino Bans"
+              suffix="+"
+              gradient="red"
+              large={true}
+              delay={150}
+              icon='<svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636" /></svg>'
+            />
+          </div>
+
+          <!-- SECONDARY STATS - 4 smaller cards -->
+          <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <!-- Full Name -->
+            <div class="group bg-gray-950/80 border border-gray-800 rounded-xl p-5 hover:border-gold/30 hover:bg-gray-900/50 transition-all duration-300">
+              <div class="flex items-center gap-3 mb-3">
+                <div class="w-8 h-8 bg-gray-800 rounded-lg flex items-center justify-center group-hover:bg-gold/20 transition-colors">
+                  <svg class="w-4 h-4 text-gray-400 group-hover:text-gold transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                  </svg>
+                </div>
+                <p class="text-gray-500 text-xs uppercase tracking-wider">Real Name</p>
+              </div>
+              <p class="text-white text-sm md:text-base font-semibold" itemprop="name">Michael Meiterman</p>
+            </div>
+
+            <!-- Born -->
+            <div class="group bg-gray-950/80 border border-gray-800 rounded-xl p-5 hover:border-gold/30 hover:bg-gray-900/50 transition-all duration-300">
+              <div class="flex items-center gap-3 mb-3">
+                <div class="w-8 h-8 bg-gray-800 rounded-lg flex items-center justify-center group-hover:bg-gold/20 transition-colors">
+                  <svg class="w-4 h-4 text-gray-400 group-hover:text-gold transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                  </svg>
+                </div>
+                <p class="text-gray-500 text-xs uppercase tracking-wider">Born</p>
+              </div>
+              <p class="text-white text-sm md:text-base font-semibold">
+                <time itemprop="birthDate" datetime="1991-10-27">Oct 27, 1991</time>
+              </p>
+            </div>
+
+            <!-- Birthplace -->
+            <div class="group bg-gray-950/80 border border-gray-800 rounded-xl p-5 hover:border-gold/30 hover:bg-gray-900/50 transition-all duration-300">
+              <div class="flex items-center gap-3 mb-3">
+                <div class="w-8 h-8 bg-gray-800 rounded-lg flex items-center justify-center group-hover:bg-gold/20 transition-colors">
+                  <svg class="w-4 h-4 text-gray-400 group-hover:text-gold transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                  </svg>
+                </div>
+                <p class="text-gray-500 text-xs uppercase tracking-wider">From</p>
+              </div>
+              <p class="text-white text-sm md:text-base font-semibold" itemprop="birthPlace" itemscope itemtype="https://schema.org/Place">
+                <span itemprop="address" itemscope itemtype="https://schema.org/PostalAddress">
+                  <span itemprop="addressRegion">New Jersey</span>
+                </span>
+              </p>
+            </div>
+
+            <!-- Primary Game -->
+            <div class="group bg-gray-950/80 border border-gray-800 rounded-xl p-5 hover:border-gold/30 hover:bg-gray-900/50 transition-all duration-300">
+              <div class="flex items-center gap-3 mb-3">
+                <div class="w-8 h-8 bg-gray-800 rounded-lg flex items-center justify-center group-hover:bg-gold/20 transition-colors">
+                  <svg class="w-4 h-4 text-gray-400 group-hover:text-gold transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                  </svg>
+                </div>
+                <p class="text-gray-500 text-xs uppercase tracking-wider">Game</p>
+              </div>
+              <p class="text-white text-sm md:text-base font-semibold" itemprop="knowsAbout">Baccarat</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS SECTION -->
+  <Testimonials />
+
+  <!-- ABOUT SECTION -->
+  <section class="bg-black py-20 md:py-32">
+    <div class="container mx-auto px-6">
+      <div class="max-w-4xl mx-auto">
+        <!-- Section Header -->
+        <div class="text-center mb-12 md:mb-16">
+          <p class="text-gold text-sm md:text-base uppercase tracking-widest mb-4">The Man Behind the Legend</p>
+          <h2 class="text-white mb-6">About Mikki Mase</h2>
+          <p class="text-gray-400 text-lg md:text-xl max-w-2xl mx-auto">
+            From juvenile detention to $32 million in casino winnings. This is the story of how one man beat the house at its own game. <a href="/timeline" class="text-gold hover:text-gold-light underline">View the complete timeline</a>.
+          </p>
+        </div>
+
+        <!-- Narrative Content -->
+        <div class="space-y-8 text-gray-300 text-lg leading-relaxed">
+          <p>
+            <strong class="text-white">Michael David Meiterman</strong>—known to the world as Mikki Mase—didn't start in luxury casinos. He started in <strong class="text-white">juvenile detention in New Jersey</strong>, where he learned the hard way that the system wasn't built for people like him. By his early twenties, he'd already built and sold a network of over <strong class="text-white">300 pharmacies and multiple rehab facilities</strong> across Florida, walking away with millions before most people finish college. <a href="/timeline" class="text-gold hover:text-gold-light underline">See his complete journey from age 3 to present</a>.
+          </p>
+
+          <p>
+            But money wasn't the goal. The thrill was. In 2018, Mikki walked into his first high-stakes <a href="/glossary#baccarat" class="text-gold hover:text-gold-light underline">baccarat</a> table with a simple observation: <em class="text-gold italic">the <a href="/glossary#house-edge" class="text-gold hover:text-gold-light">house edge</a> is mathematical, but execution is human</em>. While most gamblers chase luck, Mikki studied patterns, <a href="/glossary#bankroll" class="text-gold hover:text-gold-light underline">bankroll management</a>, and psychological warfare. He didn't just play baccarat—he treated it like a business.
+          </p>
+
+          <!-- Highlighted Quote Box -->
+          <div class="bg-gradient-to-br from-gray-900 to-black border-l-4 border-gold p-8 md:p-10 rounded-lg my-12">
+            <blockquote class="text-white text-xl md:text-2xl font-serif italic leading-relaxed">
+              "I don't gamble. I execute a system. The difference between me and everyone else at the table is that I know when to walk away—and I actually do it."
+            </blockquote>
+            <p class="text-gray-500 text-sm mt-4">— Mikki Mase, Soft White Underbelly Interview</p>
+          </div>
+
+          <p>
+            The results speak for themselves. Mikki's <a href="/wins" class="text-gold hover:text-gold-light underline">verified $10M+ win at The Venetian</a> alone was enough to earn him a permanent ban. But that was just one casino. Over the next few years, he'd repeat the same formula across <strong class="text-white">150+ properties worldwide</strong>: walk in with millions, bet $250,000 per hand, execute the system, and walk out richer than he came.
+          </p>
+
+          <!-- Key Achievements Grid -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6 my-12">
+            <div class="bg-gray-900 border border-gray-800 rounded-lg p-6">
+              <div class="flex items-start gap-4">
+                <div class="flex-shrink-0 w-12 h-12 bg-gold/10 rounded-lg flex items-center justify-center">
+                  <svg class="w-6 h-6 text-gold" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                  </svg>
+                </div>
+                <div>
+                  <h3 class="text-white font-bold mb-2">Built Pharmacy Empire</h3>
+                  <p class="text-gray-400 text-base">Owned 300+ pharmacies and multiple rehab facilities before age 30. Sold everything to focus on professional gambling.</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="bg-gray-900 border border-gray-800 rounded-lg p-6">
+              <div class="flex items-start gap-4">
+                <div class="flex-shrink-0 w-12 h-12 bg-gold/10 rounded-lg flex items-center justify-center">
+                  <svg class="w-6 h-6 text-gold" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                  </svg>
+                </div>
+                <div>
+                  <h3 class="text-white font-bold mb-2">Mastered High-Stakes Baccarat</h3>
+                  <p class="text-gray-400 text-base">Developed a proprietary system combining <a href="/the-system" class="text-gold hover:text-gold-light">pattern recognition</a>, <a href="/baccarat-guide" class="text-gold hover:text-gold-light">bankroll management</a>, and <a href="/gambling-psychology" class="text-gold hover:text-gold-light">psychological discipline</a>.</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="bg-gray-900 border border-gray-800 rounded-lg p-6">
+              <div class="flex items-start gap-4">
+                <div class="flex-shrink-0 w-12 h-12 bg-gold/10 rounded-lg flex items-center justify-center">
+                  <svg class="w-6 h-6 text-gold" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                  </svg>
+                </div>
+                <div>
+                  <h3 class="text-white font-bold mb-2">Won $32M+ from Casinos</h3>
+                  <p class="text-gray-400 text-base">Claimed total across 5+ years. $10M+ independently verified by poker player Jake Ormand at The Venetian alone.</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="bg-gray-900 border border-gray-800 rounded-lg p-6">
+              <div class="flex items-start gap-4">
+                <div class="flex-shrink-0 w-12 h-12 bg-gold/10 rounded-lg flex items-center justify-center">
+                  <svg class="w-6 h-6 text-gold" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                  </svg>
+                </div>
+                <div>
+                  <h3 class="text-white font-bold mb-2">Banned from 150+ Casinos</h3>
+                  <p class="text-gray-400 text-base">Not for cheating—for winning. Casinos couldn't find anything illegal, so they simply banned him from playing.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <p>
+            What makes Mikki different from other gambling "gurus" is transparency. He doesn't hide his losses. His <strong class="text-white">$1.5M net loss at Wynn</strong> and <strong class="text-white">$938K poker tournament losses</strong> are publicly documented. He talks openly about the <a href="/net-worth" class="text-gold hover:text-gold-light underline">estimated $20M-$40M net worth</a> he's accumulated—and the millions he's lost along the way.
+          </p>
+
+          <p>
+            Today, Mikki runs a <a href="/join" class="text-gold hover:text-gold-light underline">free Telegram community</a> where he shares his strategies, cheatsheets, and behind-the-scenes stories. Unlike the scammers selling courses for thousands of dollars, Mikki's community is 100% free. No upsells. No hidden fees. Just raw, unfiltered access to the man who beat the casinos at their own game—and paid the price for it.
+          </p>
+
+          <!-- Why People Trust Him -->
+          <div class="bg-gray-900 border border-gold/30 rounded-xl p-8 md:p-10 mt-12">
+            <h3 class="text-white text-2xl font-bold mb-6">Why People Trust Mikki Mase</h3>
+            <div class="space-y-4">
+              <div class="flex items-start gap-3">
+                <svg class="w-5 h-5 text-gold flex-shrink-0 mt-1" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                </svg>
+                <p class="text-gray-300"><strong class="text-white">Verified wins:</strong> $10M+ win at The Venetian witnessed and confirmed by third parties</p>
+              </div>
+              <div class="flex items-start gap-3">
+                <svg class="w-5 h-5 text-gold flex-shrink-0 mt-1" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                </svg>
+                <p class="text-gray-300"><strong class="text-white">Documented losses:</strong> Transparent about $1.5M Wynn loss and $938K poker losses</p>
+              </div>
+              <div class="flex items-start gap-3">
+                <svg class="w-5 h-5 text-gold flex-shrink-0 mt-1" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                </svg>
+                <p class="text-gray-300"><strong class="text-white">No courses or scams:</strong> Telegram community is 100% free with no hidden upsells</p>
+              </div>
+              <div class="flex items-start gap-3">
+                <svg class="w-5 h-5 text-gold flex-shrink-0 mt-1" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                </svg>
+                <p class="text-gray-300"><strong class="text-white">Casino bans prove it works:</strong> 150+ casinos banned him—not for cheating, but for winning</p>
+              </div>
+            </div>
+          </div>
+
+          <p class="text-xl md:text-2xl text-white font-semibold mt-12">
+            Mikki Mase didn't get lucky. He built a system, executed it with discipline, and walked away with generational wealth before casinos could stop him. The question isn't whether it works—the casino bans already answered that. The question is: can you execute it?
+          </p>
+        </div>
+
+        <!-- CTA Buttons -->
+        <div class="flex flex-col sm:flex-row gap-4 justify-center mt-12">
+          <Button variant="primary" href="/story">
+            Read the Full Story
+          </Button>
+          <Button variant="secondary" href="/join">
+            Join the Community
+          </Button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BY THE NUMBERS SECTION -->
+  <Stats
+    title="By The Numbers"
+    subtitle="The proof is in the results."
+    stats={[
+      { number: "$32M+", label: "Total Winnings" },
+      { number: "$11.5M", label: "Biggest Win (7 Days)" },
+      { number: "150+", label: "Casinos Banned" },
+      { number: "2018", label: "Year Started" }
+    ]}
+  />
+
+  <!-- FEATURED WINS SECTION -->
+  <section class="bg-gray-950 py-20 md:py-32">
+    <div class="container mx-auto px-6">
+      <!-- Section Header -->
+      <div class="text-center mb-16 md:mb-20">
+        <p class="text-gold text-sm md:text-base uppercase tracking-widest mb-4">Legendary Moments</p>
+        <h2 class="text-white mb-6">Featured Wins</h2>
+        <p class="text-gray-400 text-lg md:text-xl max-w-3xl mx-auto">
+          From Atlantic City to Vegas, these are the wins that built the legend and got him <a href="/banned" class="text-gold hover:text-gold-light underline">banned from 150+ casinos</a>. Want to know how? Read <a href="/story" class="text-gold hover:text-gold-light underline">the full story</a>, learn <a href="/the-system" class="text-gold hover:text-gold-light underline">the system</a>, or check the <a href="/faq" class="text-gold hover:text-gold-light underline">FAQ</a>.
+        </p>
+      </div>
+
+      <!-- Win Cards Grid -->
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
+        <WinCard
+          amount="$10M+"
+          casino="The Venetian"
+          location="Las Vegas, NV"
+          date="2021-2022"
+          story="The verified win. Poker player Jake Ormand witnessed Mikki extract over $10 million at a single baccarat table. Casino surveillance found nothing illegal. They banned him anyway."
+          image="/images/mikki-main-1.webp"
+        />
+
+        <WinCard
+          amount="$3M"
+          casino="High Stakes Tables"
+          location="Las Vegas, NV"
+          date="2020-2023"
+          story="$3 million buy-ins. $250,000 per hand. Strategic timing: win big, disappear for weeks, come back. Averaging $1M/week during peak runs. The casinos couldn't keep up."
+          image="/images/mikki-main-2.webp"
+        />
+
+        <WinCard
+          amount="-$1.5M"
+          casino="Wynn Las Vegas"
+          location="Las Vegas, NV"
+          date="2021-2022"
+          story="Not every session was a win. Lost $4M, won back $2.5M, net loss $1.5M. They still banned him. Why? Because casinos saw the system. Execution beats house edge over time."
+          image="/images/mikki-extra.webp"
+        />
+      </div>
+
+      <!-- CTA -->
+      <div class="text-center mt-16 md:mt-20">
+        <Button variant="secondary" href="/story">
+          Read the Full Story
+        </Button>
+      </div>
+    </div>
+  </section>
+
+  <!-- TELEGRAM CTA SECTION -->
+  <section class="bg-black py-20 md:py-32 relative overflow-hidden">
+    <!-- Subtle background pattern -->
+    <div class="absolute inset-0 opacity-5">
+      <div class="absolute inset-0" style="background-image: radial-gradient(circle at 2px 2px, #CFB53B 1px, transparent 0); background-size: 40px 40px;"></div>
+    </div>
+
+    <div class="container mx-auto px-6 relative z-10">
+      <div class="max-w-5xl mx-auto text-center">
+        <!-- Header -->
+        <div class="mb-12 md:mb-16">
+          <p class="text-gold text-sm md:text-base uppercase tracking-widest mb-4">Free Access</p>
+          <h2 class="text-white mb-6">Join the Telegram Community</h2>
+          <p class="text-gray-300 text-lg md:text-2xl leading-relaxed max-w-3xl mx-auto">
+            Get access to Mikki's free guides and cheatsheets. Learn the strategies that won millions.
+          </p>
+        </div>
+
+        <!-- Benefits Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12 md:mb-16">
+          <div class="flex flex-col items-center">
+            <div class="text-gold text-5xl font-black mb-3">01</div>
+            <h3 class="text-white text-lg font-bold mb-2">Free Guides</h3>
+            <p class="text-gray-400 text-sm">Step-by-step breakdowns of baccarat strategy and bankroll management</p>
+          </div>
+
+          <div class="flex flex-col items-center">
+            <div class="text-gold text-5xl font-black mb-3">02</div>
+            <h3 class="text-white text-lg font-bold mb-2">Exclusive Cheatsheets</h3>
+            <p class="text-gray-400 text-sm">Pattern recognition tools and betting progression charts</p>
+          </div>
+
+          <div class="flex flex-col items-center">
+            <div class="text-gold text-5xl font-black mb-3">03</div>
+            <h3 class="text-white text-lg font-bold mb-2">Direct Access</h3>
+            <p class="text-gray-400 text-sm">Real-time updates and behind-the-scenes stories from Mikki</p>
+          </div>
+        </div>
+
+        <!-- CTA Buttons -->
+        <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
+          <Button variant="primary" href="/join">
+            Join Telegram Community
+          </Button>
+          <Button variant="tertiary" href="/media">
+            Watch Interviews
+          </Button>
+        </div>
+
+        <!-- Social Proof -->
+        <div class="mt-12 pt-12 border-t border-gray-800">
+          <div class="flex flex-col md:flex-row items-center justify-center gap-6 md:gap-12">
+            <div class="text-center">
+              <p class="text-gold text-3xl font-black">$32M+</p>
+              <p class="text-gray-500 text-sm uppercase tracking-wider mt-1">Total Winnings</p>
+            </div>
+            <div class="hidden md:block w-px h-12 bg-gray-800"></div>
+            <div class="text-center">
+              <p class="text-gold text-3xl font-black">150+</p>
+              <p class="text-gray-500 text-sm uppercase tracking-wider mt-1">Casino Bans</p>
+            </div>
+            <div class="hidden md:block w-px h-12 bg-gray-800"></div>
+            <div class="text-center">
+              <p class="text-gold text-3xl font-black">2018</p>
+              <p class="text-gray-500 text-sm uppercase tracking-wider mt-1">Started Playing</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  </main>
+
+  <Footer />
+</BaseLayout>

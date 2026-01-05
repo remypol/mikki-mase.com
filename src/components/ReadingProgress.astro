@@ -1,0 +1,36 @@
+---
+// Reading Progress Bar - shows scroll progress for long-form content
+// Gold bar at top of viewport that fills as user scrolls
+---
+
+<div id="reading-progress" class="fixed top-0 left-0 right-0 h-1 z-[60] pointer-events-none">
+  <div id="reading-progress-bar" class="h-full bg-gold transition-[width] duration-75 ease-out" style="width: 0%"></div>
+</div>
+
+<script>
+  const progressBar = document.getElementById('reading-progress-bar');
+
+  if (progressBar) {
+    let ticking = false;
+
+    function updateProgress() {
+      const scrollTop = window.scrollY;
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const progress = docHeight > 0 ? Math.min((scrollTop / docHeight) * 100, 100) : 0;
+      progressBar.style.width = `${progress}%`;
+    }
+
+    window.addEventListener('scroll', () => {
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          updateProgress();
+          ticking = false;
+        });
+        ticking = true;
+      }
+    }, { passive: true });
+
+    // Initial call
+    updateProgress();
+  }
+</script>
