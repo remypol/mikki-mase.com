@@ -59,8 +59,8 @@ export default function ChapterList({ chapters, defaultOpen = 1 }: ChapterListPr
               {/* Chapter header (always visible) */}
               <button
                 onClick={() => toggleChapter(chapter.number)}
-                className="w-full px-5 py-4 flex items-center justify-between text-left
-                           min-h-[44px] focus:outline-none focus-visible:ring-2
+                className="w-full px-5 py-5 md:py-4 flex items-center justify-between text-left
+                           min-h-[64px] md:min-h-[56px] focus:outline-none focus-visible:ring-2
                            focus-visible:ring-[#CFB53B] focus-visible:ring-offset-2
                            focus-visible:ring-offset-black"
               >
