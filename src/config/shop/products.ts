@@ -33,7 +33,7 @@ export const bedroomBoss: Product = {
   currency: 'USD',
 
   // Stripe
-  stripePriceId: 'price_1SmCS9L6BPyNd2GhyzZ2tT0B',
+  stripePriceId: 'price_1SmJPDL6BPyNd2GhFYS5R0fS',
   stripeProductId: 'prod_TjfnsKZiOtc1XF',
 
   // Digital fulfillment
