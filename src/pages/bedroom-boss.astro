@@ -348,13 +348,15 @@ const combinedSchema = [productSchema, faqSchema];
   />
 
   <Footer />
-</BaseLayout>
 
-<!-- GA4 Ecommerce: view_item Event -->
-<script is:inline define:vars={{ productId: product.id, productName: product.name, productPrice: product.price }}>
-  // Track view_item when page loads
-  function trackViewItem() {
-    if (typeof gtag !== 'undefined') {
+  <!-- GA4 Ecommerce: view_item Event -->
+  <script is:inline define:vars={{ productId: product.id, productName: product.name, productPrice: product.price }}>
+    (function() {
+      // Ensure dataLayer and gtag exist
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+
+      // Fire view_item immediately - dataLayer queues until GA loads
       gtag('event', 'view_item', {
         currency: 'USD',
         value: productPrice,
@@ -365,18 +367,10 @@ const combinedSchema = [productSchema, faqSchema];
           quantity: 1
         }]
       });
-    } else {
-      // Retry after GA loads
-      setTimeout(trackViewItem, 500);
-    }
-  }
-  // Fire on page load
-  if (document.readyState === 'complete') {
-    trackViewItem();
-  } else {
-    window.addEventListener('load', trackViewItem);
-  }
-</script>
+      console.log('[GA4] view_item fired:', productId, productPrice);
+    })();
+  </script>
+</BaseLayout>
 
 <style>
   /* Mobile-specific improvements for sales page */

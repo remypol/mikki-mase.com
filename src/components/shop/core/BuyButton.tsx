@@ -54,6 +54,23 @@ export default function BuyButton({
       const { url } = await response.json();
 
       // Track GA4 ecommerce: begin_checkout
+      // Use dataLayer directly to ensure event is queued before redirect
+      const dataLayer = (window as any).dataLayer || [];
+      dataLayer.push({
+        event: 'begin_checkout',
+        ecommerce: {
+          currency: 'USD',
+          value: price,
+          items: [{
+            item_id: productId,
+            item_name: productName,
+            price: price,
+            quantity: 1
+          }]
+        }
+      });
+
+      // Also fire via gtag for compatibility
       if (typeof gtag !== 'undefined') {
         gtag('event', 'begin_checkout', {
           currency: 'USD',
@@ -66,6 +83,10 @@ export default function BuyButton({
           }]
         });
       }
+      console.log('[GA4] begin_checkout fired:', productId, price);
+
+      // Small delay to ensure event is sent before navigation
+      await new Promise(resolve => setTimeout(resolve, 100));
 
       // Redirect to Stripe Checkout
       window.location.href = url;

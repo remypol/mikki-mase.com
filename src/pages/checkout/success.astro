@@ -160,29 +160,33 @@ if (sessionId) {
   </section>
 
   <Footer />
-</BaseLayout>
 
-<!-- GA4 Ecommerce: Purchase Event (with duplicate prevention) -->
-{product && sessionId && (
-  <script
-    is:inline
-    define:vars={{
-      transactionId: sessionId,
-      productId: product.id,
-      productName: product.name,
-      productPrice: product.price
-    }}
-  >
-    // Prevent duplicate purchase tracking on page refresh
-    const trackedKey = `purchase_tracked_${transactionId}`;
+  <!-- GA4 Ecommerce: Purchase Event (with duplicate prevention) -->
+  {product && sessionId && (
+    <script
+      is:inline
+      define:vars={{
+        transactionId: sessionId,
+        productId: product.id,
+        productName: product.name,
+        productPrice: product.price
+      }}
+    >
+      (function() {
+        // Prevent duplicate purchase tracking on page refresh
+        const trackedKey = 'purchase_tracked_' + transactionId;
 
-    function trackPurchase() {
-      // Check if this purchase was already tracked
-      if (sessionStorage.getItem(trackedKey)) {
-        return; // Already tracked, skip
-      }
+        // Check if this purchase was already tracked
+        if (sessionStorage.getItem(trackedKey)) {
+          console.log('[GA4] purchase already tracked, skipping:', transactionId);
+          return;
+        }
 
-      if (typeof gtag !== 'undefined') {
+        // Ensure dataLayer exists
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+
+        // Fire purchase event
         gtag('event', 'purchase', {
           transaction_id: transactionId,
           value: productPrice,
@@ -194,21 +198,14 @@ if (sessionId) {
             quantity: 1
           }]
         });
+
         // Mark as tracked to prevent duplicates
         sessionStorage.setItem(trackedKey, 'true');
-      } else {
-        // Retry after GA loads
-        setTimeout(trackPurchase, 500);
-      }
-    }
-    // Fire on page load
-    if (document.readyState === 'complete') {
-      trackPurchase();
-    } else {
-      window.addEventListener('load', trackPurchase);
-    }
-  </script>
-)}
+        console.log('[GA4] purchase fired:', transactionId, productPrice);
+      })();
+    </script>
+  )}
+</BaseLayout>
 
 <style>
   @keyframes scale {

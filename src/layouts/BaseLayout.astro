@@ -367,50 +367,62 @@ const finalSchema = schema ? {
     </script>
 
     <!-- Analytics: CTA Click Tracking & Scroll Depth -->
-    <script>
-      // Wait for gtag to be available
-      function trackEvent(action, category, label, value) {
-        if (typeof gtag === 'function') {
-          gtag('event', action, {
-            event_category: category,
-            event_label: label,
-            value: value
-          });
-        }
-      }
+    <script is:inline>
+      // Ensure dataLayer and gtag are available
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
 
       // CTA Click Tracking
-      document.addEventListener('DOMContentLoaded', () => {
-        // Track "Join Community" button clicks
-        document.querySelectorAll('a[href="/join"], a[href*="bit.ly/MikkiCommunity"]').forEach(btn => {
-          btn.addEventListener('click', () => {
-            trackEvent('click', 'CTA', 'Join Community', 1);
+      document.addEventListener('DOMContentLoaded', function() {
+        // Track "Join Community" button clicks - custom event for better GA4 tracking
+        document.querySelectorAll('a[href="/join"], a[href*="bit.ly/MikkiCommunity"], a[href*="t.me"], a[href*="telegram"]').forEach(function(btn) {
+          btn.addEventListener('click', function() {
+            gtag('event', 'join_community', {
+              method: 'telegram',
+              link_url: btn.getAttribute('href')
+            });
+            console.log('[GA4] join_community fired');
           });
         });
 
-        // Track Telegram links
-        document.querySelectorAll('a[href*="t.me"], a[href*="telegram"]').forEach(link => {
-          link.addEventListener('click', () => {
-            trackEvent('click', 'CTA', 'Telegram Link', 1);
+        // Track Bedroom Boss product link clicks
+        document.querySelectorAll('a[href="/bedroom-boss"]').forEach(function(link) {
+          link.addEventListener('click', function() {
+            gtag('event', 'select_content', {
+              content_type: 'product',
+              item_id: 'bedroom-boss'
+            });
+            console.log('[GA4] select_content fired: bedroom-boss');
           });
         });
 
         // Track YouTube video plays (YouTubeLite component)
-        document.querySelectorAll('.youtube-lite').forEach(video => {
-          video.addEventListener('click', () => {
-            const title = video.getAttribute('data-title') || 'Unknown';
-            trackEvent('click', 'Video', title, 1);
+        document.querySelectorAll('.youtube-lite').forEach(function(video) {
+          video.addEventListener('click', function() {
+            var title = video.getAttribute('data-title') || 'Unknown';
+            gtag('event', 'video_start', {
+              video_title: title
+            });
+            console.log('[GA4] video_start fired:', title);
           }, { once: true });
         });
 
         // Track external links
-        document.querySelectorAll('a[target="_blank"]').forEach(link => {
-          link.addEventListener('click', () => {
-            const href = link.getAttribute('href') || '';
+        document.querySelectorAll('a[target="_blank"]').forEach(function(link) {
+          link.addEventListener('click', function() {
+            var href = link.getAttribute('href') || '';
             if (href.includes('youtube.com')) {
-              trackEvent('click', 'External', 'YouTube', 1);
+              gtag('event', 'click', {
+                event_category: 'outbound',
+                event_label: 'youtube',
+                link_url: href
+              });
             } else if (href.includes('instagram.com')) {
-              trackEvent('click', 'External', 'Instagram', 1);
+              gtag('event', 'click', {
+                event_category: 'outbound',
+                event_label: 'instagram',
+                link_url: href
+              });
             }
           });
         });
@@ -418,32 +430,32 @@ const finalSchema = schema ? {
 
       // Scroll Depth Tracking
       (function() {
-        const thresholds = [25, 50, 75, 90];
-        const triggered = {};
+        var thresholds = [25, 50, 75, 90];
+        var triggered = {};
 
         function getScrollPercent() {
-          const h = document.documentElement;
-          const b = document.body;
-          const st = 'scrollTop';
-          const sh = 'scrollHeight';
-          return Math.round((h[st] || b[st]) / ((h[sh] || b[sh]) - h.clientHeight) * 100);
+          var h = document.documentElement;
+          var b = document.body;
+          return Math.round((h.scrollTop || b.scrollTop) / ((h.scrollHeight || b.scrollHeight) - h.clientHeight) * 100);
         }
 
         function checkScroll() {
-          const percent = getScrollPercent();
-          thresholds.forEach(threshold => {
+          var percent = getScrollPercent();
+          thresholds.forEach(function(threshold) {
             if (percent >= threshold && !triggered[threshold]) {
               triggered[threshold] = true;
-              trackEvent('scroll', 'Engagement', `${threshold}%`, threshold);
+              gtag('event', 'scroll_depth', {
+                percent_scrolled: threshold
+              });
             }
           });
         }
 
         // Throttle scroll events
-        let ticking = false;
-        window.addEventListener('scroll', () => {
+        var ticking = false;
+        window.addEventListener('scroll', function() {
           if (!ticking) {
-            window.requestAnimationFrame(() => {
+            window.requestAnimationFrame(function() {
               checkScroll();
               ticking = false;
             });
