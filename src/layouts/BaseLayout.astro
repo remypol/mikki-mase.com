@@ -453,25 +453,27 @@ const finalSchema = schema ? {
       })();
     </script>
 
-    <!-- Google Analytics - Deferred for better LCP -->
-    <script>
-      // Load GA after page is interactive
-      if (typeof requestIdleCallback === 'function') {
-        requestIdleCallback(() => loadGA());
-      } else {
-        setTimeout(loadGA, 2000);
-      }
+    <!-- Google Analytics - gtag queuing function available immediately -->
+    <script is:inline>
+      // Initialize gtag IMMEDIATELY so ecommerce events can queue
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      window.gtag = gtag; // Make globally available
+      gtag('js', new Date());
+      gtag('config', 'G-MMKPYY3FB5');
 
-      function loadGA() {
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'G-MMKPYY3FB5');
-
+      // Load actual GA script after page is interactive (for LCP)
+      function loadGAScript() {
         const script = document.createElement('script');
         script.src = 'https://www.googletagmanager.com/gtag/js?id=G-MMKPYY3FB5';
         script.async = true;
         document.head.appendChild(script);
+      }
+
+      if (typeof requestIdleCallback === 'function') {
+        requestIdleCallback(loadGAScript);
+      } else {
+        setTimeout(loadGAScript, 2000);
       }
     </script>
 
