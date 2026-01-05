@@ -3,6 +3,9 @@
  * Handles checkout.session.completed and other Stripe events
  */
 
+// Must be server-rendered (not prerendered)
+export const prerender = false;
+
 import type { APIRoute } from 'astro';
 import type Stripe from 'stripe';
 import { getStripeServer } from '../../../lib/stripe';

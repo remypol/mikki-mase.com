@@ -3,6 +3,9 @@
  * Creates a Stripe Checkout Session for product purchases
  */
 
+// Must be server-rendered (not prerendered)
+export const prerender = false;
+
 import type { APIRoute } from 'astro';
 import { getStripeServer } from '../../../lib/stripe';
 import { getProductById } from '../../../config/shop/products';
