@@ -21,11 +21,9 @@ export const bedroomBoss: Product = {
   tagline: 'The Mikki Mase Playbook',
   description:
     'Decoded from hundreds of hours analyzing what separates Mikki from every other guy. 11 chapters on seduction, pleasure, and creating obsession.',
-  cover: '/images/shop/bedroom-boss-cover.webp',
+  cover: '/images/shop/bedroom-boss-cover.png',
   gallery: [
-    '/images/shop/bedroom-boss-cover.webp',
-    '/images/shop/bedroom-boss-preview-1.webp',
-    '/images/shop/bedroom-boss-preview-2.webp',
+    '/images/shop/bedroom-boss-cover.png',
   ],
 
   // Pricing
@@ -199,14 +197,14 @@ export const bedroomBoss: Product = {
     title: 'Bedroom Boss: The Mikki Mase Playbook | $47',
     description:
       "The complete playbook on seduction, confidence, and creating obsession. 11 chapters decoded from the Mikki Mase approach. 60-day guarantee.",
-    image: '/images/shop/bedroom-boss-og.webp',
+    image: '/images/shop/bedroom-boss-cover.png',
     schema: {
       '@context': 'https://schema.org',
       '@type': 'Product',
       name: 'Bedroom Boss: The Mikki Mase Playbook',
       description:
         'Digital ebook on seduction, confidence, and creating obsession. 11 chapters with bonus materials.',
-      image: 'https://mikki-mase.com/images/shop/bedroom-boss-cover.webp',
+      image: 'https://mikki-mase.com/images/shop/bedroom-boss-cover.png',
       brand: {
         '@type': 'Brand',
         name: 'Mikki Mase',
