@@ -33,9 +33,9 @@ export const bedroomBoss: Product = {
   compareAt: 97,
   currency: 'USD',
 
-  // Stripe (replace with actual IDs after creating in Stripe Dashboard)
-  stripePriceId: 'price_bedroom_boss_47',
-  stripeProductId: 'prod_bedroom_boss',
+  // Stripe
+  stripePriceId: 'price_1SmCS9L6BPyNd2GhyzZ2tT0B',
+  stripeProductId: 'prod_TjfnsKZiOtc1XF',
 
   // Digital fulfillment
   downloadFile: 'bedroom-boss-v1.pdf',
