@@ -7,9 +7,10 @@
 interface Props {
   price: number;
   compareAt?: number;
+  previousPrice?: number;
 }
 
-const { price, compareAt } = Astro.props;
+const { price, compareAt, previousPrice } = Astro.props;
 const savings = compareAt ? Math.round(((compareAt - price) / compareAt) * 100) : 0;
 ---
 
@@ -64,15 +65,19 @@ const savings = compareAt ? Math.round(((compareAt - price) / compareAt) * 100) 
 
         <!-- Price -->
         <div class="text-center mb-6">
-          <div class="flex items-baseline justify-center gap-3">
+          <span class="text-[#DC2626] text-sm font-semibold uppercase tracking-wide block mb-2">🔥 LAUNCH SPECIAL</span>
+          <div class="flex items-baseline justify-center gap-2">
             {compareAt && (
-              <span class="text-gray-500 line-through text-xl">${compareAt}</span>
+              <span class="text-gray-500 line-through text-lg">${compareAt}</span>
+            )}
+            {previousPrice && (
+              <span class="text-gray-500 line-through text-lg">${previousPrice}</span>
             )}
             <span class="text-gold font-bold text-5xl">${price}</span>
           </div>
           {savings > 0 && (
-            <span class="inline-block mt-2 bg-gold/20 text-gold text-sm font-semibold px-3 py-1 rounded-full">
-              SAVE {savings}%
+            <span class="inline-block mt-2 bg-gold text-black text-sm font-bold px-3 py-1 rounded">
+              {savings}% OFF
             </span>
           )}
         </div>

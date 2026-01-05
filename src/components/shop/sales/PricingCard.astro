@@ -57,8 +57,10 @@ const { product, features } = Astro.props;
             <PriceDisplay
               price={product.price}
               compareAt={product.compareAt}
+              previousPrice={product.previousPrice}
               size="large"
               showSavings={true}
+              showLaunchLabel={true}
             />
           </div>
 

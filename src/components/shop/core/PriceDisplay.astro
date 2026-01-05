@@ -1,23 +1,27 @@
 ---
 /**
  * PriceDisplay Component
- * Handles price formatting with optional compare-at pricing
+ * Handles price formatting with optional triple strike-through for launch special
  */
 
 interface Props {
   price: number;
   compareAt?: number;
+  previousPrice?: number; // For triple strike-through: compareAt → previousPrice → price
   currency?: 'USD' | 'EUR';
   size?: 'small' | 'default' | 'large';
   showSavings?: boolean;
+  showLaunchLabel?: boolean;
 }
 
 const {
   price,
   compareAt,
+  previousPrice,
   currency = 'USD',
   size = 'default',
-  showSavings = true
+  showSavings = true,
+  showLaunchLabel = false
 } = Astro.props;
 
 const formatter = new Intl.NumberFormat('en-US', {
@@ -36,31 +40,77 @@ const sizeClasses = {
 
 const compareSizeClasses = {
   small: 'text-sm',
-  default: 'text-xl',
-  large: 'text-2xl'
+  default: 'text-lg',
+  large: 'text-xl'
 };
 ---
 
-<div class="flex items-baseline gap-3 flex-wrap">
-  {compareAt && (
-    <span class:list={[
-      "text-gray-500 line-through",
-      compareSizeClasses[size]
-    ]}>
-      {formatter.format(compareAt)}
-    </span>
+<div class="price-display-wrapper">
+  {showLaunchLabel && (
+    <span class="launch-label">🔥 LAUNCH SPECIAL</span>
   )}
 
-  <span class:list={[
-    "text-white font-bold",
-    sizeClasses[size]
-  ]}>
-    {formatter.format(price)}
-  </span>
+  <div class="flex items-baseline gap-2 md:gap-3 flex-wrap justify-center">
+    {/* Original price (compareAt) */}
+    {compareAt && (
+      <span class:list={[
+        "text-gray-500 line-through",
+        compareSizeClasses[size]
+      ]}>
+        {formatter.format(compareAt)}
+      </span>
+    )}
+
+    {/* Previous price (for triple strike-through) */}
+    {previousPrice && (
+      <span class:list={[
+        "text-gray-500 line-through",
+        compareSizeClasses[size]
+      ]}>
+        {formatter.format(previousPrice)}
+      </span>
+    )}
+
+    {/* Current price */}
+    <span class:list={[
+      "text-gold font-bold",
+      sizeClasses[size]
+    ]}>
+      {formatter.format(price)}
+    </span>
+  </div>
 
   {compareAt && showSavings && savings > 0 && (
-    <span class="bg-gold text-black text-xs font-bold px-2 py-1 rounded">
-      SAVE {savings}%
+    <span class="discount-badge">
+      {savings}% OFF
     </span>
   )}
 </div>
+
+<style>
+  .price-display-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .launch-label {
+    color: #DC2626;
+    font-size: 0.875rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  .discount-badge {
+    display: inline-block;
+    background: linear-gradient(135deg, #CFB53B, #B8860B);
+    color: #000;
+    padding: 0.25rem 0.75rem;
+    border-radius: 4px;
+    font-size: 0.875rem;
+    font-weight: 700;
+    margin-top: 0.25rem;
+  }
+</style>

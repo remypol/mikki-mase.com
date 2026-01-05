@@ -111,8 +111,9 @@ const { product } = Astro.props;
 
           <!-- Price badge (mobile only) -->
           <div class="md:hidden absolute -bottom-3 -right-3 bg-[#A8001E] text-white
-                      font-bold text-base px-3 py-1.5 rounded-full shadow-lg">
-            ${product.price}
+                      font-bold text-sm px-3 py-1.5 rounded-lg shadow-lg flex flex-col items-center">
+            <span class="text-white/70 text-xs line-through">$97</span>
+            <span class="text-lg">${product.price}</span>
           </div>
         </div>
       </div>

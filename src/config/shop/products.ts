@@ -27,8 +27,9 @@ export const bedroomBoss: Product = {
   ],
 
   // Pricing
-  price: 47,
+  price: 29,
   compareAt: 97,
+  previousPrice: 47, // For triple strike-through display
   currency: 'USD',
 
   // Stripe
@@ -137,7 +138,7 @@ export const bedroomBoss: Product = {
         name: 'Marcus T.',
         location: 'Miami, FL',
         rating: 5,
-        text: "I've spent thousands on dating coaches. This $47 ebook taught me more than all of them combined. The mindset chapter alone changed everything.",
+        text: "I've spent thousands on dating coaches. This ebook taught me more than all of them combined. The mindset chapter alone changed everything.",
         verified: true,
       },
       {
@@ -194,7 +195,7 @@ export const bedroomBoss: Product = {
 
   // SEO
   seo: {
-    title: 'Bedroom Boss: The Mikki Mase Playbook | $47',
+    title: 'Bedroom Boss: The Mikki Mase Playbook | $29 Launch Special',
     description:
       "The complete playbook on seduction, confidence, and creating obsession. 11 chapters decoded from the Mikki Mase approach. 60-day guarantee.",
     image: '/images/shop/bedroom-boss-cover.png',
@@ -211,7 +212,7 @@ export const bedroomBoss: Product = {
       },
       offers: {
         '@type': 'Offer',
-        price: 47,
+        price: 29,
         priceCurrency: 'USD',
         availability: 'https://schema.org/InStock',
         url: 'https://mikki-mase.com/bedroom-boss',

@@ -32,6 +32,7 @@ export interface Product {
   // Pricing
   price: number;
   compareAt?: number;
+  previousPrice?: number; // For triple strike-through (original → previous → current)
   currency: Currency;
 
   // Stripe

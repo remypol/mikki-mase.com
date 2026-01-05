@@ -46,8 +46,14 @@ const totalWasted = comparisons.reduce((sum, c) => sum + c.cost, 0);
       <p class="text-2xl text-gray-400 mb-4">OR</p>
 
       <div class="bg-gold/10 border-2 border-gold rounded-xl p-6 inline-block">
+        <span class="text-[#DC2626] text-sm font-semibold uppercase tracking-wide block mb-2">🔥 LAUNCH SPECIAL</span>
         <p class="text-gray-300 mb-2">One playbook that changes everything:</p>
-        <p class="text-gold text-4xl font-bold">${productPrice}</p>
+        <div class="flex items-baseline justify-center gap-2 mb-1">
+          <span class="text-gray-500 line-through text-xl">$97</span>
+          <span class="text-gray-500 line-through text-xl">$47</span>
+          <span class="text-gold text-4xl font-bold">${productPrice}</span>
+        </div>
+        <span class="inline-block bg-gold text-black text-xs font-bold px-2 py-1 rounded mb-2">70% OFF</span>
         <p class="text-gray-500 text-sm mt-2">And if it doesn't work? You get it back.</p>
       </div>
     </div>
