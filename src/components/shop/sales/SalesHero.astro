@@ -1,0 +1,114 @@
+---
+/**
+ * SalesHero Component
+ * Hero section with cover image and primary CTA
+ */
+
+import BuyButton from '../core/BuyButton.tsx';
+import type { Product } from '../../../config/shop/types';
+
+interface Props {
+  product: Product;
+}
+
+const { product } = Astro.props;
+---
+
+<section class="relative min-h-screen flex items-center py-12 md:py-0 overflow-hidden">
+  <!-- Background gradient -->
+  <div class="absolute inset-0 bg-gradient-to-b from-black via-gray-900 to-black" />
+
+  <!-- Subtle pattern overlay -->
+  <div class="absolute inset-0 opacity-5">
+    <div class="absolute inset-0" style="background-image: radial-gradient(circle at 2px 2px, #CFB53B 1px, transparent 0); background-size: 40px 40px;"></div>
+  </div>
+
+  <div class="container mx-auto px-4 md:px-6 relative z-10">
+    <div class="grid md:grid-cols-2 gap-8 md:gap-16 items-center max-w-7xl mx-auto">
+
+      <!-- Content (left on desktop, below on mobile) -->
+      <div class="order-2 md:order-1 text-center md:text-left">
+        <!-- Eyebrow -->
+        <p class="text-gold text-sm uppercase tracking-[0.2em] mb-4 opacity-0 animate-[fadeInUp_0.6s_ease-out_forwards]">
+          {product.tagline}
+        </p>
+
+        <!-- Headline -->
+        <h1 class="font-serif text-5xl md:text-7xl lg:text-8xl font-bold text-white mb-6 leading-tight opacity-0 animate-[fadeInUp_0.6s_ease-out_0.1s_forwards]">
+          {product.name.split(' ').map((word) => (
+            <span class="block">{word}</span>
+          ))}
+        </h1>
+
+        <!-- Subheadline -->
+        <p class="text-gray-300 text-xl md:text-2xl mb-8 max-w-lg mx-auto md:mx-0 opacity-0 animate-[fadeInUp_0.6s_ease-out_0.2s_forwards]">
+          Built from a life few men will ever experience.
+        </p>
+
+        <!-- CTA -->
+        <div class="opacity-0 animate-[fadeInUp_0.6s_ease-out_0.3s_forwards]">
+          <BuyButton
+            client:load
+            productId={product.id}
+            price={product.price}
+            label="GET INSTANT ACCESS"
+            size="large"
+          />
+
+          <!-- Trust line -->
+          <p class="text-gray-500 text-sm mt-4 flex items-center justify-center md:justify-start gap-2">
+            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd" />
+            </svg>
+            Instant download. Read tonight.
+          </p>
+        </div>
+      </div>
+
+      <!-- Cover Image (right on desktop, above on mobile) -->
+      <div class="order-1 md:order-2 flex justify-center opacity-0 animate-[fadeInUp_0.6s_ease-out_forwards]">
+        <div class="relative">
+          <!-- Glow effect -->
+          <div class="absolute -inset-8 bg-gold/20 blur-3xl rounded-full" />
+
+          <!-- Book cover -->
+          <img
+            src={product.cover}
+            alt={`${product.name} cover`}
+            class="relative w-full max-w-xs sm:max-w-sm md:max-w-md rounded-lg shadow-2xl
+                   transform md:rotate-2 md:hover:rotate-0 transition-transform duration-500"
+            loading="eager"
+            fetchpriority="high"
+          />
+
+          <!-- Price badge (mobile only) -->
+          <div class="md:hidden absolute -bottom-4 -right-4 bg-[#A8001E] text-white
+                      font-bold text-lg px-4 py-2 rounded-full shadow-lg">
+            ${product.price}
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Scroll indicator -->
+  <div class="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce hidden md:block">
+    <svg class="w-6 h-6 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+    </svg>
+  </div>
+</section>
+
+<style>
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+</style>

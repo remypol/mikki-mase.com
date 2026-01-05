@@ -1,0 +1,103 @@
+---
+/**
+ * PricingCard Component
+ * Main pricing block with value stack
+ */
+
+import BuyButton from '../core/BuyButton.tsx';
+import PriceDisplay from '../core/PriceDisplay.astro';
+import type { Product } from '../../../config/shop/types';
+
+interface Props {
+  product: Product;
+  features: string[];
+}
+
+const { product, features } = Astro.props;
+---
+
+<section class="py-16 md:py-24 bg-black">
+  <div class="max-w-2xl mx-auto px-4">
+
+    <!-- Card -->
+    <div class="relative">
+      <!-- Glow effect -->
+      <div class="absolute -inset-1 bg-gradient-to-r from-gold/20 via-gold/10 to-gold/20
+                  rounded-2xl blur-xl" />
+
+      <!-- Main card -->
+      <div class="relative bg-gray-900 border-2 border-gold rounded-2xl overflow-hidden">
+
+        <!-- Header -->
+        <div class="bg-gradient-to-r from-gold/10 to-transparent px-6 py-4 border-b border-gold/30">
+          <p class="text-gold text-sm uppercase tracking-wider">{product.tagline}</p>
+          <h3 class="text-white text-2xl font-bold">{product.name}</h3>
+        </div>
+
+        <!-- Features -->
+        <div class="px-6 py-8">
+          <ul class="space-y-4 mb-8">
+            {features.map(feature => (
+              <li class="flex items-center gap-3 text-gray-200">
+                <svg class="w-5 h-5 text-gold flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                </svg>
+                {feature}
+              </li>
+            ))}
+          </ul>
+
+          <!-- Price -->
+          <div class="text-center mb-6">
+            <PriceDisplay
+              price={product.price}
+              compareAt={product.compareAt}
+              size="large"
+              showSavings={true}
+            />
+          </div>
+
+          <!-- CTA -->
+          <BuyButton
+            client:load
+            productId={product.id}
+            price={product.price}
+            label="GET INSTANT ACCESS"
+            size="large"
+            fullWidth={true}
+          />
+
+          <!-- Value comparison -->
+          <p class="text-gray-500 text-sm text-center mt-4">
+            Less than one night out that goes nowhere.
+          </p>
+        </div>
+
+        <!-- Trust badges -->
+        <div class="bg-gray-800/50 px-6 py-4 flex flex-wrap items-center justify-center gap-4 md:gap-6
+                    border-t border-gray-700">
+          <div class="flex items-center gap-2 text-gray-400 text-sm">
+            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd" />
+            </svg>
+            Secure checkout
+          </div>
+          <div class="flex items-center gap-2 text-gray-400 text-sm">
+            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd" />
+            </svg>
+            Instant access
+          </div>
+          <div class="flex items-center gap-2 text-gray-400 text-sm">
+            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M2.166 4.999A11.954 11.954 0 0010 1.944 11.954 11.954 0 0017.834 5c.11.65.166 1.32.166 2.001 0 5.225-3.34 9.67-8 11.317C5.34 16.67 2 12.225 2 7c0-.682.057-1.35.166-2.001zm11.541 3.708a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+            </svg>
+            30-day guarantee
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</section>

@@ -1,0 +1,84 @@
+---
+/**
+ * GuaranteeSeal Component
+ * Money-back guarantee badge with trust copy
+ */
+
+interface Props {
+  days?: number;
+}
+
+const { days = 30 } = Astro.props;
+---
+
+<section class="py-16 md:py-24 bg-black">
+  <div class="max-w-2xl mx-auto px-4 text-center">
+
+    <!-- Seal icon -->
+    <div class="relative inline-block mb-6">
+      <div class="absolute inset-0 bg-gold/20 blur-2xl rounded-full scale-150" />
+      <div class="relative w-24 h-24 md:w-32 md:h-32 mx-auto">
+        <svg viewBox="0 0 100 100" class="w-full h-full text-gold">
+          <!-- Shield shape -->
+          <path
+            d="M50 5 L90 20 L90 50 Q90 80 50 95 Q10 80 10 50 L10 20 Z"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="3"
+          />
+          <!-- Checkmark -->
+          <path
+            d="M30 50 L45 65 L70 35"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="4"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+      </div>
+    </div>
+
+    <!-- Title -->
+    <h3 class="text-gold text-xl md:text-2xl font-bold uppercase tracking-wider mb-4">
+      100% Bedroom Boss Guarantee
+    </h3>
+
+    <!-- Copy -->
+    <div class="text-gray-300 space-y-4 text-lg max-w-xl mx-auto">
+      <p>
+        If this playbook doesn't leave her shaking, squirting, or begging for more...
+        I'll refund you. <span class="text-white font-semibold">Period.</span>
+      </p>
+      <p class="text-gray-400">
+        No excuses. No hoops. No "prove you tried it" bullshit.
+      </p>
+      <p>
+        You either see results—or you get every cent back.
+      </p>
+    </div>
+
+    <!-- Badges -->
+    <div class="flex flex-wrap items-center justify-center gap-4 mt-8">
+      <span class="flex items-center gap-2 text-gold text-sm font-semibold">
+        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+          <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+        </svg>
+        Zero Risk
+      </span>
+      <span class="flex items-center gap-2 text-gold text-sm font-semibold">
+        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+          <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+        </svg>
+        All Reward
+      </span>
+      <span class="flex items-center gap-2 text-gold text-sm font-semibold">
+        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+          <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+        </svg>
+        {days} Days to Decide
+      </span>
+    </div>
+
+  </div>
+</section>

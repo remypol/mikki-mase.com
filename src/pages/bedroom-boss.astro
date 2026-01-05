@@ -1,0 +1,317 @@
+---
+/**
+ * Bedroom Boss Sales Page
+ * Long-form sales page for the Bedroom Boss ebook
+ */
+
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+
+// Shop components
+import SalesHero from '../components/shop/sales/SalesHero.astro';
+import ChapterList from '../components/shop/sales/ChapterList.tsx';
+import PricingCard from '../components/shop/sales/PricingCard.astro';
+import GuaranteeSeal from '../components/shop/sales/GuaranteeSeal.astro';
+import FAQAccordion from '../components/shop/sales/FAQAccordion.tsx';
+import StickyBuyBar from '../components/shop/sales/StickyBuyBar.tsx';
+import BuyButton from '../components/shop/core/BuyButton.tsx';
+
+// Data
+import { bedroomBoss } from '../config/shop/products';
+import { chapters, faqs, features, painPoints, benefits } from '../data/bedroom-boss';
+
+const product = bedroomBoss;
+
+// Schema.org Product markup
+const productSchema = {
+  "@context": "https://schema.org",
+  "@type": "Product",
+  "name": "Bedroom Boss: The Mikki Mase Playbook",
+  "description": "11-chapter ebook on mastering attraction, pleasure, and creating lasting desire.",
+  "image": "https://mikki-mase.com/images/shop/bedroom-boss-cover.webp",
+  "brand": {
+    "@type": "Brand",
+    "name": "Mikki Mase"
+  },
+  "offers": {
+    "@type": "Offer",
+    "price": "47.00",
+    "priceCurrency": "USD",
+    "availability": "https://schema.org/InStock",
+    "priceValidUntil": "2026-12-31"
+  },
+  "aggregateRating": {
+    "@type": "AggregateRating",
+    "ratingValue": "4.9",
+    "reviewCount": "147"
+  }
+};
+---
+
+<BaseLayout
+  title="Bedroom Boss: The Mikki Mase Playbook | Become the Best She's Ever Had"
+  description="The playbook decoded from the most talked-about high-roller lifestyle ever lived. 11 chapters on making her crave, obsess, and never forget you. Instant download."
+  schema={productSchema}
+>
+  <Header />
+
+  <!-- SECTION 01: HERO -->
+  <SalesHero product={product} />
+
+  <!-- SECTION 02: THE HOOK -->
+  <section class="py-16 md:py-24 bg-black">
+    <div class="max-w-3xl mx-auto px-4 text-center">
+      <p class="text-xl md:text-2xl text-gray-300 leading-relaxed">
+        We spent hundreds of hours analyzing what separates
+        <span class="text-gold font-semibold"> Mikki Mase</span> from every other guy who walks into a casino—or a bedroom.
+      </p>
+      <p class="text-xl md:text-2xl text-gray-300 leading-relaxed mt-6">
+        The man who beat the house at their own game... applied the
+        <span class="text-gold font-semibold"> same mindset</span> to everything else.
+      </p>
+      <p class="text-xl md:text-2xl text-gray-400 leading-relaxed mt-6">
+        Banned from 150+ casinos. Welcomed into thousands of bedrooms.
+      </p>
+      <p class="text-2xl md:text-3xl text-white font-bold mt-8">
+        This is what we found.
+      </p>
+    </div>
+  </section>
+
+  <!-- SECTION 03: THE PROBLEM -->
+  <section class="py-16 md:py-24 bg-gray-900">
+    <div class="max-w-3xl mx-auto px-4">
+      <h2 class="font-serif text-3xl md:text-4xl font-bold text-gold text-center mb-8">
+        If she's not shaking, craving, and obsessing over you—you're doing it wrong.
+      </h2>
+
+      <p class="text-xl text-gray-300 text-center mb-8">
+        Right now, most guys are fumbling in the dark:
+      </p>
+
+      <ul class="space-y-4 max-w-md mx-auto mb-8">
+        {painPoints.map((point) => (
+          <li class="flex items-start gap-3 text-lg text-gray-300">
+            <svg class="w-6 h-6 text-red-500 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
+            </svg>
+            {point}
+          </li>
+        ))}
+      </ul>
+
+      <div class="text-center text-gray-300 space-y-4 text-lg">
+        <p>The average man leaves pleasure on the table because no one taught him the real game.</p>
+        <p class="text-gray-400">Not the porn game. Not the "be yourself" game.</p>
+        <p class="text-white font-semibold text-xl">
+          The game that makes her cancel plans, ignore her phone, and count the hours until she sees you again.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 04: THE PROMISE -->
+  <section class="py-16 md:py-24 bg-black">
+    <div class="max-w-3xl mx-auto px-4">
+      <h2 class="font-serif text-3xl md:text-5xl font-bold text-white text-center mb-4">
+        This is Bedroom Boss.
+      </h2>
+      <p class="text-xl text-gray-400 text-center mb-12">
+        The playbook for men who refuse to be forgettable.
+      </p>
+
+      <p class="text-lg text-gray-300 text-center mb-8">Inside, you'll learn:</p>
+
+      <ul class="space-y-4 max-w-xl mx-auto mb-12">
+        {benefits.map((benefit) => (
+          <li class="flex items-start gap-3 text-lg text-gray-200">
+            <svg class="w-6 h-6 text-gold flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+            </svg>
+            {benefit}
+          </li>
+        ))}
+      </ul>
+
+      <p class="text-xl text-gray-300 text-center">
+        Once you open it, you don't just change her orgasms—you
+        <span class="text-white font-bold"> change her forever.</span>
+      </p>
+    </div>
+  </section>
+
+  <!-- SECTION 06: CHAPTER BREAKDOWN -->
+  <ChapterList client:visible chapters={chapters} />
+
+  <!-- SECTION 08: WHY THIS IS DIFFERENT -->
+  <section class="py-16 md:py-24 bg-gray-900">
+    <div class="max-w-3xl mx-auto px-4">
+      <h2 class="font-serif text-3xl md:text-4xl font-bold text-white text-center mb-8">
+        This isn't theory from some dating coach.
+      </h2>
+
+      <p class="text-xl text-gray-300 text-center mb-8">
+        This is <span class="text-gold font-semibold">decoded</span> from a man who's lived it.
+      </p>
+
+      <div class="bg-gray-800/50 rounded-xl p-6 md:p-8 border border-gray-700 mb-8">
+        <p class="text-gray-300 text-lg leading-relaxed mb-4">
+          Mikki Mase didn't read about seduction in a book. He didn't watch YouTube videos. He didn't take a course.
+        </p>
+        <p class="text-gray-300 text-lg leading-relaxed mb-4">
+          He built a <span class="text-gold">$32 million fortune</span>, got banned from
+          <span class="text-gold"> 150+ casinos</span>, and lived the lifestyle most men only fantasize about.
+        </p>
+        <p class="text-gray-300 text-lg leading-relaxed">
+          Along the way, he figured out something most "experts" never will.
+        </p>
+      </div>
+
+      <p class="text-xl text-white text-center font-semibold mb-6">
+        The same principles that beat the house... work in the bedroom.
+      </p>
+
+      <p class="text-lg text-gray-400 text-center">
+        Pattern recognition. Emotional control. Knowing when to push. Knowing when to pull back.
+      </p>
+    </div>
+  </section>
+
+  <!-- SECTION 09: AUTHORITY SECTION -->
+  <section class="py-16 md:py-24 bg-black">
+    <div class="max-w-4xl mx-auto px-4">
+      <h2 class="font-serif text-2xl md:text-3xl font-bold text-white text-center mb-12">
+        The Man Behind the Method
+      </h2>
+
+      <div class="grid md:grid-cols-2 gap-8 items-center">
+        <div class="text-center md:text-left">
+          <div class="space-y-4 text-lg">
+            <p class="flex items-center gap-3 justify-center md:justify-start">
+              <span class="text-gold font-bold">$32M+</span>
+              <span class="text-gray-300">in verified winnings</span>
+            </p>
+            <p class="flex items-center gap-3 justify-center md:justify-start">
+              <span class="text-gold font-bold">150+</span>
+              <span class="text-gray-300">casino bans worldwide</span>
+            </p>
+            <p class="flex items-center gap-3 justify-center md:justify-start">
+              <span class="text-gold font-bold">Featured in</span>
+              <span class="text-gray-300">NELK, Bert Kreischer, Soft White Underbelly</span>
+            </p>
+          </div>
+
+          <div class="flex flex-wrap gap-4 mt-8 justify-center md:justify-start">
+            <a href="/story" class="text-gold hover:text-gold-light underline underline-offset-4">
+              Read His Full Story →
+            </a>
+            <a href="/banned" class="text-gold hover:text-gold-light underline underline-offset-4">
+              See the Casino Bans →
+            </a>
+          </div>
+        </div>
+
+        <div class="flex justify-center">
+          <img
+            src="/images/mikki-main-2.webp"
+            alt="Mikki Mase"
+            class="w-64 h-64 md:w-80 md:h-80 object-cover rounded-xl border-2 border-gold/30"
+            loading="lazy"
+          />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 10: PRICING CARD -->
+  <PricingCard product={product} features={features} />
+
+  <!-- SECTION 11: GUARANTEE -->
+  <GuaranteeSeal days={30} />
+
+  <!-- SECTION 12: FAQ -->
+  <FAQAccordion client:visible faqs={faqs} />
+
+  <!-- SECTION 13: FINAL CTA -->
+  <section class="py-16 md:py-24 bg-gradient-to-b from-gray-900 to-black">
+    <div class="max-w-3xl mx-auto px-4 text-center">
+      <h2 class="font-serif text-3xl md:text-5xl font-bold text-white mb-6">
+        Stop leaving pleasure on the table.
+      </h2>
+
+      <p class="text-xl text-gray-300 mb-8">
+        Every night you wait is another night she fakes it, forgets you, or thinks about someone else.
+      </p>
+
+      <div class="bg-gray-800/50 rounded-xl p-6 md:p-8 border border-gray-700 mb-8 text-left max-w-md mx-auto">
+        <p class="text-gray-300 mb-4">You have two choices:</p>
+        <ol class="space-y-3 text-gray-300">
+          <li class="flex gap-3">
+            <span class="text-gray-500 font-bold">1.</span>
+            Keep guessing. Keep fumbling. Keep being forgettable.
+          </li>
+          <li class="flex gap-3">
+            <span class="text-gold font-bold">2.</span>
+            <span class="text-white">Download the playbook. Apply what you learn. Become the man she can't stop thinking about.</span>
+          </li>
+        </ol>
+      </div>
+
+      <p class="text-lg text-gray-400 mb-8">
+        The choice is obvious. The price is nothing. The results are everything.
+      </p>
+
+      <BuyButton
+        client:load
+        productId={product.id}
+        price={product.price}
+        label="BECOME A BEDROOM BOSS"
+        size="large"
+      />
+
+      <!-- Trust badges -->
+      <div class="flex flex-wrap justify-center gap-6 mt-8 text-gray-500 text-sm">
+        <span class="flex items-center gap-2">
+          <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd" />
+          </svg>
+          Secure Payment
+        </span>
+        <span class="flex items-center gap-2">
+          <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd" />
+          </svg>
+          Instant Access
+        </span>
+        <span class="flex items-center gap-2">
+          <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M2.166 4.999A11.954 11.954 0 0010 1.944 11.954 11.954 0 0017.834 5c.11.65.166 1.32.166 2.001 0 5.225-3.34 9.67-8 11.317C5.34 16.67 2 12.225 2 7c0-.682.057-1.35.166-2.001zm11.541 3.708a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+          </svg>
+          30-Day Guarantee
+        </span>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 14: STICKY BUY BAR -->
+  <StickyBuyBar
+    client:load
+    productId={product.id}
+    productName={product.name}
+    price={product.price}
+    compareAt={product.compareAt}
+  />
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  /* Override mobile nav padding for this page */
+  @media (max-width: 767px) {
+    :global(body) {
+      /* Extra padding for sticky buy bar */
+      padding-bottom: calc(80px + env(safe-area-inset-bottom, 0px)) !important;
+    }
+  }
+</style>

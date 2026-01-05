@@ -1,0 +1,66 @@
+---
+/**
+ * PriceDisplay Component
+ * Handles price formatting with optional compare-at pricing
+ */
+
+interface Props {
+  price: number;
+  compareAt?: number;
+  currency?: 'USD' | 'EUR';
+  size?: 'small' | 'default' | 'large';
+  showSavings?: boolean;
+}
+
+const {
+  price,
+  compareAt,
+  currency = 'USD',
+  size = 'default',
+  showSavings = true
+} = Astro.props;
+
+const formatter = new Intl.NumberFormat('en-US', {
+  style: 'currency',
+  currency,
+  minimumFractionDigits: 0,
+});
+
+const savings = compareAt ? Math.round((1 - price / compareAt) * 100) : 0;
+
+const sizeClasses = {
+  small: 'text-lg',
+  default: 'text-3xl',
+  large: 'text-5xl'
+};
+
+const compareSizeClasses = {
+  small: 'text-sm',
+  default: 'text-xl',
+  large: 'text-2xl'
+};
+---
+
+<div class="flex items-baseline gap-3 flex-wrap">
+  {compareAt && (
+    <span class:list={[
+      "text-gray-500 line-through",
+      compareSizeClasses[size]
+    ]}>
+      {formatter.format(compareAt)}
+    </span>
+  )}
+
+  <span class:list={[
+    "text-white font-bold",
+    sizeClasses[size]
+  ]}>
+    {formatter.format(price)}
+  </span>
+
+  {compareAt && showSavings && savings > 0 && (
+    <span class="bg-gold text-black text-xs font-bold px-2 py-1 rounded">
+      SAVE {savings}%
+    </span>
+  )}
+</div>
