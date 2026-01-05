@@ -1,18 +1,23 @@
 /**
  * BuyButton Component
  * Triggers Stripe Checkout session
+ * Enhanced with better mobile sizing, price display, and pulse animation
  */
 
 import { useState } from 'react';
+
+declare const gtag: Function | undefined;
 
 interface BuyButtonProps {
   productId: string;
   productName?: string;
   variantId?: string;
   price: number;
+  compareAt?: number;
   label?: string;
   size?: 'default' | 'large';
   fullWidth?: boolean;
+  showPriceAbove?: boolean;
   className?: string;
 }
 
@@ -21,9 +26,11 @@ export default function BuyButton({
   productName = 'Product',
   variantId,
   price,
+  compareAt,
   label = 'GET INSTANT ACCESS',
   size = 'default',
   fullWidth = false,
+  showPriceAbove = false,
   className = ''
 }: BuyButtonProps) {
   const [loading, setLoading] = useState(false);
@@ -69,20 +76,37 @@ export default function BuyButton({
   };
 
   const sizeClasses = {
-    default: 'px-8 py-4 text-base',
-    large: 'px-10 py-5 text-lg'
+    default: 'px-8 py-4 text-base min-h-[56px]',
+    large: 'px-10 py-5 text-lg md:text-xl min-h-[60px] md:min-h-[64px]'
   };
 
   return (
-    <div className={fullWidth ? 'w-full' : ''}>
+    <div className={`${fullWidth ? 'w-full' : ''} ${showPriceAbove ? 'text-center' : ''}`}>
+      {/* Price display above button */}
+      {showPriceAbove && (
+        <div className="mb-4">
+          <div className="flex items-baseline justify-center gap-3">
+            {compareAt && (
+              <span className="text-gray-500 line-through text-xl">${compareAt}</span>
+            )}
+            <span className="text-white font-bold text-4xl md:text-5xl">${price}</span>
+          </div>
+          {compareAt && (
+            <p className="text-[#CFB53B] text-sm mt-1">
+              Save ${compareAt - price} ({Math.round(((compareAt - price) / compareAt) * 100)}% off)
+            </p>
+          )}
+        </div>
+      )}
+
       <button
         onClick={handleClick}
         disabled={loading}
         className={`
           ${sizeClasses[size]}
-          ${fullWidth ? 'w-full' : ''}
+          ${fullWidth ? 'w-[90%] md:w-full mx-auto' : ''}
           bg-[#A8001E] hover:bg-[#8B0018]
-          text-white font-semibold
+          text-white font-bold
           rounded-lg
           transition-all duration-200
           hover:-translate-y-0.5
@@ -90,7 +114,7 @@ export default function BuyButton({
           hover:shadow-[0_4px_20px_rgba(168,0,30,0.4)]
           disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none
           flex items-center justify-center gap-2
-          min-h-[44px]
+          animate-pulse-glow
           ${className}
         `}
       >
@@ -104,10 +128,12 @@ export default function BuyButton({
           </>
         ) : (
           <>
-            {label} — ${price}
-            <svg className="w-5 h-5 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-            </svg>
+            {label} {!showPriceAbove && <>→</>}
+            {!showPriceAbove && (
+              <svg className="w-5 h-5 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+              </svg>
+            )}
           </>
         )}
       </button>
@@ -115,6 +141,16 @@ export default function BuyButton({
       {error && (
         <p className="text-red-400 text-sm mt-2 text-center">{error}</p>
       )}
+
+      <style>{`
+        @keyframes pulse-glow {
+          0%, 100% { box-shadow: 0 0 20px rgba(168,0,30,0.3); }
+          50% { box-shadow: 0 0 35px rgba(168,0,30,0.5); }
+        }
+        .animate-pulse-glow {
+          animation: pulse-glow 2.5s ease-in-out infinite;
+        }
+      `}</style>
     </div>
   );
 }
