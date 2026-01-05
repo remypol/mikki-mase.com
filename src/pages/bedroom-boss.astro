@@ -284,13 +284,47 @@ const combinedSchema = [productSchema, faqSchema];
   <!-- SECTION 13: PRICING CARD -->
   <PricingCard product={product} features={features} />
 
-  <!-- SECTION 14: GUARANTEE -->
+  <!-- SECTION 14: NOT SURE YET - Preview Link -->
+  <section class="py-12 md:py-16 bg-gray-950">
+    <div class="max-w-xl mx-auto px-4 text-center">
+      <!-- Separator -->
+      <div class="flex items-center gap-4 mb-8">
+        <div class="flex-1 h-px bg-gray-800"></div>
+        <span class="text-gray-600 text-sm uppercase tracking-wider">or</span>
+        <div class="flex-1 h-px bg-gray-800"></div>
+      </div>
+
+      <!-- Preview CTA -->
+      <h3 class="text-white text-xl md:text-2xl font-semibold mb-3">
+        Not sure yet?
+      </h3>
+      <p class="text-gray-400 mb-6">
+        Read Chapter 1 free and see why 147 men rated this 4.9 stars.
+      </p>
+      <a
+        href="/bedroom-boss/preview"
+        class="inline-flex items-center gap-2 text-gold hover:text-gold-light font-semibold text-lg transition-colors group"
+        data-preview-link="not_sure_section"
+      >
+        <span class="text-xl">📖</span>
+        Read Free Preview
+        <svg class="w-5 h-5 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+        </svg>
+      </a>
+      <p class="text-gray-600 text-sm mt-4">
+        No email required. Start reading now.
+      </p>
+    </div>
+  </section>
+
+  <!-- SECTION 15: GUARANTEE -->
   <GuaranteeSeal days={30} />
 
-  <!-- SECTION 15: FAQ -->
+  <!-- SECTION 16: FAQ -->
   <FAQAccordion client:visible faqs={faqs} />
 
-  <!-- SECTION 16: FINAL CTA -->
+  <!-- SECTION 17: FINAL CTA -->
   <section class="py-16 md:py-24 bg-gradient-to-b from-gray-900 to-black">
     <div class="max-w-3xl mx-auto px-4 text-center">
       <h2 class="font-serif text-3xl md:text-5xl font-bold text-white mb-6">
@@ -338,7 +372,7 @@ const combinedSchema = [productSchema, faqSchema];
     </div>
   </section>
 
-  <!-- SECTION 17: STICKY BUY BAR -->
+  <!-- SECTION 18: STICKY BUY BAR -->
   <StickyBuyBar
     client:load
     productId={product.id}
@@ -368,6 +402,26 @@ const combinedSchema = [productSchema, faqSchema];
         }]
       });
       console.log('[GA4] view_item fired:', productId, productPrice);
+    })();
+  </script>
+
+  <!-- GA4: Track preview link clicks from sales page -->
+  <script is:inline>
+    (function() {
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+
+      // Track all preview link clicks
+      document.querySelectorAll('[data-preview-link]').forEach(function(link) {
+        link.addEventListener('click', function() {
+          var location = this.getAttribute('data-preview-link');
+          gtag('event', 'sales_to_preview', {
+            link_location: location,
+            page: 'bedroom-boss'
+          });
+          console.log('[GA4] sales_to_preview:', location);
+        });
+      });
     })();
   </script>
 </BaseLayout>

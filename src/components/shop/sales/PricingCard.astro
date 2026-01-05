@@ -73,6 +73,17 @@ const { product, features } = Astro.props;
             fullWidth={true}
           />
 
+          <!-- Preview link for hesitant visitors -->
+          <p class="text-center mt-3 mb-4">
+            <a
+              href="/bedroom-boss/preview"
+              class="text-gray-500 hover:text-gold text-sm transition-colors"
+              data-preview-link="below_cta"
+            >
+              or read Chapter 1 free first →
+            </a>
+          </p>
+
           <!-- Guarantee Badge -->
           <div class="text-center">
             <GuaranteeBadge days={30} />
