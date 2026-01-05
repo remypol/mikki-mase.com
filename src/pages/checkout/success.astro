@@ -162,7 +162,7 @@ if (sessionId) {
   <Footer />
 </BaseLayout>
 
-<!-- GA4 Ecommerce: Purchase Event -->
+<!-- GA4 Ecommerce: Purchase Event (with duplicate prevention) -->
 {product && sessionId && (
   <script
     is:inline
@@ -173,8 +173,15 @@ if (sessionId) {
       productPrice: product.price
     }}
   >
-    // Wait for gtag to be available, then fire purchase event
+    // Prevent duplicate purchase tracking on page refresh
+    const trackedKey = `purchase_tracked_${transactionId}`;
+
     function trackPurchase() {
+      // Check if this purchase was already tracked
+      if (sessionStorage.getItem(trackedKey)) {
+        return; // Already tracked, skip
+      }
+
       if (typeof gtag !== 'undefined') {
         gtag('event', 'purchase', {
           transaction_id: transactionId,
@@ -187,6 +194,8 @@ if (sessionId) {
             quantity: 1
           }]
         });
+        // Mark as tracked to prevent duplicates
+        sessionStorage.setItem(trackedKey, 'true');
       } else {
         // Retry after GA loads
         setTimeout(trackPurchase, 500);

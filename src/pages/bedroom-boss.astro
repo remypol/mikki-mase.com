@@ -350,6 +350,34 @@ const combinedSchema = [productSchema, faqSchema];
   <Footer />
 </BaseLayout>
 
+<!-- GA4 Ecommerce: view_item Event -->
+<script is:inline define:vars={{ productId: product.id, productName: product.name, productPrice: product.price }}>
+  // Track view_item when page loads
+  function trackViewItem() {
+    if (typeof gtag !== 'undefined') {
+      gtag('event', 'view_item', {
+        currency: 'USD',
+        value: productPrice,
+        items: [{
+          item_id: productId,
+          item_name: productName,
+          price: productPrice,
+          quantity: 1
+        }]
+      });
+    } else {
+      // Retry after GA loads
+      setTimeout(trackViewItem, 500);
+    }
+  }
+  // Fire on page load
+  if (document.readyState === 'complete') {
+    trackViewItem();
+  } else {
+    window.addEventListener('load', trackViewItem);
+  }
+</script>
+
 <style>
   /* Mobile-specific improvements for sales page */
   @media (max-width: 767px) {
