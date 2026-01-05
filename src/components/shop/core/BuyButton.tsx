@@ -7,6 +7,7 @@ import { useState } from 'react';
 
 interface BuyButtonProps {
   productId: string;
+  productName?: string;
   variantId?: string;
   price: number;
   label?: string;
@@ -17,6 +18,7 @@ interface BuyButtonProps {
 
 export default function BuyButton({
   productId,
+  productName = 'Product',
   variantId,
   price,
   label = 'GET INSTANT ACCESS',
@@ -44,12 +46,17 @@ export default function BuyButton({
 
       const { url } = await response.json();
 
-      // Track analytics
+      // Track GA4 ecommerce: begin_checkout
       if (typeof gtag !== 'undefined') {
         gtag('event', 'begin_checkout', {
           currency: 'USD',
           value: price,
-          items: [{ item_id: productId, item_name: label, price }]
+          items: [{
+            item_id: productId,
+            item_name: productName,
+            price: price,
+            quantity: 1
+          }]
         });
       }
 

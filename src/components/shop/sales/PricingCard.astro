@@ -61,6 +61,7 @@ const { product, features } = Astro.props;
           <BuyButton
             client:load
             productId={product.id}
+            productName={product.name}
             price={product.price}
             label="GET INSTANT ACCESS"
             size="large"

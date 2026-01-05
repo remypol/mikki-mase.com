@@ -5,6 +5,8 @@
 
 import { useState, useEffect } from 'react';
 
+declare const gtag: Function | undefined;
+
 interface StickyBuyBarProps {
   productId: string;
   productName: string;
@@ -52,6 +54,21 @@ export default function StickyBuyBar({
       });
 
       const { url } = await response.json();
+
+      // Track GA4 ecommerce: begin_checkout
+      if (typeof gtag !== 'undefined') {
+        gtag('event', 'begin_checkout', {
+          currency: 'USD',
+          value: price,
+          items: [{
+            item_id: productId,
+            item_name: productName,
+            price: price,
+            quantity: 1
+          }]
+        });
+      }
+
       window.location.href = url;
     } catch (err) {
       setLoading(false);
