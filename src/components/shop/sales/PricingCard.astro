@@ -6,6 +6,8 @@
 
 import BuyButton from '../core/BuyButton.tsx';
 import PriceDisplay from '../core/PriceDisplay.astro';
+import SocialProofBanner from './SocialProofBanner.astro';
+import GuaranteeBadge from './GuaranteeBadge.astro';
 import type { Product } from '../../../config/shop/types';
 
 interface Props {
@@ -18,6 +20,9 @@ const { product, features } = Astro.props;
 
 <section class="py-16 md:py-24 bg-black" data-pricing-card>
   <div class="max-w-2xl mx-auto px-4">
+
+    <!-- Social Proof Banner above card -->
+    <SocialProofBanner variant="full" />
 
     <!-- Card -->
     <div class="relative">
@@ -38,7 +43,7 @@ const { product, features } = Astro.props;
         <div class="px-6 py-8">
           <ul class="space-y-4 mb-8">
             {features.map(feature => (
-              <li class="flex items-center gap-3 text-gray-200">
+              <li class="flex items-center gap-3 text-gray-200 min-h-[48px]">
                 <svg class="w-5 h-5 text-gold flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                   <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
                 </svg>
@@ -68,8 +73,13 @@ const { product, features } = Astro.props;
             fullWidth={true}
           />
 
+          <!-- Guarantee Badge -->
+          <div class="text-center">
+            <GuaranteeBadge days={30} />
+          </div>
+
           <!-- Value comparison -->
-          <p class="text-gray-500 text-sm text-center mt-4">
+          <p class="text-gray-500 text-sm text-center mt-2">
             Less than one night out that goes nowhere.
           </p>
         </div>
