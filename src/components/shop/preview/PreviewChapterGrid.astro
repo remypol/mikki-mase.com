@@ -1,0 +1,67 @@
+---
+/**
+ * PreviewChapterGrid Component
+ * Shows the 10 locked chapters to create FOMO
+ */
+
+const chapters = [
+  { num: 2, title: "10 Bedroom Blunders That Ruin Good Sex" },
+  { num: 3, title: "Inside Her Mind — The 4 Stages of Female Arousal" },
+  { num: 4, title: "How to Make Her Orgasm Before You Even Touch Her" },
+  { num: 5, title: "Pre-Foreplay — How to Tease Her Into Total Submission" },
+  { num: 6, title: "Foreplay Like a God — Fingers, Tongue & Timing" },
+  { num: 7, title: "3 Positions That Practically Guarantee She'll Come" },
+  { num: 8, title: "The Aftercare That Makes Her Fall In Love" },
+  { num: 9, title: "7 Orgasms She Can Have — And How to Unlock Them All" },
+  { num: 10, title: "7 Psychological Triggers That Make Her Addicted to You" },
+  { num: 11, title: "One Night Stand? New Date? Long-Term? Adjust Like a King" },
+];
+---
+
+<section class="py-20 md:py-28 bg-gray-950">
+  <div class="container mx-auto px-6">
+    <div class="max-w-5xl mx-auto">
+      <!-- Section Header -->
+      <div class="text-center mb-12">
+        <h2 class="text-white text-2xl md:text-3xl font-bold uppercase tracking-wide mb-2">
+          The Other 10 Chapters
+        </h2>
+        <p class="text-gray-500">(What you're missing)</p>
+      </div>
+
+      <!-- Chapter Grid -->
+      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
+        {chapters.map((chapter) => (
+          <div class="chapter-card group">
+            <div class="flex items-start justify-between mb-3">
+              <span class="text-2xl">🔥</span>
+              <span class="text-gray-600 text-sm">🔒</span>
+            </div>
+            <span class="text-gold text-xs uppercase tracking-wider font-semibold">
+              Chapter {chapter.num}
+            </span>
+            <h3 class="text-white text-sm md:text-base font-semibold mt-2 leading-tight">
+              {chapter.title}
+            </h3>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .chapter-card {
+    background: #111111;
+    border: 1px solid #222222;
+    border-radius: 12px;
+    padding: 1.25rem;
+    transition: all 0.3s ease;
+  }
+
+  .chapter-card:hover {
+    border-color: rgba(207, 181, 59, 0.4);
+    transform: translateY(-2px);
+    background: #1A1A1A;
+  }
+</style>

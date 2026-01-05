@@ -1,0 +1,89 @@
+---
+/**
+ * PreviewWhatsInside Component
+ * Shows what's included in the free preview
+ */
+---
+
+<section class="py-20 md:py-28 bg-black">
+  <div class="container mx-auto px-6">
+    <div class="max-w-4xl mx-auto">
+      <!-- Section Header -->
+      <div class="text-center mb-12">
+        <h2 class="text-white text-2xl md:text-3xl font-bold uppercase tracking-wide">
+          Inside This Free Preview
+        </h2>
+      </div>
+
+      <!-- Two Cards -->
+      <div class="grid md:grid-cols-2 gap-6 md:gap-8">
+        <!-- Card 1: The Intro -->
+        <div class="preview-card group">
+          <div class="flex items-start gap-4 mb-4">
+            <span class="text-4xl">📖</span>
+            <div>
+              <span class="text-gold text-xs uppercase tracking-wider font-semibold">The Intro</span>
+              <h3 class="text-white text-xl font-bold mt-1">"The Night That Ruined Me"</h3>
+            </div>
+          </div>
+
+          <div class="text-gray-400 space-y-2 mb-6">
+            <p>The hotel room.</p>
+            <p>The silence.</p>
+            <p>The moaning next door.</p>
+            <p class="text-gray-300 font-medium mt-4">The moment everything broke.</p>
+          </div>
+
+          <div class="text-gray-500 text-sm">
+            Pages 1-7
+          </div>
+        </div>
+
+        <!-- Card 2: Chapter 1 -->
+        <div class="preview-card group">
+          <div class="flex items-start gap-4 mb-4">
+            <span class="text-4xl">🔥</span>
+            <div>
+              <span class="text-gold text-xs uppercase tracking-wider font-semibold">Chapter 1</span>
+              <h3 class="text-white text-xl font-bold mt-1">"The Lies That Are Castrating You"</h3>
+            </div>
+          </div>
+
+          <ul class="text-gray-400 space-y-3 mb-6">
+            <li class="flex items-start gap-2">
+              <span class="text-gray-600 mt-1">•</span>
+              <span>"My dick's too small"</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-gray-600 mt-1">•</span>
+              <span>"I need to last longer"</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-gray-600 mt-1">•</span>
+              <span>"I've slept with a lot of women"</span>
+            </li>
+          </ul>
+
+          <div class="text-gray-500 text-sm">
+            Pages 8-13
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .preview-card {
+    background: #111111;
+    border: 1px solid #222222;
+    border-radius: 16px;
+    padding: 1.75rem;
+    transition: all 0.3s ease;
+  }
+
+  .preview-card:hover {
+    border-color: rgba(207, 181, 59, 0.5);
+    background: #1A1A1A;
+  }
+</style>

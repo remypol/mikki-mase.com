@@ -1,0 +1,118 @@
+---
+/**
+ * PreviewHero Component
+ * Full viewport hero with book cover and CTA
+ */
+
+interface Props {
+  cover: string;
+  pdfUrl: string;
+}
+
+const { cover, pdfUrl } = Astro.props;
+---
+
+<section class="min-h-screen flex items-center justify-center relative bg-gradient-to-b from-gray-950 via-black to-black py-20 overflow-hidden">
+  <!-- Subtle background glow -->
+  <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-gold/5 blur-[150px] rounded-full pointer-events-none"></div>
+
+  <div class="container mx-auto px-6 relative z-10">
+    <div class="max-w-5xl mx-auto">
+      <div class="flex flex-col md:flex-row items-center gap-10 md:gap-16">
+        <!-- Left: Text Content -->
+        <div class="flex-1 text-center md:text-left">
+          <!-- Label -->
+          <span class="inline-block text-gold text-xs font-bold uppercase tracking-[0.2em] mb-6 px-3 py-1 border border-gold/30 rounded-full">
+            Free Preview
+          </span>
+
+          <!-- Headline -->
+          <h1 class="text-white font-serif text-4xl md:text-5xl lg:text-6xl font-bold leading-[1.1] mb-6">
+            The Night That<br/>
+            <span class="text-gold">Ruined Him</span>
+          </h1>
+
+          <p class="text-gray-300 text-xl md:text-2xl mb-4">
+            And the 3 lies killing YOUR sex life
+          </p>
+
+          <p class="text-gray-400 text-lg mb-8 max-w-lg mx-auto md:mx-0">
+            Read the raw intro + Chapter 1.<br/>
+            No email. No bullshit. Just truth.
+          </p>
+
+          <!-- CTA Button -->
+          <a
+            href="#preview-pdf"
+            class="inline-flex items-center gap-2 border-2 border-gold text-gold font-semibold px-8 py-4 rounded-xl transition-all duration-300 hover:bg-gold hover:text-black hover:-translate-y-0.5 mb-6"
+          >
+            READ THE PREVIEW
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+            </svg>
+          </a>
+
+          <!-- Stats -->
+          <div class="flex items-center justify-center md:justify-start gap-4 text-gray-500 text-sm">
+            <span class="flex items-center gap-1">
+              <span class="text-orange-500">🔥</span>
+              13 pages
+            </span>
+            <span class="text-gray-600">·</span>
+            <span>10 min read</span>
+            <span class="text-gray-600">·</span>
+            <span>2,847+ readers</span>
+          </div>
+        </div>
+
+        <!-- Right: Book Cover -->
+        <div class="flex-shrink-0">
+          <div class="book-cover-wrapper relative">
+            <img
+              src={cover}
+              alt="Bedroom Boss ebook cover"
+              class="book-cover w-48 md:w-64 lg:w-72 rounded-lg shadow-2xl"
+              loading="eager"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .book-cover-wrapper {
+    transform: rotate(3deg);
+    animation: float 6s ease-in-out infinite;
+  }
+
+  .book-cover {
+    box-shadow:
+      0 25px 80px rgba(207, 181, 59, 0.2),
+      0 10px 30px rgba(0, 0, 0, 0.5);
+    border: 1px solid rgba(207, 181, 59, 0.3);
+    transition: all 0.3s ease;
+  }
+
+  .book-cover-wrapper:hover .book-cover {
+    box-shadow:
+      0 30px 100px rgba(207, 181, 59, 0.3),
+      0 15px 40px rgba(0, 0, 0, 0.5);
+    transform: translateY(-5px);
+  }
+
+  @keyframes float {
+    0%, 100% {
+      transform: rotate(3deg) translateY(0);
+    }
+    50% {
+      transform: rotate(3deg) translateY(-10px);
+    }
+  }
+
+  /* Playfair Display for headlines */
+  h1 {
+    font-family: 'Playfair Display', Georgia, serif;
+  }
+</style>

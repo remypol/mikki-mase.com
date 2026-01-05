@@ -1,0 +1,135 @@
+---
+/**
+ * PreviewStickyBar Component
+ * Mobile-only sticky bar that appears after scrolling
+ * Hides when conversion box is in view
+ */
+
+interface Props {
+  price: number;
+}
+
+const { price } = Astro.props;
+---
+
+<div id="preview-sticky-bar" class="preview-sticky-bar">
+  <div class="sticky-content">
+    <!-- Left: Mini progress -->
+    <div class="flex items-center gap-3">
+      <div class="w-16 h-1.5 bg-gray-700 rounded-full overflow-hidden">
+        <div class="w-[9%] h-full bg-gold rounded-full"></div>
+      </div>
+      <span class="text-gray-400 text-xs">1/11</span>
+    </div>
+
+    <!-- Right: CTA Button -->
+    <a
+      href="/bedroom-boss"
+      class="sticky-cta"
+      data-cta-location="sticky_bar"
+    >
+      GET FULL PLAYBOOK — ${price}
+    </a>
+  </div>
+</div>
+
+<style>
+  .preview-sticky-bar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 50;
+    background: rgba(10, 10, 10, 0.95);
+    backdrop-filter: blur(20px);
+    border-top: 1px solid #222222;
+    padding: 0.75rem 1rem;
+    padding-bottom: calc(0.75rem + env(safe-area-inset-bottom, 0px));
+    transform: translateY(100%);
+    opacity: 0;
+    transition: all 0.3s ease;
+    pointer-events: none;
+
+    /* Hide on desktop */
+    display: none;
+  }
+
+  @media (max-width: 767px) {
+    .preview-sticky-bar {
+      display: block;
+    }
+
+    .preview-sticky-bar.visible {
+      transform: translateY(0);
+      opacity: 1;
+      pointer-events: auto;
+    }
+  }
+
+  .sticky-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 100%;
+  }
+
+  .sticky-cta {
+    background: #DC2626;
+    color: white;
+    font-weight: 700;
+    font-size: 0.875rem;
+    padding: 0.75rem 1.25rem;
+    border-radius: 8px;
+    white-space: nowrap;
+    transition: all 0.2s ease;
+  }
+
+  .sticky-cta:hover,
+  .sticky-cta:active {
+    background: #EF4444;
+    transform: scale(1.02);
+  }
+</style>
+
+<script>
+  const stickyBar = document.getElementById('preview-sticky-bar');
+  const conversionBox = document.getElementById('conversion-box');
+  const heroSection = document.querySelector('section'); // First section is hero
+
+  if (stickyBar && conversionBox && heroSection) {
+    let scrollThreshold = 300;
+
+    // Observer for conversion box
+    const conversionObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          stickyBar.classList.remove('visible');
+        } else if (window.scrollY > scrollThreshold) {
+          stickyBar.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.1 });
+
+    conversionObserver.observe(conversionBox);
+
+    // Show/hide based on scroll position
+    let ticking = false;
+    window.addEventListener('scroll', function() {
+      if (!ticking) {
+        window.requestAnimationFrame(function() {
+          const conversionRect = conversionBox.getBoundingClientRect();
+          const isConversionVisible = conversionRect.top < window.innerHeight && conversionRect.bottom > 0;
+
+          if (window.scrollY > scrollThreshold && !isConversionVisible) {
+            stickyBar.classList.add('visible');
+          } else {
+            stickyBar.classList.remove('visible');
+          }
+
+          ticking = false;
+        });
+        ticking = true;
+      }
+    }, { passive: true });
+  }
+</script>

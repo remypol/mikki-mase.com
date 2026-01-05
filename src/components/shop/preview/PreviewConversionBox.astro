@@ -1,0 +1,168 @@
+---
+/**
+ * PreviewConversionBox Component
+ * Main purchase CTA with progress bar and testimonial
+ */
+
+interface Props {
+  price: number;
+  compareAt?: number;
+}
+
+const { price, compareAt } = Astro.props;
+const savings = compareAt ? Math.round(((compareAt - price) / compareAt) * 100) : 0;
+---
+
+<section id="conversion-box" class="py-20 md:py-28 bg-black">
+  <div class="container mx-auto px-6">
+    <div class="max-w-xl mx-auto">
+      <!-- Progress Bar -->
+      <div class="mb-8">
+        <div class="flex items-center justify-between text-sm text-gray-500 mb-2">
+          <span>Your progress</span>
+          <span>1 of 11 chapters read</span>
+        </div>
+        <div class="h-2 bg-gray-800 rounded-full overflow-hidden">
+          <div class="progress-fill h-full bg-gold rounded-full" style="width: 0%"></div>
+        </div>
+      </div>
+
+      <!-- Conversion Card -->
+      <div class="conversion-card">
+        <!-- Header -->
+        <h2 class="text-white text-2xl md:text-3xl font-bold text-center mb-6">
+          GET THE FULL PLAYBOOK
+        </h2>
+
+        <!-- Checklist -->
+        <ul class="space-y-3 mb-8">
+          <li class="flex items-center gap-3 text-gray-300">
+            <svg class="w-5 h-5 text-gold flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+            </svg>
+            All 11 chapters (184 pages)
+          </li>
+          <li class="flex items-center gap-3 text-gray-300">
+            <svg class="w-5 h-5 text-gold flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+            </svg>
+            Complete method, not just mindset
+          </li>
+          <li class="flex items-center gap-3 text-gray-300">
+            <svg class="w-5 h-5 text-gold flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+            </svg>
+            Instant PDF download
+          </li>
+          <li class="flex items-center gap-3 text-gray-300">
+            <svg class="w-5 h-5 text-gold flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+            </svg>
+            60-day "She's Shaking" guarantee
+          </li>
+        </ul>
+
+        <!-- Price -->
+        <div class="text-center mb-6">
+          <div class="flex items-baseline justify-center gap-3">
+            {compareAt && (
+              <span class="text-gray-500 line-through text-xl">${compareAt}</span>
+            )}
+            <span class="text-gold font-bold text-5xl">${price}</span>
+          </div>
+          {savings > 0 && (
+            <span class="inline-block mt-2 bg-gold/20 text-gold text-sm font-semibold px-3 py-1 rounded-full">
+              SAVE {savings}%
+            </span>
+          )}
+        </div>
+
+        <!-- CTA Button -->
+        <a
+          href="/bedroom-boss"
+          class="block w-full bg-[#DC2626] hover:bg-[#EF4444] text-white font-bold text-xl text-center py-5 rounded-xl transition-all duration-200 hover:scale-[1.02] mb-6 animate-pulse-glow"
+          data-cta-location="conversion_box"
+        >
+          <span class="flex items-center justify-center gap-2">
+            GET ALL 11 CHAPTERS — ${price}
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+            </svg>
+          </span>
+        </a>
+
+        <!-- Trust Icons -->
+        <div class="flex items-center justify-center gap-6 text-gray-500 text-sm mb-8">
+          <span class="flex items-center gap-1">
+            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd" />
+            </svg>
+            Secure checkout
+          </span>
+          <span class="flex items-center gap-1">
+            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z" clip-rule="evenodd" />
+            </svg>
+            Instant access
+          </span>
+        </div>
+
+        <!-- Divider -->
+        <div class="h-px bg-gray-800 mb-8"></div>
+
+        <!-- Testimonial -->
+        <blockquote class="text-center">
+          <p class="text-gray-400 italic mb-3">
+            "Chapter 1 showed me the problem. Chapter 6 made her cancel her Sunday plans to stay in bed."
+          </p>
+          <cite class="text-gold text-sm not-italic font-medium">— T.K., Miami</cite>
+        </blockquote>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .conversion-card {
+    background: #111111;
+    border: 2px solid #CFB53B;
+    border-radius: 24px;
+    padding: 2.5rem;
+    box-shadow: 0 0 80px rgba(207, 181, 59, 0.15);
+  }
+
+  @keyframes pulse-glow {
+    0%, 100% { box-shadow: 0 0 20px rgba(220, 38, 38, 0.4); }
+    50% { box-shadow: 0 0 40px rgba(220, 38, 38, 0.6); }
+  }
+
+  .animate-pulse-glow {
+    animation: pulse-glow 2s ease-in-out infinite;
+  }
+
+  @keyframes fill-progress {
+    from { width: 0%; }
+    to { width: 9%; }
+  }
+
+  .progress-fill.animate {
+    animation: fill-progress 1s ease-out forwards;
+  }
+</style>
+
+<script>
+  // Animate progress bar when in view
+  const progressFill = document.querySelector('.progress-fill');
+  if (progressFill) {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          progressFill.classList.add('animate');
+          observer.disconnect();
+        }
+      });
+    }, { threshold: 0.5 });
+
+    observer.observe(progressFill);
+  }
+</script>

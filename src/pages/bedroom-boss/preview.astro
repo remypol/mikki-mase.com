@@ -1,0 +1,150 @@
+---
+/**
+ * Bedroom Boss Free Preview Page
+ * High-converting landing page for cold traffic
+ * Goal: Get users to read Chapter 1 → convert to $47 purchase
+ */
+
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import PreviewHero from '../../components/shop/preview/PreviewHero.astro';
+import PreviewWhatsInside from '../../components/shop/preview/PreviewWhatsInside.astro';
+import PreviewPDFCard from '../../components/shop/preview/PreviewPDFCard.astro';
+import PreviewChapterGrid from '../../components/shop/preview/PreviewChapterGrid.astro';
+import PreviewConversionBox from '../../components/shop/preview/PreviewConversionBox.astro';
+import PreviewStickyBar from '../../components/shop/preview/PreviewStickyBar.astro';
+
+import { bedroomBoss } from '../../config/shop/products';
+
+const product = bedroomBoss;
+const pdfUrl = 'https://pub-5da1fec1f5ee477585a0dcc3b9e811d0.r2.dev/Preview%20Bedroom%20Boss%20E-book%20.pdf';
+
+// SEO
+const title = "Free Preview: Bedroom Boss Chapter 1 | Mikki Mase";
+const description = "Read the raw intro + Chapter 1 of Bedroom Boss free. No email. No bullshit. Just truth. 13 pages that reveal the 3 lies killing your sex life.";
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  ogImage="/images/shop/bedroom-boss-cover.png"
+>
+  <Header />
+
+  <main>
+    <!-- Section 1: Hero -->
+    <PreviewHero
+      cover={product.cover}
+      pdfUrl={pdfUrl}
+    />
+
+    <!-- Section 2: What's Inside -->
+    <PreviewWhatsInside />
+
+    <!-- Section 3: PDF Access -->
+    <PreviewPDFCard pdfUrl={pdfUrl} />
+
+    <!-- Section 4: Post-Reading CTA -->
+    <section class="py-20 md:py-28 bg-black">
+      <div class="container mx-auto px-6 text-center">
+        <div class="max-w-2xl mx-auto">
+          <div class="flex items-center justify-center gap-4 mb-6">
+            <div class="h-px w-12 bg-gradient-to-r from-transparent to-gold/50"></div>
+            <span class="text-gold text-sm uppercase tracking-widest">After Reading</span>
+            <div class="h-px w-12 bg-gradient-to-l from-transparent to-gold/50"></div>
+          </div>
+          <p class="text-gray-400 text-lg italic mb-4">You just read the "why."</p>
+          <h2 class="text-white text-3xl md:text-4xl font-bold">Ready for the "how"?</h2>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 5: Remaining Chapters -->
+    <PreviewChapterGrid />
+
+    <!-- Section 6: Conversion Box -->
+    <PreviewConversionBox
+      price={product.price}
+      compareAt={product.compareAt}
+    />
+
+    <!-- Section 7: Final CTA -->
+    <section class="py-20 md:py-28 bg-gradient-to-b from-black to-gray-950">
+      <div class="container mx-auto px-6 text-center">
+        <p class="text-gray-400 text-lg mb-4">You've seen the lies.</p>
+        <p class="text-white text-xl md:text-2xl font-semibold mb-8">
+          The other 10 chapters show you what to do instead.
+        </p>
+        <a
+          href="/bedroom-boss"
+          class="inline-flex items-center gap-2 bg-[#DC2626] hover:bg-[#EF4444] text-white font-bold text-lg px-8 py-4 rounded-xl transition-all duration-200 hover:scale-[1.02] shadow-[0_0_30px_rgba(220,38,38,0.3)] animate-pulse-glow"
+          data-cta-location="final_cta"
+        >
+          GET THE FULL PLAYBOOK — $47
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+          </svg>
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <!-- Mobile Sticky Bar -->
+  <PreviewStickyBar
+    price={product.price}
+  />
+
+  <Footer />
+
+  <!-- GA4 Tracking for Preview Page -->
+  <script is:inline>
+    (function() {
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+
+      // Track page view
+      gtag('event', 'view_preview_page');
+      console.log('[GA4] view_preview_page fired');
+
+      // Track CTA clicks
+      document.addEventListener('DOMContentLoaded', function() {
+        // Open Preview clicks
+        document.querySelectorAll('[data-action="open-preview"]').forEach(function(btn) {
+          btn.addEventListener('click', function() {
+            gtag('event', 'preview_pdf_open', { method: 'new_tab' });
+            console.log('[GA4] preview_pdf_open fired');
+          });
+        });
+
+        // Download PDF clicks
+        document.querySelectorAll('[data-action="download-preview"]').forEach(function(btn) {
+          btn.addEventListener('click', function() {
+            gtag('event', 'preview_pdf_download');
+            console.log('[GA4] preview_pdf_download fired');
+          });
+        });
+
+        // Purchase CTA clicks
+        document.querySelectorAll('[data-cta-location]').forEach(function(btn) {
+          btn.addEventListener('click', function() {
+            var location = btn.getAttribute('data-cta-location');
+            gtag('event', 'preview_to_purchase', { button_location: location });
+            console.log('[GA4] preview_to_purchase fired:', location);
+          });
+        });
+      });
+    })();
+  </script>
+</BaseLayout>
+
+<style>
+  @keyframes pulse-glow {
+    0%, 100% { box-shadow: 0 0 20px rgba(220, 38, 38, 0.4); }
+    50% { box-shadow: 0 0 40px rgba(220, 38, 38, 0.6); }
+  }
+
+  .animate-pulse-glow {
+    animation: pulse-glow 2s ease-in-out infinite;
+  }
+</style>

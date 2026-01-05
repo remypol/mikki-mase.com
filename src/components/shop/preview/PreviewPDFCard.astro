@@ -1,0 +1,94 @@
+---
+/**
+ * PreviewPDFCard Component
+ * Main action section for accessing the PDF
+ */
+
+interface Props {
+  pdfUrl: string;
+}
+
+const { pdfUrl } = Astro.props;
+---
+
+<section id="preview-pdf" class="py-20 md:py-28 bg-gradient-to-b from-black to-gray-950">
+  <div class="container mx-auto px-6">
+    <div class="max-w-md mx-auto">
+      <!-- Glass Card -->
+      <div class="pdf-card">
+        <!-- Header -->
+        <div class="text-center mb-8">
+          <div class="inline-flex items-center gap-2 text-gold text-sm font-semibold mb-3">
+            <span class="text-2xl">📖</span>
+            FREE PREVIEW
+          </div>
+          <p class="text-gray-400">13 pages · 10 min read</p>
+        </div>
+
+        <!-- Primary CTA -->
+        <a
+          href={pdfUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="block w-full bg-gold hover:bg-gold-light text-black font-bold text-lg text-center py-4 rounded-xl transition-all duration-200 hover:scale-[1.02] mb-4"
+          data-action="open-preview"
+        >
+          <span class="flex items-center justify-center gap-2">
+            OPEN PREVIEW
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+            </svg>
+          </span>
+        </a>
+
+        <!-- Secondary Link -->
+        <a
+          href={pdfUrl}
+          download="Bedroom-Boss-Preview.pdf"
+          class="block text-center text-gray-400 hover:text-gold text-sm transition-colors hover:underline mb-6"
+          data-action="download-preview"
+        >
+          ↓ Download PDF instead
+        </a>
+
+        <!-- Trust Text -->
+        <div class="text-center text-gray-500 text-sm space-y-1">
+          <p>No email required.</p>
+          <p>Start reading now.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .pdf-card {
+    background: rgba(17, 17, 17, 0.8);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(207, 181, 59, 0.3);
+    border-radius: 24px;
+    padding: 2.5rem;
+    box-shadow: 0 0 60px rgba(207, 181, 59, 0.15);
+  }
+
+  /* Preload PDF on hover */
+  a[data-action="open-preview"]:hover {
+    /* Browser will preload the link */
+  }
+</style>
+
+<script>
+  // Preload PDF when hovering over button
+  const openBtn = document.querySelector('[data-action="open-preview"]');
+  if (openBtn) {
+    openBtn.addEventListener('mouseenter', function() {
+      const href = this.getAttribute('href');
+      if (href) {
+        const link = document.createElement('link');
+        link.rel = 'prefetch';
+        link.href = href;
+        document.head.appendChild(link);
+      }
+    }, { once: true });
+  }
+</script>

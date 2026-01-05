@@ -64,6 +64,11 @@ const isSalesPage = salesPages.some(page => currentPath.startsWith(page));
       </button>
     </div>
     <div class="mobile-more-links">
+      <!-- Free Preview - Gold accent -->
+      <a href="/bedroom-boss/preview" class="mobile-more-link mobile-more-preview">
+        <span class="flex items-center gap-2">🎁 Free Preview</span>
+        <span class="mobile-more-desc">Read Chapter 1 free</span>
+      </a>
       <!-- Bedroom Boss - Featured at top -->
       <a href="/bedroom-boss" class="mobile-more-link mobile-more-featured">
         <span class="flex items-center gap-2">🔥 Bedroom Boss</span>
@@ -287,6 +292,23 @@ const isSalesPage = salesPages.some(page => currentPath.startsWith(page));
   .mobile-more-desc {
     font-size: 12px;
     color: rgba(255, 255, 255, 0.5);
+  }
+
+  /* Preview link (Free Preview) */
+  .mobile-more-preview {
+    grid-column: span 2;
+    background: linear-gradient(to right, rgba(16, 185, 129, 0.15), transparent);
+    border: 1px solid rgba(16, 185, 129, 0.3);
+  }
+
+  .mobile-more-preview span:first-child {
+    color: #10B981;
+  }
+
+  .mobile-more-preview:hover,
+  .mobile-more-preview:active {
+    background: rgba(16, 185, 129, 0.2);
+    border-color: rgba(16, 185, 129, 0.5);
   }
 
   /* Featured link (Bedroom Boss) */
