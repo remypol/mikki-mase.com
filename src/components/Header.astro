@@ -97,6 +97,12 @@ const ariaCurrent = (href: string) => isActive(href) ? "page" : undefined;
       <!-- Tools Link -->
       <a href="/tools" class={navLinkClass('/tools')} aria-current={ariaCurrent('/tools')}>Tools</a>
 
+      <!-- Bedroom Boss Link (Shop) -->
+      <a href="/bedroom-boss" class="flex items-center gap-1.5 text-gold hover:text-gold-light transition-colors font-medium">
+        Bedroom Boss
+        <span class="text-[10px] bg-[#A8001E] text-white px-1.5 py-0.5 rounded font-bold uppercase">New</span>
+      </a>
+
       <!-- Join Community CTA -->
       <a href="/join" class="btn btn-primary">
         Join Community
@@ -123,6 +129,12 @@ const ariaCurrent = (href: string) => isActive(href) ? "page" : undefined;
     class="hidden md:hidden bg-gray-900 border-t border-gray-800"
   >
     <div class="px-4 py-4 flex flex-col gap-4">
+      <!-- Bedroom Boss - Featured at top -->
+      <a href="/bedroom-boss" class="flex items-center justify-between py-3 px-4 bg-gradient-to-r from-gold/10 to-transparent border border-gold/30 rounded-lg">
+        <span class="text-gold font-semibold">Bedroom Boss</span>
+        <span class="text-[10px] bg-[#A8001E] text-white px-1.5 py-0.5 rounded font-bold uppercase">New</span>
+      </a>
+
       <a href="/story" class={`${navLinkClass('/story')} py-2`}>Story</a>
       <a href="/wins" class={`${navLinkClass('/wins')} py-2`}>Wins</a>
       <a href="/the-system" class={`${navLinkClass('/the-system')} py-2`}>Strategy</a>

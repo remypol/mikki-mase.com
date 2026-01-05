@@ -1,0 +1,112 @@
+---
+/**
+ * ShopPromo Component
+ * Homepage promotional section for Bedroom Boss ebook
+ */
+
+import { bedroomBoss } from '../config/shop/products';
+
+const product = bedroomBoss;
+---
+
+<section class="bg-gradient-to-b from-gray-950 to-black py-20 md:py-28 relative overflow-hidden">
+  <!-- Subtle gold glow -->
+  <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[400px] bg-gold/5 blur-[120px] rounded-full"></div>
+
+  <div class="container mx-auto px-6 relative z-10">
+    <div class="max-w-5xl mx-auto">
+      <!-- Header -->
+      <div class="text-center mb-10 md:mb-14">
+        <span class="inline-flex items-center gap-2 text-[#A8001E] text-sm font-bold uppercase tracking-wider mb-4">
+          <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M12.395 2.553a1 1 0 00-1.45-.385c-.345.23-.614.558-.822.88-.214.33-.403.713-.57 1.116-.334.804-.614 1.768-.84 2.734a31.365 31.365 0 00-.613 3.58 2.64 2.64 0 01-.945-1.067c-.328-.68-.398-1.534-.398-2.654A1 1 0 005.05 6.05 6.981 6.981 0 003 11a7 7 0 1011.95-4.95c-.592-.591-.98-.985-1.348-1.467-.363-.476-.724-1.063-1.207-2.03zM12.12 15.12A3 3 0 017 13s.879.5 2.5.5c0-1 .5-4 1.25-4.5.5 1 .786 1.293 1.371 1.879A2.99 2.99 0 0113 13a2.99 2.99 0 01-.879 2.121z" clip-rule="evenodd" />
+          </svg>
+          New Release
+        </span>
+        <h2 class="text-white text-3xl md:text-5xl font-bold mb-4">
+          {product.name}
+        </h2>
+        <p class="text-gray-400 text-lg md:text-xl max-w-2xl mx-auto">
+          The playbook decoded from the most talked-about high-roller lifestyle ever lived.
+        </p>
+      </div>
+
+      <!-- Product Card -->
+      <div class="flex flex-col md:flex-row items-center gap-8 md:gap-12 bg-gray-900/50 border border-gold/20 rounded-2xl p-6 md:p-10">
+        <!-- Book Cover -->
+        <div class="flex-shrink-0 relative">
+          <div class="absolute -inset-4 bg-gold/10 blur-2xl rounded-full"></div>
+          <img
+            src={product.cover}
+            alt={`${product.name} cover`}
+            class="relative w-48 md:w-56 rounded-lg shadow-2xl"
+            loading="lazy"
+          />
+        </div>
+
+        <!-- Content -->
+        <div class="flex-1 text-center md:text-left">
+          <p class="text-gold text-sm uppercase tracking-wider mb-3">{product.tagline}</p>
+
+          <ul class="space-y-3 mb-6">
+            <li class="flex items-center gap-3 text-gray-300 justify-center md:justify-start">
+              <svg class="w-5 h-5 text-gold flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+              </svg>
+              11 chapters of pure strategy
+            </li>
+            <li class="flex items-center gap-3 text-gray-300 justify-center md:justify-start">
+              <svg class="w-5 h-5 text-gold flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+              </svg>
+              Instant PDF download
+            </li>
+            <li class="flex items-center gap-3 text-gray-300 justify-center md:justify-start">
+              <svg class="w-5 h-5 text-gold flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+              </svg>
+              30-day money-back guarantee
+            </li>
+          </ul>
+
+          <!-- Price + CTA -->
+          <div class="flex flex-col sm:flex-row items-center gap-4 justify-center md:justify-start">
+            <div class="flex items-baseline gap-2">
+              {product.compareAt && (
+                <span class="text-gray-500 line-through text-lg">${product.compareAt}</span>
+              )}
+              <span class="text-white font-bold text-3xl">${product.price}</span>
+            </div>
+
+            <a
+              href="/bedroom-boss"
+              class="inline-flex items-center gap-2 bg-[#A8001E] hover:bg-[#8B0018] text-white font-bold px-8 py-4 rounded-lg transition-all duration-200 hover:-translate-y-0.5 shadow-lg hover:shadow-[0_4px_20px_rgba(168,0,30,0.4)]"
+            >
+              GET THE PLAYBOOK
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+              </svg>
+            </a>
+          </div>
+
+          <!-- Trust badges -->
+          <div class="flex flex-wrap items-center gap-4 justify-center md:justify-start mt-4 text-gray-500 text-sm">
+            <span class="flex items-center gap-1">
+              <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd" />
+              </svg>
+              Secure checkout
+            </span>
+            <span class="flex items-center gap-1">
+              <svg class="w-4 h-4 text-gold" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+              </svg>
+              4.9/5 rating
+            </span>
+            <span>2,847+ downloads</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
