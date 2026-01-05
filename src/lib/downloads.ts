@@ -94,12 +94,12 @@ export function verifyDownloadToken(token: string): VerifyResult {
 // ============================================
 
 /**
- * Get download file path for a product
- * In production, these files should be in a private location
+ * Get download file URL for a product
+ * Files are hosted on Cloudflare R2
  */
 export function getDownloadPath(productId: string): string {
   const paths: Record<string, string> = {
-    'bedroom-boss': '/downloads/bedroom-boss.pdf',
+    'bedroom-boss': 'https://pub-5da1fec1f5ee477585a0dcc3b9e811d0.r2.dev/bedroom-boss.pdf',
     // Add more products as needed
   };
 
