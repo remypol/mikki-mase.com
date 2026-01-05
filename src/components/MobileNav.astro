@@ -1,8 +1,14 @@
 ---
 // Mobile bottom navigation - sticky on mobile, hidden on desktop
 // Key actions: Home, Story, Wins, More (dropdown), Join Community
+// Hidden on sales pages that have their own sticky CTA bar
+
+const currentPath = Astro.url.pathname;
+const salesPages = ['/bedroom-boss'];
+const isSalesPage = salesPages.some(page => currentPath.startsWith(page));
 ---
 
+{!isSalesPage && (
 <nav class="mobile-nav md:hidden" aria-label="Mobile navigation">
   <a href="/" class="mobile-nav-item" aria-label="Home">
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="mobile-nav-icon">
@@ -42,7 +48,9 @@
     <span class="mobile-nav-label">Join</span>
   </a>
 </nav>
+)}
 
+{!isSalesPage && (
 <!-- More dropdown menu (slides up from bottom) -->
 <div id="mobile-more-menu" class="mobile-more-menu md:hidden" aria-hidden="true">
   <div class="mobile-more-backdrop"></div>
@@ -88,6 +96,7 @@
     </div>
   </div>
 </div>
+)}
 
 <style>
   .mobile-nav {

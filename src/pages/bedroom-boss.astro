@@ -230,46 +230,49 @@ const combinedSchema = [productSchema, faqSchema];
   </section>
 
   <!-- SECTION 11: AUTHORITY SECTION -->
-  <section class="py-16 md:py-24 bg-black">
+  <section class="py-20 md:py-24 bg-black">
     <div class="max-w-4xl mx-auto px-4">
-      <h2 class="font-serif text-2xl md:text-3xl font-bold text-white text-center mb-12">
+      <h2 class="font-serif text-2xl md:text-3xl font-bold text-white text-center mb-10 md:mb-12">
         The Man Behind the Method
       </h2>
 
-      <div class="grid md:grid-cols-2 gap-8 items-center">
-        <div class="text-center md:text-left">
-          <div class="space-y-4 text-lg">
-            <p class="flex items-center gap-3 justify-center md:justify-start">
-              <span class="text-gold font-bold">$32M+</span>
-              <span class="text-gray-300">in verified winnings</span>
-            </p>
-            <p class="flex items-center gap-3 justify-center md:justify-start">
-              <span class="text-gold font-bold">150+</span>
-              <span class="text-gray-300">casino bans worldwide</span>
-            </p>
-            <p class="flex items-center gap-3 justify-center md:justify-start">
-              <span class="text-gold font-bold">Featured in</span>
-              <span class="text-gray-300">NELK, Bert Kreischer, Soft White Underbelly</span>
-            </p>
-          </div>
-
-          <div class="flex flex-wrap gap-4 mt-8 justify-center md:justify-start">
-            <a href="/story" class="text-gold hover:text-gold-light underline underline-offset-4">
-              Read His Full Story →
-            </a>
-            <a href="/banned" class="text-gold hover:text-gold-light underline underline-offset-4">
-              See the Casino Bans →
-            </a>
-          </div>
-        </div>
-
-        <div class="flex justify-center">
+      <div class="flex flex-col md:grid md:grid-cols-2 gap-10 md:gap-8 items-center">
+        <!-- Image first on mobile -->
+        <div class="flex justify-center order-1 md:order-2">
           <img
             src="/images/mikki-main-2.webp"
             alt="Mikki Mase"
-            class="w-64 h-64 md:w-80 md:h-80 object-cover rounded-xl border-2 border-gold/30"
+            class="w-56 h-56 md:w-80 md:h-80 object-cover rounded-xl border-2 border-gold/30"
             loading="lazy"
           />
+        </div>
+
+        <!-- Stats second on mobile -->
+        <div class="text-center md:text-left order-2 md:order-1">
+          <!-- Stats grid - stacked on mobile -->
+          <div class="grid grid-cols-1 gap-4 md:space-y-4 md:block mb-8">
+            <div class="flex flex-col md:flex-row items-center md:items-center gap-1 md:gap-3 py-3 md:py-0 border-b border-gray-800 md:border-0">
+              <span class="text-gold font-bold text-2xl md:text-lg">$32M+</span>
+              <span class="text-gray-300 text-base md:text-lg">in verified winnings</span>
+            </div>
+            <div class="flex flex-col md:flex-row items-center md:items-center gap-1 md:gap-3 py-3 md:py-0 border-b border-gray-800 md:border-0">
+              <span class="text-gold font-bold text-2xl md:text-lg">150+</span>
+              <span class="text-gray-300 text-base md:text-lg">casino bans worldwide</span>
+            </div>
+            <div class="flex flex-col md:flex-row items-center md:items-center gap-1 md:gap-3 py-3 md:py-0">
+              <span class="text-gold font-bold text-sm md:text-lg uppercase tracking-wide">Featured in</span>
+              <span class="text-gray-300 text-sm md:text-lg">NELK, Bert Kreischer, Soft White Underbelly</span>
+            </div>
+          </div>
+
+          <div class="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center md:justify-start">
+            <a href="/story" class="text-gold hover:text-gold-light underline underline-offset-4 py-2">
+              Read His Full Story →
+            </a>
+            <a href="/banned" class="text-gold hover:text-gold-light underline underline-offset-4 py-2">
+              See the Casino Bans →
+            </a>
+          </div>
         </div>
       </div>
     </div>
@@ -348,11 +351,28 @@ const combinedSchema = [productSchema, faqSchema];
 </BaseLayout>
 
 <style>
-  /* Override mobile nav padding for this page */
+  /* Mobile-specific improvements for sales page */
   @media (max-width: 767px) {
     :global(body) {
       /* Extra padding for sticky buy bar */
       padding-bottom: calc(80px + env(safe-area-inset-bottom, 0px)) !important;
+    }
+
+    /* Increase line-height for better readability on mobile */
+    :global(.text-lg),
+    :global(.text-xl) {
+      line-height: 1.75 !important;
+    }
+
+    :global(.text-gray-300),
+    :global(.text-gray-400) {
+      line-height: 1.7;
+    }
+
+    /* Increase vertical spacing between sections on mobile */
+    :global(section.py-16) {
+      padding-top: 5rem;
+      padding-bottom: 5rem;
     }
   }
 </style>
