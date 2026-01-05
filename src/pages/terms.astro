@@ -1,0 +1,231 @@
+---
+/**
+ * Terms of Service Page
+ * Legal terms for SFM Studios BV
+ */
+
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+
+const title = "Terms of Service | Mikki Mase";
+const description = "Terms of Service for mikki-mase.com - Terms and conditions for purchasing from SFM Studios BV.";
+---
+
+<BaseLayout title={title} description={description} noIndex={true}>
+  <Header />
+
+  <main id="main-content" class="bg-black min-h-screen">
+    <div class="max-w-3xl mx-auto px-4 py-16 md:py-24">
+
+      <h1 class="font-serif text-4xl md:text-5xl font-bold text-white mb-8">Terms of Service</h1>
+
+      <p class="text-gray-400 mb-12">Last updated: January 5, 2026</p>
+
+      <div class="prose prose-invert max-w-none space-y-8">
+
+        <!-- Introduction -->
+        <section>
+          <h2 class="text-2xl font-bold text-white mb-4">1. Acceptance of Terms</h2>
+          <p class="text-gray-300 leading-relaxed">
+            Welcome to mikki-mase.com, operated by SFM Studios BV, a company registered in the Netherlands.
+            By accessing or using our website and purchasing our products, you agree to be bound by these
+            Terms of Service ("Terms"). If you do not agree to these Terms, please do not use our website
+            or purchase our products.
+          </p>
+        </section>
+
+        <!-- Products and Services -->
+        <section>
+          <h2 class="text-2xl font-bold text-white mb-4">2. Products and Services</h2>
+          <p class="text-gray-300 leading-relaxed">
+            We sell digital products, specifically ebooks in PDF format. Upon successful payment:
+          </p>
+          <ul class="list-disc list-inside text-gray-300 space-y-2 mt-3">
+            <li>You will receive an email with a secure download link</li>
+            <li>Download links are valid for 7 days and allow up to 3 downloads</li>
+            <li>The product is delivered digitally — no physical items will be shipped</li>
+            <li>Access is instant upon payment confirmation</li>
+          </ul>
+        </section>
+
+        <!-- Pricing and Payment -->
+        <section>
+          <h2 class="text-2xl font-bold text-white mb-4">3. Pricing and Payment</h2>
+          <p class="text-gray-300 leading-relaxed">
+            All prices are displayed in US Dollars (USD). Payment is processed securely through Stripe.
+            We accept major credit and debit cards.
+          </p>
+          <p class="text-gray-300 leading-relaxed mt-4">
+            By making a purchase, you confirm that:
+          </p>
+          <ul class="list-disc list-inside text-gray-300 space-y-2 mt-3">
+            <li>You are authorized to use the payment method provided</li>
+            <li>The billing information you provide is accurate</li>
+            <li>You are at least 18 years old</li>
+          </ul>
+        </section>
+
+        <!-- Refund Policy -->
+        <section>
+          <h2 class="text-2xl font-bold text-white mb-4">4. Refund Policy — "The She's Shaking Guarantee"</h2>
+          <div class="bg-gradient-to-r from-gold/10 to-transparent border-l-4 border-gold p-4 rounded-r-lg">
+            <p class="text-white font-semibold mb-2">30-Day Money-Back Guarantee</p>
+            <p class="text-gray-300">
+              We stand behind our products. If you're not satisfied for any reason, you can request
+              a full refund within 30 days of purchase — no questions asked.
+            </p>
+          </div>
+          <p class="text-gray-300 leading-relaxed mt-4">
+            To request a refund:
+          </p>
+          <ul class="list-disc list-inside text-gray-300 space-y-2 mt-3">
+            <li>Email us at <a href="mailto:support@mikki-mase.com" class="text-gold hover:underline">support@mikki-mase.com</a></li>
+            <li>Include your order number or the email used for purchase</li>
+            <li>Refunds are processed within 5-10 business days</li>
+          </ul>
+        </section>
+
+        <!-- Intellectual Property -->
+        <section>
+          <h2 class="text-2xl font-bold text-white mb-4">5. Intellectual Property</h2>
+          <p class="text-gray-300 leading-relaxed">
+            All content, including but not limited to text, images, graphics, and ebook content,
+            is the property of SFM Studios BV and is protected by copyright law.
+          </p>
+          <p class="text-gray-300 leading-relaxed mt-4">
+            When you purchase an ebook, you receive a <strong class="text-white">personal, non-transferable license</strong> to:
+          </p>
+          <ul class="list-disc list-inside text-gray-300 space-y-2 mt-3">
+            <li>Download and read the ebook on your personal devices</li>
+            <li>Print a copy for personal use</li>
+          </ul>
+
+          <p class="text-gray-300 leading-relaxed mt-4">
+            You may <strong class="text-white">NOT</strong>:
+          </p>
+          <ul class="list-disc list-inside text-gray-300 space-y-2 mt-3">
+            <li>Share, distribute, or resell the ebook</li>
+            <li>Upload the ebook to file-sharing sites or torrents</li>
+            <li>Reproduce, modify, or create derivative works</li>
+            <li>Use the content for commercial purposes</li>
+            <li>Remove or alter any copyright notices</li>
+          </ul>
+
+          <p class="text-gray-300 leading-relaxed mt-4">
+            Violation of these terms may result in legal action and termination of your license.
+          </p>
+        </section>
+
+        <!-- Disclaimer -->
+        <section>
+          <h2 class="text-2xl font-bold text-white mb-4">6. Disclaimer</h2>
+          <div class="bg-gray-800/50 p-4 rounded-lg">
+            <p class="text-gray-300 leading-relaxed">
+              <strong class="text-white">For entertainment and educational purposes only.</strong>
+            </p>
+            <p class="text-gray-300 leading-relaxed mt-3">
+              The content in our ebooks is provided for informational and entertainment purposes.
+              Results described are not typical and may vary significantly. We make no guarantees
+              about specific outcomes from applying the information provided.
+            </p>
+            <p class="text-gray-300 leading-relaxed mt-3">
+              Our products do not constitute:
+            </p>
+            <ul class="list-disc list-inside text-gray-300 space-y-2 mt-2">
+              <li>Professional medical advice</li>
+              <li>Professional relationship or psychological counseling</li>
+              <li>Legal or financial advice</li>
+            </ul>
+            <p class="text-gray-300 leading-relaxed mt-3">
+              Always consult appropriate professionals for personalized advice.
+            </p>
+          </div>
+        </section>
+
+        <!-- Limitation of Liability -->
+        <section>
+          <h2 class="text-2xl font-bold text-white mb-4">7. Limitation of Liability</h2>
+          <p class="text-gray-300 leading-relaxed">
+            To the maximum extent permitted by applicable law, SFM Studios BV and its owners, employees,
+            and affiliates shall not be liable for:
+          </p>
+          <ul class="list-disc list-inside text-gray-300 space-y-2 mt-3">
+            <li>Any indirect, incidental, special, consequential, or punitive damages</li>
+            <li>Any loss of profits, data, or goodwill</li>
+            <li>Any damages resulting from your use or inability to use our products</li>
+            <li>Any damages resulting from actions taken based on product content</li>
+          </ul>
+          <p class="text-gray-300 leading-relaxed mt-4">
+            Our total liability for any claim arising from your purchase shall not exceed the
+            amount you paid for the product.
+          </p>
+        </section>
+
+        <!-- Indemnification -->
+        <section>
+          <h2 class="text-2xl font-bold text-white mb-4">8. Indemnification</h2>
+          <p class="text-gray-300 leading-relaxed">
+            You agree to indemnify, defend, and hold harmless SFM Studios BV and its owners, employees,
+            and affiliates from any claims, damages, losses, or expenses (including legal fees)
+            arising from your use of our products or violation of these Terms.
+          </p>
+        </section>
+
+        <!-- Governing Law -->
+        <section>
+          <h2 class="text-2xl font-bold text-white mb-4">9. Governing Law</h2>
+          <p class="text-gray-300 leading-relaxed">
+            These Terms shall be governed by and construed in accordance with the laws of the Netherlands,
+            without regard to its conflict of law provisions.
+          </p>
+          <p class="text-gray-300 leading-relaxed mt-4">
+            Any disputes arising from these Terms or your use of our products shall be subject to the
+            exclusive jurisdiction of the courts of the Netherlands.
+          </p>
+        </section>
+
+        <!-- Severability -->
+        <section>
+          <h2 class="text-2xl font-bold text-white mb-4">10. Severability</h2>
+          <p class="text-gray-300 leading-relaxed">
+            If any provision of these Terms is found to be unenforceable or invalid, that provision
+            shall be limited or eliminated to the minimum extent necessary, and the remaining provisions
+            shall remain in full force and effect.
+          </p>
+        </section>
+
+        <!-- Changes to Terms -->
+        <section>
+          <h2 class="text-2xl font-bold text-white mb-4">11. Changes to Terms</h2>
+          <p class="text-gray-300 leading-relaxed">
+            We reserve the right to modify these Terms at any time. Changes will be effective immediately
+            upon posting to this page. Your continued use of the website or products after changes are
+            posted constitutes your acceptance of the revised Terms.
+          </p>
+          <p class="text-gray-300 leading-relaxed mt-4">
+            We encourage you to review these Terms periodically for updates.
+          </p>
+        </section>
+
+        <!-- Contact -->
+        <section>
+          <h2 class="text-2xl font-bold text-white mb-4">12. Contact Us</h2>
+          <p class="text-gray-300 leading-relaxed">
+            If you have any questions about these Terms, please contact us:
+          </p>
+          <div class="mt-4 p-4 bg-gray-800/50 rounded-lg">
+            <p class="text-white font-semibold">SFM Studios BV</p>
+            <p class="text-gray-400">The Netherlands</p>
+            <p class="text-gray-300 mt-2">
+              Email: <a href="mailto:support@mikki-mase.com" class="text-gold hover:underline">support@mikki-mase.com</a>
+            </p>
+          </div>
+        </section>
+
+      </div>
+    </div>
+  </main>
+
+  <Footer />
+</BaseLayout>

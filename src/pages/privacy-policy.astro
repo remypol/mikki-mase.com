@@ -1,0 +1,233 @@
+---
+/**
+ * Privacy Policy Page
+ * Legal privacy policy for SFM Studios BV
+ */
+
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+
+const title = "Privacy Policy | Mikki Mase";
+const description = "Privacy Policy for mikki-mase.com - Learn how SFM Studios BV handles your personal data.";
+---
+
+<BaseLayout title={title} description={description} noIndex={true}>
+  <Header />
+
+  <main id="main-content" class="bg-black min-h-screen">
+    <div class="max-w-3xl mx-auto px-4 py-16 md:py-24">
+
+      <h1 class="font-serif text-4xl md:text-5xl font-bold text-white mb-8">Privacy Policy</h1>
+
+      <p class="text-gray-400 mb-12">Last updated: January 5, 2026</p>
+
+      <div class="prose prose-invert max-w-none space-y-8">
+
+        <!-- Introduction -->
+        <section>
+          <h2 class="text-2xl font-bold text-white mb-4">Introduction</h2>
+          <p class="text-gray-300 leading-relaxed">
+            SFM Studios BV ("we," "us," or "our"), a company registered in the Netherlands, operates
+            mikki-mase.com (the "Site"). This Privacy Policy explains how we collect, use, disclose,
+            and safeguard your information when you visit our Site or make a purchase.
+          </p>
+          <p class="text-gray-300 leading-relaxed mt-4">
+            Please read this Privacy Policy carefully. By using the Site, you agree to the collection
+            and use of information in accordance with this policy.
+          </p>
+        </section>
+
+        <!-- Information We Collect -->
+        <section>
+          <h2 class="text-2xl font-bold text-white mb-4">Information We Collect</h2>
+
+          <h3 class="text-xl font-semibold text-white mb-3 mt-6">Personal Information</h3>
+          <p class="text-gray-300 leading-relaxed">
+            When you make a purchase, we collect:
+          </p>
+          <ul class="list-disc list-inside text-gray-300 space-y-2 mt-3">
+            <li><strong class="text-white">Email address</strong> — Used to send your purchase confirmation and download link</li>
+            <li><strong class="text-white">Payment information</strong> — Processed securely by Stripe. We do not store your credit card details on our servers</li>
+          </ul>
+
+          <h3 class="text-xl font-semibold text-white mb-3 mt-6">Automatically Collected Information</h3>
+          <p class="text-gray-300 leading-relaxed">
+            When you visit the Site, we automatically collect certain information:
+          </p>
+          <ul class="list-disc list-inside text-gray-300 space-y-2 mt-3">
+            <li>Browser type and version</li>
+            <li>Device type and screen size</li>
+            <li>Pages visited and time spent</li>
+            <li>Referring website</li>
+            <li>IP address (anonymized)</li>
+          </ul>
+        </section>
+
+        <!-- How We Use Your Information -->
+        <section>
+          <h2 class="text-2xl font-bold text-white mb-4">How We Use Your Information</h2>
+          <p class="text-gray-300 leading-relaxed">
+            We use the information we collect to:
+          </p>
+          <ul class="list-disc list-inside text-gray-300 space-y-2 mt-3">
+            <li>Process and fulfill your purchases</li>
+            <li>Send download links and purchase receipts</li>
+            <li>Respond to customer support inquiries</li>
+            <li>Improve our website and user experience</li>
+            <li>Analyze website traffic and usage patterns</li>
+            <li>Prevent fraudulent transactions</li>
+          </ul>
+        </section>
+
+        <!-- Third-Party Services -->
+        <section>
+          <h2 class="text-2xl font-bold text-white mb-4">Third-Party Services</h2>
+          <p class="text-gray-300 leading-relaxed mb-4">
+            We use the following third-party services to operate our Site:
+          </p>
+
+          <div class="space-y-4">
+            <div class="border-l-2 border-gold pl-4">
+              <h4 class="text-white font-semibold">Stripe</h4>
+              <p class="text-gray-400 text-sm">Payment processing</p>
+              <a href="https://stripe.com/privacy" target="_blank" rel="noopener noreferrer"
+                 class="text-gold hover:underline text-sm">View Stripe's Privacy Policy</a>
+            </div>
+
+            <div class="border-l-2 border-gold pl-4">
+              <h4 class="text-white font-semibold">Resend</h4>
+              <p class="text-gray-400 text-sm">Email delivery</p>
+              <a href="https://resend.com/legal/privacy-policy" target="_blank" rel="noopener noreferrer"
+                 class="text-gold hover:underline text-sm">View Resend's Privacy Policy</a>
+            </div>
+
+            <div class="border-l-2 border-gold pl-4">
+              <h4 class="text-white font-semibold">Google Analytics</h4>
+              <p class="text-gray-400 text-sm">Website analytics</p>
+              <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer"
+                 class="text-gold hover:underline text-sm">View Google's Privacy Policy</a>
+            </div>
+
+            <div class="border-l-2 border-gold pl-4">
+              <h4 class="text-white font-semibold">Microsoft Clarity</h4>
+              <p class="text-gray-400 text-sm">Heatmaps and session recordings</p>
+              <a href="https://privacy.microsoft.com/privacystatement" target="_blank" rel="noopener noreferrer"
+                 class="text-gold hover:underline text-sm">View Microsoft's Privacy Policy</a>
+            </div>
+
+            <div class="border-l-2 border-gold pl-4">
+              <h4 class="text-white font-semibold">Cloudflare R2</h4>
+              <p class="text-gray-400 text-sm">File hosting and delivery</p>
+              <a href="https://www.cloudflare.com/privacypolicy/" target="_blank" rel="noopener noreferrer"
+                 class="text-gold hover:underline text-sm">View Cloudflare's Privacy Policy</a>
+            </div>
+
+            <div class="border-l-2 border-gold pl-4">
+              <h4 class="text-white font-semibold">Vercel</h4>
+              <p class="text-gray-400 text-sm">Website hosting</p>
+              <a href="https://vercel.com/legal/privacy-policy" target="_blank" rel="noopener noreferrer"
+                 class="text-gold hover:underline text-sm">View Vercel's Privacy Policy</a>
+            </div>
+          </div>
+        </section>
+
+        <!-- Data Retention -->
+        <section>
+          <h2 class="text-2xl font-bold text-white mb-4">Data Retention</h2>
+          <p class="text-gray-300 leading-relaxed">
+            We retain purchase records for 7 years as required by Dutch tax law. After this period,
+            personal data associated with purchases will be securely deleted.
+          </p>
+          <p class="text-gray-300 leading-relaxed mt-4">
+            Analytics data is retained according to the policies of our analytics providers
+            (Google Analytics and Microsoft Clarity).
+          </p>
+        </section>
+
+        <!-- Your Rights (GDPR) -->
+        <section>
+          <h2 class="text-2xl font-bold text-white mb-4">Your Rights</h2>
+          <p class="text-gray-300 leading-relaxed">
+            Under the General Data Protection Regulation (GDPR), you have the following rights:
+          </p>
+          <ul class="list-disc list-inside text-gray-300 space-y-2 mt-3">
+            <li><strong class="text-white">Right of access</strong> — You can request a copy of your personal data</li>
+            <li><strong class="text-white">Right to rectification</strong> — You can request correction of inaccurate data</li>
+            <li><strong class="text-white">Right to erasure</strong> — You can request deletion of your data (subject to legal retention requirements)</li>
+            <li><strong class="text-white">Right to data portability</strong> — You can request your data in a portable format</li>
+            <li><strong class="text-white">Right to object</strong> — You can object to processing of your data</li>
+            <li><strong class="text-white">Right to withdraw consent</strong> — Where processing is based on consent, you can withdraw it at any time</li>
+          </ul>
+          <p class="text-gray-300 leading-relaxed mt-4">
+            To exercise any of these rights, please contact us at
+            <a href="mailto:support@mikki-mase.com" class="text-gold hover:underline">support@mikki-mase.com</a>.
+          </p>
+        </section>
+
+        <!-- Cookies -->
+        <section>
+          <h2 class="text-2xl font-bold text-white mb-4">Cookies</h2>
+          <p class="text-gray-300 leading-relaxed">
+            We use cookies for the following purposes:
+          </p>
+          <ul class="list-disc list-inside text-gray-300 space-y-2 mt-3">
+            <li><strong class="text-white">Essential cookies</strong> — Required for the website to function properly</li>
+            <li><strong class="text-white">Analytics cookies</strong> — Help us understand how visitors use our Site (Google Analytics, Microsoft Clarity)</li>
+          </ul>
+          <p class="text-gray-300 leading-relaxed mt-4">
+            You can control cookie preferences through your browser settings. Note that disabling
+            cookies may affect the functionality of certain features.
+          </p>
+        </section>
+
+        <!-- Security -->
+        <section>
+          <h2 class="text-2xl font-bold text-white mb-4">Security</h2>
+          <p class="text-gray-300 leading-relaxed">
+            We implement appropriate technical and organizational measures to protect your personal data.
+            All payment transactions are processed securely through Stripe, and all data transmission
+            is encrypted using SSL/TLS.
+          </p>
+        </section>
+
+        <!-- Children's Privacy -->
+        <section>
+          <h2 class="text-2xl font-bold text-white mb-4">Children's Privacy</h2>
+          <p class="text-gray-300 leading-relaxed">
+            Our Site is not intended for individuals under the age of 18. We do not knowingly collect
+            personal information from children. If you believe we have collected data from a minor,
+            please contact us immediately.
+          </p>
+        </section>
+
+        <!-- Changes to This Policy -->
+        <section>
+          <h2 class="text-2xl font-bold text-white mb-4">Changes to This Policy</h2>
+          <p class="text-gray-300 leading-relaxed">
+            We may update this Privacy Policy from time to time. Any changes will be posted on this page
+            with an updated "Last updated" date. We encourage you to review this policy periodically.
+          </p>
+        </section>
+
+        <!-- Contact -->
+        <section>
+          <h2 class="text-2xl font-bold text-white mb-4">Contact Us</h2>
+          <p class="text-gray-300 leading-relaxed">
+            If you have any questions about this Privacy Policy or our data practices, please contact us:
+          </p>
+          <div class="mt-4 p-4 bg-gray-800/50 rounded-lg">
+            <p class="text-white font-semibold">SFM Studios BV</p>
+            <p class="text-gray-400">The Netherlands</p>
+            <p class="text-gray-300 mt-2">
+              Email: <a href="mailto:support@mikki-mase.com" class="text-gold hover:underline">support@mikki-mase.com</a>
+            </p>
+          </div>
+        </section>
+
+      </div>
+    </div>
+  </main>
+
+  <Footer />
+</BaseLayout>
