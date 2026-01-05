@@ -1,0 +1,63 @@
+---
+/**
+ * WhoIsThisFor Component
+ * Qualifies the buyer and creates self-identification
+ */
+
+interface Props {
+  forYou: string[];
+  notForYou: string[];
+}
+
+const { forYou, notForYou } = Astro.props;
+---
+
+<section class="py-16 md:py-24 bg-gray-900">
+  <div class="max-w-3xl mx-auto px-4">
+
+    <h2 class="font-serif text-3xl md:text-4xl font-bold text-white text-center mb-12">
+      Is This For You?
+    </h2>
+
+    <div class="grid md:grid-cols-2 gap-8">
+      <!-- For You -->
+      <div class="bg-gray-800/50 rounded-xl p-6 border border-gold/20">
+        <h3 class="text-gold font-semibold text-lg mb-4 flex items-center gap-2">
+          <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+          </svg>
+          This Playbook Is For You If:
+        </h3>
+
+        <ul class="space-y-3">
+          {forYou.map((item) => (
+            <li class="flex items-start gap-3 text-gray-300">
+              <span class="text-gold mt-0.5">✓</span>
+              {item}
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <!-- Not For You -->
+      <div class="bg-gray-800/50 rounded-xl p-6 border border-gray-700">
+        <h3 class="text-gray-400 font-semibold text-lg mb-4 flex items-center gap-2">
+          <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
+          </svg>
+          This Is NOT For You If:
+        </h3>
+
+        <ul class="space-y-3">
+          {notForYou.map((item) => (
+            <li class="flex items-start gap-3 text-gray-500">
+              <span class="text-gray-600 mt-0.5">✗</span>
+              {item}
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+
+  </div>
+</section>

@@ -1,0 +1,49 @@
+---
+/**
+ * TransformationSection Component
+ * "30 Days From Now" future pacing
+ */
+
+interface Props {
+  transformations: string[];
+}
+
+const { transformations } = Astro.props;
+---
+
+<section class="py-16 md:py-24 bg-black relative overflow-hidden">
+  <!-- Subtle gradient background -->
+  <div class="absolute inset-0 bg-gradient-to-b from-gold/5 via-transparent to-transparent" />
+
+  <div class="max-w-3xl mx-auto px-4 relative z-10">
+
+    <h2 class="font-serif text-3xl md:text-4xl font-bold text-white text-center mb-4">
+      30 Days From Now...
+    </h2>
+    <p class="text-gray-400 text-center text-lg mb-12">Picture this:</p>
+
+    <div class="space-y-6">
+      {transformations.map((item, index) => (
+        <div
+          class="flex items-center gap-4 bg-gray-900/50 rounded-xl p-5 border border-gray-800
+                 hover:border-gold/30 transition-colors"
+        >
+          <div class="w-10 h-10 flex-shrink-0 bg-gold/10 rounded-full flex items-center justify-center">
+            <span class="text-gold text-lg">✓</span>
+          </div>
+          <p class="text-gray-200 text-lg">{item}</p>
+        </div>
+      ))}
+    </div>
+
+    <div class="text-center mt-12">
+      <p class="text-xl text-gray-300 mb-2">
+        That's not fantasy.
+      </p>
+      <p class="text-2xl text-white font-semibold">
+        That's what happens when you understand the game most men never learn.
+      </p>
+    </div>
+
+  </div>
+</section>

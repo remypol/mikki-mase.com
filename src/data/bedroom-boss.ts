@@ -142,11 +142,12 @@ export const features = [
   '30-Day Money-Back Guarantee'
 ];
 
-// Pain points for problem section
+// Pain points for problem section (more visceral)
 export const painPoints = [
-  "She fakes it. You don't know.",
-  "She's thinking about someone else. You don't notice.",
-  'She moves on. You wonder why.'
+  "She's still checking her phone during sex",
+  "She's still 'too tired' on weekends",
+  "She's still thinking about her ex when she closes her eyes",
+  "You're doing everything 'right'—but she's not shaking, craving, or obsessing over you"
 ];
 
 // Benefits for promise section
@@ -155,4 +156,46 @@ export const benefits = [
   'How to make her finish before you even start',
   'How to turn one night into a lifetime of craving',
   "How to unlock desires she didn't know she had"
+];
+
+// Testimonials for social proof
+export const testimonials = [
+  {
+    quote: "I've read every book on this topic. This is the only one that actually works.",
+    author: "J.M.",
+    location: "Los Angeles"
+  },
+  {
+    quote: "She literally asked me what changed. I just smiled.",
+    author: "Anonymous",
+    location: "34"
+  },
+  {
+    quote: "Used chapter 6 last weekend. She cancelled her Sunday plans to stay in bed.",
+    author: "T.K.",
+    location: "Miami"
+  }
+];
+
+// "Who is this for" section
+export const forYouList = [
+  "You've watched tutorials that didn't work in real life",
+  "You've left her 'satisfied' but never shaking",
+  "You want to be the guy she brags about to her friends",
+  "You're tired of guessing what she actually wants",
+  "You want to turn physical connection into emotional addiction"
+];
+
+export const notForYouList = [
+  "You think you already know everything",
+  "You're not willing to practice what you learn",
+  "You expect magic without effort"
+];
+
+// Transformation section (30 days from now)
+export const transformations = [
+  "She texts you at 2pm asking when you're coming home",
+  "She cancels girls' night because she'd rather be with you",
+  "She whispers to her friends about 'this thing you do'",
+  "She initiates. She craves. She stays."
 ];

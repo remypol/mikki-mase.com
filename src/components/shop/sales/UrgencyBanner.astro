@@ -1,0 +1,67 @@
+---
+/**
+ * UrgencyBanner Component
+ * Creates urgency with limited quantity or countdown
+ */
+
+interface Props {
+  type?: 'quantity' | 'price';
+  originalPrice?: number;
+  salePrice?: number;
+  copiesClaimed?: number;
+  totalCopies?: number;
+}
+
+const {
+  type = 'price',
+  originalPrice = 97,
+  salePrice = 47,
+  copiesClaimed = 147,
+  totalCopies = 200
+} = Astro.props;
+
+const percentClaimed = Math.round((copiesClaimed / totalCopies) * 100);
+const savingsPercent = Math.round(((originalPrice - salePrice) / originalPrice) * 100);
+---
+
+<div class="bg-gradient-to-r from-[#A8001E]/20 via-[#A8001E]/30 to-[#A8001E]/20 border-y border-[#A8001E]/40">
+  <div class="max-w-4xl mx-auto px-4 py-4">
+
+    {type === 'quantity' ? (
+      <!-- Quantity-based urgency -->
+      <div class="flex flex-col md:flex-row items-center justify-center gap-4 text-center">
+        <div class="flex items-center gap-2">
+          <span class="text-[#A8001E] animate-pulse">🔥</span>
+          <span class="text-white font-semibold">
+            Only <span class="text-gold">{totalCopies - copiesClaimed}</span> copies left at this price
+          </span>
+        </div>
+
+        <!-- Progress bar -->
+        <div class="w-full max-w-xs">
+          <div class="bg-gray-800 rounded-full h-2 overflow-hidden">
+            <div
+              class="bg-gradient-to-r from-[#A8001E] to-gold h-full rounded-full transition-all duration-500"
+              style={`width: ${percentClaimed}%`}
+            />
+          </div>
+          <p class="text-gray-400 text-xs mt-1">{copiesClaimed} claimed</p>
+        </div>
+      </div>
+    ) : (
+      <!-- Price-based urgency -->
+      <div class="flex flex-col sm:flex-row items-center justify-center gap-3 text-center">
+        <span class="text-[#A8001E] animate-pulse">⚡</span>
+        <span class="text-white">
+          <span class="font-semibold">Launch Price:</span>
+          <span class="text-gray-400 line-through ml-2">${originalPrice}</span>
+          <span class="text-gold font-bold ml-2">${salePrice}</span>
+          <span class="bg-gold/20 text-gold text-sm px-2 py-0.5 rounded ml-2">
+            SAVE {savingsPercent}%
+          </span>
+        </span>
+      </div>
+    )}
+
+  </div>
+</div>

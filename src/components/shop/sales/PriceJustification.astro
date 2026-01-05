@@ -1,0 +1,60 @@
+---
+/**
+ * PriceJustification Component
+ * Comparison section showing value vs. cost
+ */
+
+interface Props {
+  productPrice: number;
+}
+
+const { productPrice } = Astro.props;
+
+const comparisons = [
+  { item: 'One "nice dinner" trying to impress her', cost: 150 },
+  { item: 'One bottle of cologne she won\'t remember', cost: 80 },
+  { item: 'One month of dating apps going nowhere', cost: 30 },
+];
+
+const totalWasted = comparisons.reduce((sum, c) => sum + c.cost, 0);
+---
+
+<section class="py-16 md:py-24 bg-gray-900">
+  <div class="max-w-2xl mx-auto px-4">
+
+    <h2 class="font-serif text-3xl md:text-4xl font-bold text-white text-center mb-12">
+      Let's Do The Math
+    </h2>
+
+    <div class="bg-gray-800/50 rounded-xl p-6 md:p-8 border border-gray-700 mb-8">
+      <ul class="space-y-4">
+        {comparisons.map((comparison) => (
+          <li class="flex justify-between items-center text-gray-300 pb-4 border-b border-gray-700 last:border-0 last:pb-0">
+            <span>{comparison.item}</span>
+            <span class="text-gray-500 font-mono">${comparison.cost}</span>
+          </li>
+        ))}
+      </ul>
+
+      <div class="flex justify-between items-center mt-6 pt-4 border-t border-gray-600">
+        <span class="text-gray-400">Total spent with zero guaranteed results:</span>
+        <span class="text-red-400 font-bold text-xl">${totalWasted}+</span>
+      </div>
+    </div>
+
+    <div class="text-center mb-8">
+      <p class="text-2xl text-gray-400 mb-4">OR</p>
+
+      <div class="bg-gold/10 border-2 border-gold rounded-xl p-6 inline-block">
+        <p class="text-gray-300 mb-2">One playbook that changes everything:</p>
+        <p class="text-gold text-4xl font-bold">${productPrice}</p>
+        <p class="text-gray-500 text-sm mt-2">And if it doesn't work? You get it back.</p>
+      </div>
+    </div>
+
+    <p class="text-xl text-center text-gray-300">
+      The real question: <span class="text-white font-semibold">what's it costing you NOT to know this?</span>
+    </p>
+
+  </div>
+</section>

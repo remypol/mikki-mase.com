@@ -2,6 +2,7 @@
 /**
  * Bedroom Boss Sales Page
  * Long-form sales page for the Bedroom Boss ebook
+ * Optimized for conversion with social proof, urgency, and transformation sections
  */
 
 import BaseLayout from '../layouts/BaseLayout.astro';
@@ -10,8 +11,13 @@ import Footer from '../components/Footer.astro';
 
 // Shop components
 import SalesHero from '../components/shop/sales/SalesHero.astro';
+import UrgencyBanner from '../components/shop/sales/UrgencyBanner.astro';
+import Testimonials from '../components/shop/sales/Testimonials.astro';
+import WhoIsThisFor from '../components/shop/sales/WhoIsThisFor.astro';
+import TransformationSection from '../components/shop/sales/TransformationSection.astro';
 import ChapterList from '../components/shop/sales/ChapterList.tsx';
 import PricingCard from '../components/shop/sales/PricingCard.astro';
+import PriceJustification from '../components/shop/sales/PriceJustification.astro';
 import GuaranteeSeal from '../components/shop/sales/GuaranteeSeal.astro';
 import FAQAccordion from '../components/shop/sales/FAQAccordion.tsx';
 import StickyBuyBar from '../components/shop/sales/StickyBuyBar.tsx';
@@ -19,7 +25,17 @@ import BuyButton from '../components/shop/core/BuyButton.tsx';
 
 // Data
 import { bedroomBoss } from '../config/shop/products';
-import { chapters, faqs, features, painPoints, benefits } from '../data/bedroom-boss';
+import {
+  chapters,
+  faqs,
+  features,
+  painPoints,
+  benefits,
+  testimonials,
+  forYouList,
+  notForYouList,
+  transformations
+} from '../data/bedroom-boss';
 
 const product = bedroomBoss;
 
@@ -47,31 +63,55 @@ const productSchema = {
     "reviewCount": "147"
   }
 };
+
+// FAQ Schema markup for Google rich snippets
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": faqs.map(faq => ({
+    "@type": "Question",
+    "name": faq.question,
+    "acceptedAnswer": {
+      "@type": "Answer",
+      "text": faq.answer
+    }
+  }))
+};
+
+// Combined schema
+const combinedSchema = [productSchema, faqSchema];
 ---
 
 <BaseLayout
   title="Bedroom Boss: The Mikki Mase Playbook | Become the Best She's Ever Had"
   description="The playbook decoded from the most talked-about high-roller lifestyle ever lived. 11 chapters on making her crave, obsess, and never forget you. Instant download."
-  schema={productSchema}
+  schema={combinedSchema}
 >
   <Header />
 
   <!-- SECTION 01: HERO -->
   <SalesHero product={product} />
 
-  <!-- SECTION 02: THE HOOK -->
+  <!-- SECTION 02: URGENCY BANNER -->
+  <UrgencyBanner
+    type="price"
+    originalPrice={product.compareAt}
+    salePrice={product.price}
+  />
+
+  <!-- SECTION 03: THE HOOK -->
   <section class="py-16 md:py-24 bg-black">
     <div class="max-w-3xl mx-auto px-4 text-center">
       <p class="text-xl md:text-2xl text-gray-300 leading-relaxed">
-        We spent hundreds of hours analyzing what separates
-        <span class="text-gold font-semibold"> Mikki Mase</span> from every other guy who walks into a casino—or a bedroom.
+        We spent 6 months decoding how
+        <span class="text-gold font-semibold"> Mikki Mase</span> operates—at the tables and in the bedroom.
       </p>
       <p class="text-xl md:text-2xl text-gray-300 leading-relaxed mt-6">
-        The man who beat the house at their own game... applied the
-        <span class="text-gold font-semibold"> same mindset</span> to everything else.
+        This 184-page playbook is everything we learned,
+        <span class="text-gold font-semibold"> broken down step by step.</span>
       </p>
       <p class="text-xl md:text-2xl text-gray-400 leading-relaxed mt-6">
-        Banned from 150+ casinos. Welcomed into thousands of bedrooms.
+        No theory. No fluff. Just the method.
       </p>
       <p class="text-2xl md:text-3xl text-white font-bold mt-8">
         This is what we found.
@@ -79,18 +119,21 @@ const productSchema = {
     </div>
   </section>
 
-  <!-- SECTION 03: THE PROBLEM -->
+  <!-- SECTION 04: THE PROBLEM (more visceral) -->
   <section class="py-16 md:py-24 bg-gray-900">
     <div class="max-w-3xl mx-auto px-4">
-      <h2 class="font-serif text-3xl md:text-4xl font-bold text-gold text-center mb-8">
-        If she's not shaking, craving, and obsessing over you—you're doing it wrong.
+      <h2 class="font-serif text-3xl md:text-4xl font-bold text-white text-center mb-4">
+        The Truth No One Tells You
       </h2>
 
       <p class="text-xl text-gray-300 text-center mb-8">
-        Right now, most guys are fumbling in the dark:
+        Right now, there's a guy out there who's average looking, average income, average everything...
+        <span class="text-gold font-semibold"> And women are OBSESSED with him.</span>
       </p>
 
-      <ul class="space-y-4 max-w-md mx-auto mb-8">
+      <p class="text-lg text-gray-400 text-center mb-6">Meanwhile, you're doing everything "right":</p>
+
+      <ul class="space-y-4 max-w-lg mx-auto mb-8">
         {painPoints.map((point) => (
           <li class="flex items-start gap-3 text-lg text-gray-300">
             <svg class="w-6 h-6 text-red-500 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
@@ -102,16 +145,18 @@ const productSchema = {
       </ul>
 
       <div class="text-center text-gray-300 space-y-4 text-lg">
-        <p>The average man leaves pleasure on the table because no one taught him the real game.</p>
-        <p class="text-gray-400">Not the porn game. Not the "be yourself" game.</p>
-        <p class="text-white font-semibold text-xl">
-          The game that makes her cancel plans, ignore her phone, and count the hours until she sees you again.
+        <p class="text-gray-400">It's not your fault. No one taught you the real game.</p>
+        <p class="text-white font-semibold text-2xl">
+          Until now.
         </p>
       </div>
     </div>
   </section>
 
-  <!-- SECTION 04: THE PROMISE -->
+  <!-- SECTION 05: WHO IS THIS FOR -->
+  <WhoIsThisFor forYou={forYouList} notForYou={notForYouList} />
+
+  <!-- SECTION 06: THE PROMISE -->
   <section class="py-16 md:py-24 bg-black">
     <div class="max-w-3xl mx-auto px-4">
       <h2 class="font-serif text-3xl md:text-5xl font-bold text-white text-center mb-4">
@@ -141,10 +186,16 @@ const productSchema = {
     </div>
   </section>
 
-  <!-- SECTION 06: CHAPTER BREAKDOWN -->
+  <!-- SECTION 07: TRANSFORMATION (30 days from now) -->
+  <TransformationSection transformations={transformations} />
+
+  <!-- SECTION 08: CHAPTER BREAKDOWN -->
   <ChapterList client:visible chapters={chapters} />
 
-  <!-- SECTION 08: WHY THIS IS DIFFERENT -->
+  <!-- SECTION 09: TESTIMONIALS -->
+  <Testimonials testimonials={testimonials} />
+
+  <!-- SECTION 10: WHY THIS IS DIFFERENT -->
   <section class="py-16 md:py-24 bg-gray-900">
     <div class="max-w-3xl mx-auto px-4">
       <h2 class="font-serif text-3xl md:text-4xl font-bold text-white text-center mb-8">
@@ -178,7 +229,7 @@ const productSchema = {
     </div>
   </section>
 
-  <!-- SECTION 09: AUTHORITY SECTION -->
+  <!-- SECTION 11: AUTHORITY SECTION -->
   <section class="py-16 md:py-24 bg-black">
     <div class="max-w-4xl mx-auto px-4">
       <h2 class="font-serif text-2xl md:text-3xl font-bold text-white text-center mb-12">
@@ -224,42 +275,31 @@ const productSchema = {
     </div>
   </section>
 
-  <!-- SECTION 10: PRICING CARD -->
+  <!-- SECTION 12: PRICE JUSTIFICATION -->
+  <PriceJustification productPrice={product.price} />
+
+  <!-- SECTION 13: PRICING CARD -->
   <PricingCard product={product} features={features} />
 
-  <!-- SECTION 11: GUARANTEE -->
+  <!-- SECTION 14: GUARANTEE -->
   <GuaranteeSeal days={30} />
 
-  <!-- SECTION 12: FAQ -->
+  <!-- SECTION 15: FAQ -->
   <FAQAccordion client:visible faqs={faqs} />
 
-  <!-- SECTION 13: FINAL CTA -->
+  <!-- SECTION 16: FINAL CTA -->
   <section class="py-16 md:py-24 bg-gradient-to-b from-gray-900 to-black">
     <div class="max-w-3xl mx-auto px-4 text-center">
       <h2 class="font-serif text-3xl md:text-5xl font-bold text-white mb-6">
-        Stop leaving pleasure on the table.
+        Every Night You Wait...
       </h2>
 
       <p class="text-xl text-gray-300 mb-8">
-        Every night you wait is another night she fakes it, forgets you, or thinks about someone else.
+        She's faking it. She's thinking about someone else. She's wondering if this is as good as it gets.
       </p>
 
-      <div class="bg-gray-800/50 rounded-xl p-6 md:p-8 border border-gray-700 mb-8 text-left max-w-md mx-auto">
-        <p class="text-gray-300 mb-4">You have two choices:</p>
-        <ol class="space-y-3 text-gray-300">
-          <li class="flex gap-3">
-            <span class="text-gray-500 font-bold">1.</span>
-            Keep guessing. Keep fumbling. Keep being forgettable.
-          </li>
-          <li class="flex gap-3">
-            <span class="text-gold font-bold">2.</span>
-            <span class="text-white">Download the playbook. Apply what you learn. Become the man she can't stop thinking about.</span>
-          </li>
-        </ol>
-      </div>
-
-      <p class="text-lg text-gray-400 mb-8">
-        The choice is obvious. The price is nothing. The results are everything.
+      <p class="text-2xl text-white font-semibold mb-8">
+        You can change that tonight.
       </p>
 
       <BuyButton
@@ -267,7 +307,7 @@ const productSchema = {
         productId={product.id}
         productName={product.name}
         price={product.price}
-        label="BECOME A BEDROOM BOSS"
+        label="YES, MAKE ME UNFORGETTABLE"
         size="large"
       />
 
@@ -277,25 +317,25 @@ const productSchema = {
           <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
             <path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd" />
           </svg>
-          Secure Payment
+          Secure checkout
         </span>
         <span class="flex items-center gap-2">
           <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
             <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd" />
           </svg>
-          Instant Access
+          Instant access
         </span>
         <span class="flex items-center gap-2">
           <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
             <path fill-rule="evenodd" d="M2.166 4.999A11.954 11.954 0 0010 1.944 11.954 11.954 0 0017.834 5c.11.65.166 1.32.166 2.001 0 5.225-3.34 9.67-8 11.317C5.34 16.67 2 12.225 2 7c0-.682.057-1.35.166-2.001zm11.541 3.708a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
           </svg>
-          30-Day Guarantee
+          30-day guarantee
         </span>
       </div>
     </div>
   </section>
 
-  <!-- SECTION 14: STICKY BUY BAR -->
+  <!-- SECTION 17: STICKY BUY BAR -->
   <StickyBuyBar
     client:load
     productId={product.id}
