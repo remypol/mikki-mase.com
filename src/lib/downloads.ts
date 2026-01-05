@@ -1,17 +1,18 @@
 /**
  * Secure Download Token System
- * Generates and verifies time-limited download tokens
+ * Generates and verifies time-limited download tokens using JWT
  *
  * Setup:
- * 1. Add DOWNLOAD_TOKEN_SECRET to environment variables
- * 2. Generate secret: openssl rand -hex 32
+ * 1. npm install jsonwebtoken
+ * 2. Add DOWNLOAD_TOKEN_SECRET to environment variables
+ * 3. Generate secret: openssl rand -hex 32
  *
  * Environment variables required:
  * - DOWNLOAD_TOKEN_SECRET: Secret key for signing tokens
  * - DOWNLOAD_TOKEN_EXPIRY: Expiry in seconds (default: 604800 = 7 days)
  */
 
-import type { DownloadToken } from '../config/shop/types';
+import jwt from 'jsonwebtoken';
 
 // ============================================
 // CONFIGURATION
@@ -21,126 +22,88 @@ const TOKEN_SECRET = import.meta.env.DOWNLOAD_TOKEN_SECRET || 'dev-secret-change
 const TOKEN_EXPIRY = parseInt(import.meta.env.DOWNLOAD_TOKEN_EXPIRY || '604800', 10); // 7 days
 
 // ============================================
+// TOKEN TYPES
+// ============================================
+
+interface DownloadTokenPayload {
+  productId: string;
+  email: string;
+  sessionId: string;
+}
+
+export interface VerifyResult {
+  valid: boolean;
+  productId?: string;
+  email?: string;
+  sessionId?: string;
+  error?: string;
+}
+
+// ============================================
 // TOKEN GENERATION
 // ============================================
 
 /**
- * Generate a secure download token
+ * Generate a secure download token using JWT
  */
-export async function generateDownloadToken(
+export function generateDownloadToken(
   productId: string,
-  email: string
-): Promise<DownloadToken> {
-  const now = Date.now();
-  const expiresAt = now + TOKEN_EXPIRY * 1000;
-
-  // Create token payload
-  const payload = {
+  email: string,
+  sessionId: string
+): string {
+  const payload: DownloadTokenPayload = {
     productId,
     email,
-    createdAt: now,
-    expiresAt,
-    nonce: crypto.randomUUID(),
+    sessionId,
   };
 
-  // Sign the token
-  const token = await signPayload(payload);
-
-  return {
-    token,
-    productId,
-    email,
-    createdAt: now,
-    expiresAt,
-    used: false,
-  };
-}
-
-/**
- * Sign a payload using HMAC-SHA256
- */
-async function signPayload(payload: Record<string, unknown>): Promise<string> {
-  const encoder = new TextEncoder();
-  const data = encoder.encode(JSON.stringify(payload));
-  const keyData = encoder.encode(TOKEN_SECRET);
-
-  // Import key for HMAC
-  const key = await crypto.subtle.importKey(
-    'raw',
-    keyData,
-    { name: 'HMAC', hash: 'SHA-256' },
-    false,
-    ['sign']
-  );
-
-  // Sign the data
-  const signature = await crypto.subtle.sign('HMAC', key, data);
-
-  // Encode as base64url
-  const base64Payload = btoa(JSON.stringify(payload))
-    .replace(/\+/g, '-')
-    .replace(/\//g, '_')
-    .replace(/=/g, '');
-
-  const base64Signature = btoa(String.fromCharCode(...new Uint8Array(signature)))
-    .replace(/\+/g, '-')
-    .replace(/\//g, '_')
-    .replace(/=/g, '');
-
-  return `${base64Payload}.${base64Signature}`;
+  return jwt.sign(payload, TOKEN_SECRET, { expiresIn: TOKEN_EXPIRY });
 }
 
 // ============================================
 // TOKEN VERIFICATION
 // ============================================
 
-export interface VerifyResult {
-  valid: boolean;
-  productId?: string;
-  email?: string;
-  error?: string;
-}
-
 /**
  * Verify a download token
  */
-export async function verifyDownloadToken(token: string): Promise<VerifyResult> {
+export function verifyDownloadToken(token: string): VerifyResult {
   try {
-    const [base64Payload, base64Signature] = token.split('.');
-
-    if (!base64Payload || !base64Signature) {
-      return { valid: false, error: 'Invalid token format' };
-    }
-
-    // Decode payload
-    const payloadJson = atob(
-      base64Payload.replace(/-/g, '+').replace(/_/g, '/') +
-        '='.repeat((4 - (base64Payload.length % 4)) % 4)
-    );
-    const payload = JSON.parse(payloadJson);
-
-    // Verify signature
-    const expectedToken = await signPayload(payload);
-    const [, expectedSignature] = expectedToken.split('.');
-
-    if (base64Signature !== expectedSignature) {
-      return { valid: false, error: 'Invalid signature' };
-    }
-
-    // Check expiry
-    if (Date.now() > payload.expiresAt) {
-      return { valid: false, error: 'Token expired' };
-    }
+    const decoded = jwt.verify(token, TOKEN_SECRET) as DownloadTokenPayload;
 
     return {
       valid: true,
-      productId: payload.productId,
-      email: payload.email,
+      productId: decoded.productId,
+      email: decoded.email,
+      sessionId: decoded.sessionId,
     };
   } catch (error) {
+    if (error instanceof jwt.TokenExpiredError) {
+      return { valid: false, error: 'Token expired' };
+    }
+    if (error instanceof jwt.JsonWebTokenError) {
+      return { valid: false, error: 'Invalid token' };
+    }
     console.error('Token verification error:', error);
     return { valid: false, error: 'Token verification failed' };
   }
+}
+
+// ============================================
+// DOWNLOAD PATHS
+// ============================================
+
+/**
+ * Get download file path for a product
+ * In production, these files should be in a private location
+ */
+export function getDownloadPath(productId: string): string {
+  const paths: Record<string, string> = {
+    'bedroom-boss': '/downloads/bedroom-boss.pdf',
+    // Add more products as needed
+  };
+
+  return paths[productId] || '';
 }
 
 // ============================================
@@ -157,7 +120,7 @@ export function getDownloadUrl(token: string): string {
 }
 
 // ============================================
-// PLACEHOLDER EXPORTS
+// HELPER
 // ============================================
 
 export const isDownloadSystemConfigured = (): boolean => {

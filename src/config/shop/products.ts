@@ -247,6 +247,9 @@ export function getProductById(id: string): Product | undefined {
   return Object.values(products).find((p) => p.id === id);
 }
 
+// Alias for getProductById (used by webhook handler)
+export const getProduct = getProductById;
+
 export function getFeaturedProducts(): Product[] {
   return Object.values(products).filter((p) => p.featured);
 }

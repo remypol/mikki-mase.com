@@ -1,0 +1,175 @@
+---
+/**
+ * Checkout Success Page
+ * Shows order confirmation and download link for digital products
+ */
+
+// This page must be server-rendered (dynamic session lookup)
+export const prerender = false;
+
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import { getStripeServer } from '../../lib/stripe';
+import { getProductById } from '../../config/shop/products';
+import { generateDownloadToken } from '../../lib/downloads';
+
+// Get session from URL
+const sessionId = Astro.url.searchParams.get('session_id');
+
+let product = null;
+let downloadUrl = null;
+let customerEmail = null;
+let error = null;
+
+if (sessionId) {
+  try {
+    // Retrieve session from Stripe
+    const stripe = await getStripeServer();
+    const session = await stripe.checkout.sessions.retrieve(sessionId, {
+      expand: ['line_items', 'customer_details'],
+    });
+
+    // Verify payment was successful
+    if (session.payment_status === 'paid') {
+      const productId = session.metadata?.productId;
+      product = productId ? getProductById(productId) : null;
+      customerEmail = session.customer_details?.email;
+
+      if (product && product.fulfillment === 'digital' && customerEmail) {
+        // Generate download token for immediate download
+        const token = generateDownloadToken(productId!, customerEmail, sessionId);
+        downloadUrl = `/download/${token}`;
+      }
+    } else {
+      error = 'Payment not completed';
+    }
+  } catch (err) {
+    console.error('Error retrieving session:', err);
+    error = 'Unable to verify purchase';
+  }
+} else {
+  error = 'No session ID provided';
+}
+---
+
+<BaseLayout
+  title="Purchase Complete | Mikki Mase"
+  description="Your purchase was successful."
+>
+  <Header />
+
+  <section class="min-h-screen flex items-center justify-center py-20 px-4">
+    <div class="max-w-md w-full">
+
+      {error ? (
+        <!-- Error State -->
+        <div class="text-center">
+          <div class="w-16 h-16 mx-auto mb-6 bg-red-500/20 rounded-full flex items-center justify-center">
+            <svg class="w-8 h-8 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </div>
+          <h1 class="text-2xl font-bold text-white mb-4">Something went wrong</h1>
+          <p class="text-gray-400 mb-8">{error}</p>
+          <a
+            href="/"
+            class="inline-block bg-mikki-red text-white font-semibold px-6 py-3 rounded-lg hover:bg-red-700 transition-colors"
+          >
+            Return to Home
+          </a>
+        </div>
+
+      ) : (
+        <!-- Success State -->
+        <div class="text-center">
+
+          <!-- Success icon -->
+          <div class="w-20 h-20 mx-auto mb-6 bg-green-500/20 rounded-full flex items-center justify-center animate-scale">
+            <svg class="w-10 h-10 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+            </svg>
+          </div>
+
+          <!-- Headline -->
+          <h1 class="text-3xl font-bold text-white mb-2">You're in.</h1>
+          <p class="text-gold text-lg mb-8">Purchase successful</p>
+
+          <!-- Product card -->
+          {product && (
+            <div class="bg-gray-800 border border-gray-700 rounded-lg p-6 mb-8 text-left">
+              <div class="flex items-start gap-4">
+                <img
+                  src={product.cover}
+                  alt={product.name}
+                  class="w-20 h-28 object-cover rounded"
+                />
+                <div>
+                  <p class="text-gold text-sm">{product.tagline}</p>
+                  <h3 class="text-white font-semibold text-lg">{product.name}</h3>
+                  <p class="text-gray-400 text-sm mt-1">
+                    Sent to: {customerEmail}
+                  </p>
+                </div>
+              </div>
+            </div>
+          )}
+
+          <!-- Download button -->
+          {downloadUrl && (
+            <a
+              href={downloadUrl}
+              class="w-full inline-flex items-center justify-center gap-2 bg-mikki-red text-white
+                     font-semibold px-6 py-4 rounded-lg hover:bg-red-700 transition-colors mb-4"
+            >
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+              </svg>
+              Download Now
+            </a>
+          )}
+
+          <!-- Email notice -->
+          <div class="bg-gray-900 border border-gray-800 rounded-lg p-4 text-left">
+            <div class="flex items-start gap-3">
+              <svg class="w-5 h-5 text-gold flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" />
+                <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
+              </svg>
+              <div>
+                <p class="text-white font-medium text-sm">Check your email</p>
+                <p class="text-gray-400 text-sm">
+                  We've also sent a download link to {customerEmail}
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Support link -->
+          <p class="text-gray-500 text-sm mt-6">
+            Questions? <a href="mailto:support@mikki-mase.com" class="text-gold hover:underline">
+              Contact support
+            </a>
+          </p>
+
+        </div>
+      )}
+
+    </div>
+  </section>
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  @keyframes scale {
+    0% { transform: scale(0); opacity: 0; }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); opacity: 1; }
+  }
+
+  .animate-scale {
+    animation: scale 0.5s ease-out;
+  }
+</style>
