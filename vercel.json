@@ -1,0 +1,14 @@
+{
+  "redirects": [
+    {
+      "source": "/bedroom-boss",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/bedroom-boss/preview",
+      "destination": "/",
+      "permanent": true
+    }
+  ]
+}

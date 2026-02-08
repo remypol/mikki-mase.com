@@ -4,11 +4,8 @@
 // Hidden on sales pages that have their own sticky CTA bar
 
 const currentPath = Astro.url.pathname;
-const salesPages = ['/bedroom-boss'];
-const isSalesPage = salesPages.some(page => currentPath.startsWith(page));
 ---
 
-{!isSalesPage && (
 <nav class="mobile-nav md:hidden" aria-label="Mobile navigation">
   <a href="/" class="mobile-nav-item" aria-label="Home">
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="mobile-nav-icon">
@@ -18,11 +15,11 @@ const isSalesPage = salesPages.some(page => currentPath.startsWith(page));
     <span class="mobile-nav-label">Home</span>
   </a>
 
-  <a href="/bedroom-boss" class="mobile-nav-item mobile-nav-shop" aria-label="Shop">
+  <a href="/story" class="mobile-nav-item" aria-label="Story">
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="mobile-nav-icon">
-      <path d="M2.25 2.25a.75.75 0 000 1.5h1.386c.17 0 .318.114.362.278l2.558 9.592a3.752 3.752 0 00-2.806 3.63c0 .414.336.75.75.75h15.75a.75.75 0 000-1.5H5.378A2.25 2.25 0 017.5 15h11.218a.75.75 0 00.674-.421 60.358 60.358 0 002.96-7.228.75.75 0 00-.525-.965A60.864 60.864 0 005.68 4.509l-.232-.867A1.875 1.875 0 003.636 2.25H2.25zM3.75 20.25a1.5 1.5 0 113 0 1.5 1.5 0 01-3 0zM16.5 20.25a1.5 1.5 0 113 0 1.5 1.5 0 01-3 0z" />
+      <path d="M11.25 4.533A9.707 9.707 0 006 3a9.735 9.735 0 00-3.25.555.75.75 0 00-.5.707v14.25a.75.75 0 001 .707A8.237 8.237 0 016 18.75c1.995 0 3.823.707 5.25 1.886V4.533zM12.75 20.636A8.214 8.214 0 0118 18.75c.966 0 1.89.166 2.75.47a.75.75 0 001-.708V4.262a.75.75 0 00-.5-.707A9.735 9.735 0 0018 3a9.707 9.707 0 00-5.25 1.533v16.103z" />
     </svg>
-    <span class="mobile-nav-label">Shop</span>
+    <span class="mobile-nav-label">Story</span>
   </a>
 
   <a href="/wins" class="mobile-nav-item" aria-label="Wins">
@@ -48,9 +45,7 @@ const isSalesPage = salesPages.some(page => currentPath.startsWith(page));
     <span class="mobile-nav-label">Join</span>
   </a>
 </nav>
-)}
 
-{!isSalesPage && (
 <!-- More dropdown menu (slides up from bottom) -->
 <div id="mobile-more-menu" class="mobile-more-menu md:hidden" aria-hidden="true">
   <div class="mobile-more-backdrop"></div>
@@ -64,16 +59,6 @@ const isSalesPage = salesPages.some(page => currentPath.startsWith(page));
       </button>
     </div>
     <div class="mobile-more-links">
-      <!-- Free Preview - Gold accent -->
-      <a href="/bedroom-boss/preview" class="mobile-more-link mobile-more-preview">
-        <span class="flex items-center gap-2">🎁 Free Preview</span>
-        <span class="mobile-more-desc">Read Chapter 1 free</span>
-      </a>
-      <!-- Bedroom Boss - Featured at top -->
-      <a href="/bedroom-boss" class="mobile-more-link mobile-more-featured">
-        <span class="flex items-center gap-2">🔥 Bedroom Boss</span>
-        <span class="mobile-more-desc">The Playbook — $29</span>
-      </a>
       <a href="/story" class="mobile-more-link">
         <span>Story</span>
         <span class="mobile-more-desc">From prison to $32M</span>
@@ -109,7 +94,6 @@ const isSalesPage = salesPages.some(page => currentPath.startsWith(page));
     </div>
   </div>
 </div>
-)}
 
 <style>
   .mobile-nav {
@@ -165,17 +149,6 @@ const isSalesPage = salesPages.some(page => currentPath.startsWith(page));
     font-size: 10px;
     font-weight: 600;
     letter-spacing: 0.02em;
-  }
-
-  /* Shop highlight (gold) */
-  .mobile-nav-shop {
-    color: #d4a017;
-  }
-
-  .mobile-nav-shop:hover,
-  .mobile-nav-shop:active {
-    color: #fbbf24;
-    background: rgba(212, 160, 23, 0.15);
   }
 
   /* CTA button highlight */
@@ -292,40 +265,6 @@ const isSalesPage = salesPages.some(page => currentPath.startsWith(page));
   .mobile-more-desc {
     font-size: 12px;
     color: rgba(255, 255, 255, 0.5);
-  }
-
-  /* Preview link (Free Preview) */
-  .mobile-more-preview {
-    grid-column: span 2;
-    background: linear-gradient(to right, rgba(16, 185, 129, 0.15), transparent);
-    border: 1px solid rgba(16, 185, 129, 0.3);
-  }
-
-  .mobile-more-preview span:first-child {
-    color: #10B981;
-  }
-
-  .mobile-more-preview:hover,
-  .mobile-more-preview:active {
-    background: rgba(16, 185, 129, 0.2);
-    border-color: rgba(16, 185, 129, 0.5);
-  }
-
-  /* Featured link (Bedroom Boss) */
-  .mobile-more-featured {
-    grid-column: span 2;
-    background: linear-gradient(to right, rgba(212, 160, 23, 0.15), transparent);
-    border: 1px solid rgba(212, 160, 23, 0.3);
-  }
-
-  .mobile-more-featured span:first-child {
-    color: #d4a017;
-  }
-
-  .mobile-more-featured:hover,
-  .mobile-more-featured:active {
-    background: rgba(212, 160, 23, 0.2);
-    border-color: rgba(212, 160, 23, 0.5);
   }
 
   /* Hide on desktop (md breakpoint = 768px) */

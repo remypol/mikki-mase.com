@@ -22,6 +22,10 @@ export default defineConfig({
     sitemap({
       changefreq: 'weekly',
       lastmod: new Date(),
+      filter(page) {
+        // Exclude Bedroom Boss pages from sitemap
+        return !page.includes('/bedroom-boss');
+      },
       serialize(item) {
         // Homepage = highest priority
         if (item.url.endsWith('mikki-mase.com/')) {
