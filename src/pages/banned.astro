@@ -16,13 +16,13 @@ const bannedSchema = {
   "@graph": [
     {
       "@type": "Article",
-      "@id": "https://mikki-mase.com/banned#article",
+      "@id": "https://www.mikki-mase.com/banned#article",
       "headline": "Mikki Mase Banned From 150+ Casinos - Interactive Map & Complete List",
       "description": "Interactive map showing all 150+ casinos that banned Mikki Mase. Includes legal framework, absurd ban reasons, and detailed casino locations.",
       "author": {
         "@type": "Person",
         "name": "Mikki Mase",
-        "@id": "https://mikki-mase.com/#person"
+        "@id": "https://www.mikki-mase.com/#person"
       },
       "datePublished": "2025-01-21",
       "dateModified": "2026-01-02",
@@ -31,19 +31,19 @@ const bannedSchema = {
     },
     {
       "@type": "BreadcrumbList",
-      "@id": "https://mikki-mase.com/banned#breadcrumb",
+      "@id": "https://www.mikki-mase.com/banned#breadcrumb",
       "itemListElement": [
         {
           "@type": "ListItem",
           "position": 1,
           "name": "Home",
-          "item": "https://mikki-mase.com/"
+          "item": "https://www.mikki-mase.com/"
         },
         {
           "@type": "ListItem",
           "position": 2,
           "name": "Banned From Casinos",
-          "item": "https://mikki-mase.com/banned"
+          "item": "https://www.mikki-mase.com/banned"
         }
       ]
     }
@@ -52,8 +52,8 @@ const bannedSchema = {
 ---
 
 <BaseLayout
-  title="Interactive Casino Ban Map - Mikki Mase Banned From 150+ Properties (2026)"
-  description="Interactive map showing all casinos that banned Mikki Mase. ${stats.total} casino locations mapped worldwide including Vegas, Atlantic City, and Macau. Legal framework and absurd ban reasons explained."
+  title="Casino Ban Map - Mikki Mase Banned From 150+ Properties"
+  description={`Interactive map of ${stats.total} casinos that banned Mikki Mase worldwide. Vegas, Atlantic City, Macau locations with ban reasons explained.`}
   ogType="article"
   schema={bannedSchema}
 >

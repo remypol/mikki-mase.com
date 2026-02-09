@@ -29,7 +29,7 @@ const {
 // Default OG image, can be overridden per-page
 const socialImage = ogImage || "/images/mikki-main-1.webp";
 
-const siteURL = "https://mikki-mase.com";
+const siteURL = "https://www.mikki-mase.com";
 const currentURL = canonicalURL || `${siteURL}${Astro.url.pathname}`;
 
 // Check if homepage for LCP preload
@@ -55,6 +55,7 @@ const globalSchema = {
       "birthDate": "1991-10-27",
       "birthPlace": {
         "@type": "Place",
+        "name": "Marlboro, NJ",
         "address": {
           "@type": "PostalAddress",
           "addressLocality": "Marlboro",
@@ -134,7 +135,7 @@ const finalSchema = schema ? {
     <meta name="description" content={description} />
     <link rel="canonical" href={currentURL} />
     {noIndex ? (
-      <meta name="robots" content="noindex, nofollow" />
+      <meta name="robots" content="noindex, follow" />
     ) : (
       <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
     )}

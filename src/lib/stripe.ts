@@ -22,7 +22,7 @@ import type { CheckoutSession, CheckoutResult } from '../config/shop/types';
 
 const STRIPE_SECRET_KEY = import.meta.env.STRIPE_SECRET_KEY;
 const STRIPE_PUBLISHABLE_KEY = import.meta.env.PUBLIC_STRIPE_PUBLISHABLE_KEY;
-const SITE_URL = import.meta.env.SITE_URL || 'https://mikki-mase.com';
+const SITE_URL = import.meta.env.SITE_URL || 'https://www.mikki-mase.com';
 
 // ============================================
 // SERVER-SIDE CLIENT

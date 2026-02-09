@@ -48,21 +48,21 @@ const posts = [
 
 const blogSchema = {
   "@type": "Blog",
-  "@id": "https://mikki-mase.com/blog#blog",
+  "@id": "https://www.mikki-mase.com/blog#blog",
   "name": "Mikki Mase Blog - Gambling Strategy & Casino Insights",
   "description": "Expert gambling insights, baccarat strategy, and behind-the-scenes stories from Mikki Mase - the man who won $32M and got banned from 150+ casinos.",
-  "url": "https://mikki-mase.com/blog",
+  "url": "https://www.mikki-mase.com/blog",
   "author": {
     "@type": "Person",
     "name": "Mikki Mase",
-    "@id": "https://mikki-mase.com/#person"
+    "@id": "https://www.mikki-mase.com/#person"
   },
   "blogPost": posts.map(post => ({
     "@type": "BlogPosting",
     "headline": post.title,
     "description": post.excerpt,
     "datePublished": post.date,
-    "url": `https://mikki-mase.com/blog/${post.slug}`
+    "url": `https://www.mikki-mase.com/blog/${post.slug}`
   }))
 };
 ---

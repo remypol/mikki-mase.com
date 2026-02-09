@@ -205,7 +205,7 @@ export const bedroomBoss: Product = {
       name: 'Bedroom Boss: The Mikki Mase Playbook',
       description:
         'Digital ebook on seduction, confidence, and creating obsession. 11 chapters with bonus materials.',
-      image: 'https://mikki-mase.com/images/shop/bedroom-boss-cover.png',
+      image: 'https://www.mikki-mase.com/images/shop/bedroom-boss-cover.png',
       brand: {
         '@type': 'Brand',
         name: 'Mikki Mase',
@@ -215,7 +215,7 @@ export const bedroomBoss: Product = {
         price: 29,
         priceCurrency: 'USD',
         availability: 'https://schema.org/InStock',
-        url: 'https://mikki-mase.com/bedroom-boss',
+        url: 'https://www.mikki-mase.com/bedroom-boss',
       },
       aggregateRating: {
         '@type': 'AggregateRating',

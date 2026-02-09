@@ -353,14 +353,14 @@ const glossarySchema = {
   "@graph": [
     ...terms.map((item, index) => ({
       "@type": "DefinedTerm",
-      "@id": `https://mikki-mase.com/glossary#${item.term.toLowerCase().replace(/\s+/g, '-').replace(/[()]/g, '')}`,
+      "@id": `https://www.mikki-mase.com/glossary#${item.term.toLowerCase().replace(/\s+/g, '-').replace(/[()]/g, '')}`,
       "name": item.term,
       "description": item.definition,
-      "inDefinedTermSet": "https://mikki-mase.com/glossary"
+      "inDefinedTermSet": "https://www.mikki-mase.com/glossary"
     })),
     {
       "@type": "DefinedTermSet",
-      "@id": "https://mikki-mase.com/glossary",
+      "@id": "https://www.mikki-mase.com/glossary",
       "name": "Mikki Mase Gambling Glossary",
       "description": "Complete glossary of baccarat, casino, and gambling terms used by professional high-stakes players.",
       "hasDefinedTerm": terms.map((item) => ({
@@ -371,19 +371,19 @@ const glossarySchema = {
     },
     {
       "@type": "BreadcrumbList",
-      "@id": "https://mikki-mase.com/glossary#breadcrumb",
+      "@id": "https://www.mikki-mase.com/glossary#breadcrumb",
       "itemListElement": [
         {
           "@type": "ListItem",
           "position": 1,
           "name": "Home",
-          "item": "https://mikki-mase.com/"
+          "item": "https://www.mikki-mase.com/"
         },
         {
           "@type": "ListItem",
           "position": 2,
           "name": "Gambling Glossary",
-          "item": "https://mikki-mase.com/glossary"
+          "item": "https://www.mikki-mase.com/glossary"
         }
       ]
     }

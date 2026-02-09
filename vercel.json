@@ -9,6 +9,26 @@
       "source": "/bedroom-boss/preview",
       "destination": "/",
       "permanent": true
+    },
+    {
+      "source": "/join-old",
+      "destination": "/join",
+      "permanent": true
+    },
+    {
+      "source": "/join-old/",
+      "destination": "/join",
+      "permanent": true
+    },
+    {
+      "source": "/tools/bankroll-calculator-old",
+      "destination": "/tools/bankroll-calculator",
+      "permanent": true
+    },
+    {
+      "source": "/tools/bankroll-calculator-old/",
+      "destination": "/tools/bankroll-calculator",
+      "permanent": true
     }
   ]
 }

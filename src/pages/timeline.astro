@@ -412,7 +412,7 @@ const getEventLocation = (eventTitle: string, era: string) => {
   // Generic biographical milestones → VirtualLocation (for birth, childhood, etc.)
   return {
     "@type": "VirtualLocation",
-    "url": "https://mikki-mase.com/timeline"
+    "url": "https://www.mikki-mase.com/timeline"
   };
 };
 
@@ -422,13 +422,13 @@ const timelineSchema = {
   "@graph": [
     {
       "@type": "Article",
-      "@id": "https://mikki-mase.com/timeline#article",
+      "@id": "https://www.mikki-mase.com/timeline#article",
       "headline": "The Mikki Mase Timeline - Complete Chronological Journey",
       "description": "Interactive timeline documenting Mikki Mase's complete journey from childhood gambling at age 3 to winning $32M+ and getting banned from 150+ casinos.",
       "author": {
         "@type": "Person",
         "name": "Mikki Mase",
-        "@id": "https://mikki-mase.com/#person"
+        "@id": "https://www.mikki-mase.com/#person"
       },
       "datePublished": "2025-01-24",
       "dateModified": "2026-01-02",
@@ -438,7 +438,7 @@ const timelineSchema = {
       },
       "mainEntityOfPage": {
         "@type": "WebPage",
-        "@id": "https://mikki-mase.com/timeline"
+        "@id": "https://www.mikki-mase.com/timeline"
       },
       "articleSection": "Biography",
       "keywords": "Mikki Mase timeline, chronological events, prison to casino wins, biography timeline",
@@ -447,7 +447,7 @@ const timelineSchema = {
     ...timelineEras.flatMap((era, eraIndex) =>
       era.events.map((event, eventIndex) => ({
         "@type": "Event",
-        "@id": `https://mikki-mase.com/timeline#event-${eraIndex}-${eventIndex}`,
+        "@id": `https://www.mikki-mase.com/timeline#event-${eraIndex}-${eventIndex}`,
         "name": event.title,
         "description": event.description,
         "startDate": event.year,
@@ -455,7 +455,7 @@ const timelineSchema = {
         "about": {
           "@type": "Person",
           "name": "Mikki Mase",
-          "@id": "https://mikki-mase.com/#person"
+          "@id": "https://www.mikki-mase.com/#person"
         },
         "organizer": {
           "@type": "Person",
@@ -469,7 +469,7 @@ const timelineSchema = {
 
 <BaseLayout
   title="Mikki Mase Timeline: Complete Chronological Journey 1991-2026"
-  description="Interactive timeline of Mikki Mase's complete journey: from learning cards at age 3, to juvenile detention at 15, building a 300-pharmacy empire, discovering baccarat, winning $32M+, and getting banned from 150+ casinos. Every major event mapped."
+  description="Interactive timeline of Mikki Mase's journey: cards at age 3, prison at 15, 300-pharmacy empire, $32M+ in baccarat wins, and 150+ casino bans mapped."
   schema={timelineSchema}
 >
   <Header />

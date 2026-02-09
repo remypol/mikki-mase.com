@@ -6,7 +6,7 @@ User-agent: *
 Allow: /
 
 # Sitemap location
-Sitemap: https://mikki-mase.com/sitemap-index.xml
+Sitemap: https://www.mikki-mase.com/sitemap-index.xml
 
 # Googlebot - full access, no delay
 User-agent: Googlebot
@@ -63,4 +63,4 @@ User-agent: DataForSeoBot
 Disallow: /
 
 # Host directive
-Host: https://mikki-mase.com
+Host: https://www.mikki-mase.com

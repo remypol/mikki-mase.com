@@ -34,7 +34,7 @@ export const POST: APIRoute = async ({ request }) => {
     }
 
     const stripe = await getStripeServer();
-    const siteUrl = import.meta.env.SITE_URL || 'https://mikki-mase.com';
+    const siteUrl = import.meta.env.SITE_URL || 'https://www.mikki-mase.com';
 
     // Build session configuration
     const sessionConfig: any = {

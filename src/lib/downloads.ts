@@ -110,7 +110,7 @@ export function getDownloadPath(productId: string): string {
 // DOWNLOAD URL
 // ============================================
 
-const SITE_URL = import.meta.env.SITE_URL || 'https://mikki-mase.com';
+const SITE_URL = import.meta.env.SITE_URL || 'https://www.mikki-mase.com';
 
 /**
  * Generate a download URL for a token

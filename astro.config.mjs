@@ -7,7 +7,7 @@ import vercel from '@astrojs/vercel';
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://mikki-mase.com',
+  site: 'https://www.mikki-mase.com',
   output: 'static',
   adapter: vercel(),
   compressHTML: true,
@@ -23,8 +23,11 @@ export default defineConfig({
       changefreq: 'weekly',
       lastmod: new Date(),
       filter(page) {
-        // Exclude Bedroom Boss pages from sitemap
-        return !page.includes('/bedroom-boss');
+        // Exclude pages that shouldn't be in sitemap
+        return !page.includes('/bedroom-boss') &&
+               !page.includes('/checkout/') &&
+               !page.includes('/join-old') &&
+               !page.includes('/bankroll-calculator-old');
       },
       serialize(item) {
         // Homepage = highest priority
