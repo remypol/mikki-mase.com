@@ -54,19 +54,11 @@ export const POST: APIRoute = async ({ request }) => {
   const headers = { 'Content-Type': 'application/json' };
 
   try {
-    // Ensure we have a JSON body
-    const contentType = request.headers.get('content-type') || '';
-    if (!contentType.includes('application/json')) {
-      return new Response(
-        JSON.stringify({ success: false, error: 'Invalid request format.' }),
-        { status: 400, headers }
-      );
-    }
-
     let body: any;
     try {
       body = await request.json();
-    } catch {
+    } catch (parseErr) {
+      console.error('JSON parse error:', parseErr, 'Content-Type:', request.headers.get('content-type'));
       return new Response(
         JSON.stringify({ success: false, error: 'Invalid request body.' }),
         { status: 400, headers }
