@@ -26,7 +26,7 @@ if (token) {
     product = getProductById(result.productId);
     downloadPath = getDownloadPath(result.productId);
 
-    if (!product || !downloadPath) {
+    if (!downloadPath) {
       error = 'Product not found';
     }
   } else {
