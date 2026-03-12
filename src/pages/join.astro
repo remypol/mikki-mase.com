@@ -4,6 +4,7 @@ import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import Breadcrumbs from '../components/Breadcrumbs.astro';
 import AnimatedStat from '../components/AnimatedStat.astro';
+import EmailCapture from '../components/EmailCapture.tsx';
 
 const joinSchema = {
   "@context": "https://schema.org",
@@ -106,6 +107,15 @@ const joinSchema = {
   </section>
 
   <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "Join" }]} />
+
+  <!-- EMAIL CAPTURE - Above Telegram -->
+  <section class="bg-black py-12 md:py-16">
+    <div class="container mx-auto px-6">
+      <div class="max-w-2xl mx-auto">
+        <EmailCapture client:load variant="inline" source="join-page" headline="First, Grab the Free Cheat Sheet" subheadline="Get the Blackjack Strategy Card before joining the community." />
+      </div>
+    </div>
+  </section>
 
   <!-- LIVE STATS SECTION -->
   <section class="bg-black py-20 md:py-24">

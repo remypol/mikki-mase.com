@@ -1,0 +1,172 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import { getAllProducts } from '../config/shop/products';
+
+const products = getAllProducts();
+
+// Sort: ultimate bundle first (best value), then by price
+const sortedProducts = [...products].sort((a, b) => {
+  if (a.id === 'ultimate-mmc-bundle') return -1;
+  if (b.id === 'ultimate-mmc-bundle') return 1;
+  return a.price - b.price;
+});
+
+const shopSchema = {
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  "name": "MMC Strategy Arsenal",
+  "itemListElement": sortedProducts.map((p, i) => ({
+    "@type": "ListItem",
+    "position": i + 1,
+    "item": {
+      "@type": "Product",
+      "name": p.name,
+      "url": `https://www.mikki-mase.com/${p.slug === 'mmc-cheatsheet-bundle' ? 'cheatsheets' : p.slug}`,
+      "offers": { "@type": "Offer", "price": p.price, "priceCurrency": "USD" }
+    }
+  }))
+};
+
+function getProductLink(slug: string): string {
+  if (slug === 'mmc-cheatsheet-bundle') return '/cheatsheets';
+  if (slug === 'beat-the-casino') return '/beat-the-casino';
+  return '/shop';
+}
+
+function getSavingsPercent(price: number, compareAt?: number): number {
+  if (!compareAt || compareAt <= price) return 0;
+  return Math.round(((compareAt - price) / compareAt) * 100);
+}
+---
+
+<BaseLayout
+  title="Shop — MMC Strategy Arsenal | Mikki Mase"
+  description="Casino strategy cheat sheets, ebooks, and bundles from the Mikki Mase Casino Community. Baccarat, poker, roulette guides. Instant PDF download."
+  schema={shopSchema}
+>
+  <Header />
+
+  <main id="main-content">
+    <!-- Hero Section -->
+    <section class="py-16 md:py-24 bg-black">
+      <div class="max-w-4xl mx-auto px-6 text-center">
+        <p class="eyebrow mb-4 animate-[fadeIn_0.6s_ease-out]">MMC STRATEGY ARSENAL</p>
+        <h1 class="text-3xl md:text-5xl font-black text-white mb-4 animate-[fadeIn_0.6s_ease-out_0.2s_both]">
+          Level Up Your Casino Game
+        </h1>
+        <p class="text-gray-400 text-lg md:text-xl max-w-2xl mx-auto animate-[fadeIn_0.6s_ease-out_0.4s_both]">
+          Strategy resources built from real experience at the tables. Cheat sheets, guides, and bundles for serious players.
+        </p>
+      </div>
+    </section>
+
+    <!-- Breadcrumbs -->
+    <Breadcrumbs items={[
+      { label: 'Home', href: '/' },
+      { label: 'Shop' }
+    ]} />
+
+    <!-- Product Grid -->
+    <section class="py-12 md:py-16 bg-black">
+      <div class="max-w-6xl mx-auto px-6">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {sortedProducts.map((product) => {
+            const link = getProductLink(product.slug);
+            const savings = getSavingsPercent(product.price, product.compareAt);
+            const isBundle = product.id === 'ultimate-mmc-bundle';
+
+            return (
+              <a
+                href={link}
+                class="bg-gray-900 border border-gray-800 rounded-xl overflow-hidden hover:border-[#CFB53B]/50 transition-all group relative block no-underline"
+              >
+                {/* Best Value Badge */}
+                {isBundle && (
+                  <span class="absolute top-4 right-4 z-10 bg-gradient-to-r from-[#CFB53B] to-yellow-500 text-black text-xs font-bold px-3 py-1.5 rounded-full shadow-lg">
+                    &#11088; BEST VALUE
+                  </span>
+                )}
+
+                {/* Cover Image */}
+                <div class="aspect-[3/4] overflow-hidden bg-gray-950">
+                  <img
+                    src={product.cover}
+                    alt={product.name}
+                    class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    loading="lazy"
+                    width="400"
+                    height="533"
+                  />
+                </div>
+
+                {/* Card Content */}
+                <div class="p-6">
+                  <p class="text-[#CFB53B] text-xs font-semibold uppercase tracking-wider mb-2">
+                    {product.tagline}
+                  </p>
+                  <h2 class="text-xl font-bold text-white mb-2 group-hover:text-[#CFB53B] transition-colors">
+                    {product.name}
+                  </h2>
+                  <p class="text-gray-400 text-sm line-clamp-2 mb-4">
+                    {product.description}
+                  </p>
+
+                  {/* Price Display */}
+                  <div class="flex items-center gap-3 mb-4">
+                    <span class="text-2xl font-bold text-white">
+                      ${product.price % 1 === 0 ? product.price : product.price.toFixed(2)}
+                    </span>
+                    {product.compareAt && (
+                      <span class="text-gray-500 line-through text-sm">
+                        ${product.compareAt % 1 === 0 ? product.compareAt : product.compareAt.toFixed(2)}
+                      </span>
+                    )}
+                    {savings > 0 && (
+                      <span class="text-green-500 text-sm font-semibold">
+                        {savings}% OFF
+                      </span>
+                    )}
+                  </div>
+
+                  {/* CTA Button */}
+                  <span class="block bg-[#A8001E] text-white font-bold w-full py-3 rounded-lg min-h-[48px] text-center group-hover:bg-[#c50023] transition-colors">
+                    GET ACCESS
+                  </span>
+                </div>
+              </a>
+            );
+          })}
+        </div>
+      </div>
+    </section>
+
+    <!-- Email Capture Section -->
+    <section class="py-12 md:py-16 bg-gray-950 border-t border-b border-gray-800">
+      <div class="max-w-xl mx-auto px-6 text-center">
+        <h2 class="text-2xl font-bold text-white mb-2">Not ready to buy?</h2>
+        <p class="text-gray-400 mb-6">Get the free Blackjack Cheat Sheet first and see our quality.</p>
+        <form class="flex flex-col sm:flex-row gap-3" action="/api/subscribe" method="POST">
+          <input type="hidden" name="source" value="shop" />
+          <input
+            type="email"
+            name="email"
+            placeholder="Your email address"
+            required
+            class="flex-1 px-4 py-3 rounded-lg bg-gray-900 border border-gray-700 text-white placeholder-gray-500 focus:outline-none focus:border-[#CFB53B] transition-colors min-h-[48px]"
+          />
+          <button
+            type="submit"
+            class="bg-[#A8001E] text-white font-bold px-6 py-3 rounded-lg min-h-[48px] hover:bg-[#c50023] transition-colors whitespace-nowrap"
+          >
+            GET FREE CHEAT SHEET
+          </button>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</BaseLayout>

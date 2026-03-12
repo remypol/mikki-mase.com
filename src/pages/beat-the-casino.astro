@@ -1,0 +1,494 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import SalesHero from '../components/shop/sales/SalesHero.astro';
+import UrgencyBanner from '../components/shop/sales/UrgencyBanner.astro';
+import Testimonials from '../components/shop/sales/Testimonials.astro';
+import WhoIsThisFor from '../components/shop/sales/WhoIsThisFor.astro';
+import TransformationSection from '../components/shop/sales/TransformationSection.astro';
+import ChapterList from '../components/shop/sales/ChapterList.tsx';
+import PricingCard from '../components/shop/sales/PricingCard.astro';
+import PriceJustification from '../components/shop/sales/PriceJustification.astro';
+import GuaranteeSeal from '../components/shop/sales/GuaranteeSeal.astro';
+import FAQAccordion from '../components/shop/sales/FAQAccordion.tsx';
+import StickyBuyBar from '../components/shop/sales/StickyBuyBar.tsx';
+import BuyButton from '../components/shop/core/BuyButton.tsx';
+import { beatTheCasino } from '../config/shop/products';
+
+const product = beatTheCasino;
+
+// Map product testimonials to the shape Testimonials.astro expects
+const mappedTestimonials = product.salesPage!.testimonials.map((t) => ({
+  quote: t.text,
+  author: t.name,
+  location: t.location,
+}));
+
+// Map product chapters to the shape ChapterList.tsx expects (bullets array)
+const mappedChapters = product.salesPage!.chapters.map((ch) => ({
+  number: ch.number,
+  title: ch.title,
+  bullets: [ch.description],
+}));
+
+// Schema.org: Product + FAQPage combined graph
+const pageSchema = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Product",
+      "name": product.name,
+      "description": product.description,
+      "image": `https://www.mikki-mase.com${product.cover}`,
+      "brand": {
+        "@type": "Brand",
+        "name": "Mikki Mase"
+      },
+      "offers": {
+        "@type": "Offer",
+        "price": product.price,
+        "priceCurrency": "USD",
+        "availability": "https://schema.org/InStock",
+        "url": "https://www.mikki-mase.com/beat-the-casino"
+      },
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": 4.9,
+        "reviewCount": 64
+      }
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": product.salesPage!.faqs.map((faq) => ({
+        "@type": "Question",
+        "name": faq.question,
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": faq.answer
+        }
+      }))
+    }
+  ]
+};
+---
+
+<BaseLayout
+  title={product.seo.title}
+  description={product.seo.description}
+  ogImage={product.seo.image}
+  schema={pageSchema}
+>
+  <Header />
+
+  <!-- Section 1: Hero -->
+  <SalesHero product={product} />
+
+  <!-- Section 2: Urgency Banner -->
+  <UrgencyBanner type="price" originalPrice={product.compareAt} salePrice={product.price} />
+
+  <!-- Section 3: Hook -->
+  <section class="py-16 md:py-24 bg-black">
+    <div class="max-w-3xl mx-auto px-4 text-center">
+      <p class="text-gray-300 text-xl md:text-2xl leading-relaxed mb-6">
+        Every casino you've ever walked into was designed to beat you.
+        The lights, the sounds, the layout, the rewards —
+        <span class="text-white font-semibold">all engineered by psychologists.</span>
+      </p>
+      <p class="text-gold text-xl md:text-2xl font-semibold leading-relaxed">
+        This book rips the curtain back. 98 pages. 8 chapters.
+        Everything they don't want you to know.
+      </p>
+    </div>
+  </section>
+
+  <!-- Section 4: Pain Points -->
+  <section class="py-16 md:py-24 bg-gray-900">
+    <div class="max-w-3xl mx-auto px-4">
+      <h2 class="font-serif text-3xl md:text-4xl font-bold text-white text-center mb-12">
+        This Is What's Really Happening
+      </h2>
+
+      <div class="space-y-4">
+        {product.salesPage!.painPoints.map((pain) => (
+          <div class="flex items-center gap-4 bg-gray-800/50 rounded-xl p-5 border border-gray-700
+                      hover:border-red-500/30 transition-colors">
+            <div class="w-10 h-10 flex-shrink-0 bg-red-500/10 rounded-full flex items-center justify-center">
+              <span class="text-red-400 text-lg">&#x2717;</span>
+            </div>
+            <p class="text-gray-200 text-lg">{pain}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 5: Who Is This For -->
+  <WhoIsThisFor
+    forYou={[
+      "You visit casinos regularly",
+      "You want to understand how the house really works",
+      "You're interested in advantage play techniques",
+      "You want to stop being a mark"
+    ]}
+    notForYou={[
+      "You think there's a guaranteed way to win",
+      "You're not willing to study and learn",
+      "You just want a quick gambling tip"
+    ]}
+  />
+
+  <!-- Section 6: Promise / Benefits -->
+  <section class="py-16 md:py-24 bg-black">
+    <div class="max-w-3xl mx-auto px-4">
+      <h2 class="font-serif text-3xl md:text-4xl font-bold text-white text-center mb-12">
+        After Reading This Book, You'll...
+      </h2>
+
+      <div class="space-y-4">
+        <div class="flex items-start gap-4 bg-gray-900/50 rounded-xl p-5 border border-gray-800
+                    hover:border-gold/30 transition-colors">
+          <div class="w-10 h-10 flex-shrink-0 bg-gold/10 rounded-full flex items-center justify-center">
+            <span class="text-gold text-lg">&#x2713;</span>
+          </div>
+          <p class="text-gray-200 text-lg">Understand exactly how casino architecture manipulates your behavior</p>
+        </div>
+
+        <div class="flex items-start gap-4 bg-gray-900/50 rounded-xl p-5 border border-gray-800
+                    hover:border-gold/30 transition-colors">
+          <div class="w-10 h-10 flex-shrink-0 bg-gold/10 rounded-full flex items-center justify-center">
+            <span class="text-gold text-lg">&#x2713;</span>
+          </div>
+          <p class="text-gray-200 text-lg">See through loyalty program tricks that cost more than they give</p>
+        </div>
+
+        <div class="flex items-start gap-4 bg-gray-900/50 rounded-xl p-5 border border-gray-800
+                    hover:border-gold/30 transition-colors">
+          <div class="w-10 h-10 flex-shrink-0 bg-gold/10 rounded-full flex items-center justify-center">
+            <span class="text-gold text-lg">&#x2713;</span>
+          </div>
+          <p class="text-gray-200 text-lg">Know the advantage play techniques casinos fear most</p>
+        </div>
+
+        <div class="flex items-start gap-4 bg-gray-900/50 rounded-xl p-5 border border-gray-800
+                    hover:border-gold/30 transition-colors">
+          <div class="w-10 h-10 flex-shrink-0 bg-gold/10 rounded-full flex items-center justify-center">
+            <span class="text-gold text-lg">&#x2713;</span>
+          </div>
+          <p class="text-gray-200 text-lg">Have a framework for responsible, disciplined gambling</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 7: Transformation -->
+  <TransformationSection
+    transformations={[
+      "You walk into a casino seeing what others can't — the manipulation",
+      "You ignore the 'rewards' that are designed to keep you losing",
+      "You apply advantage play techniques with confidence",
+      "You set and stick to bankroll limits like a professional",
+      "You leave the casino in control, with knowledge no one else has"
+    ]}
+  />
+
+  <!-- Section 8: Chapters -->
+  <ChapterList client:visible chapters={mappedChapters} />
+
+  <!-- Section 9: Testimonials -->
+  <Testimonials testimonials={mappedTestimonials} />
+
+  <!-- Section 10: Why Different -->
+  <section class="py-16 md:py-24 bg-gray-900">
+    <div class="max-w-3xl mx-auto px-4">
+      <h2 class="font-serif text-3xl md:text-4xl font-bold text-white text-center mb-8">
+        Why This Book Is Different
+      </h2>
+
+      <div class="bg-gradient-to-br from-gray-800 to-gray-900 border-l-4 border-gold p-6 md:p-8 rounded-r-xl mb-8">
+        <p class="text-gray-200 text-lg md:text-xl leading-relaxed">
+          This isn't academic gambling theory. This is <span class="text-white font-semibold">battle-tested intelligence</span> from the community around the man who won <span class="text-gold font-semibold">$32M+</span> and got banned from <span class="text-gold font-semibold">150+ casinos</span>.
+        </p>
+      </div>
+
+      <div class="grid md:grid-cols-3 gap-6">
+        <div class="bg-gray-800/50 rounded-xl p-6 border border-gray-700 text-center">
+          <div class="w-12 h-12 bg-gold/10 rounded-full flex items-center justify-center mx-auto mb-4">
+            <svg class="w-6 h-6 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+          </div>
+          <h3 class="text-white font-bold mb-2">Practical Application</h3>
+          <p class="text-gray-400 text-sm">Not theory. Real techniques you can use the next time you step into a casino.</p>
+        </div>
+
+        <div class="bg-gray-800/50 rounded-xl p-6 border border-gray-700 text-center">
+          <div class="w-12 h-12 bg-gold/10 rounded-full flex items-center justify-center mx-auto mb-4">
+            <svg class="w-6 h-6 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+            </svg>
+          </div>
+          <h3 class="text-white font-bold mb-2">Real-World Examples</h3>
+          <p class="text-gray-400 text-sm">Case studies from actual casino scenarios. See how the system works from the inside.</p>
+        </div>
+
+        <div class="bg-gray-800/50 rounded-xl p-6 border border-gray-700 text-center">
+          <div class="w-12 h-12 bg-gold/10 rounded-full flex items-center justify-center mx-auto mb-4">
+            <svg class="w-6 h-6 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+            </svg>
+          </div>
+          <h3 class="text-white font-bold mb-2">Insider Knowledge</h3>
+          <p class="text-gray-400 text-sm">Information the casino industry doesn't want public. From someone they tried to silence.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 11: Authority -->
+  <section class="py-16 md:py-24 bg-black">
+    <div class="max-w-4xl mx-auto px-4">
+      <div class="grid md:grid-cols-2 gap-8 md:gap-12 items-center">
+        <!-- Image -->
+        <div class="flex justify-center">
+          <div class="relative">
+            <div class="absolute -inset-4 bg-gold/10 blur-2xl rounded-full" />
+            <img
+              src="/images/mikki-main-1.webp"
+              alt="Mikki Mase"
+              class="relative w-full max-w-[300px] rounded-xl shadow-2xl"
+              loading="lazy"
+            />
+          </div>
+        </div>
+
+        <!-- Content -->
+        <div>
+          <p class="text-gold text-sm uppercase tracking-[0.2em] mb-4">About The Author</p>
+          <h2 class="font-serif text-3xl md:text-4xl font-bold text-white mb-6">Mikki Mase</h2>
+          <p class="text-gray-300 text-lg leading-relaxed mb-6">
+            Professional baccarat player. Banned from 150+ casinos. $32M+ in documented winnings.
+            Featured on every major gambling podcast and news outlet.
+          </p>
+
+          <div class="grid grid-cols-3 gap-4 mb-6">
+            <div class="text-center">
+              <p class="text-2xl md:text-3xl font-bold text-gold">$32M+</p>
+              <p class="text-gray-500 text-xs">Winnings</p>
+            </div>
+            <div class="text-center">
+              <p class="text-2xl md:text-3xl font-bold text-gold">150+</p>
+              <p class="text-gray-500 text-xs">Casino Bans</p>
+            </div>
+            <div class="text-center">
+              <p class="text-2xl md:text-3xl font-bold text-gold">15+</p>
+              <p class="text-gray-500 text-xs">Years Playing</p>
+            </div>
+          </div>
+
+          <div class="flex flex-wrap gap-3">
+            <a href="/story" class="text-gold hover:text-gold-light text-sm underline transition-colors">Full Story</a>
+            <a href="/wins" class="text-gold hover:text-gold-light text-sm underline transition-colors">Documented Wins</a>
+            <a href="/banned" class="text-gold hover:text-gold-light text-sm underline transition-colors">Casino Bans</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 12: Price Justification (custom inline) -->
+  <section class="py-16 md:py-24 bg-gray-900">
+    <div class="max-w-2xl mx-auto px-4">
+      <h2 class="font-serif text-3xl md:text-4xl font-bold text-white text-center mb-12">
+        Let's Do The Math
+      </h2>
+
+      <div class="bg-gray-800/50 rounded-xl p-6 md:p-8 border border-gray-700 mb-8">
+        <ul class="space-y-4">
+          <li class="flex justify-between items-center text-gray-300 pb-4 border-b border-gray-700">
+            <span>One casino visit without understanding odds</span>
+            <span class="text-gray-500 font-mono">$300</span>
+          </li>
+          <li class="flex justify-between items-center text-gray-300 pb-4 border-b border-gray-700">
+            <span>One year of VIP rewards that cost more than they give</span>
+            <span class="text-gray-500 font-mono">$500</span>
+          </li>
+          <li class="flex justify-between items-center text-gray-300 pb-4 border-b border-gray-700">
+            <span>One Vegas weekend making uninformed bets</span>
+            <span class="text-gray-500 font-mono">$1,000</span>
+          </li>
+        </ul>
+
+        <div class="flex justify-between items-center mt-6 pt-4 border-t border-gray-600">
+          <span class="text-gray-400">Total cost of not knowing:</span>
+          <span class="text-red-400 font-bold text-xl">$1,800+</span>
+        </div>
+      </div>
+
+      <div class="text-center mb-8">
+        <p class="text-2xl text-gray-400 mb-4">OR</p>
+
+        <div class="bg-gold/10 border-2 border-gold rounded-xl p-6 inline-block">
+          <span class="text-[#DC2626] text-sm font-semibold uppercase tracking-wide block mb-2">LAUNCH SPECIAL</span>
+          <p class="text-gray-300 mb-2">One book that changes everything:</p>
+          <div class="flex items-baseline justify-center gap-2 mb-1">
+            <span class="text-gray-500 line-through text-xl">${product.compareAt}</span>
+            <span class="text-gold text-4xl font-bold">${product.price}</span>
+          </div>
+          <span class="inline-block bg-gold text-black text-xs font-bold px-2 py-1 rounded mb-2">
+            {Math.round(((product.compareAt! - product.price) / product.compareAt!) * 100)}% OFF
+          </span>
+          <p class="text-gray-500 text-sm mt-2">And if it doesn't work? You get it back.</p>
+        </div>
+      </div>
+
+      <p class="text-xl text-center text-gray-300">
+        The real question: <span class="text-white font-semibold">what's it costing you NOT to know this?</span>
+      </p>
+    </div>
+  </section>
+
+  <!-- Section 13: Pricing Card -->
+  <PricingCard
+    product={product}
+    features={[
+      "98 pages across 8 chapters",
+      "Casino psychology & design manipulation",
+      "Advantage play techniques",
+      "Responsible gambling framework",
+      "Instant PDF download",
+      "Lifetime access + free updates"
+    ]}
+  />
+
+  <!-- Section 14: Not Sure Yet -->
+  <section class="py-12 md:py-16 bg-gray-900/50">
+    <div class="max-w-2xl mx-auto px-4 text-center">
+      <h3 class="text-white text-xl md:text-2xl font-bold mb-4">Not Sure Yet?</h3>
+      <p class="text-gray-400 mb-6">
+        Start with the free cheat sheets. Get a taste of the strategy before going all in.
+      </p>
+      <a
+        href="/cheatsheets"
+        class="inline-flex items-center gap-2 text-gold hover:text-gold-light font-medium
+               border border-gold/40 hover:border-gold rounded-lg px-6 py-3
+               transition-all duration-200 hover:bg-gold/10"
+      >
+        Download Free Cheat Sheet
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+        </svg>
+      </a>
+    </div>
+  </section>
+
+  <!-- Section 15: Guarantee Seal -->
+  <GuaranteeSeal days={30} />
+
+  <!-- Section 16: FAQ -->
+  <FAQAccordion client:visible faqs={product.salesPage!.faqs} />
+
+  <!-- Section 17: Final CTA -->
+  <section class="py-16 md:py-24 bg-black relative overflow-hidden">
+    <!-- Background glow -->
+    <div class="absolute inset-0 bg-gradient-to-b from-gold/5 via-transparent to-transparent" />
+
+    <div class="max-w-3xl mx-auto px-4 text-center relative z-10">
+      <h2 class="font-serif text-3xl md:text-5xl font-bold text-white mb-6">
+        The House Always Wins —<br />
+        <span class="text-gold">Unless You Read This Book</span>
+      </h2>
+
+      <p class="text-gray-400 text-lg mb-8 max-w-xl mx-auto">
+        98 pages. 8 chapters. Casino psychology, advantage play, and the insider knowledge
+        they spend millions to keep from you.
+      </p>
+
+      <BuyButton
+        client:load
+        productId={product.id}
+        productName={product.name}
+        price={product.price}
+        compareAt={product.compareAt}
+        label="GET THE FULL EBOOK — $29"
+        size="large"
+      />
+
+      <p class="text-gray-500 text-sm mt-4 flex items-center justify-center gap-2">
+        <svg class="w-4 h-4 text-gold" fill="currentColor" viewBox="0 0 20 20">
+          <path fill-rule="evenodd" d="M2.166 4.999A11.954 11.954 0 0010 1.944 11.954 11.954 0 0017.834 5c.11.65.166 1.32.166 2.001 0 5.225-3.34 9.67-8 11.317C5.34 16.67 2 12.225 2 7c0-.682.057-1.35.166-2.001zm11.541 3.708a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+        </svg>
+        30-Day Money-Back Guarantee &bull; Instant PDF Download &bull; Secure Checkout
+      </p>
+    </div>
+  </section>
+
+  <!-- Section 18: Sticky Buy Bar (mobile) -->
+  <StickyBuyBar
+    client:load
+    productId={product.id}
+    productName={product.name}
+    price={product.price}
+    compareAt={product.compareAt}
+  />
+
+  <Footer />
+</BaseLayout>
+
+<!-- GA4: view_item event -->
+<script define:vars={{ productId: product.id, productName: product.name, productPrice: product.price }}>
+  // Fire view_item when page loads
+  window.addEventListener('DOMContentLoaded', function() {
+    // dataLayer for GTM
+    var dataLayer = window.dataLayer || [];
+    dataLayer.push({
+      event: 'view_item',
+      ecommerce: {
+        currency: 'USD',
+        value: productPrice,
+        items: [{
+          item_id: productId,
+          item_name: productName,
+          price: productPrice,
+          quantity: 1
+        }]
+      }
+    });
+
+    // gtag for direct GA4
+    if (typeof gtag !== 'undefined') {
+      gtag('event', 'view_item', {
+        currency: 'USD',
+        value: productPrice,
+        items: [{
+          item_id: productId,
+          item_name: productName,
+          price: productPrice,
+          quantity: 1
+        }]
+      });
+    }
+  });
+</script>
+
+<style>
+  /* Mobile-optimized touch targets */
+  @media (max-width: 768px) {
+    section {
+      padding-left: 1rem;
+      padding-right: 1rem;
+    }
+  }
+
+  /* Smooth scroll for anchor links */
+  html {
+    scroll-behavior: smooth;
+  }
+
+  /* Bottom padding for sticky bar on mobile */
+  @media (max-width: 768px) {
+    footer {
+      padding-bottom: 80px;
+    }
+  }
+</style>

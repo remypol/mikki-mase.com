@@ -42,7 +42,7 @@ const { product } = Astro.props;
 
         <!-- Subheadline -->
         <p class="text-gray-300 text-xl md:text-2xl mb-8 max-w-lg mx-auto md:mx-0 opacity-0 animate-[fadeInUp_0.6s_ease-out_0.2s_forwards]">
-          The step-by-step playbook to make her obsessed with you. <span class="text-white font-semibold">Tonight.</span>
+          {product.salesPage?.subheadline || product.description}
         </p>
 
         <!-- CTA -->
@@ -56,26 +56,10 @@ const { product } = Astro.props;
             size="large"
           />
 
-          <!-- Preview link for hesitant visitors -->
-          <a
-            href="/bedroom-boss/preview"
-            class="inline-flex items-center justify-center md:justify-start gap-2 mt-4 px-5 py-2.5
-                   border border-gold/40 hover:border-gold rounded-lg
-                   text-gold hover:text-gold-light font-medium
-                   transition-all duration-200 hover:bg-gold/10 group"
-            data-preview-link="hero_cta"
-          >
-            <span class="text-lg">📖</span>
-            Read Chapter 1 Free
-            <svg class="w-4 h-4 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-            </svg>
-          </a>
-
           <!-- Social proof stats -->
           <div class="flex flex-wrap items-center justify-center md:justify-start gap-4 mt-4 text-sm">
             <span class="flex items-center gap-1.5 text-gray-400">
-              <span class="text-gold">⚡</span> 2,847+ downloads
+              <span class="text-gold">⚡</span> 1,400+ downloads
             </span>
             <span class="flex items-center gap-1.5 text-gray-400">
               <svg class="w-4 h-4 text-gold" fill="currentColor" viewBox="0 0 20 20">
@@ -110,11 +94,13 @@ const { product } = Astro.props;
           />
 
           <!-- Price badge (mobile only) -->
-          <div class="md:hidden absolute -bottom-3 -right-3 bg-[#A8001E] text-white
-                      font-bold text-sm px-3 py-1.5 rounded-lg shadow-lg flex flex-col items-center">
-            <span class="text-white/70 text-xs line-through">$97</span>
-            <span class="text-lg">${product.price}</span>
-          </div>
+          {product.compareAt && (
+            <div class="md:hidden absolute -bottom-3 -right-3 bg-[#A8001E] text-white
+                        font-bold text-sm px-3 py-1.5 rounded-lg shadow-lg flex flex-col items-center">
+              <span class="text-white/70 text-xs line-through">${product.compareAt}</span>
+              <span class="text-lg">${product.price}</span>
+            </div>
+          )}
         </div>
       </div>
 

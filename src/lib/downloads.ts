@@ -99,8 +99,10 @@ export function verifyDownloadToken(token: string): VerifyResult {
  */
 export function getDownloadPath(productId: string): string {
   const paths: Record<string, string> = {
-    'bedroom-boss': 'https://pub-5da1fec1f5ee477585a0dcc3b9e811d0.r2.dev/bedroom-boss.pdf',
-    // Add more products as needed
+    'mmc-cheatsheet-bundle': 'https://pub-5da1fec1f5ee477585a0dcc3b9e811d0.r2.dev/mmc-cheatsheet-bundle.zip',
+    'beat-the-casino': 'https://pub-5da1fec1f5ee477585a0dcc3b9e811d0.r2.dev/beat-the-casino.pdf',
+    'ultimate-mmc-bundle': 'https://pub-5da1fec1f5ee477585a0dcc3b9e811d0.r2.dev/ultimate-mmc-bundle.zip',
+    'blackjack-cheatsheet': 'https://pub-5da1fec1f5ee477585a0dcc3b9e811d0.r2.dev/blackjack-cheat-sheet-MMC.pdf',
   };
 
   return paths[productId] || '';

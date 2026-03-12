@@ -10,6 +10,7 @@ import WinCard from '../components/WinCard.astro';
 import Testimonials from '../components/Testimonials.astro';
 import QuickAnswer from '../components/QuickAnswer.astro';
 import AnimatedStat from '../components/AnimatedStat.astro';
+import EmailCapture from '../components/EmailCapture.tsx';
 
 
 // Enhanced schema with dates for AI search
@@ -374,6 +375,15 @@ const personSchema = {
         <Button variant="secondary" href="/story">
           Read the Full Story
         </Button>
+      </div>
+    </div>
+  </section>
+
+  <!-- EMAIL CAPTURE SECTION -->
+  <section class="bg-black py-16 md:py-24">
+    <div class="container mx-auto px-6">
+      <div class="max-w-2xl mx-auto">
+        <EmailCapture client:load variant="inline" source="homepage" />
       </div>
     </div>
   </section>

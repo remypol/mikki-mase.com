@@ -18,8 +18,20 @@ pnpm-debug.log*
 
 # environment variables
 .env
+.env.*
 .env.production
 .env.local
+
+# product source files & stock photos
+products/
+*.zip
+cards-*.jpg
+stocksnap-*.jpg
+tourque-*.jpg
+
+# planning docs
+CLAUDE-CODE-BRIEF.md
+SEO-AUDIT-*.md
 
 # macOS-specific files
 .DS_Store
@@ -29,3 +41,6 @@ pnpm-debug.log*
 
 # vercel
 .vercel/
+
+# claude code
+.claude/

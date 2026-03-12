@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="533" viewBox="0 0 400 533">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1a1a1a"/>
+      <stop offset="100%" stop-color="#111111"/>
+    </linearGradient>
+    <linearGradient id="gold" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#CFB53B"/>
+      <stop offset="100%" stop-color="#E8D44D"/>
+    </linearGradient>
+  </defs>
+  <!-- Background -->
+  <rect width="400" height="533" fill="url(#bg)"/>
+  <!-- Gold border -->
+  <rect x="8" y="8" width="384" height="517" rx="8" fill="none" stroke="url(#gold)" stroke-width="2"/>
+  <!-- Inner border -->
+  <rect x="16" y="16" width="368" height="501" rx="4" fill="none" stroke="#CFB53B" stroke-width="0.5" opacity="0.3"/>
+  <!-- Top decorative line -->
+  <line x1="60" y1="100" x2="340" y2="100" stroke="#CFB53B" stroke-width="1" opacity="0.4"/>
+  <!-- Eyebrow -->
+  <text x="200" y="85" text-anchor="middle" fill="#CFB53B" font-family="system-ui, -apple-system, sans-serif" font-size="12" font-weight="600" letter-spacing="3">MMC STRATEGY ARSENAL</text>
+  <!-- Card icons -->
+  <g transform="translate(200, 220)" opacity="0.8">
+    <!-- Spade -->
+    <text x="-60" y="0" text-anchor="middle" fill="#CFB53B" font-size="48">&#9824;</text>
+    <!-- Diamond -->
+    <text x="0" y="0" text-anchor="middle" fill="#CFB53B" font-size="48">&#9830;</text>
+    <!-- Club -->
+    <text x="60" y="0" text-anchor="middle" fill="#CFB53B" font-size="48">&#9827;</text>
+  </g>
+  <!-- Title -->
+  <text x="200" y="310" text-anchor="middle" fill="#FFFFFF" font-family="system-ui, -apple-system, sans-serif" font-size="28" font-weight="700">MMC Cheatsheet</text>
+  <text x="200" y="345" text-anchor="middle" fill="#FFFFFF" font-family="system-ui, -apple-system, sans-serif" font-size="28" font-weight="700">Bundle</text>
+  <!-- Subtitle -->
+  <text x="200" y="385" text-anchor="middle" fill="#CFB53B" font-family="system-ui, -apple-system, sans-serif" font-size="14" font-weight="600" letter-spacing="2">3 STRATEGY CHEAT SHEETS</text>
+  <!-- Details -->
+  <text x="200" y="415" text-anchor="middle" fill="#999999" font-family="system-ui, -apple-system, sans-serif" font-size="13">Baccarat | Poker | Roulette</text>
+  <!-- Bottom decorative line -->
+  <line x1="60" y1="450" x2="340" y2="450" stroke="#CFB53B" stroke-width="1" opacity="0.4"/>
+  <!-- Page count -->
+  <text x="200" y="480" text-anchor="middle" fill="#666666" font-family="system-ui, -apple-system, sans-serif" font-size="12" letter-spacing="1">27 PAGES | PDF FORMAT</text>
+</svg>

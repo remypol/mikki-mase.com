@@ -5,6 +5,7 @@ import Footer from '../../components/Footer.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import Button from '../../components/Button.astro';
 import AuthorBox from '../../components/AuthorBox.astro';
+import EmailCapture from '../../components/EmailCapture.tsx';
 
 const articleSchema = {
   "@type": "Article",
@@ -162,6 +163,8 @@ const articleSchema = {
         </div>
 
       </div>
+
+      <div class="my-12"><EmailCapture client:load variant="compact" source="blog-bankroll-management" /></div>
 
       <!-- Related Posts -->
       <div class="mt-16 pt-8 border-t border-gray-800">

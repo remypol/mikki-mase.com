@@ -4,7 +4,7 @@ import '../styles/animations.css';
 import MobileNav from '../components/MobileNav.astro';
 import ReadingProgress from '../components/ReadingProgress.astro';
 import BackToTop from '../components/BackToTop.astro';
-import ExitIntentBar from '../components/ExitIntentBar.astro';
+import ExitIntentEmailCapture from '../components/ExitIntentEmailCapture.tsx';
 
 interface Props {
   title: string;
@@ -341,8 +341,8 @@ const finalSchema = schema ? {
     <!-- Reading Progress Bar -->
     <ReadingProgress />
 
-    <!-- Exit Intent Bar -->
-    <ExitIntentBar />
+    <!-- Exit Intent Email Capture Bar -->
+    <ExitIntentEmailCapture client:load />
 
     <!-- Skip to main content (accessibility) -->
     <a href="#main-content" class="skip-link">Skip to main content</a>

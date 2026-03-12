@@ -147,6 +147,43 @@ if (sessionId) {
             </div>
           </div>
 
+          <!-- Cross-sell -->
+          {product && product.id === 'mmc-cheatsheet-bundle' && (
+            <div class="bg-gray-900 border border-gold/30 rounded-lg p-6 mt-6 text-left">
+              <p class="text-gold text-sm uppercase tracking-wider mb-2">Next Level</p>
+              <h3 class="text-white font-bold text-lg mb-2">Want the Full Playbook?</h3>
+              <p class="text-gray-400 text-sm mb-4">Go deeper with our 98-page ebook on casino psychology and advantage play.</p>
+              <a href="/beat-the-casino" class="inline-flex items-center gap-2 bg-[#A8001E] text-white font-semibold px-5 py-3 rounded-lg hover:bg-[#8B0018] transition-colors text-sm">
+                Beat the Casino — $29
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>
+              </a>
+            </div>
+          )}
+
+          {product && product.id === 'beat-the-casino' && (
+            <div class="bg-gray-900 border border-gold/30 rounded-lg p-6 mt-6 text-left">
+              <p class="text-gold text-sm uppercase tracking-wider mb-2">Complete Your Arsenal</p>
+              <h3 class="text-white font-bold text-lg mb-2">Get the Strategy Cheat Sheets</h3>
+              <p class="text-gray-400 text-sm mb-4">Baccarat, Poker, and Roulette quick-reference cards for the table.</p>
+              <a href="/cheatsheets" class="inline-flex items-center gap-2 bg-[#A8001E] text-white font-semibold px-5 py-3 rounded-lg hover:bg-[#8B0018] transition-colors text-sm">
+                Cheatsheet Bundle — $19.99
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>
+              </a>
+            </div>
+          )}
+
+          {product && product.id === 'ultimate-mmc-bundle' && (
+            <div class="bg-gray-900 border border-gold/30 rounded-lg p-6 mt-6 text-left">
+              <p class="text-gold text-sm uppercase tracking-wider mb-2">You've Got Everything</p>
+              <h3 class="text-white font-bold text-lg mb-2">Join the Community</h3>
+              <p class="text-gray-400 text-sm mb-4">Connect with other players in the free Telegram group.</p>
+              <a href="/join" class="inline-flex items-center gap-2 bg-gold text-black font-semibold px-5 py-3 rounded-lg hover:bg-gold/90 transition-colors text-sm">
+                Join Telegram Free
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>
+              </a>
+            </div>
+          )}
+
           <!-- Support link -->
           <p class="text-gray-500 text-sm mt-6">
             Questions? <a href="mailto:support@mikki-mase.com" class="text-gold hover:underline">

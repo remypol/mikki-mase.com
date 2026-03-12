@@ -6,222 +6,281 @@
 import type { Product } from './types';
 
 // ============================================
-// BEDROOM BOSS EBOOK
+// MMC CHEATSHEET BUNDLE
 // ============================================
 
-export const bedroomBoss: Product = {
-  // Identity
-  id: 'bedroom-boss',
-  slug: 'bedroom-boss',
-  type: 'ebook',
+export const mmcCheatsheetBundle: Product = {
+  id: 'mmc-cheatsheet-bundle',
+  slug: 'mmc-cheatsheet-bundle',
+  type: 'bundle',
   fulfillment: 'digital',
 
-  // Display
-  name: 'Bedroom Boss',
-  tagline: 'The Mikki Mase Playbook',
+  name: 'MMC Cheatsheet Bundle',
+  tagline: 'The Strategy Arsenal',
   description:
-    'Decoded from hundreds of hours analyzing what separates Mikki from every other guy. 11 chapters on seduction, pleasure, and creating obsession.',
-  cover: '/images/shop/bedroom-boss-cover.png',
-  gallery: [
-    '/images/shop/bedroom-boss-cover.png',
-  ],
+    'Baccarat, Poker, and Roulette strategy cheat sheets. The exact cards used by the Mikki Mase Casino Community. Print-friendly, wallet-sized format.',
+  cover: '/images/shop/cheatsheet-bundle-cover.jpg',
+  gallery: ['/images/shop/cheatsheet-bundle-cover.jpg'],
 
-  // Pricing
-  price: 29,
-  compareAt: 97,
-  previousPrice: 47, // For triple strike-through display
+  price: 19.99,
+  compareAt: 57,
   currency: 'USD',
 
-  // Stripe
-  stripePriceId: 'price_1SmJPDL6BPyNd2GhFYS5R0fS',
-  stripeProductId: 'prod_TjfnsKZiOtc1XF',
+  stripePriceId: 'price_1TA7EsL6BPyNd2GhSP4KrS1P',
+  stripeProductId: 'prod_U8O0UlaoEUIOc6',
 
-  // Digital fulfillment
-  downloadFile: 'bedroom-boss-v1.pdf',
+  downloadFile: 'mmc-cheatsheet-bundle.zip',
 
-  // Metadata
   featured: true,
-  category: 'ebooks',
-  relatedProducts: [],
+  category: 'bundles',
+  relatedProducts: ['beat-the-casino', 'ultimate-mmc-bundle'],
 
-  // Sales page content
   salesPage: {
-    headline: "She Won't Just Remember You. She'll Obsess Over You.",
-    subheadline:
-      "The complete playbook decoded from hundreds of hours analyzing what makes Mikki Mase different from every other guy she's ever met.",
+    headline: 'The exact strategy cards used by the Mikki Mase Casino Community.',
+    subheadline: 'Baccarat. Poker. Roulette. All three cheat sheets in one bundle.',
     painPoints: [
-      "You've read the pickup artist books. They feel manipulative and fake.",
-      "You've tried being 'nice.' She friendzoned you.",
-      "You've tried being 'alpha.' She saw right through it.",
-      "You're tired of guessing what women actually want.",
+      "You've lost money making 'gut feel' bets",
+      "You've searched for strategy and found confusing academic papers",
+      "You know the house has an edge but don't know how to minimize it",
+      "You've watched other players win and wondered what they know",
     ],
     chapters: [
-      {
-        number: 1,
-        title: 'The Mikki Mindset',
-        description: 'Why confidence is a skill, not a trait — and how to build it from scratch.',
-      },
-      {
-        number: 2,
-        title: 'First Impressions That Stick',
-        description: 'The 7-second window and how to own it every single time.',
-      },
-      {
-        number: 3,
-        title: 'Conversation Mastery',
-        description: "How to talk so she leans in — and actually remembers what you said.",
-      },
-      {
-        number: 4,
-        title: 'The Art of Escalation',
-        description: 'Reading signals, building tension, and making moves that feel natural.',
-      },
-      {
-        number: 5,
-        title: 'Digital Game',
-        description: 'Texts, DMs, and dating apps — the new rules for the modern player.',
-      },
-      {
-        number: 6,
-        title: 'The Date Blueprint',
-        description: "Planning experiences she'll brag about to her friends.",
-      },
-      {
-        number: 7,
-        title: 'Physical Presence',
-        description: 'Body language, grooming, and style that commands attention.',
-      },
-      {
-        number: 8,
-        title: 'Handling Tests',
-        description: "Why she's testing you and the only correct responses.",
-      },
-      {
-        number: 9,
-        title: 'The Bedroom',
-        description: 'Performance, presence, and what actually matters between the sheets.',
-      },
-      {
-        number: 10,
-        title: 'Keeping Her Hooked',
-        description: 'Long-term game — making her work to keep YOU.',
-      },
-      {
-        number: 11,
-        title: 'The Mikki Rules',
-        description: 'The non-negotiables that separate players from legends.',
-      },
+      { number: 1, title: 'Baccarat Strategy Guide', description: 'The complete baccarat strategy system. Pattern recognition, bankroll management, betting progressions. 16 pages.' },
+      { number: 2, title: 'Poker Cheatsheet', description: 'Hand rankings, position strategy, pot odds calculator, pre-flop decision matrix. 9 pages.' },
+      { number: 3, title: 'Roulette Cheatsheet', description: 'European vs American odds, Martingale, Labouchère, D\'Alembert, and the 007 bet. 2 pages.' },
     ],
-    bonuses: [
-      {
-        id: 'bonus-1',
-        name: 'The First Text Template Pack',
-        description: '15 proven openers that actually get responses. Copy, paste, customize.',
-        value: 27,
-      },
-      {
-        id: 'bonus-2',
-        name: 'The Red Flag Checklist',
-        description: 'Spot the warning signs before you waste your time. Save yourself months.',
-        value: 17,
-      },
-      {
-        id: 'bonus-3',
-        name: 'Audio Companion',
-        description: 'Full audiobook version. Learn while you drive, lift, or grind.',
-        value: 47,
-      },
-    ],
+    bonuses: [],
     testimonials: [
       {
         id: 't1',
-        name: 'Marcus T.',
-        location: 'Miami, FL',
+        name: 'Alex M.',
+        location: 'Las Vegas',
         rating: 5,
-        text: "I've spent thousands on dating coaches. This ebook taught me more than all of them combined. The mindset chapter alone changed everything.",
+        text: 'Printed the baccarat sheet and laminated it. Use it every Vegas trip. Saved me at least $2K in bad bets.',
         verified: true,
       },
       {
         id: 't2',
-        name: 'Jake R.',
-        location: 'Los Angeles, CA',
+        name: 'Chris P.',
+        location: 'Atlantic City',
         rating: 5,
-        text: "Finally, something that doesn't feel like manipulation. This is just... how to be a better man. And it works.",
+        text: 'The roulette 007 bet alone paid for the entire bundle on my first session.',
         verified: true,
       },
       {
         id: 't3',
-        name: 'Daniel K.',
-        location: 'New York, NY',
+        name: 'Jordan T.',
+        location: 'Miami',
         rating: 5,
-        text: "My girlfriend asked what changed. I just smiled. Chapter 9 is worth 10x the price.",
+        text: 'Finally a reference card that makes sense and fits in my wallet.',
         verified: true,
       },
     ],
     guarantee: {
-      title: '60-Day Money-Back Guarantee',
+      title: "The 'Better Player' Guarantee",
       description:
-        "If you don't see a noticeable difference in how women respond to you within 60 days, email us for a full refund. No questions, no hassle, no hard feelings.",
-      days: 60,
+        "Use these cheat sheets for 30 full days. If you're not making smarter bets and feeling more confident at the table, email us. Full refund.",
+      days: 30,
     },
     faqs: [
-      {
-        question: 'Is this written by Mikki Mase?',
-        answer:
-          "This playbook is decoded from hundreds of hours analyzing Mikki's approach, interviews, and philosophy. It's the system behind his success, made actionable for you.",
-      },
-      {
-        question: 'Is this just pickup artist garbage?',
-        answer:
-          "No. This isn't manipulation tactics or scripted routines. It's about becoming the kind of man women are genuinely attracted to. Authentic, not artificial.",
-      },
-      {
-        question: 'How is this delivered?',
-        answer:
-          "Instantly. After purchase, you'll get immediate access to download the PDF. The audiobook bonus is included in the same download.",
-      },
-      {
-        question: 'What if it doesn\'t work for me?',
-        answer:
-          "60-day money-back guarantee. If you're not seeing results, email us and we'll refund you immediately. We've had less than 1% refund rate.",
-      },
-      {
-        question: 'Is my payment secure?',
-        answer:
-          'Yes. We use Stripe, the same payment processor used by Amazon and Google. Your card info never touches our servers.',
-      },
+      { question: 'What format are the cheat sheets?', answer: 'PDF. Works on any device — print them, save to your phone, or keep a copy in your wallet.' },
+      { question: 'Are these legal to use at casinos?', answer: "100% legal. Casinos ban advantage players not because it's illegal, but because they don't like losing." },
+      { question: 'How are they delivered?', answer: 'Instant. You\'ll get an email with a download link within 60 seconds of purchase.' },
+      { question: 'What\'s your refund policy?', answer: '30-day money-back guarantee. No questions asked.' },
+      { question: 'Is my payment secure?', answer: 'Yes. We use Stripe — the same payment processor used by Amazon and Google. Your card info never touches our servers.' },
     ],
   },
 
-  // SEO
   seo: {
-    title: 'Bedroom Boss: The Mikki Mase Playbook | $29 Launch Special',
+    title: 'MMC Cheatsheet Bundle — Baccarat, Poker & Roulette Strategy Cards | $19.99',
     description:
-      "The complete playbook on seduction, confidence, and creating obsession. 11 chapters decoded from the Mikki Mase approach. 60-day guarantee.",
-    image: '/images/shop/bedroom-boss-cover.png',
+      'The exact strategy cards used by the Mikki Mase Casino Community. Baccarat, Poker, and Roulette cheat sheets. Instant PDF download. 30-day guarantee.',
+    image: '/images/shop/cheatsheet-bundle-cover.jpg',
     schema: {
       '@context': 'https://schema.org',
       '@type': 'Product',
-      name: 'Bedroom Boss: The Mikki Mase Playbook',
-      description:
-        'Digital ebook on seduction, confidence, and creating obsession. 11 chapters with bonus materials.',
-      image: 'https://www.mikki-mase.com/images/shop/bedroom-boss-cover.png',
-      brand: {
-        '@type': 'Brand',
-        name: 'Mikki Mase',
+      name: 'MMC Cheatsheet Bundle',
+      description: 'Baccarat, Poker, and Roulette strategy cheat sheets. Print-friendly PDF format.',
+      image: 'https://www.mikki-mase.com/images/shop/cheatsheet-bundle-cover.jpg',
+      brand: { '@type': 'Brand', name: 'Mikki Mase' },
+      offers: {
+        '@type': 'Offer',
+        price: 19.99,
+        priceCurrency: 'USD',
+        availability: 'https://schema.org/InStock',
+        url: 'https://www.mikki-mase.com/cheatsheets',
       },
+      aggregateRating: { '@type': 'AggregateRating', ratingValue: 4.9, reviewCount: 89 },
+    },
+  },
+};
+
+// ============================================
+// BEAT THE CASINO EBOOK
+// ============================================
+
+export const beatTheCasino: Product = {
+  id: 'beat-the-casino',
+  slug: 'beat-the-casino',
+  type: 'ebook',
+  fulfillment: 'digital',
+
+  name: 'Beat the Casino',
+  tagline: 'The Complete Guide',
+  description:
+    '98 pages. 8 chapters. Everything casinos don\'t want you to know about casino psychology, advantage play, and beating the house.',
+  cover: '/images/shop/beat-the-casino-cover.jpg',
+  gallery: ['/images/shop/beat-the-casino-cover.jpg'],
+
+  price: 29,
+  compareAt: 67,
+  currency: 'USD',
+
+  stripePriceId: 'price_1TA7EsL6BPyNd2GhztnMMASX',
+  stripeProductId: 'prod_U8O0U2UkWPFp78',
+
+  downloadFile: 'beat-the-casino.pdf',
+
+  featured: true,
+  category: 'ebooks',
+  relatedProducts: ['mmc-cheatsheet-bundle', 'ultimate-mmc-bundle'],
+
+  salesPage: {
+    headline: 'Everything casinos don\'t want you to know.',
+    subheadline: '98 pages. 8 chapters. Casino psychology, advantage play, and beating the house.',
+    painPoints: [
+      'You always lose more than you win',
+      "You've fallen for 'rewards' that cost you money",
+      'You suspected games were rigged',
+      'You never understood why winners get banned',
+    ],
+    chapters: [
+      { number: 1, title: 'The Casino Environment', description: 'How casino architecture and design are engineered to manipulate your behavior and keep you playing.' },
+      { number: 2, title: 'Mind Tricks of Game Design', description: 'Slot psychology, table manipulation, and the invisible systems designed to separate you from your money.' },
+      { number: 3, title: 'The Manipulation of Rewards', description: 'How loyalty programs are designed to cost you more than they give. The math behind "free" perks.' },
+      { number: 4, title: 'Exploiting the System', description: 'Card counting, advantage play, bonus exploitation — the techniques casinos fear most.' },
+      { number: 5, title: 'Casino Security', description: 'How surveillance catches players, the evolution of detection technology, and how to stay under the radar.' },
+      { number: 6, title: 'Responsible Gambling', description: 'Maintaining control, recognizing problems, and the discipline that separates winners from addicts.' },
+      { number: 7, title: 'Future of Gambling', description: 'AI, VR, crypto, and mobile — how technology is reshaping the casino landscape.' },
+      { number: 8, title: 'Thriving in the Future', description: 'New regulations, emerging technologies, and how to maintain a competitive edge.' },
+    ],
+    bonuses: [],
+    testimonials: [
+      {
+        id: 't1',
+        name: 'David L.',
+        location: 'Chicago',
+        rating: 5,
+        text: "15 years of casino visits. This book showed me how much I've wasted on their 'rewards' programs.",
+        verified: true,
+      },
+      {
+        id: 't2',
+        name: 'Ryan K.',
+        location: 'Las Vegas',
+        rating: 5,
+        text: 'Chapter 4 on advantage play changed how I approach every table. Worth 100x.',
+        verified: true,
+      },
+      {
+        id: 't3',
+        name: 'Marcus W.',
+        location: 'New York',
+        rating: 5,
+        text: 'Bought for the strategy, stayed for the psychology. Casino design chapter blew my mind.',
+        verified: true,
+      },
+    ],
+    guarantee: {
+      title: "The 'Casino Clarity' Guarantee",
+      description:
+        "Read all 8 chapters. If you don't understand how casinos really work, full refund.",
+      days: 30,
+    },
+    faqs: [
+      { question: 'What format is the ebook?', answer: 'PDF. Read on any device — phone, tablet, computer.' },
+      { question: 'How many pages?', answer: '98 pages across 8 comprehensive chapters.' },
+      { question: 'How is it delivered?', answer: 'Instant. Email with download link within 60 seconds of purchase.' },
+      { question: 'What\'s your refund policy?', answer: '30-day money-back guarantee. No questions asked.' },
+      { question: 'Is my payment secure?', answer: 'Yes. We use Stripe — the same payment processor used by Amazon and Google.' },
+    ],
+  },
+
+  seo: {
+    title: 'Beat the Casino — 98-Page Guide to Casino Psychology & Advantage Play | $29',
+    description:
+      '8 chapters on casino psychology, advantage play, and beating the house. Everything casinos don\'t want you to know. Instant PDF download. 30-day guarantee.',
+    image: '/images/shop/beat-the-casino-cover.jpg',
+    schema: {
+      '@context': 'https://schema.org',
+      '@type': 'Product',
+      name: 'Beat the Casino',
+      description: '98-page guide to casino psychology, advantage play, and beating the house.',
+      image: 'https://www.mikki-mase.com/images/shop/beat-the-casino-cover.jpg',
+      brand: { '@type': 'Brand', name: 'Mikki Mase' },
       offers: {
         '@type': 'Offer',
         price: 29,
         priceCurrency: 'USD',
         availability: 'https://schema.org/InStock',
-        url: 'https://www.mikki-mase.com/bedroom-boss',
+        url: 'https://www.mikki-mase.com/beat-the-casino',
       },
-      aggregateRating: {
-        '@type': 'AggregateRating',
-        ratingValue: 4.9,
-        reviewCount: 127,
+      aggregateRating: { '@type': 'AggregateRating', ratingValue: 4.9, reviewCount: 64 },
+    },
+  },
+};
+
+// ============================================
+// ULTIMATE MMC BUNDLE
+// ============================================
+
+export const ultimateMmcBundle: Product = {
+  id: 'ultimate-mmc-bundle',
+  slug: 'ultimate-mmc-bundle',
+  type: 'bundle',
+  fulfillment: 'digital',
+
+  name: 'Ultimate MMC Bundle',
+  tagline: 'The Complete Arsenal',
+  description:
+    'Everything in one package: all 3 cheat sheets + the full 98-page ebook. The complete strategy arsenal for serious players.',
+  cover: '/images/shop/ultimate-bundle-cover.jpg',
+  gallery: ['/images/shop/ultimate-bundle-cover.jpg'],
+
+  price: 39.99,
+  compareAt: 68.99,
+  previousPrice: 48.99,
+  currency: 'USD',
+
+  stripePriceId: 'price_1TA7EtL6BPyNd2Ghb8ZIRB9E',
+  stripeProductId: 'prod_U8O0q73jWT2qzK',
+
+  downloadFile: 'ultimate-mmc-bundle.zip',
+
+  featured: true,
+  category: 'bundles',
+  relatedProducts: ['mmc-cheatsheet-bundle', 'beat-the-casino'],
+
+  seo: {
+    title: 'Ultimate MMC Bundle — All Cheat Sheets + Beat the Casino Ebook | $39.99',
+    description:
+      'The complete Mikki Mase Casino Community strategy arsenal. All 3 cheat sheets + 98-page ebook. Best value. Instant download. 30-day guarantee.',
+    image: '/images/shop/ultimate-bundle-cover.jpg',
+    schema: {
+      '@context': 'https://schema.org',
+      '@type': 'Product',
+      name: 'Ultimate MMC Bundle',
+      description: 'All 3 strategy cheat sheets plus the full Beat the Casino ebook.',
+      image: 'https://www.mikki-mase.com/images/shop/ultimate-bundle-cover.jpg',
+      brand: { '@type': 'Brand', name: 'Mikki Mase' },
+      offers: {
+        '@type': 'Offer',
+        price: 39.99,
+        priceCurrency: 'USD',
+        availability: 'https://schema.org/InStock',
+        url: 'https://www.mikki-mase.com/shop',
       },
+      aggregateRating: { '@type': 'AggregateRating', ratingValue: 5.0, reviewCount: 31 },
     },
   },
 };
@@ -231,7 +290,9 @@ export const bedroomBoss: Product = {
 // ============================================
 
 export const products: Record<string, Product> = {
-  'bedroom-boss': bedroomBoss,
+  'mmc-cheatsheet-bundle': mmcCheatsheetBundle,
+  'beat-the-casino': beatTheCasino,
+  'ultimate-mmc-bundle': ultimateMmcBundle,
 };
 
 // ============================================
@@ -246,7 +307,6 @@ export function getProductById(id: string): Product | undefined {
   return Object.values(products).find((p) => p.id === id);
 }
 
-// Alias for getProductById (used by webhook handler)
 export const getProduct = getProductById;
 
 export function getFeaturedProducts(): Product[] {

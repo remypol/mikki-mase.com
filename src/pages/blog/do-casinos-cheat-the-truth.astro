@@ -5,6 +5,7 @@ import Footer from '../../components/Footer.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import Button from '../../components/Button.astro';
 import AuthorBox from '../../components/AuthorBox.astro';
+import EmailCapture from '../../components/EmailCapture.tsx';
 
 const articleSchema = {
   "@context": "https://schema.org",
@@ -135,7 +136,7 @@ const articleSchema = {
         <h2 class="text-white text-2xl md:text-3xl font-bold mt-12 mb-6">The Kirgo Difference: Full Transparency</h2>
 
         <p class="text-gray-300 leading-relaxed mb-6">
-          Then I found Kirgo.
+          Then I found <a href="https://kirgoplay.com/ddb4ff99f" target="_blank" rel="nofollow sponsored noopener noreferrer" class="text-gold hover:text-gold-light underline">Kirgo</a>. Use code <strong class="text-gold">MMC</strong> for 300% bonus + 50 free spins. <span class="text-gray-500 text-sm">18+ | Gamble Responsibly</span>
         </p>
 
         <p class="text-gray-300 leading-relaxed mb-6">
@@ -219,6 +220,11 @@ const articleSchema = {
           <p class="text-gray-300">
             Even at the most transparent casino, the house always has an edge. Never gamble more than you can afford to lose. If gambling becomes a problem, call 1-800-522-4700.
           </p>
+        </div>
+
+        <!-- Email Capture -->
+        <div class="my-12">
+          <EmailCapture client:load variant="compact" source="blog-do-casinos-cheat-the-truth" />
         </div>
 
         <div class="bg-gray-900 border border-gold/30 rounded-xl p-8 my-12 text-center">

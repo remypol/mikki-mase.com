@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="533" viewBox="0 0 400 533">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1a1a1a"/>
+      <stop offset="100%" stop-color="#111111"/>
+    </linearGradient>
+    <linearGradient id="gold" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#CFB53B"/>
+      <stop offset="100%" stop-color="#E8D44D"/>
+    </linearGradient>
+  </defs>
+  <!-- Background -->
+  <rect width="400" height="533" fill="url(#bg)"/>
+  <!-- Gold border -->
+  <rect x="8" y="8" width="384" height="517" rx="8" fill="none" stroke="url(#gold)" stroke-width="2"/>
+  <!-- Inner border -->
+  <rect x="16" y="16" width="368" height="501" rx="4" fill="none" stroke="#CFB53B" stroke-width="0.5" opacity="0.3"/>
+  <!-- Top decorative line -->
+  <line x1="60" y1="100" x2="340" y2="100" stroke="#CFB53B" stroke-width="1" opacity="0.4"/>
+  <!-- Eyebrow -->
+  <text x="200" y="85" text-anchor="middle" fill="#CFB53B" font-family="system-ui, -apple-system, sans-serif" font-size="12" font-weight="600" letter-spacing="3">MIKKI MASE</text>
+  <!-- Casino chip icon -->
+  <g transform="translate(200, 210)" opacity="0.8">
+    <circle cx="0" cy="0" r="50" fill="none" stroke="#CFB53B" stroke-width="2"/>
+    <circle cx="0" cy="0" r="40" fill="none" stroke="#CFB53B" stroke-width="1" opacity="0.5"/>
+    <circle cx="0" cy="0" r="30" fill="none" stroke="#CFB53B" stroke-width="0.5" opacity="0.3"/>
+    <text x="0" y="8" text-anchor="middle" fill="#CFB53B" font-family="system-ui, -apple-system, sans-serif" font-size="20" font-weight="700">$</text>
+  </g>
+  <!-- Title -->
+  <text x="200" y="310" text-anchor="middle" fill="#FFFFFF" font-family="system-ui, -apple-system, sans-serif" font-size="30" font-weight="700">Beat the</text>
+  <text x="200" y="348" text-anchor="middle" fill="#FFFFFF" font-family="system-ui, -apple-system, sans-serif" font-size="30" font-weight="700">Casino</text>
+  <!-- Subtitle -->
+  <text x="200" y="390" text-anchor="middle" fill="#CFB53B" font-family="system-ui, -apple-system, sans-serif" font-size="14" font-weight="600" letter-spacing="2">THE COMPLETE GUIDE</text>
+  <!-- Details -->
+  <text x="200" y="420" text-anchor="middle" fill="#999999" font-family="system-ui, -apple-system, sans-serif" font-size="13">Casino Psychology | Advantage Play</text>
+  <!-- Bottom decorative line -->
+  <line x1="60" y1="450" x2="340" y2="450" stroke="#CFB53B" stroke-width="1" opacity="0.4"/>
+  <!-- Page count -->
+  <text x="200" y="480" text-anchor="middle" fill="#666666" font-family="system-ui, -apple-system, sans-serif" font-size="12" letter-spacing="1">98 PAGES | 8 CHAPTERS | PDF</text>
+</svg>

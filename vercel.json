@@ -2,12 +2,12 @@
   "redirects": [
     {
       "source": "/bedroom-boss",
-      "destination": "/",
+      "destination": "/shop",
       "permanent": true
     },
     {
       "source": "/bedroom-boss/preview",
-      "destination": "/",
+      "destination": "/shop",
       "permanent": true
     },
     {
