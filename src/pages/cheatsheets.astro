@@ -299,7 +299,11 @@ const combinedSchema = [productSchema, faqSchema, breadcrumbSchema];
   </section>
 
   <!-- SECTION 09: TESTIMONIALS -->
-  <Testimonials testimonials={product.salesPage!.testimonials} />
+  <Testimonials testimonials={product.salesPage!.testimonials.map((t) => ({
+    quote: t.text,
+    author: t.name,
+    location: t.location,
+  }))} />
 
   <!-- SECTION 10: WHY THIS IS DIFFERENT -->
   <section class="py-16 md:py-24 bg-gray-900">
