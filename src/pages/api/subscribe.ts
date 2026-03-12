@@ -54,19 +54,30 @@ export const POST: APIRoute = async ({ request }) => {
   const headers = { 'Content-Type': 'application/json' };
 
   try {
-    // Read body as text first for diagnostic purposes
-    const rawBody = await request.text();
-    console.log('Subscribe request - Content-Type:', request.headers.get('content-type'), 'Body length:', rawBody.length, 'Body preview:', rawBody.substring(0, 200));
-
+    // Parse body — handle both JSON and form-encoded submissions
     let body: any;
-    try {
-      body = JSON.parse(rawBody);
-    } catch (parseErr) {
-      console.error('JSON parse error:', parseErr, 'Raw body:', rawBody.substring(0, 500));
-      return new Response(
-        JSON.stringify({ success: false, error: 'Invalid request body.' }),
-        { status: 400, headers }
-      );
+    const contentType = request.headers.get('content-type') || '';
+
+    if (contentType.includes('application/json')) {
+      try {
+        body = await request.json();
+      } catch {
+        return new Response(
+          JSON.stringify({ success: false, error: 'Invalid request body.' }),
+          { status: 400, headers }
+        );
+      }
+    } else {
+      // Handle URL-encoded form submissions (native form submit before React hydration)
+      try {
+        const formData = await request.formData();
+        body = Object.fromEntries(formData.entries());
+      } catch {
+        return new Response(
+          JSON.stringify({ success: false, error: 'Invalid request body.' }),
+          { status: 400, headers }
+        );
+      }
     }
 
     const {
