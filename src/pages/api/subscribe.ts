@@ -32,15 +32,7 @@ function isRateLimited(ip: string): boolean {
   return entry.count > RATE_LIMIT_MAX;
 }
 
-// Clean up stale entries every 5 minutes to prevent memory leaks
-setInterval(() => {
-  const now = Date.now();
-  for (const [ip, entry] of rateLimitMap) {
-    if (now > entry.resetAt) {
-      rateLimitMap.delete(ip);
-    }
-  }
-}, 5 * 60_000);
+// Note: In serverless, the map resets between cold starts, so no cleanup needed.
 
 // ============================================
 // EMAIL VALIDATION
@@ -62,7 +54,25 @@ export const POST: APIRoute = async ({ request }) => {
   const headers = { 'Content-Type': 'application/json' };
 
   try {
-    const body = await request.json();
+    // Ensure we have a JSON body
+    const contentType = request.headers.get('content-type') || '';
+    if (!contentType.includes('application/json')) {
+      return new Response(
+        JSON.stringify({ success: false, error: 'Invalid request format.' }),
+        { status: 400, headers }
+      );
+    }
+
+    let body: any;
+    try {
+      body = await request.json();
+    } catch {
+      return new Response(
+        JSON.stringify({ success: false, error: 'Invalid request body.' }),
+        { status: 400, headers }
+      );
+    }
+
     const {
       email,
       name,
@@ -146,7 +156,7 @@ export const POST: APIRoute = async ({ request }) => {
     }
 
     if (dbError) {
-      console.error('Supabase upsert error:', dbError);
+      console.error('Supabase upsert error:', JSON.stringify(dbError));
       return new Response(
         JSON.stringify({ success: false, error: 'Something went wrong. Please try again.' }),
         { status: 500, headers }
