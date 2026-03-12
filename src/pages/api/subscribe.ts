@@ -54,11 +54,15 @@ export const POST: APIRoute = async ({ request }) => {
   const headers = { 'Content-Type': 'application/json' };
 
   try {
+    // Read body as text first for diagnostic purposes
+    const rawBody = await request.text();
+    console.log('Subscribe request - Content-Type:', request.headers.get('content-type'), 'Body length:', rawBody.length, 'Body preview:', rawBody.substring(0, 200));
+
     let body: any;
     try {
-      body = await request.json();
+      body = JSON.parse(rawBody);
     } catch (parseErr) {
-      console.error('JSON parse error:', parseErr, 'Content-Type:', request.headers.get('content-type'));
+      console.error('JSON parse error:', parseErr, 'Raw body:', rawBody.substring(0, 500));
       return new Response(
         JSON.stringify({ success: false, error: 'Invalid request body.' }),
         { status: 400, headers }
