@@ -7,6 +7,8 @@
  * - Auto-resize textarea (grows as you type)
  * - Keyboard shortcut: Cmd+Enter / Ctrl+Enter to submit
  * - Smooth animations
+ * - Proper res.ok checks on delete
+ * - Mounted guard on all async state updates
  */
 
 import { useState, useEffect, useRef, useCallback, type FormEvent, type KeyboardEvent } from 'react';
@@ -15,12 +17,15 @@ import type { Comment } from './types';
 interface Props {
   postId: string;
   onCommentAdded: () => void;
+  onCommentDeleted: () => void;
 }
 
 function timeAgo(dateStr: string): string {
   const now = Date.now();
   const date = new Date(dateStr).getTime();
+  if (Number.isNaN(date)) return '';
   const diff = now - date;
+  if (diff < 0) return 'just now';
   const mins = Math.floor(diff / 60000);
   if (mins < 1) return 'just now';
   if (mins < 60) return `${mins}m`;
@@ -31,17 +36,27 @@ function timeAgo(dateStr: string): string {
   return new Date(dateStr).toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
 }
 
-export function CommentsSection({ postId, onCommentAdded }: Props) {
+// Cross-platform keyboard hint
+const isMac = typeof navigator !== 'undefined' && /Mac|iPhone|iPad/.test(navigator.userAgent);
+const SUBMIT_HINT = isMac ? '⌘+Enter' : 'Ctrl+Enter';
+
+export function CommentsSection({ postId, onCommentAdded, onCommentDeleted }: Props) {
   const [comments, setComments] = useState<Comment[]>([]);
   const [loading, setLoading] = useState(true);
+  const [loadError, setLoadError] = useState(false);
   const [text, setText] = useState('');
   const [submitting, setSubmitting] = useState(false);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const commentsEndRef = useRef<HTMLDivElement>(null);
+  const mountedRef = useRef(true);
+
+  useEffect(() => {
+    mountedRef.current = true;
+    return () => { mountedRef.current = false; };
+  }, []);
 
   // Auto-load comments
   useEffect(() => {
-    let mounted = true;
     (async () => {
       try {
         const res = await fetch(`/api/daily-drops/comments?postId=${postId}`, {
@@ -50,14 +65,16 @@ export function CommentsSection({ postId, onCommentAdded }: Props) {
         });
         if (!res.ok) throw new Error();
         const data = await res.json();
-        if (mounted) setComments(data.comments);
+        if (mountedRef.current) {
+          setComments(data.comments);
+          setLoadError(false);
+        }
       } catch {
-        // Silently fail — comments are non-critical
+        if (mountedRef.current) setLoadError(true);
       } finally {
-        if (mounted) setLoading(false);
+        if (mountedRef.current) setLoading(false);
       }
     })();
-    return () => { mounted = false; };
   }, [postId]);
 
   // Auto-resize textarea
@@ -88,16 +105,18 @@ export function CommentsSection({ postId, onCommentAdded }: Props) {
 
       if (!res.ok) throw new Error();
       const data = await res.json();
-      setComments(prev => [...prev, data.comment]);
-      onCommentAdded();
 
-      // Scroll to new comment
-      setTimeout(() => commentsEndRef.current?.scrollIntoView({ behavior: 'smooth' }), 100);
+      if (mountedRef.current) {
+        setComments(prev => [...prev, data.comment]);
+        onCommentAdded();
+        // Scroll to new comment
+        setTimeout(() => commentsEndRef.current?.scrollIntoView({ behavior: 'smooth' }), 100);
+      }
     } catch {
       // Restore text on failure
-      setText(content);
+      if (mountedRef.current) setText(content);
     } finally {
-      setSubmitting(false);
+      if (mountedRef.current) setSubmitting(false);
     }
   }, [text, submitting, postId, onCommentAdded]);
 
@@ -109,36 +128,49 @@ export function CommentsSection({ postId, onCommentAdded }: Props) {
     }
   }, [handleSubmit]);
 
-  // Delete comment
+  // Delete comment — check res.ok, revert on failure, notify parent
   const handleDelete = useCallback(async (commentId: string) => {
+    // Capture snapshot for rollback
+    const snapshot = comments;
+
     // Optimistic remove
     setComments(prev => prev.filter(c => c.id !== commentId));
 
     try {
-      await fetch(`/api/daily-drops/comments?id=${commentId}`, {
+      const res = await fetch(`/api/daily-drops/comments?id=${commentId}`, {
         method: 'DELETE',
         credentials: 'same-origin',
       });
+
+      if (!res.ok) throw new Error('Delete failed');
+
+      // Success — notify parent to decrement count
+      onCommentDeleted();
     } catch {
-      // Refresh on failure
-      const res = await fetch(`/api/daily-drops/comments?postId=${postId}`, { credentials: 'same-origin' });
-      const data = await res.json();
-      setComments(data.comments);
+      // Revert to snapshot on failure
+      if (mountedRef.current) setComments(snapshot);
     }
-  }, [postId]);
+  }, [postId, comments, onCommentDeleted]);
 
   return (
     <div className="px-5 py-4">
       {/* Loading */}
       {loading && (
-        <div className="flex items-center gap-2 py-4 justify-center">
+        <div className="flex items-center gap-2 py-4 justify-center" aria-busy="true">
           <div className="w-3 h-3 rounded-full animate-pulse" style={{ background: '#CFB53B' }} />
           <span className="text-xs" style={{ color: '#6B6B6B' }}>Loading comments...</span>
         </div>
       )}
 
+      {/* Load error */}
+      {!loading && loadError && (
+        <p className="text-center text-xs py-3" style={{ color: '#ff6b6b' }}>
+          Could not load comments. Try closing and reopening.
+        </p>
+      )}
+
       {/* Comments list */}
-      {!loading && comments.length > 0 && (
+      {!loading && !loadError && comments.length > 0 && (
         <div className="space-y-3 mb-4 max-h-80 overflow-y-auto pr-1" style={{ scrollbarWidth: 'thin', scrollbarColor: '#2D2D2D transparent' }}>
           {comments.map(comment => (
             <div key={comment.id} className="flex gap-2.5 group">
@@ -149,6 +181,7 @@ export function CommentsSection({ postId, onCommentAdded }: Props) {
                   background: comment.author.isAdmin ? 'linear-gradient(135deg, #CFB53B, #8B7A2B)' : '#2D2D2D',
                   color: comment.author.isAdmin ? '#000' : '#6B6B6B',
                 }}
+                aria-hidden="true"
               >
                 {comment.author.name[0]?.toUpperCase() || '?'}
               </div>
@@ -164,9 +197,10 @@ export function CommentsSection({ postId, onCommentAdded }: Props) {
                   {comment.isOwn && (
                     <button
                       onClick={() => handleDelete(comment.id)}
-                      className="opacity-0 group-hover:opacity-100 transition-opacity text-[10px] hover:text-red-400 ml-auto"
+                      className="opacity-0 group-hover:opacity-100 focus:opacity-100 transition-opacity text-[10px] hover:text-red-400 ml-auto"
                       style={{ color: '#6B6B6B' }}
-                      title="Delete"
+                      title="Delete comment"
+                      aria-label="Delete your comment"
                     >
                       ×
                     </button>
@@ -183,7 +217,7 @@ export function CommentsSection({ postId, onCommentAdded }: Props) {
       )}
 
       {/* Empty state */}
-      {!loading && comments.length === 0 && (
+      {!loading && !loadError && comments.length === 0 && (
         <p className="text-center text-xs py-3" style={{ color: '#6B6B6B' }}>
           Be the first to comment
         </p>
@@ -199,6 +233,7 @@ export function CommentsSection({ postId, onCommentAdded }: Props) {
           placeholder="Share your thoughts..."
           rows={1}
           maxLength={2000}
+          aria-label="Write a comment"
           className="flex-1 resize-none rounded-lg px-3 py-2 text-sm text-white placeholder-[#6B6B6B] outline-none transition-colors focus:border-[#CFB53B]"
           style={{ background: '#1A1A1A', border: '1px solid #2D2D2D', minHeight: '36px', maxHeight: '200px' }}
         />
@@ -207,19 +242,20 @@ export function CommentsSection({ postId, onCommentAdded }: Props) {
           disabled={!text.trim() || submitting}
           className="flex-shrink-0 w-8 h-8 rounded-lg flex items-center justify-center transition-all hover:brightness-110 active:scale-95 disabled:opacity-30"
           style={{ background: '#CFB53B' }}
-          title="Post comment (⌘+Enter)"
+          title={`Post comment (${SUBMIT_HINT})`}
+          aria-label="Post comment"
         >
           {submitting ? (
             <div className="w-3.5 h-3.5 border-2 border-black/30 border-t-black rounded-full animate-spin" />
           ) : (
-            <svg className="w-4 h-4 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg className="w-4 h-4 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 12h14M12 5l7 7-7 7" />
             </svg>
           )}
         </button>
       </form>
       <p className="text-[10px] mt-1.5" style={{ color: '#4A4A4A' }}>
-        Press ⌘+Enter to send
+        Press {SUBMIT_HINT} to send
       </p>
     </div>
   );

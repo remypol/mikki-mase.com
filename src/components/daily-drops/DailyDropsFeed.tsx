@@ -3,6 +3,9 @@
  *
  * Infinite scroll, optimistic reactions, inline comments
  * Designed to feel buttery smooth — instant feedback on every interaction
+ *
+ * GPT 5.4 + 5.3 Codex reviewed: fixed stale request races, duplicate fetches,
+ * reaction rollback, comment count sync, and deduplication.
  */
 
 import { useState, useEffect, useCallback, useRef } from 'react';
@@ -30,7 +33,22 @@ export function DailyDropsFeed() {
   const observerRef = useRef<IntersectionObserver | null>(null);
   const loadMoreRef = useRef<HTMLDivElement | null>(null);
 
+  // Refs for preventing stale requests and duplicate fetches
+  const abortRef = useRef<AbortController | null>(null);
+  const fetchingMoreRef = useRef(false);
+  const mountedRef = useRef(true);
+
+  useEffect(() => {
+    mountedRef.current = true;
+    return () => { mountedRef.current = false; };
+  }, []);
+
   const fetchPosts = useCallback(async (pageNum: number, cat: string, append = false) => {
+    // Abort any in-flight request (prevents stale category data)
+    if (abortRef.current) abortRef.current.abort();
+    const controller = new AbortController();
+    abortRef.current = controller;
+
     try {
       if (pageNum === 1) setLoading(true);
       else setLoadingMore(true);
@@ -41,19 +59,35 @@ export function DailyDropsFeed() {
       const res = await fetch(`/api/daily-drops?${params}`, {
         credentials: 'same-origin',
         cache: 'no-store',
+        signal: controller.signal,
       });
 
       if (!res.ok) throw new Error('Failed to load');
       const data = await res.json();
 
-      setPosts(prev => append ? [...prev, ...data.posts] : data.posts);
+      if (!mountedRef.current) return;
+
+      // Deduplicate when appending (prevents duplicates from shifting data)
+      if (append) {
+        setPosts(prev => {
+          const existingIds = new Set(prev.map(p => p.id));
+          const newPosts = data.posts.filter((p: Post) => !existingIds.has(p.id));
+          return [...prev, ...newPosts];
+        });
+      } else {
+        setPosts(data.posts);
+      }
       setHasMore(data.hasMore);
       setError(null);
-    } catch {
-      setError('Could not load posts. Try refreshing.');
+    } catch (err: any) {
+      if (err?.name === 'AbortError') return; // Intentional abort, ignore
+      if (mountedRef.current) setError('Could not load posts. Try refreshing.');
     } finally {
-      setLoading(false);
-      setLoadingMore(false);
+      if (mountedRef.current) {
+        setLoading(false);
+        setLoadingMore(false);
+        fetchingMoreRef.current = false;
+      }
     }
   }, []);
 
@@ -63,16 +97,19 @@ export function DailyDropsFeed() {
     fetchPosts(1, category);
   }, [category, fetchPosts]);
 
-  // Infinite scroll
+  // Infinite scroll with ref-based lock to prevent duplicate fetches
   useEffect(() => {
     if (observerRef.current) observerRef.current.disconnect();
 
     observerRef.current = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting && hasMore && !loadingMore) {
-          const nextPage = page + 1;
-          setPage(nextPage);
-          fetchPosts(nextPage, category, true);
+        if (entry.isIntersecting && hasMore && !loadingMore && !fetchingMoreRef.current) {
+          fetchingMoreRef.current = true;
+          setPage(prev => {
+            const nextPage = prev + 1;
+            fetchPosts(nextPage, category, true);
+            return nextPage;
+          });
         }
       },
       { threshold: 0.1 }
@@ -83,14 +120,18 @@ export function DailyDropsFeed() {
     }
 
     return () => observerRef.current?.disconnect();
-  }, [hasMore, loadingMore, page, category, fetchPosts]);
+  }, [hasMore, loadingMore, category, fetchPosts]);
 
-  // Optimistic reaction toggle
+  // Optimistic reaction toggle with proper snapshot rollback
   const handleReaction = useCallback(async (postId: string, reaction: string) => {
+    // Capture pre-mutation snapshot for rollback
+    const snapshot = posts.find(p => p.id === postId);
+    if (!snapshot) return;
+
     // Optimistic update
+    const hasReaction = snapshot.userReactions.includes(reaction);
     setPosts(prev => prev.map(post => {
       if (post.id !== postId) return post;
-      const hasReaction = post.userReactions.includes(reaction);
       return {
         ...post,
         userReactions: hasReaction
@@ -98,40 +139,45 @@ export function DailyDropsFeed() {
           : [...post.userReactions, reaction],
         reactions: {
           ...post.reactions,
-          [reaction]: (post.reactions[reaction] || 0) + (hasReaction ? -1 : 1),
+          [reaction]: Math.max(0, (post.reactions[reaction] || 0) + (hasReaction ? -1 : 1)),
         },
       };
     }));
 
-    // Fire and forget — no need to wait
-    fetch('/api/daily-drops/react', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      credentials: 'same-origin',
-      body: JSON.stringify({ postId, reaction }),
-    }).catch(() => {
-      // Revert on failure
+    // Fire request and check result
+    try {
+      const res = await fetch('/api/daily-drops/react', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'same-origin',
+        body: JSON.stringify({ postId, reaction }),
+      });
+
+      if (!res.ok) throw new Error('Server rejected reaction');
+    } catch {
+      // Revert to snapshot on ANY failure (network or HTTP error)
       setPosts(prev => prev.map(post => {
         if (post.id !== postId) return post;
-        const hadReaction = post.userReactions.includes(reaction);
         return {
           ...post,
-          userReactions: hadReaction
-            ? post.userReactions.filter(r => r !== reaction)
-            : [...post.userReactions, reaction],
-          reactions: {
-            ...post.reactions,
-            [reaction]: (post.reactions[reaction] || 0) + (hadReaction ? -1 : 1),
-          },
+          userReactions: [...snapshot.userReactions],
+          reactions: { ...snapshot.reactions },
         };
       }));
-    });
-  }, []);
+    }
+  }, [posts]);
 
   // Update comment count after posting
   const handleCommentAdded = useCallback((postId: string) => {
     setPosts(prev => prev.map(post =>
       post.id === postId ? { ...post, commentCount: post.commentCount + 1 } : post
+    ));
+  }, []);
+
+  // Decrement comment count after deleting
+  const handleCommentDeleted = useCallback((postId: string) => {
+    setPosts(prev => prev.map(post =>
+      post.id === postId ? { ...post, commentCount: Math.max(0, post.commentCount - 1) } : post
     ));
   }, []);
 
@@ -146,11 +192,13 @@ export function DailyDropsFeed() {
       </div>
 
       {/* Category filter — horizontal scroll on mobile */}
-      <div className="flex gap-2 overflow-x-auto pb-3 mb-6 scrollbar-hide" style={{ WebkitOverflowScrolling: 'touch' }}>
+      <div className="flex gap-2 overflow-x-auto pb-3 mb-6 scrollbar-hide" role="tablist" aria-label="Filter by category" style={{ WebkitOverflowScrolling: 'touch' }}>
         {CATEGORIES.map(cat => (
           <button
             key={cat.value}
             onClick={() => setCategory(cat.value)}
+            role="tab"
+            aria-selected={category === cat.value}
             className={`flex-shrink-0 flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-medium transition-all ${
               category === cat.value
                 ? 'text-black'
@@ -161,7 +209,7 @@ export function DailyDropsFeed() {
               border: `1px solid ${category === cat.value ? '#CFB53B' : '#2D2D2D'}`,
             }}
           >
-            <span>{cat.emoji}</span>
+            <span aria-hidden="true">{cat.emoji}</span>
             <span>{cat.label}</span>
           </button>
         ))}
@@ -169,7 +217,7 @@ export function DailyDropsFeed() {
 
       {/* Error state */}
       {error && (
-        <div className="rounded-xl p-4 mb-6 text-center" style={{ background: 'rgba(168, 0, 30, 0.1)', border: '1px solid rgba(168, 0, 30, 0.2)' }}>
+        <div className="rounded-xl p-4 mb-6 text-center" role="alert" style={{ background: 'rgba(168, 0, 30, 0.1)', border: '1px solid rgba(168, 0, 30, 0.2)' }}>
           <p className="text-red-300 text-sm">{error}</p>
           <button onClick={() => fetchPosts(1, category)} className="text-sm mt-2 hover:underline" style={{ color: '#CFB53B' }}>
             Try again
@@ -179,7 +227,7 @@ export function DailyDropsFeed() {
 
       {/* Loading skeleton */}
       {loading && (
-        <div className="space-y-4">
+        <div className="space-y-4" aria-busy="true" aria-label="Loading posts">
           {[1, 2, 3].map(i => (
             <div key={i} className="rounded-xl p-5 animate-pulse" style={{ background: '#1A1A1A', border: '1px solid #2D2D2D' }}>
               <div className="flex items-center gap-3 mb-4">
@@ -197,7 +245,7 @@ export function DailyDropsFeed() {
       {/* Empty state */}
       {!loading && posts.length === 0 && !error && (
         <div className="text-center py-16">
-          <div className="text-4xl mb-4">🎰</div>
+          <div className="text-4xl mb-4" aria-hidden="true">🎰</div>
           <h3 className="text-white font-bold text-lg mb-2">No drops yet</h3>
           <p className="text-sm" style={{ color: '#9A9A9A' }}>
             {category === 'all'
@@ -217,6 +265,7 @@ export function DailyDropsFeed() {
               post={post}
               onReaction={handleReaction}
               onCommentAdded={handleCommentAdded}
+              onCommentDeleted={handleCommentDeleted}
             />
           ))}
         </div>

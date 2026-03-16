@@ -7,6 +7,7 @@
  * - Inline comment drawer (buttery smooth)
  * - Time-ago formatting
  * - Admin badge + category tag
+ * - Accessibility: aria-pressed, aria-expanded, labels
  */
 
 import { useState, memo } from 'react';
@@ -18,14 +19,24 @@ interface Props {
   post: Post;
   onReaction: (postId: string, reaction: string) => void;
   onCommentAdded: (postId: string) => void;
+  onCommentDeleted: (postId: string) => void;
 }
 
 const REACTIONS: Reaction[] = ['fire', 'brain', 'money', 'clap', 'goat'];
+const REACTION_LABELS: Record<Reaction, string> = {
+  fire: 'Fire',
+  brain: 'Smart',
+  money: 'Money',
+  clap: 'Clap',
+  goat: 'GOAT',
+};
 
 function timeAgo(dateStr: string): string {
   const now = Date.now();
   const date = new Date(dateStr).getTime();
+  if (Number.isNaN(date)) return '';
   const diff = now - date;
+  if (diff < 0) return 'just now'; // Handle clock skew / future dates
   const mins = Math.floor(diff / 60000);
   if (mins < 1) return 'just now';
   if (mins < 60) return `${mins}m ago`;
@@ -36,7 +47,7 @@ function timeAgo(dateStr: string): string {
   return new Date(dateStr).toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
 }
 
-export const PostCard = memo(function PostCard({ post, onReaction, onCommentAdded }: Props) {
+export const PostCard = memo(function PostCard({ post, onReaction, onCommentAdded, onCommentDeleted }: Props) {
   const [expanded, setExpanded] = useState(false);
   const [showComments, setShowComments] = useState(false);
 
@@ -68,6 +79,7 @@ export const PostCard = memo(function PostCard({ post, onReaction, onCommentAdde
                 background: post.author.isAdmin ? 'linear-gradient(135deg, #CFB53B, #8B7A2B)' : '#2D2D2D',
                 color: post.author.isAdmin ? '#000' : '#9A9A9A',
               }}
+              aria-hidden="true"
             >
               {post.author.avatar
                 ? <img src={post.author.avatar} alt="" className="w-8 h-8 rounded-full object-cover" />
@@ -116,13 +128,14 @@ export const PostCard = memo(function PostCard({ post, onReaction, onCommentAdde
             onClick={() => setExpanded(!expanded)}
             className="text-xs font-medium mt-1 hover:underline"
             style={{ color: '#CFB53B' }}
+            aria-expanded={expanded}
           >
             {expanded ? 'Show less' : 'Read more'}
           </button>
         )}
 
         {/* Reactions */}
-        <div className="flex items-center gap-1.5 mt-4 flex-wrap">
+        <div className="flex items-center gap-1.5 mt-4 flex-wrap" role="group" aria-label="Reactions">
           {REACTIONS.map(reaction => {
             const count = post.reactions[reaction] || 0;
             const active = post.userReactions.includes(reaction);
@@ -130,6 +143,8 @@ export const PostCard = memo(function PostCard({ post, onReaction, onCommentAdde
               <button
                 key={reaction}
                 onClick={() => onReaction(post.id, reaction)}
+                aria-pressed={active}
+                aria-label={`${REACTION_LABELS[reaction]}${count > 0 ? ` (${count})` : ''}`}
                 className={`flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-medium transition-all active:scale-95 ${
                   active ? 'ring-1' : ''
                 }`}
@@ -139,7 +154,7 @@ export const PostCard = memo(function PostCard({ post, onReaction, onCommentAdde
                   color: active ? '#CFB53B' : '#9A9A9A',
                 }}
               >
-                <span className="text-sm">{REACTION_EMOJI[reaction]}</span>
+                <span className="text-sm" aria-hidden="true">{REACTION_EMOJI[reaction]}</span>
                 {count > 0 && <span>{count}</span>}
               </button>
             );
@@ -156,10 +171,12 @@ export const PostCard = memo(function PostCard({ post, onReaction, onCommentAdde
         {/* Comment toggle */}
         <button
           onClick={() => setShowComments(!showComments)}
+          aria-expanded={showComments}
+          aria-label={`${showComments ? 'Hide' : 'Show'} comments${post.commentCount > 0 ? ` (${post.commentCount})` : ''}`}
           className="flex items-center gap-1.5 mt-3 text-xs font-medium transition-colors hover:text-white"
           style={{ color: showComments ? '#CFB53B' : '#9A9A9A' }}
         >
-          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
           </svg>
           <span>
@@ -171,6 +188,7 @@ export const PostCard = memo(function PostCard({ post, onReaction, onCommentAdde
           <svg
             className={`w-3 h-3 transition-transform ${showComments ? 'rotate-180' : ''}`}
             fill="none" stroke="currentColor" viewBox="0 0 24 24"
+            aria-hidden="true"
           >
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
           </svg>
@@ -183,6 +201,7 @@ export const PostCard = memo(function PostCard({ post, onReaction, onCommentAdde
           <CommentsSection
             postId={post.id}
             onCommentAdded={() => onCommentAdded(post.id)}
+            onCommentDeleted={() => onCommentDeleted(post.id)}
           />
         </div>
       )}

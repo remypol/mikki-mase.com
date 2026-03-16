@@ -126,14 +126,20 @@ export const DELETE: APIRoute = async ({ request, cookies }) => {
     if (!commentId) return new Response(JSON.stringify({ error: 'Comment ID required' }), { status: 400, headers });
 
     // RLS ensures user can only delete their own (or admin can delete any)
-    const { error } = await supabase
+    // Use .select() to verify a row was actually deleted
+    const { data: deleted, error } = await supabase
       .from('daily_drops_comments')
       .delete()
-      .eq('id', commentId);
+      .eq('id', commentId)
+      .select('id');
 
     if (error) {
       console.error('Delete comment error:', error);
       return new Response(JSON.stringify({ error: 'Failed to delete comment' }), { status: 500, headers });
+    }
+
+    if (!deleted || deleted.length === 0) {
+      return new Response(JSON.stringify({ error: 'Comment not found or not authorized' }), { status: 404, headers });
     }
 
     return new Response(JSON.stringify({ deleted: true }), { status: 200, headers });

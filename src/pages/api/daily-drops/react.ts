@@ -27,14 +27,14 @@ export const POST: APIRoute = async ({ request, cookies }) => {
       return new Response(JSON.stringify({ error: 'Invalid postId or reaction' }), { status: 400, headers });
     }
 
-    // Check if reaction already exists
+    // Check if reaction already exists (.maybeSingle — no error when 0 rows)
     const { data: existing } = await supabase
       .from('daily_drops_reactions')
       .select('id')
       .eq('post_id', postId)
       .eq('user_id', user.id)
       .eq('reaction', reaction)
-      .single();
+      .maybeSingle();
 
     if (existing) {
       // Toggle off — remove reaction

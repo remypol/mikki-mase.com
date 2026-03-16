@@ -9,6 +9,8 @@ export const prerender = false;
 import type { APIRoute } from 'astro';
 import { getServerClient } from '../../../lib/supabase';
 
+const VALID_CATEGORIES = ['insight', 'strategy', 'mindset', 'story', 'challenge', 'qa'] as const;
+
 export const GET: APIRoute = async ({ request, cookies }) => {
   const headers = {
     'Content-Type': 'application/json',
@@ -21,8 +23,10 @@ export const GET: APIRoute = async ({ request, cookies }) => {
     if (!user) return new Response(JSON.stringify({ error: 'Unauthorized' }), { status: 401, headers });
 
     const url = new URL(request.url);
-    const page = Math.max(1, parseInt(url.searchParams.get('page') || '1'));
-    const limit = Math.min(50, Math.max(1, parseInt(url.searchParams.get('limit') || '10')));
+    const rawPage = parseInt(url.searchParams.get('page') || '1');
+    const rawLimit = parseInt(url.searchParams.get('limit') || '10');
+    const page = Math.max(1, Number.isNaN(rawPage) ? 1 : rawPage);
+    const limit = Math.min(50, Math.max(1, Number.isNaN(rawLimit) ? 10 : rawLimit));
     const category = url.searchParams.get('category');
     const offset = (page - 1) * limit;
 
@@ -115,17 +119,29 @@ export const POST: APIRoute = async ({ request, cookies }) => {
     const body = await request.json();
     const { title, content, category } = body;
 
-    if (!title || !content) {
+    if (!title?.trim() || !content?.trim()) {
       return new Response(JSON.stringify({ error: 'Title and content required' }), { status: 400, headers });
     }
+
+    const trimTitle = title.trim();
+    const trimContent = content.trim();
+
+    if (trimTitle.length > 300) {
+      return new Response(JSON.stringify({ error: 'Title too long (max 300 chars)' }), { status: 400, headers });
+    }
+    if (trimContent.length > 10000) {
+      return new Response(JSON.stringify({ error: 'Content too long (max 10,000 chars)' }), { status: 400, headers });
+    }
+
+    const validCategory = VALID_CATEGORIES.includes(category) ? category : 'insight';
 
     const { data: post, error } = await supabase
       .from('daily_drops')
       .insert({
         author_id: user.id,
-        title: title.trim(),
-        content: content.trim(),
-        category: category || 'insight',
+        title: trimTitle,
+        content: trimContent,
+        category: validCategory,
       })
       .select()
       .single();
