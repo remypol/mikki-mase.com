@@ -11,7 +11,7 @@ interface Props {
 }
 
 const features = [
-  { icon: '\u25B6', titleFn: (p: Props) => `${p.moduleCount} Full Modules`, desc: 'From casino psychology to bankroll management — the complete system.' },
+  { icon: '\u2261', titleFn: (p: Props) => `${p.moduleCount} Full Modules`, desc: 'From casino psychology to bankroll management — the complete system.' },
   { icon: '\u2699', titleFn: (p: Props) => `${p.scenarioCount} Interactive Scenarios`, desc: 'Practice real casino decisions with hands-on simulations.' },
   { icon: '\u2713', titleFn: () => 'Quizzes After Every Module', desc: 'Test your knowledge and track progress with scored assessments.' },
   { icon: '\uD83C\uDFC6', titleFn: () => 'Casino IQ Assessment', desc: 'Find your strengths and leaks with a 4-station skill assessment.' },
