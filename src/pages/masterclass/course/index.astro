@@ -53,6 +53,35 @@ Astro.response.headers.set('Cache-Control', 'private, no-store, max-age=0');
         </p>
       </div>
 
+      <!-- Daily Drops CTA -->
+      <a
+        href="/masterclass/course/daily-drops"
+        class="block p-6 rounded-xl border transition-all duration-200 hover:border-[#CFB53B]/50 group mb-8"
+        style="background: linear-gradient(135deg, rgba(207, 181, 59, 0.08) 0%, #1A1A1A 100%); border-color: rgba(207, 181, 59, 0.3);"
+      >
+        <div class="flex items-center gap-4">
+          <div class="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0" style="background: linear-gradient(135deg, #CFB53B, #8B7A2B);">
+            <span class="text-xl">🎰</span>
+          </div>
+          <div class="flex-1 min-w-0">
+            <div class="flex items-center gap-2 mb-0.5">
+              <h2 class="text-lg font-bold text-white group-hover:text-[#CFB53B] transition-colors">
+                Daily Drops
+              </h2>
+              <span class="text-[9px] font-bold uppercase tracking-wider px-1.5 py-0.5 rounded" style="background-color: rgba(168, 0, 30, 0.3); color: #ff6b6b;">
+                NEW
+              </span>
+            </div>
+            <p class="text-sm" style="color: #BEBEBE;">
+              Fresh knowledge bombs from Mikki Mase every day. Join the conversation.
+            </p>
+          </div>
+          <svg class="w-5 h-5 flex-shrink-0 text-[#CFB53B] group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+          </svg>
+        </div>
+      </a>
+
       <!-- Module Grid -->
       <div class="space-y-4">
         {courseManifest.modules.map((mod) => (
