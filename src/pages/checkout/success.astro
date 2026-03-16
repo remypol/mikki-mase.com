@@ -13,17 +13,21 @@ import Footer from '../../components/Footer.astro';
 import { getStripeServer } from '../../lib/stripe';
 import { getProductById } from '../../config/shop/products';
 import { generateDownloadToken } from '../../lib/downloads';
+import { getServerClient } from '../../lib/supabase';
 
 // Get session from URL
 const sessionId = Astro.url.searchParams.get('session_id');
 
-let product = null;
+let product: { id: string; name: string; price: number; [key: string]: any } | null = null;
 let downloadUrl = null;
 let customerEmail = null;
 let error = null;
 let isMasterclass = false;
 let cheatsheetDownloadUrl = '';
 let ebookDownloadUrl = '';
+let masterclassUserVerified = false;
+let maskedEmail = '';
+let metadataUserId = '';
 
 if (sessionId) {
   try {
@@ -37,17 +41,47 @@ if (sessionId) {
     if (session.payment_status === 'paid') {
       const productId = session.metadata?.productId;
       const productKey = session.metadata?.productKey;
-      product = productId ? getProductById(productId) : null;
+      product = productId ? getProductById(productId) ?? null : null;
       customerEmail = session.customer_details?.email;
+      metadataUserId = session.metadata?.userId || '';
 
       // Masterclass purchase
       if (productKey === 'masterclass') {
         isMasterclass = true;
-        if (customerEmail) {
+
+        // Issue #4: Ensure product is set for GA4 tracking even if productId wasn't in metadata
+        if (!product) {
+          product = { id: 'masterclass', name: 'Mikki Mase Masterclass', price: 97 };
+        }
+
+        // Issue #5: Verify logged-in user matches the purchaser before showing download links
+        if (metadataUserId) {
+          try {
+            const supabase = getServerClient(Astro.cookies, Astro.request);
+            const { data: { user } } = await supabase.auth.getUser();
+            if (user && user.id === metadataUserId) {
+              masterclassUserVerified = true;
+            }
+          } catch {
+            // Auth check failed — treat as unverified
+          }
+        }
+
+        // Only generate download links if user is verified
+        if (masterclassUserVerified && customerEmail) {
           const csToken = generateDownloadToken('mmc-cheatsheet-bundle', customerEmail, sessionId);
           const ebToken = generateDownloadToken('beat-the-casino', customerEmail, sessionId);
           cheatsheetDownloadUrl = `/download/${csToken}`;
           ebookDownloadUrl = `/download/${ebToken}`;
+        }
+
+        // Mask email for unverified users
+        if (customerEmail) {
+          const [localPart, domain] = customerEmail.split('@');
+          if (localPart && domain) {
+            const visible = localPart.length <= 2 ? localPart[0] : localPart.slice(0, 2);
+            maskedEmail = `${visible}${'*'.repeat(Math.max(localPart.length - 2, 1))}@${domain}`;
+          }
         }
       } else if (product && product.fulfillment === 'digital' && customerEmail) {
         // Legacy digital product
@@ -108,20 +142,36 @@ if (sessionId) {
           <h1 class="text-3xl font-bold text-white mb-2">Welcome to the Masterclass</h1>
           <p class="text-lg mb-8" style="color: #CFB53B;">You now have lifetime access</p>
 
-          <!-- Course CTA -->
-          <a
-            href="/masterclass/course"
-            class="w-full inline-flex items-center justify-center gap-2 font-bold text-black min-h-[52px] rounded-xl px-8 transition-all hover:brightness-110 active:scale-[0.98] mb-6"
-            style="background-color: #CFB53B;"
-          >
-            Start the Masterclass
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-            </svg>
-          </a>
+          <!-- Issue #6: Course CTA with polling for webhook completion -->
+          <div id="masterclass-cta">
+            <div id="mc-polling" class="flex flex-col items-center gap-3 mb-6">
+              <div class="flex items-center gap-2">
+                <svg class="w-5 h-5 animate-spin" style="color: #CFB53B;" fill="none" viewBox="0 0 24 24">
+                  <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                  <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+                <span class="text-white font-medium text-sm">Unlocking your access...</span>
+              </div>
+            </div>
+            <a
+              id="mc-cta-btn"
+              href="/masterclass/course"
+              class="w-full inline-flex items-center justify-center gap-2 font-bold text-black min-h-[52px] rounded-xl px-8 transition-all hover:brightness-110 active:scale-[0.98] mb-6"
+              style="background-color: #CFB53B; display: none;"
+            >
+              Start the Masterclass
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+              </svg>
+            </a>
+            <div id="mc-timeout-msg" class="rounded-lg px-4 py-3 mb-6 text-sm text-left" style="display: none; background: rgba(207, 181, 59, 0.1); border: 1px solid rgba(207, 181, 59, 0.2);">
+              <p class="text-white font-medium mb-1">Access is being set up</p>
+              <p style="color: #BEBEBE;">You'll receive a confirmation email shortly. You can also try <button id="mc-refresh-btn" class="underline" style="color: #CFB53B;">refreshing this page</button> in a few seconds.</p>
+            </div>
+          </div>
 
-          <!-- Bonus Downloads -->
-          {(cheatsheetDownloadUrl || ebookDownloadUrl) && (
+          <!-- Issue #5: Only show bonus downloads to verified users -->
+          {masterclassUserVerified && (cheatsheetDownloadUrl || ebookDownloadUrl) && (
             <div class="rounded-xl p-6 text-left mb-6" style="background: #1A1A1A; border: 1px solid #2D2D2D;">
               <h3 class="text-sm font-bold mb-4" style="color: #CFB53B;">Your Bonus Downloads</h3>
               <div class="space-y-3">
@@ -165,7 +215,10 @@ if (sessionId) {
               <div>
                 <p class="text-white font-medium text-sm">Check your email</p>
                 <p class="text-sm" style="color: #9A9A9A;">
-                  We sent a welcome email with bonus download links to {customerEmail}
+                  {masterclassUserVerified
+                    ? `We sent a welcome email with bonus download links to ${customerEmail}`
+                    : `We sent a welcome email with bonus download links to ${maskedEmail || 'your email'}. Check your inbox to access them.`
+                  }
                 </p>
               </div>
             </div>
@@ -301,14 +354,14 @@ if (sessionId) {
       is:inline
       define:vars={{
         transactionId: sessionId,
-        productId: product.id,
-        productName: product.name,
-        productPrice: product.price
+        ga4ProductId: product.id,
+        ga4ProductName: product.name,
+        ga4ProductPrice: product.price
       }}
     >
       (function() {
         // Prevent duplicate purchase tracking on page refresh
-        const trackedKey = 'purchase_tracked_' + transactionId;
+        var trackedKey = 'purchase_tracked_' + transactionId;
 
         // Check if this purchase was already tracked
         if (sessionStorage.getItem(trackedKey)) {
@@ -323,19 +376,76 @@ if (sessionId) {
         // Fire purchase event
         gtag('event', 'purchase', {
           transaction_id: transactionId,
-          value: productPrice,
+          value: ga4ProductPrice,
           currency: 'USD',
           items: [{
-            item_id: productId,
-            item_name: productName,
-            price: productPrice,
+            item_id: ga4ProductId,
+            item_name: ga4ProductName,
+            price: ga4ProductPrice,
             quantity: 1
           }]
         });
 
         // Mark as tracked to prevent duplicates
         sessionStorage.setItem(trackedKey, 'true');
-        console.log('[GA4] purchase fired:', transactionId, productPrice);
+        console.log('[GA4] purchase fired:', transactionId, ga4ProductPrice);
+      })();
+    </script>
+  )}
+
+  <!-- Issue #6: Masterclass purchase status polling -->
+  {isMasterclass && (
+    <script is:inline>
+      (function() {
+        var polling = document.getElementById('mc-polling');
+        var ctaBtn = document.getElementById('mc-cta-btn');
+        var timeoutMsg = document.getElementById('mc-timeout-msg');
+        var refreshBtn = document.getElementById('mc-refresh-btn');
+        if (!polling || !ctaBtn || !timeoutMsg) return;
+
+        if (refreshBtn) {
+          refreshBtn.addEventListener('click', function() {
+            window.location.reload();
+          });
+        }
+
+        var attempts = 0;
+        var maxAttempts = 5;
+        var interval = 2000;
+
+        function showCta() {
+          polling.style.display = 'none';
+          ctaBtn.style.display = 'inline-flex';
+        }
+
+        function showTimeout() {
+          polling.style.display = 'none';
+          timeoutMsg.style.display = 'block';
+        }
+
+        function pollStatus() {
+          attempts++;
+          fetch('/api/purchase-status', { credentials: 'same-origin' })
+            .then(function(res) { return res.json(); })
+            .then(function(data) {
+              if (data.purchased) {
+                showCta();
+              } else if (attempts >= maxAttempts) {
+                showTimeout();
+              } else {
+                setTimeout(pollStatus, interval);
+              }
+            })
+            .catch(function() {
+              if (attempts >= maxAttempts) {
+                showTimeout();
+              } else {
+                setTimeout(pollStatus, interval);
+              }
+            });
+        }
+
+        pollStatus();
       })();
     </script>
   )}
@@ -350,5 +460,14 @@ if (sessionId) {
 
   .animate-scale {
     animation: scale 0.5s ease-out;
+  }
+
+  @keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+
+  .animate-spin {
+    animation: spin 1s linear infinite;
   }
 </style>
