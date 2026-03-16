@@ -1,0 +1,85 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Header from '../../../components/Header.astro';
+import Footer from '../../../components/Footer.astro';
+import PasswordGate from '../../../components/PasswordGate.astro';
+import { courseManifest } from '../../../config/course/manifest';
+---
+
+<BaseLayout
+  title="Course Dashboard | The Mikki Mase Masterclass"
+  description="Your Masterclass dashboard. Track progress across 10 modules, 30+ lessons, and interactive scenarios."
+  noIndex={true}
+  hideMobileNav={true}
+>
+  <PasswordGate>
+  <Header />
+
+  <main id="main-content" class="min-h-screen bg-black pt-20 pb-16">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6">
+      <!-- Header -->
+      <div class="mb-10 text-center">
+        <span class="text-xs font-bold uppercase tracking-widest" style="color: #CFB53B;">
+          The Mikki Mase Masterclass
+        </span>
+        <h1 class="text-4xl md:text-5xl font-black text-white mt-3 mb-3">Course Dashboard</h1>
+        <p class="text-sm" style="color: #9A9A9A;">
+          {courseManifest.modules.length} modules &middot; {courseManifest.estimatedHours} hours &middot; Interactive scenarios
+        </p>
+      </div>
+
+      <!-- Module Grid -->
+      <div class="space-y-4">
+        {courseManifest.modules.map((mod) => (
+          <a
+            href={`/masterclass/course/${mod.slug}/${mod.lessons[0].slug}`}
+            class="block p-6 rounded-xl border transition-all duration-200 hover:border-[#CFB53B]/50 hover:bg-white/[0.02] group"
+            style={`background-color: #1A1A1A; border-color: #2D2D2D;`}
+          >
+            <div class="flex items-start gap-4">
+              <div class="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0" style="background-color: rgba(207, 181, 59, 0.1); border: 1px solid rgba(207, 181, 59, 0.2);">
+                <span class="text-sm font-black" style="color: #CFB53B;">{String(mod.number).padStart(2, '0')}</span>
+              </div>
+              <div class="flex-1 min-w-0">
+                <div class="flex items-center gap-2 mb-1">
+                  <span class="text-[10px] font-bold uppercase tracking-wider" style="color: #9A9A9A;">
+                    Module {mod.number}
+                  </span>
+                  {mod.isFreePreview && (
+                    <span
+                      class="text-[9px] font-bold uppercase tracking-wider px-1.5 py-0.5 rounded"
+                      style="background-color: rgba(207, 181, 59, 0.15); color: #CFB53B;"
+                    >
+                      Free Preview
+                    </span>
+                  )}
+                </div>
+                <h2 class="text-lg font-bold text-white group-hover:text-[#CFB53B] transition-colors">
+                  {mod.title}
+                </h2>
+                <p class="text-sm mt-1" style="color: #BEBEBE;">{mod.description}</p>
+                <div class="flex items-center gap-4 mt-3">
+                  <span class="text-xs" style="color: #9A9A9A;">
+                    {mod.lessons.length} lessons
+                  </span>
+                  {mod.hasQuiz && (
+                    <span class="text-xs" style="color: #9A9A9A;">Quiz</span>
+                  )}
+                  {mod.scenarios && mod.scenarios.length > 0 && (
+                    <span class="text-xs" style="color: #CFB53B;">Interactive</span>
+                  )}
+                </div>
+              </div>
+              <svg class="w-5 h-5 flex-shrink-0 mt-2 text-[#9A9A9A] group-hover:text-[#CFB53B] transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+              </svg>
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+  </main>
+
+  <Footer />
+  </PasswordGate>
+</BaseLayout>
