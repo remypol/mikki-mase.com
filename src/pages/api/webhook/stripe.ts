@@ -19,6 +19,7 @@ import { getServiceClient } from '../../../lib/supabase';
 import { getProductById } from '../../../config/shop/products';
 import { generateDownloadToken, getDownloadUrl } from '../../../lib/downloads';
 import { sendPurchaseConfirmation, sendMasterclassWelcome } from '../../../lib/resend';
+import { sendPaymentNotification, sendRefundNotification } from '../../../lib/telegram';
 
 const webhookSecret = import.meta.env.STRIPE_WEBHOOK_SECRET;
 
@@ -189,6 +190,16 @@ async function handleCheckoutComplete(session: Stripe.Checkout.Session) {
         // Email failure is non-critical — don't fail the whole webhook
         console.error('Failed to send masterclass welcome email:', emailErr);
       }
+
+      // Telegram notification (non-critical)
+      await sendPaymentNotification({
+        customerEmail,
+        customerName: session.customer_details?.name || undefined,
+        productName: 'Mikki Mase Masterclass',
+        amountCents: session.amount_total ?? 9700,
+        currency: session.currency || 'usd',
+        stripeSessionId: session.id,
+      });
     }
 
     return;
@@ -211,6 +222,16 @@ async function handleCheckoutComplete(session: Stripe.Checkout.Session) {
   }
 
   console.log(`Processing order for ${customerEmail}: ${product.name}`);
+
+  // Telegram notification for shop products (non-critical)
+  await sendPaymentNotification({
+    customerEmail,
+    customerName: session.customer_details?.name || undefined,
+    productName: product.name,
+    amountCents: session.amount_total ?? 0,
+    currency: session.currency || 'usd',
+    stripeSessionId: session.id,
+  });
 
   switch (fulfillmentType) {
     case 'digital': {
@@ -298,6 +319,14 @@ async function handleRefund(charge: Stripe.Charge) {
   }
 
   console.log(`Purchase ${purchase.id} marked as refunded (user: ${purchase.user_id}, product: ${purchase.product_key})`);
+
+  // Telegram refund notification (non-critical)
+  await sendRefundNotification({
+    type: 'refund',
+    userId: purchase.user_id,
+    productKey: purchase.product_key,
+    purchaseId: purchase.id,
+  });
 }
 
 // ============================================
@@ -338,4 +367,12 @@ async function handleDispute(dispute: Stripe.Dispute) {
   }
 
   console.log(`Purchase ${purchase.id} revoked due to dispute (user: ${purchase.user_id})`);
+
+  // Telegram dispute notification (non-critical)
+  await sendRefundNotification({
+    type: 'dispute',
+    userId: purchase.user_id,
+    productKey: purchase.product_key,
+    purchaseId: purchase.id,
+  });
 }
