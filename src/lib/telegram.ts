@@ -1,16 +1,25 @@
 /**
  * Telegram Bot Notification Helper
  *
- * Sends payment notifications to a Telegram chat/group when
- * a Stripe checkout is completed.
+ * Sends payment/refund/dispute notifications to one or more Telegram chats.
+ * Uses the same bot as the Gold IRA project (shared group).
  *
- * Env vars required:
+ * Env vars:
  *   TELEGRAM_BOT_TOKEN  — from @BotFather
- *   TELEGRAM_CHAT_ID    — group or user chat ID
+ *   TELEGRAM_CHAT_IDS   — comma-separated chat IDs (supports multiple chats)
+ *   TELEGRAM_CHAT_ID    — fallback: single chat ID
  */
 
-const TELEGRAM_BOT_TOKEN = import.meta.env.TELEGRAM_BOT_TOKEN;
-const TELEGRAM_CHAT_ID = import.meta.env.TELEGRAM_CHAT_ID;
+function getConfig() {
+  const chatIds = (import.meta.env.TELEGRAM_CHAT_IDS || import.meta.env.TELEGRAM_CHAT_ID || '')
+    .split(',')
+    .map((id: string) => id.trim())
+    .filter(Boolean);
+  return {
+    botToken: import.meta.env.TELEGRAM_BOT_TOKEN as string | undefined,
+    chatIds,
+  };
+}
 
 interface PaymentNotification {
   customerEmail: string;
@@ -26,50 +35,30 @@ interface PaymentNotification {
  * Non-throwing — logs errors but never fails the webhook.
  */
 export async function sendPaymentNotification(data: PaymentNotification): Promise<void> {
-  if (!TELEGRAM_BOT_TOKEN || !TELEGRAM_CHAT_ID) {
-    console.log('[Telegram] Bot token or chat ID not configured, skipping notification');
+  const { botToken, chatIds } = getConfig();
+  if (!botToken || chatIds.length === 0) {
+    console.log('[Telegram] Not configured, skipping payment notification');
     return;
   }
 
   const amount = (data.amountCents / 100).toFixed(2);
   const currency = (data.currency || 'USD').toUpperCase();
-  const name = data.customerName || 'Unknown';
+  const name = esc(data.customerName || 'Unknown');
   const shortSessionId = data.stripeSessionId.slice(-8).toUpperCase();
 
   const message = [
-    `💰 *New Payment Received*`,
+    `💰 <b>New Payment Received</b>`,
     ``,
-    `*Product:* ${escapeMarkdown(data.productName)}`,
-    `*Amount:* $${amount} ${currency}`,
-    `*Customer:* ${escapeMarkdown(name)}`,
-    `*Email:* ${escapeMarkdown(data.customerEmail)}`,
-    `*Order:* \\#${shortSessionId}`,
+    `🎰 <b>Product:</b> ${esc(data.productName)}`,
+    `💵 <b>Amount:</b> $${amount} ${currency}`,
+    `👤 <b>Customer:</b> ${name}`,
+    `📧 <b>Email:</b> ${esc(data.customerEmail)}`,
+    `🔑 <b>Order:</b> #${shortSessionId}`,
     ``,
-    `🎰 _The house doesn't always win_`,
+    `<i>The house doesn't always win</i>`,
   ].join('\n');
 
-  try {
-    const url = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`;
-    const res = await fetch(url, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        chat_id: TELEGRAM_CHAT_ID,
-        text: message,
-        parse_mode: 'MarkdownV2',
-        disable_web_page_preview: true,
-      }),
-    });
-
-    if (!res.ok) {
-      const body = await res.text();
-      console.error(`[Telegram] API error ${res.status}:`, body);
-    } else {
-      console.log(`[Telegram] Payment notification sent for ${data.customerEmail}`);
-    }
-  } catch (err) {
-    console.error('[Telegram] Failed to send notification:', err);
-  }
+  await sendToAll(botToken, chatIds, message, true);
 }
 
 /**
@@ -81,42 +70,76 @@ export async function sendRefundNotification(data: {
   productKey: string;
   purchaseId: string;
 }): Promise<void> {
-  if (!TELEGRAM_BOT_TOKEN || !TELEGRAM_CHAT_ID) return;
+  const { botToken, chatIds } = getConfig();
+  if (!botToken || chatIds.length === 0) return;
 
   const emoji = data.type === 'refund' ? '↩️' : '⚠️';
   const label = data.type === 'refund' ? 'Refund Processed' : 'Dispute Filed';
 
   const message = [
-    `${emoji} *${escapeMarkdown(label)}*`,
+    `${emoji} <b>${esc(label)}</b>`,
     ``,
-    `*Product:* ${escapeMarkdown(data.productKey)}`,
-    `*User ID:* \`${data.userId}\``,
-    `*Purchase ID:* \`${data.purchaseId}\``,
+    `<b>Product:</b> ${esc(data.productKey)}`,
+    `<b>User ID:</b> <code>${esc(data.userId)}</code>`,
+    `<b>Purchase ID:</b> <code>${esc(data.purchaseId)}</code>`,
   ].join('\n');
 
-  try {
-    const url = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`;
-    const res = await fetch(url, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        chat_id: TELEGRAM_CHAT_ID,
-        text: message,
-        parse_mode: 'MarkdownV2',
-        disable_web_page_preview: true,
-      }),
-    });
-
-    if (!res.ok) {
-      const body = await res.text();
-      console.error(`[Telegram] Refund notification error ${res.status}:`, body);
-    }
-  } catch (err) {
-    console.error('[Telegram] Failed to send refund notification:', err);
-  }
+  await sendToAll(botToken, chatIds, message, true);
 }
 
-/** Escape special chars for Telegram MarkdownV2 */
-function escapeMarkdown(text: string): string {
-  return text.replace(/[_*[\]()~`>#+\-=|{}.!\\]/g, '\\$&');
+// ============================================
+// INTERNAL HELPERS
+// ============================================
+
+/** Escape HTML special chars for Telegram HTML parse mode */
+function esc(text: string): string {
+  return text
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;');
+}
+
+/** Send a message to all configured chat IDs with a 5-second timeout */
+async function sendToAll(
+  botToken: string,
+  chatIds: string[],
+  message: string,
+  urgent: boolean = false,
+): Promise<void> {
+  const url = `https://api.telegram.org/bot${botToken}/sendMessage`;
+
+  for (const chatId of chatIds) {
+    try {
+      const controller = new AbortController();
+      const timeout = setTimeout(() => controller.abort(), 5000);
+
+      const res = await fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          chat_id: chatId,
+          text: message,
+          parse_mode: 'HTML',
+          disable_notification: !urgent,
+          disable_web_page_preview: true,
+        }),
+        signal: controller.signal,
+      });
+
+      clearTimeout(timeout);
+
+      if (!res.ok) {
+        const body = await res.text();
+        console.error(`[Telegram] API error ${res.status} for chat ${chatId}:`, body);
+      } else {
+        console.log(`[Telegram] Notification sent to chat ${chatId}`);
+      }
+    } catch (err: any) {
+      if (err.name === 'AbortError') {
+        console.error(`[Telegram] Request timed out for chat ${chatId}`);
+      } else {
+        console.error(`[Telegram] Failed for chat ${chatId}:`, err);
+      }
+    }
+  }
 }

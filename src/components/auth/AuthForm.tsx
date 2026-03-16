@@ -12,6 +12,14 @@ interface Props {
 
 type Tab = 'signin' | 'signup';
 
+/** Validate redirect target — must be a safe internal path (no open redirect) */
+function sanitizeRedirect(url?: string): string {
+  if (!url) return '/masterclass/course';
+  // Must start with / and NOT start with // (protocol-relative URL)
+  if (url.startsWith('/') && !url.startsWith('//')) return url;
+  return '/masterclass/course';
+}
+
 /** Map raw Supabase error messages to user-friendly copy */
 function mapAuthError(raw: string): string {
   const lower = raw.toLowerCase();
@@ -41,33 +49,34 @@ export default function AuthForm({ redirectTo }: Props) {
   // Resend verification email state
   const [resendCooldown, setResendCooldown] = useState(0);
   const [resendSuccess, setResendSuccess] = useState(false);
-  const cooldownRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  // Store signup email separately so resend uses the correct value
+  const [signupEmail, setSignupEmail] = useState('');
 
+  const safeRedirect = sanitizeRedirect(redirectTo);
   const siteUrl = typeof window !== 'undefined' ? window.location.origin : '';
-  const callbackUrl = `${siteUrl}/api/auth/callback${redirectTo ? `?next=${encodeURIComponent(redirectTo)}` : ''}`;
+  const callbackUrl = `${siteUrl}/api/auth/callback?next=${encodeURIComponent(safeRedirect)}`;
 
   // Manage resend cooldown timer
   useEffect(() => {
-    if (resendCooldown > 0) {
-      cooldownRef.current = setInterval(() => {
-        setResendCooldown((prev) => {
-          if (prev <= 1) {
-            if (cooldownRef.current) clearInterval(cooldownRef.current);
-            return 0;
-          }
-          return prev - 1;
-        });
-      }, 1000);
-    }
-    return () => { if (cooldownRef.current) clearInterval(cooldownRef.current); };
-  }, [resendCooldown > 0]);
+    if (resendCooldown <= 0) return;
+    const id = setInterval(() => {
+      setResendCooldown((prev) => {
+        if (prev <= 1) {
+          clearInterval(id);
+          return 0;
+        }
+        return prev - 1;
+      });
+    }, 1000);
+    return () => clearInterval(id);
+  }, [resendCooldown]);
 
   async function handleResendVerification() {
     if (resendCooldown > 0) return;
     setResendSuccess(false);
     try {
       const supabase = getBrowserClient();
-      const { error: resendError } = await supabase.auth.resend({ type: 'signup', email });
+      const { error: resendError } = await supabase.auth.resend({ type: 'signup', email: signupEmail || email });
       if (resendError) throw resendError;
       setResendSuccess(true);
       setResendCooldown(60);
@@ -114,11 +123,12 @@ export default function AuthForm({ redirectTo }: Props) {
           email: trimmedEmail,
           password,
           options: {
-            data: { full_name: fullName },
+            data: { full_name: fullName.trim() },
             emailRedirectTo: callbackUrl,
           },
         });
         if (signupError) throw signupError;
+        setSignupEmail(trimmedEmail);
         setEmailSent(true);
       } else {
         const { error: signinError } = await supabase.auth.signInWithPassword({
@@ -127,8 +137,8 @@ export default function AuthForm({ redirectTo }: Props) {
         });
         if (signinError) throw signinError;
 
-        // Redirect on successful sign-in
-        window.location.href = redirectTo || '/masterclass/course';
+        // Redirect on successful sign-in (sanitized to prevent open redirect)
+        window.location.href = safeRedirect;
       }
     } catch (err: any) {
       setError(mapAuthError(err.message || ''));

@@ -164,11 +164,15 @@ async function handleCheckoutComplete(session: Stripe.Checkout.Session) {
         ? session.customer
         : (session.customer as any).id;
 
-      await supabase
+      const { error: profileError } = await supabase
         .from('profiles')
         .update({ stripe_customer_id: customerId })
         .eq('id', userId)
         .is('stripe_customer_id', null);
+
+      if (profileError) {
+        console.warn('Failed to link Stripe customer to profile:', profileError.message);
+      }
     }
 
     // Send welcome email (non-critical, don't throw on failure)

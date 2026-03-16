@@ -9,7 +9,10 @@ import type { APIRoute } from 'astro';
 import { getServerClient } from '../../lib/supabase';
 
 export const GET: APIRoute = async ({ cookies, request }) => {
-  const headers = { 'Content-Type': 'application/json' };
+  const headers = {
+    'Content-Type': 'application/json',
+    'Cache-Control': 'private, no-store, no-cache, must-revalidate',
+  };
 
   try {
     const supabase = getServerClient(cookies, request);
