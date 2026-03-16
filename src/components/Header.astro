@@ -1,5 +1,7 @@
 ---
 // Header component - clean, functional, no excess
+import UserMenu from './auth/UserMenu.tsx';
+
 // Get current path for active state
 const currentPath = Astro.url.pathname;
 
@@ -97,22 +99,18 @@ const ariaCurrent = (href: string) => isActive(href) ? "page" : undefined;
       <!-- Tools Link -->
       <a href="/tools" class={navLinkClass('/tools')} aria-current={ariaCurrent('/tools')}>Tools</a>
 
-      <!-- Shop Link with NEW badge -->
-      <a href="/shop" class={`${navLinkClass('/shop')} relative`} aria-current={ariaCurrent('/shop')}>
+      <!-- Shop Link (redirects to /masterclass) -->
+      <a href="/shop" class={navLinkClass('/shop')} aria-current={ariaCurrent('/shop')}>
         Shop
-        <span class="absolute -top-2 -right-3 bg-gold text-black text-[10px] font-bold px-1.5 py-0.5 rounded-full">NEW</span>
       </a>
 
       <!-- Masterclass Link -->
-      <a href="/masterclass" class={`${navLinkClass('/masterclass')} relative`} aria-current={ariaCurrent('/masterclass')}>
+      <a href="/masterclass" class={navLinkClass('/masterclass')} aria-current={ariaCurrent('/masterclass')}>
         Masterclass
-        <span class="absolute -top-2.5 -right-5 text-[9px] font-bold uppercase tracking-wider px-1.5 py-0.5 rounded-full" style="background:rgba(207,181,59,0.15);color:#CFB53B;border:1px solid rgba(207,181,59,0.3);">SOON</span>
       </a>
 
-      <!-- Join Community CTA -->
-      <a href="/join" class="btn btn-primary">
-        Join Community
-      </a>
+      <!-- User Menu (Auth state) -->
+      <UserMenu client:load />
     </div>
 
     <!-- Mobile Menu Button -->
@@ -141,11 +139,11 @@ const ariaCurrent = (href: string) => isActive(href) ? "page" : undefined;
       <a href="/banned" class={`${navLinkClass('/banned')} py-2`}>Banned</a>
       <a href="/net-worth" class={`${navLinkClass('/net-worth')} py-2`}>Net Worth</a>
       <a href="/tools" class={`${navLinkClass('/tools')} py-2`}>Tools</a>
-      <a href="/shop" class={`${navLinkClass('/shop')} py-2`}>Shop <span class="bg-gold text-black text-[10px] font-bold px-1.5 py-0.5 rounded-full ml-1">NEW</span></a>
-      <a href="/masterclass" class={`${navLinkClass('/masterclass')} py-2`}>Masterclass <span class="text-[9px] font-bold uppercase tracking-wider px-1.5 py-0.5 rounded-full ml-1" style="background:rgba(207,181,59,0.15);color:#CFB53B;border:1px solid rgba(207,181,59,0.3);">SOON</span></a>
+      <a href="/shop" class={`${navLinkClass('/shop')} py-2`}>Shop</a>
+      <a href="/masterclass" class={`${navLinkClass('/masterclass')} py-2`}>Masterclass</a>
       <a href="/faq" class={`${navLinkClass('/faq')} py-2`}>FAQ</a>
-      <a href="/join" class="btn btn-primary w-full text-center">
-        Join Community
+      <a href="/auth/login" class="btn btn-primary w-full text-center">
+        Sign In
       </a>
     </div>
   </div>

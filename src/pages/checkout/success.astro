@@ -21,6 +21,9 @@ let product = null;
 let downloadUrl = null;
 let customerEmail = null;
 let error = null;
+let isMasterclass = false;
+let cheatsheetDownloadUrl = '';
+let ebookDownloadUrl = '';
 
 if (sessionId) {
   try {
@@ -33,11 +36,21 @@ if (sessionId) {
     // Verify payment was successful
     if (session.payment_status === 'paid') {
       const productId = session.metadata?.productId;
+      const productKey = session.metadata?.productKey;
       product = productId ? getProductById(productId) : null;
       customerEmail = session.customer_details?.email;
 
-      if (product && product.fulfillment === 'digital' && customerEmail) {
-        // Generate download token for immediate download
+      // Masterclass purchase
+      if (productKey === 'masterclass') {
+        isMasterclass = true;
+        if (customerEmail) {
+          const csToken = generateDownloadToken('mmc-cheatsheet-bundle', customerEmail, sessionId);
+          const ebToken = generateDownloadToken('beat-the-casino', customerEmail, sessionId);
+          cheatsheetDownloadUrl = `/download/${csToken}`;
+          ebookDownloadUrl = `/download/${ebToken}`;
+        }
+      } else if (product && product.fulfillment === 'digital' && customerEmail) {
+        // Legacy digital product
         const token = generateDownloadToken(productId!, customerEmail, sessionId);
         downloadUrl = `/download/${token}`;
       }
@@ -81,8 +94,91 @@ if (sessionId) {
           </a>
         </div>
 
+      ) : isMasterclass ? (
+        <!-- Masterclass Success State -->
+        <div class="text-center">
+
+          <!-- Success icon -->
+          <div class="w-20 h-20 mx-auto mb-6 rounded-full flex items-center justify-center animate-scale" style="background: rgba(207, 181, 59, 0.2);">
+            <svg class="w-10 h-10" style="color: #CFB53B;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+            </svg>
+          </div>
+
+          <h1 class="text-3xl font-bold text-white mb-2">Welcome to the Masterclass</h1>
+          <p class="text-lg mb-8" style="color: #CFB53B;">You now have lifetime access</p>
+
+          <!-- Course CTA -->
+          <a
+            href="/masterclass/course"
+            class="w-full inline-flex items-center justify-center gap-2 font-bold text-black min-h-[52px] rounded-xl px-8 transition-all hover:brightness-110 active:scale-[0.98] mb-6"
+            style="background-color: #CFB53B;"
+          >
+            Start the Masterclass
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+            </svg>
+          </a>
+
+          <!-- Bonus Downloads -->
+          {(cheatsheetDownloadUrl || ebookDownloadUrl) && (
+            <div class="rounded-xl p-6 text-left mb-6" style="background: #1A1A1A; border: 1px solid #2D2D2D;">
+              <h3 class="text-sm font-bold mb-4" style="color: #CFB53B;">Your Bonus Downloads</h3>
+              <div class="space-y-3">
+                {cheatsheetDownloadUrl && (
+                  <a href={cheatsheetDownloadUrl} class="flex items-center gap-3 text-white hover:text-[#CFB53B] transition-colors group">
+                    <svg class="w-5 h-5 text-[#9A9A9A] group-hover:text-[#CFB53B]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                    </svg>
+                    <span class="text-sm font-medium">MMC Cheatsheet Bundle</span>
+                  </a>
+                )}
+                {ebookDownloadUrl && (
+                  <a href={ebookDownloadUrl} class="flex items-center gap-3 text-white hover:text-[#CFB53B] transition-colors group">
+                    <svg class="w-5 h-5 text-[#9A9A9A] group-hover:text-[#CFB53B]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                    </svg>
+                    <span class="text-sm font-medium">Beat the Casino Ebook (98 pages)</span>
+                  </a>
+                )}
+              </div>
+            </div>
+          )}
+
+          <!-- Telegram CTA -->
+          <div class="rounded-xl p-6 text-left" style="background: #0A0A0A; border: 1px solid rgba(207, 181, 59, 0.2);">
+            <h3 class="text-white font-bold text-base mb-2">Join the Community</h3>
+            <p class="text-sm mb-4" style="color: #BEBEBE;">Connect with other serious players in the free Telegram group.</p>
+            <a href="/join" class="inline-flex items-center gap-2 font-semibold text-sm transition-colors hover:underline" style="color: #CFB53B;">
+              Join Telegram Free
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>
+            </a>
+          </div>
+
+          <!-- Email notice -->
+          <div class="rounded-lg p-4 text-left mt-6" style="background: #111; border: 1px solid #2D2D2D;">
+            <div class="flex items-start gap-3">
+              <svg class="w-5 h-5 flex-shrink-0 mt-0.5" style="color: #CFB53B;" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" />
+                <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
+              </svg>
+              <div>
+                <p class="text-white font-medium text-sm">Check your email</p>
+                <p class="text-sm" style="color: #9A9A9A;">
+                  We sent a welcome email with bonus download links to {customerEmail}
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <p class="text-sm mt-6" style="color: #6B6B6B;">
+            Questions? <a href="mailto:support@mikki-mase.com" class="hover:underline" style="color: #CFB53B;">Contact support</a>
+          </p>
+
+        </div>
+
       ) : (
-        <!-- Success State -->
+        <!-- Standard Success State -->
         <div class="text-center">
 
           <!-- Success icon -->

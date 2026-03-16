@@ -18,8 +18,13 @@ import jwt from 'jsonwebtoken';
 // CONFIGURATION
 // ============================================
 
-const TOKEN_SECRET = import.meta.env.DOWNLOAD_TOKEN_SECRET || 'dev-secret-change-in-production';
+const TOKEN_SECRET = import.meta.env.DOWNLOAD_TOKEN_SECRET;
 const TOKEN_EXPIRY = parseInt(import.meta.env.DOWNLOAD_TOKEN_EXPIRY || '604800', 10); // 7 days
+
+if (!TOKEN_SECRET) {
+  // Warn at module load — will throw at runtime if tokens are generated/verified
+  console.warn('WARNING: DOWNLOAD_TOKEN_SECRET is not set. Download tokens will not work.');
+}
 
 // ============================================
 // TOKEN TYPES
@@ -51,6 +56,10 @@ export function generateDownloadToken(
   email: string,
   sessionId: string
 ): string {
+  if (!TOKEN_SECRET) {
+    throw new Error('DOWNLOAD_TOKEN_SECRET is not configured');
+  }
+
   const payload: DownloadTokenPayload = {
     productId,
     email,
@@ -68,6 +77,10 @@ export function generateDownloadToken(
  * Verify a download token
  */
 export function verifyDownloadToken(token: string): VerifyResult {
+  if (!TOKEN_SECRET) {
+    return { valid: false, error: 'Download system not configured' };
+  }
+
   try {
     const decoded = jwt.verify(token, TOKEN_SECRET) as DownloadTokenPayload;
 
@@ -126,5 +139,5 @@ export function getDownloadUrl(token: string): string {
 // ============================================
 
 export const isDownloadSystemConfigured = (): boolean => {
-  return TOKEN_SECRET !== 'dev-secret-change-in-production';
+  return !!TOKEN_SECRET;
 };

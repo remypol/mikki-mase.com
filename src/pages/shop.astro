@@ -1,4 +1,11 @@
 ---
+/**
+ * Shop page — redirects to /masterclass
+ * Individual products are now bundled into the masterclass.
+ */
+return Astro.redirect('/masterclass', 301);
+
+// Legacy code below (unreachable, preserved for reference)
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';

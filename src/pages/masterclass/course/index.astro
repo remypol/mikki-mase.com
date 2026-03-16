@@ -1,9 +1,33 @@
 ---
+/**
+ * Course Dashboard — SSR (server-rendered, protected by middleware)
+ * Middleware handles auth + purchase verification before this page loads.
+ */
+export const prerender = false;
+
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 import Header from '../../../components/Header.astro';
 import Footer from '../../../components/Footer.astro';
 import PasswordGate from '../../../components/PasswordGate.astro';
 import { courseManifest } from '../../../config/course/manifest';
+import { generateDownloadToken } from '../../../lib/downloads';
+
+// User info from middleware (set by src/middleware.ts)
+const user = Astro.locals.user;
+const userEmail = user?.email || '';
+
+// Generate bonus download links for purchased users
+let cheatsheetDownloadUrl = '';
+let ebookDownloadUrl = '';
+if (Astro.locals.hasMasterclass && userEmail) {
+  const cheatsheetToken = generateDownloadToken('mmc-cheatsheet-bundle', userEmail, 'dashboard');
+  const ebookToken = generateDownloadToken('beat-the-casino', userEmail, 'dashboard');
+  cheatsheetDownloadUrl = `/download/${cheatsheetToken}`;
+  ebookDownloadUrl = `/download/${ebookToken}`;
+}
+
+// Set cache headers for protected content
+Astro.response.headers.set('Cache-Control', 'private, no-store, max-age=0');
 ---
 
 <BaseLayout
@@ -14,6 +38,7 @@ import { courseManifest } from '../../../config/course/manifest';
 >
   <PasswordGate>
   <Header />
+  <!-- PasswordGate stays for dev; middleware handles real auth -->
 
   <main id="main-content" class="min-h-screen bg-black pt-20 pb-16">
     <div class="max-w-4xl mx-auto px-4 sm:px-6">
@@ -77,6 +102,47 @@ import { courseManifest } from '../../../config/course/manifest';
           </a>
         ))}
       </div>
+    </div>
+
+      <!-- Bonus Downloads (for purchased users) -->
+      {cheatsheetDownloadUrl && ebookDownloadUrl && (
+        <div class="mt-12">
+          <h2 class="text-lg font-bold text-white mb-4">Your Bonus Downloads</h2>
+          <div class="grid sm:grid-cols-2 gap-4">
+            <a
+              href={cheatsheetDownloadUrl}
+              class="flex items-center gap-4 p-5 rounded-xl border transition-all duration-200 hover:border-[#CFB53B]/50 hover:bg-white/[0.02] group"
+              style="background-color: #1A1A1A; border-color: #2D2D2D;"
+            >
+              <div class="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0" style="background: rgba(207, 181, 59, 0.1);">
+                <svg class="w-5 h-5" style="color: #CFB53B;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                </svg>
+              </div>
+              <div>
+                <h3 class="text-sm font-bold text-white group-hover:text-[#CFB53B] transition-colors">MMC Cheatsheet Bundle</h3>
+                <p class="text-xs" style="color: #9A9A9A;">Baccarat, Poker & Roulette strategy cards</p>
+              </div>
+            </a>
+
+            <a
+              href={ebookDownloadUrl}
+              class="flex items-center gap-4 p-5 rounded-xl border transition-all duration-200 hover:border-[#CFB53B]/50 hover:bg-white/[0.02] group"
+              style="background-color: #1A1A1A; border-color: #2D2D2D;"
+            >
+              <div class="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0" style="background: rgba(207, 181, 59, 0.1);">
+                <svg class="w-5 h-5" style="color: #CFB53B;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                </svg>
+              </div>
+              <div>
+                <h3 class="text-sm font-bold text-white group-hover:text-[#CFB53B] transition-colors">Beat the Casino Ebook</h3>
+                <p class="text-xs" style="color: #9A9A9A;">98-page guide to casino psychology & advantage play</p>
+              </div>
+            </a>
+          </div>
+        </div>
+      )}
     </div>
   </main>
 

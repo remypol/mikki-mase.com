@@ -286,6 +286,66 @@ export const ultimateMmcBundle: Product = {
 };
 
 // ============================================
+// MASTERCLASS (course product)
+// ============================================
+
+export const masterclass: Product = {
+  id: 'masterclass',
+  slug: 'masterclass',
+  type: 'course',
+  fulfillment: 'digital',
+
+  name: 'The Mikki Mase Masterclass',
+  tagline: 'Beat the Casino. Play Smart. Get Paid.',
+  description:
+    '10 modules, 30+ lessons, interactive scenarios, quizzes, and bonus cheatsheets + ebook. The complete casino strategy system from the man who won $52M+.',
+  cover: '/images/masterclass/og-image.jpg',
+  gallery: [],
+
+  price: 97,
+  compareAt: 297,
+  currency: 'USD',
+
+  // Stripe IDs — update after creating product in Stripe Dashboard
+  stripePriceId: import.meta.env.STRIPE_MASTERCLASS_PRICE_ID || 'price_masterclass_placeholder',
+  stripeProductId: import.meta.env.STRIPE_MASTERCLASS_PRODUCT_ID || 'prod_masterclass_placeholder',
+
+  featured: true,
+  category: 'courses',
+
+  seo: {
+    title: 'The Mikki Mase Masterclass | Beat the Casino. Play Smart. Get Paid. | $97',
+    description:
+      '10 modules, 30+ lessons, interactive scenarios, quizzes. The complete casino strategy system from the man who won $52M+ and got banned from 100+ casinos.',
+    image: '/images/masterclass/og-image.jpg',
+    schema: {
+      '@context': 'https://schema.org',
+      '@type': 'Product',
+      name: 'The Mikki Mase Masterclass',
+      description: '10-module casino strategy masterclass with interactive scenarios and quizzes.',
+      image: 'https://www.mikki-mase.com/images/masterclass/og-image.jpg',
+      brand: { '@type': 'Brand', name: 'Mikki Mase' },
+      offers: {
+        '@type': 'Offer',
+        price: 97,
+        priceCurrency: 'USD',
+        availability: 'https://schema.org/InStock',
+        url: 'https://www.mikki-mase.com/masterclass',
+      },
+    },
+  },
+};
+
+// ============================================
+// PRODUCT KEY → STRIPE PRICE MAPPING
+// Used by checkout to derive price server-side
+// ============================================
+
+export const productKeyToPriceId: Record<string, string> = {
+  masterclass: masterclass.stripePriceId,
+};
+
+// ============================================
 // PRODUCT REGISTRY
 // ============================================
 
@@ -293,6 +353,7 @@ export const products: Record<string, Product> = {
   'mmc-cheatsheet-bundle': mmcCheatsheetBundle,
   'beat-the-casino': beatTheCasino,
   'ultimate-mmc-bundle': ultimateMmcBundle,
+  masterclass,
 };
 
 // ============================================
