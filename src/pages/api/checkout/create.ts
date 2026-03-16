@@ -18,15 +18,18 @@ export const POST: APIRoute = async ({ request, cookies }) => {
   const headers = { 'Content-Type': 'application/json' };
 
   try {
-    // CSRF: verify origin (exact match, reject missing origin)
+    // CSRF: verify origin (allow both www and non-www)
     const origin = request.headers.get('origin');
     const siteUrl = import.meta.env.SITE_URL || 'https://www.mikki-mase.com';
     const allowedOrigins = new Set([
       new URL(siteUrl).origin,
+      'https://www.mikki-mase.com',
+      'https://mikki-mase.com',
       ...(import.meta.env.DEV ? ['http://localhost:4321', 'http://localhost:3000'] : []),
     ]);
 
     if (!origin || !allowedOrigins.has(origin)) {
+      console.warn('CSRF origin rejected:', origin, '| Allowed:', [...allowedOrigins]);
       return new Response(
         JSON.stringify({ error: 'Invalid or missing origin' }),
         { status: 403, headers }
