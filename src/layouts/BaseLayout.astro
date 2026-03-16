@@ -14,6 +14,8 @@ interface Props {
   ogImage?: string;
   schema?: any;
   noIndex?: boolean;
+  hideMobileNav?: boolean;
+  hideBackToTop?: boolean;
 }
 
 const {
@@ -23,7 +25,9 @@ const {
   ogType = "website",
   ogImage,
   schema,
-  noIndex = false
+  noIndex = false,
+  hideMobileNav = false,
+  hideBackToTop = false,
 } = Astro.props;
 
 // Default OG image, can be overridden per-page
@@ -350,10 +354,10 @@ const finalSchema = schema ? {
     <slot />
 
     <!-- Mobile Bottom Navigation -->
-    <MobileNav />
+    {!hideMobileNav && <MobileNav />}
 
     <!-- Back to Top Button -->
-    <BackToTop />
+    {!hideBackToTop && <BackToTop />}
 
     <!-- Defer non-critical JS -->
     <script>

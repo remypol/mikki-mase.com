@@ -1,0 +1,156 @@
+---
+import BaseLayout from '../../../../layouts/BaseLayout.astro';
+import PasswordGate from '../../../../components/PasswordGate.astro';
+import { courseManifest, getModuleBySlug, getNextLesson, getPrevLesson } from '../../../../config/course/manifest';
+import { getLessonContent, getQuizContent } from '../../../../content/course/index';
+import CourseLayout from '../../../../components/course/CourseLayout.tsx';
+import LessonPage from '../../../../components/course/LessonPage.tsx';
+
+// ============================================
+// STATIC PATHS
+// ============================================
+
+export function getStaticPaths() {
+  const paths: { params: { module: string; lesson: string } }[] = [];
+
+  for (const mod of courseManifest.modules) {
+    // Lesson pages
+    for (const lesson of mod.lessons) {
+      paths.push({
+        params: { module: mod.slug, lesson: lesson.slug },
+      });
+    }
+    // Quiz page
+    if (mod.hasQuiz) {
+      paths.push({
+        params: { module: mod.slug, lesson: 'quiz' },
+      });
+    }
+    // Practice Mode (blackjack-mastery)
+    if (mod.slug === 'blackjack-mastery') {
+      paths.push({
+        params: { module: mod.slug, lesson: 'practice' },
+      });
+    }
+    // Skill Assessment (mindset-disclaimer — free preview)
+    if (mod.slug === 'mindset-disclaimer') {
+      paths.push({
+        params: { module: mod.slug, lesson: 'assessment' },
+      });
+    }
+  }
+
+  return paths;
+}
+
+// ============================================
+// PAGE DATA
+// ============================================
+
+const { module: moduleSlug, lesson: lessonSlug } = Astro.params;
+const mod = getModuleBySlug(moduleSlug!);
+
+if (!mod) {
+  return Astro.redirect('/masterclass/course');
+}
+
+const isQuiz = lessonSlug === 'quiz';
+const isPractice = lessonSlug === 'practice';
+const isAssessment = lessonSlug === 'assessment';
+const isSpecialPage = isQuiz || isPractice || isAssessment;
+const lessonContent = isSpecialPage ? null : getLessonContent(moduleSlug!, lessonSlug!);
+const quizContent = isQuiz ? getQuizContent(moduleSlug!) : null;
+
+// Redirect if quiz requested but no quiz content exists
+if (isQuiz && !quizContent) {
+  const fallback = mod.lessons.length > 0
+    ? `/masterclass/course/${moduleSlug}/${mod.lessons[0].slug}`
+    : '/masterclass/course';
+  return Astro.redirect(fallback);
+}
+
+// Navigation
+const next = getNextLesson(moduleSlug!, lessonSlug!);
+const prev = getPrevLesson(moduleSlug!, lessonSlug!);
+const nextHref = next ? `/masterclass/course/${next.moduleSlug}/${next.lessonSlug}` : null;
+const prevHref = prev ? `/masterclass/course/${prev.moduleSlug}/${prev.lessonSlug}` : null;
+
+const pageTitle = isQuiz
+  ? `Knowledge Check | ${mod.title} | Mikki Mase Masterclass`
+  : isPractice
+    ? `Practice Mode | ${mod.title} | Mikki Mase Masterclass`
+    : isAssessment
+      ? `Casino IQ Assessment | Mikki Mase Masterclass`
+      : `${lessonContent?.title || lessonSlug} | ${mod.title} | Mikki Mase Masterclass`;
+---
+
+<BaseLayout
+  title={pageTitle}
+  description={isQuiz ? `Test your knowledge from ${mod.title}` : lessonContent?.keyTakeaways[0] || mod.description}
+  noIndex={true}
+  hideMobileNav={true}
+  hideBackToTop={true}
+>
+  <PasswordGate>
+  <CourseLayout
+    client:load
+    currentModuleSlug={moduleSlug!}
+    currentLessonSlug={lessonSlug!}
+  >
+    <LessonPage
+      client:load
+      moduleSlug={moduleSlug!}
+      lessonSlug={lessonSlug!}
+      moduleTitle={mod.title}
+      moduleIcon={mod.icon}
+      isQuiz={isQuiz}
+      isPractice={isPractice}
+      isAssessment={isAssessment}
+      lessonContent={lessonContent}
+      quizContent={quizContent}
+      prevHref={prevHref}
+      nextHref={nextHref}
+    />
+  </CourseLayout>
+  </PasswordGate>
+
+  <!-- Lesson prose styles -->
+  <style is:global>
+    .prose p {
+      margin-bottom: 1.5em;
+      line-height: 1.85;
+    }
+    .prose h3 {
+      margin-top: 2.5em;
+      margin-bottom: 1em;
+    }
+    .prose ul, .prose ol {
+      margin-top: 1.25em;
+      margin-bottom: 1.25em;
+    }
+    .prose li {
+      margin-top: 0.5em;
+      margin-bottom: 0.5em;
+      line-height: 1.75;
+    }
+    .prose blockquote {
+      font-family: inherit;
+      font-style: italic;
+      font-size: 1.15rem;
+      line-height: 1.75;
+      color: #D4D4D4;
+      border-left: 3px solid #CFB53B;
+      padding: 1.25rem 1.5rem;
+      margin-top: 2em;
+      margin-bottom: 2em;
+      background: rgba(207, 181, 59, 0.04);
+      border-radius: 0 0.5rem 0.5rem 0;
+    }
+    .prose ul li::marker {
+      color: #CFB53B;
+    }
+    .prose ol li::marker {
+      color: #CFB53B;
+    }
+  </style>
+</BaseLayout>
