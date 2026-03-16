@@ -61,6 +61,9 @@ export default function MasterclassBuyButton({ variant = 'hero', className = '' 
         throw new Error(data.error || 'Checkout failed');
       }
 
+      // Notify checkout started
+      fetch('/api/notify', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ event: 'checkout_start', email: user?.email || '' }) }).catch(() => {});
+
       // Redirect to Stripe Checkout
       if (data.url) {
         // GA4 tracking
@@ -115,6 +118,7 @@ export default function MasterclassBuyButton({ variant = 'hero', className = '' 
       <div className="flex flex-col items-center gap-2">
         <a
           href={`/auth/login?next=/masterclass&checkout=true`}
+          onClick={() => fetch('/api/notify', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ event: 'cta_click', detail: 'Get Instant Access (not logged in)' }) }).catch(() => {})}
           className={`inline-flex items-center justify-center font-bold text-white min-h-[52px] rounded-xl px-8 transition-all hover:brightness-110 active:scale-[0.98] ${className}`}
           style={{ backgroundColor: '#A8001E' }}
         >

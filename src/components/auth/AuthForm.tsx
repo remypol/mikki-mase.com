@@ -130,6 +130,8 @@ export default function AuthForm({ redirectTo }: Props) {
         if (signupError) throw signupError;
         setSignupEmail(trimmedEmail);
         setEmailSent(true);
+        // Notify — fire and forget
+        fetch('/api/notify', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ event: 'signup', email: trimmedEmail, detail: fullName.trim() }) }).catch(() => {});
       } else {
         const { error: signinError } = await supabase.auth.signInWithPassword({
           email: trimmedEmail,
