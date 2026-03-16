@@ -1,6 +1,9 @@
 /**
  * Checkout Create Endpoint
  * Creates a Stripe Checkout Session for product purchases
+ *
+ * For masterclass: requires auth, derives userId from session
+ * For shop products: works without auth (legacy flow)
  */
 
 // Must be server-rendered (not prerendered)
@@ -8,38 +11,200 @@ export const prerender = false;
 
 import type { APIRoute } from 'astro';
 import { getStripeServer } from '../../../lib/stripe';
-import { getProductById } from '../../../config/shop/products';
+import { getServerClient, getServiceClient } from '../../../lib/supabase';
+import { getProductById, productKeyToPriceId } from '../../../config/shop/products';
 
-export const POST: APIRoute = async ({ request }) => {
+export const POST: APIRoute = async ({ request, cookies }) => {
+  const headers = { 'Content-Type': 'application/json' };
+
   try {
-    const body = await request.json();
-    const { productId, variantId, quantity = 1 } = body;
+    // CSRF: verify origin (exact match, reject missing origin)
+    const origin = request.headers.get('origin');
+    const siteUrl = import.meta.env.SITE_URL || 'https://www.mikki-mase.com';
+    const allowedOrigins = new Set([
+      new URL(siteUrl).origin,
+      ...(import.meta.env.DEV ? ['http://localhost:4321', 'http://localhost:3000'] : []),
+    ]);
+
+    if (!origin || !allowedOrigins.has(origin)) {
+      return new Response(
+        JSON.stringify({ error: 'Invalid or missing origin' }),
+        { status: 403, headers }
+      );
+    }
+
+    // Verify Content-Type
+    const contentType = request.headers.get('content-type');
+    if (!contentType?.includes('application/json')) {
+      return new Response(
+        JSON.stringify({ error: 'Content-Type must be application/json' }),
+        { status: 400, headers }
+      );
+    }
+
+    let body: any;
+    try {
+      body = await request.json();
+    } catch {
+      return new Response(
+        JSON.stringify({ error: 'Invalid JSON body' }),
+        { status: 400, headers }
+      );
+    }
+
+    const { productId, productKey, variantId } = body;
+    const quantity = Math.max(1, Math.min(10, Math.floor(Number(body.quantity) || 1)));
+
+    // ============================================
+    // MASTERCLASS CHECKOUT (auth-gated)
+    // ============================================
+
+    if (productKey === 'masterclass') {
+      // Require authentication
+      const supabase = getServerClient(cookies, request);
+      const { data: { user } } = await supabase.auth.getUser();
+
+      if (!user) {
+        return new Response(
+          JSON.stringify({ error: 'Authentication required' }),
+          { status: 401, headers }
+        );
+      }
+
+      // Check if already purchased
+      const serviceClient = getServiceClient();
+      const { data: existingPurchase, error: purchaseLookupError } = await serviceClient
+        .from('purchases')
+        .select('id')
+        .eq('user_id', user.id)
+        .eq('product_key', 'masterclass')
+        .eq('status', 'completed')
+        .limit(1)
+        .single();
+
+      // PGRST116 = no rows found (expected when not purchased)
+      if (purchaseLookupError && purchaseLookupError.code !== 'PGRST116') {
+        console.error('Purchase lookup failed:', purchaseLookupError);
+        return new Response(
+          JSON.stringify({ error: 'Unable to verify purchase status' }),
+          { status: 503, headers }
+        );
+      }
+
+      if (existingPurchase) {
+        return new Response(
+          JSON.stringify({ error: 'Already purchased', redirect: '/masterclass/course' }),
+          { status: 409, headers }
+        );
+      }
+
+      // Validate user email exists for checkout
+      if (!user.email) {
+        return new Response(
+          JSON.stringify({ error: 'User email is required for checkout' }),
+          { status: 400, headers }
+        );
+      }
+
+      // Derive price server-side (never trust client-sent price)
+      const priceId = productKeyToPriceId['masterclass'];
+      if (!priceId || priceId.includes('placeholder')) {
+        return new Response(
+          JSON.stringify({ error: 'Masterclass product not configured in Stripe' }),
+          { status: 500, headers }
+        );
+      }
+
+      const stripe = await getStripeServer();
+
+      // Look up or create Stripe customer
+      let stripeCustomerId: string | undefined;
+      const { data: profile, error: profileError } = await serviceClient
+        .from('profiles')
+        .select('stripe_customer_id')
+        .eq('id', user.id)
+        .single();
+
+      if (profileError && profileError.code !== 'PGRST116') {
+        console.error('Profile lookup failed:', profileError);
+        // Non-critical: proceed without customer linking rather than blocking checkout
+      }
+
+      if (profile?.stripe_customer_id) {
+        stripeCustomerId = profile.stripe_customer_id;
+      }
+
+      const sessionConfig: Record<string, any> = {
+        mode: 'payment' as const,
+        // No payment_method_types — let Stripe auto-select based on customer location
+        // (shows Card, Apple Pay, Google Pay, PayPal, Klarna, etc.)
+        line_items: [{ price: priceId, quantity: 1 }],
+        success_url: `${siteUrl}/checkout/success?session_id={CHECKOUT_SESSION_ID}`,
+        cancel_url: `${siteUrl}/masterclass`,
+        metadata: {
+          userId: user.id,
+          userEmail: user.email || '',
+          productKey: 'masterclass',
+          productId: 'masterclass',
+          fulfillmentType: 'digital',
+        },
+        client_reference_id: user.id,
+        allow_promotion_codes: true,
+      };
+
+      if (stripeCustomerId) {
+        sessionConfig.customer = stripeCustomerId;
+      } else {
+        sessionConfig.customer_email = user.email;
+        sessionConfig.customer_creation = 'always';
+      }
+
+      const session = await stripe.checkout.sessions.create(sessionConfig);
+
+      return new Response(
+        JSON.stringify({ url: session.url, sessionId: session.id }),
+        { status: 200, headers }
+      );
+    }
+
+    // ============================================
+    // STANDARD SHOP CHECKOUT (existing flow)
+    // ============================================
 
     // Validate product exists
     const product = getProductById(productId);
     if (!product) {
       return new Response(
         JSON.stringify({ error: 'Product not found' }),
-        { status: 404, headers: { 'Content-Type': 'application/json' } }
+        { status: 404, headers }
       );
     }
 
     // Determine price ID
     let priceId = product.stripePriceId;
-    if (variantId && product.variants) {
-      const variant = product.variants.find(v => v.id === variantId);
-      if (variant) {
-        priceId = variant.stripePriceId;
+    if (variantId) {
+      if (!product.variants) {
+        return new Response(
+          JSON.stringify({ error: 'Product has no variants' }),
+          { status: 400, headers }
+        );
       }
+      const variant = product.variants.find(v => v.id === variantId);
+      if (!variant) {
+        return new Response(
+          JSON.stringify({ error: 'Variant not found' }),
+          { status: 400, headers }
+        );
+      }
+      priceId = variant.stripePriceId;
     }
 
     const stripe = await getStripeServer();
-    const siteUrl = import.meta.env.SITE_URL || 'https://www.mikki-mase.com';
 
     // Build session configuration
     const sessionConfig: any = {
       mode: 'payment',
-      payment_method_types: ['card'],
+      // No payment_method_types — let Stripe auto-select based on customer location
       line_items: [
         {
           price: priceId,
@@ -75,7 +240,7 @@ export const POST: APIRoute = async ({ request }) => {
 
     return new Response(
       JSON.stringify({ url: session.url, sessionId: session.id }),
-      { status: 200, headers: { 'Content-Type': 'application/json' } }
+      { status: 200, headers }
     );
 
   } catch (error) {
@@ -83,7 +248,7 @@ export const POST: APIRoute = async ({ request }) => {
 
     return new Response(
       JSON.stringify({ error: 'Failed to create checkout session' }),
-      { status: 500, headers: { 'Content-Type': 'application/json' } }
+      { status: 500, headers }
     );
   }
 };

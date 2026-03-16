@@ -1,4 +1,11 @@
 ---
+/**
+ * Lesson Page — SSR (server-rendered, protected by middleware)
+ * Middleware handles auth + purchase verification before this page loads.
+ * Free preview modules (isFreePreview) are allowed without auth by middleware.
+ */
+export const prerender = false;
+
 import BaseLayout from '../../../../layouts/BaseLayout.astro';
 import PasswordGate from '../../../../components/PasswordGate.astro';
 import { courseManifest, getModuleBySlug, getNextLesson, getPrevLesson } from '../../../../config/course/manifest';
@@ -6,42 +13,8 @@ import { getLessonContent, getQuizContent } from '../../../../content/course/ind
 import CourseLayout from '../../../../components/course/CourseLayout.tsx';
 import LessonPage from '../../../../components/course/LessonPage.tsx';
 
-// ============================================
-// STATIC PATHS
-// ============================================
-
-export function getStaticPaths() {
-  const paths: { params: { module: string; lesson: string } }[] = [];
-
-  for (const mod of courseManifest.modules) {
-    // Lesson pages
-    for (const lesson of mod.lessons) {
-      paths.push({
-        params: { module: mod.slug, lesson: lesson.slug },
-      });
-    }
-    // Quiz page
-    if (mod.hasQuiz) {
-      paths.push({
-        params: { module: mod.slug, lesson: 'quiz' },
-      });
-    }
-    // Practice Mode (blackjack-mastery)
-    if (mod.slug === 'blackjack-mastery') {
-      paths.push({
-        params: { module: mod.slug, lesson: 'practice' },
-      });
-    }
-    // Skill Assessment (mindset-disclaimer — free preview)
-    if (mod.slug === 'mindset-disclaimer') {
-      paths.push({
-        params: { module: mod.slug, lesson: 'assessment' },
-      });
-    }
-  }
-
-  return paths;
-}
+// Set cache headers for protected content
+Astro.response.headers.set('Cache-Control', 'private, no-store, max-age=0');
 
 // ============================================
 // PAGE DATA
@@ -59,6 +32,11 @@ const isPractice = lessonSlug === 'practice';
 const isAssessment = lessonSlug === 'assessment';
 const isSpecialPage = isQuiz || isPractice || isAssessment;
 const lessonContent = isSpecialPage ? null : getLessonContent(moduleSlug!, lessonSlug!);
+
+// 404 for non-existent lessons (SSR doesn't have static paths to guard this)
+if (!isSpecialPage && !lessonContent) {
+  return new Response(null, { status: 404, statusText: 'Lesson not found' });
+}
 const quizContent = isQuiz ? getQuizContent(moduleSlug!) : null;
 
 // Redirect if quiz requested but no quiz content exists

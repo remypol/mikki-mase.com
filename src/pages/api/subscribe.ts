@@ -6,7 +6,7 @@
 export const prerender = false;
 
 import type { APIRoute } from 'astro';
-import { supabase } from '../../lib/supabase';
+import { getServiceClient } from '../../lib/supabase';
 import { generateDownloadToken, getDownloadUrl } from '../../lib/downloads';
 import { sendLeadMagnetEmail } from '../../lib/resend';
 
@@ -124,6 +124,7 @@ export const POST: APIRoute = async ({ request }) => {
     const tags = source ? [source] : ['website'];
 
     // 4. Upsert into Supabase subscribers table
+    const supabase = getServiceClient();
     const { error: dbError } = await supabase
       .from('subscribers')
       .upsert(

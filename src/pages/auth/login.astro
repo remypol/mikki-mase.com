@@ -1,0 +1,46 @@
+---
+/**
+ * Login / Sign Up Page
+ * Static page with React island for auth forms
+ */
+
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import PasswordGate from '../../components/PasswordGate.astro';
+import AuthForm from '../../components/auth/AuthForm.tsx';
+
+// Get redirect target from URL params
+const redirectTo = Astro.url.searchParams.get('next') || undefined;
+const hasError = Astro.url.searchParams.get('error');
+---
+
+<BaseLayout
+  title="Sign In | Mikki Mase Masterclass"
+  description="Sign in to access The Mikki Mase Masterclass. 10 modules, 30+ lessons on casino strategy."
+  noIndex={true}
+>
+  <PasswordGate>
+    <Header />
+
+    <section class="min-h-screen flex items-center justify-center" style="background: linear-gradient(180deg, #000 0%, #0D0D0D 100%);">
+      <div class="w-full max-w-lg px-4">
+        {hasError === 'auth_failed' && (
+          <div class="mb-6 rounded-lg px-4 py-3 text-sm text-red-300 text-center" style="background-color: rgba(168,0,30,0.15); border: 1px solid rgba(168,0,30,0.3);">
+            Authentication failed. Please try again.
+          </div>
+        )}
+
+        <AuthForm client:load redirectTo={redirectTo} />
+
+        <div class="text-center mt-8">
+          <a href="/masterclass" class="text-sm transition-colors hover:text-white" style="color: #6B6B6B;">
+            &larr; Back to Masterclass
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <Footer />
+  </PasswordGate>
+</BaseLayout>

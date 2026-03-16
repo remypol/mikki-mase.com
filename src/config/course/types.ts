@@ -134,7 +134,7 @@ export interface CourseProgress {
 
 export function createDefaultProgress(): CourseProgress {
   return {
-    purchased: true, // For local dev, default to true
+    purchased: false, // Server middleware handles purchase gating
     currentModuleSlug: 'mindset-disclaimer',
     currentLessonSlug: 'the-gamblers-code',
     completedLessons: [],

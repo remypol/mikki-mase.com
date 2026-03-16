@@ -556,6 +556,171 @@ Questions? Reply to this email.
 }
 
 // ============================================
+// MASTERCLASS WELCOME EMAIL
+// ============================================
+
+export interface MasterclassWelcomeData {
+  customerEmail: string;
+  customerName?: string;
+  courseUrl: string;
+  cheatsheetDownloadUrl: string;
+  ebookDownloadUrl: string;
+}
+
+/**
+ * Send masterclass welcome email with course access + bonus downloads
+ */
+export async function sendMasterclassWelcome(data: MasterclassWelcomeData) {
+  const greeting = data.customerName ? `${data.customerName}, welcome` : 'Welcome';
+
+  const html = `
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Welcome to The Mikki Mase Masterclass</title>
+</head>
+<body style="margin: 0; padding: 0; background-color: #000000; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">
+  <table role="presentation" style="width: 100%; border-collapse: collapse;">
+    <tr>
+      <td align="center" style="padding: 40px 20px;">
+        <table role="presentation" style="max-width: 600px; width: 100%; border-collapse: collapse;">
+
+          <!-- Header -->
+          <tr>
+            <td style="padding: 40px 40px 20px; text-align: center;">
+              <h1 style="margin: 0; color: #CFB53B; font-size: 28px; font-weight: 900; letter-spacing: 2px;">
+                MIKKI MASE
+              </h1>
+            </td>
+          </tr>
+
+          <!-- Main Content -->
+          <tr>
+            <td style="background: linear-gradient(135deg, #1a1a1a 0%, #0a0a0a 100%); border-radius: 16px; padding: 40px; border: 1px solid #333;">
+
+              <h2 style="margin: 0 0 20px; color: #ffffff; font-size: 24px; font-weight: 700;">
+                ${greeting} to the Masterclass
+              </h2>
+
+              <p style="margin: 0 0 20px; color: #a3a3a3; font-size: 16px; line-height: 1.6;">
+                You now have <strong style="color: #CFB53B;">lifetime access</strong> to all 10 modules, 30+ lessons, interactive scenarios, quizzes, and bonus content.
+              </p>
+
+              <!-- Course Access Button -->
+              <table role="presentation" style="width: 100%; border-collapse: collapse;">
+                <tr>
+                  <td align="center" style="padding: 20px 0;">
+                    <a href="${data.courseUrl}"
+                       style="display: inline-block; background-color: #A8001E; color: #ffffff; text-decoration: none; padding: 16px 40px; border-radius: 12px; font-weight: 700; font-size: 18px;">
+                      Start the Masterclass
+                    </a>
+                  </td>
+                </tr>
+              </table>
+
+              <!-- Bonus Downloads -->
+              <table role="presentation" style="width: 100%; border-collapse: collapse; margin-top: 30px; padding-top: 30px; border-top: 1px solid #333;">
+                <tr>
+                  <td>
+                    <h3 style="margin: 0 0 16px; color: #CFB53B; font-size: 18px; font-weight: 700;">
+                      Your Bonus Downloads
+                    </h3>
+
+                    <p style="margin: 0 0 12px;">
+                      <a href="${data.cheatsheetDownloadUrl}" style="color: #ffffff; text-decoration: none; font-weight: 600; font-size: 15px;">
+                        &#128196; MMC Cheatsheet Bundle (Baccarat, Poker, Roulette)
+                      </a>
+                    </p>
+
+                    <p style="margin: 0 0 12px;">
+                      <a href="${data.ebookDownloadUrl}" style="color: #ffffff; text-decoration: none; font-weight: 600; font-size: 15px;">
+                        &#128214; Beat the Casino Ebook (98 pages)
+                      </a>
+                    </p>
+
+                    <p style="margin: 16px 0 0; color: #757575; font-size: 13px;">
+                      Download links expire in 7 days. You can always re-download from your course dashboard.
+                    </p>
+                  </td>
+                </tr>
+              </table>
+
+              <!-- Telegram CTA -->
+              <table role="presentation" style="width: 100%; border-collapse: collapse; margin-top: 30px; padding-top: 30px; border-top: 1px solid #333;">
+                <tr>
+                  <td>
+                    <p style="margin: 0 0 12px; color: #a3a3a3; font-size: 14px; line-height: 1.6;">
+                      Join the free Telegram community to connect with other serious players.
+                    </p>
+                    <a href="https://www.mikki-mase.com/join" style="color: #CFB53B; text-decoration: none; font-weight: 700; font-size: 14px;">
+                      Join Telegram &rarr;
+                    </a>
+                  </td>
+                </tr>
+              </table>
+
+            </td>
+          </tr>
+
+          <!-- Footer -->
+          <tr>
+            <td style="padding: 30px 40px; text-align: center;">
+              <p style="margin: 0 0 10px; color: #757575; font-size: 14px;">
+                Questions? Reply to this email or contact support@mikki-mase.com
+              </p>
+              <p style="margin: 0; color: #333333; font-size: 12px;">
+                &copy; ${new Date().getFullYear()} Mikki Mase. All rights reserved.
+              </p>
+            </td>
+          </tr>
+
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>
+  `.trim();
+
+  const text = `
+Welcome to The Mikki Mase Masterclass
+
+${greeting} to the Masterclass!
+
+You now have lifetime access to all 10 modules, 30+ lessons, interactive scenarios, quizzes, and bonus content.
+
+Start the Masterclass: ${data.courseUrl}
+
+---
+
+Your Bonus Downloads:
+
+MMC Cheatsheet Bundle (Baccarat, Poker, Roulette): ${data.cheatsheetDownloadUrl}
+
+Beat the Casino Ebook (98 pages): ${data.ebookDownloadUrl}
+
+Download links expire in 7 days. You can always re-download from your course dashboard.
+
+---
+
+Join the free Telegram community: https://www.mikki-mase.com/join
+
+Questions? Reply to this email or contact support@mikki-mase.com
+
+(c) ${new Date().getFullYear()} Mikki Mase. All rights reserved.
+  `.trim();
+
+  return sendEmail({
+    to: data.customerEmail,
+    subject: "You're in! Welcome to The Mikki Mase Masterclass",
+    html,
+    text,
+  });
+}
+
+// ============================================
 // PLACEHOLDER EXPORTS
 // ============================================
 

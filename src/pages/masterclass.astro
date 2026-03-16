@@ -3,7 +3,11 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import PasswordGate from '../components/PasswordGate.astro';
+import MasterclassBuyButton from '../components/MasterclassBuyButton.tsx';
 import { courseManifest } from '../config/course/manifest';
+
+// Check for access=denied query param (redirect from middleware)
+const accessDenied = Astro.url.searchParams.get('access') === 'denied';
 
 const totalLessons = courseManifest.modules.reduce((sum, m) => sum + m.lessons.length, 0);
 const totalMinutes = courseManifest.modules.reduce(
@@ -56,13 +60,15 @@ const modulesWithScenarios = courseManifest.modules.filter((m) => m.scenarios &&
           </span>
         </div>
 
+        <!-- Access denied banner -->
+        {accessDenied && (
+          <div class="mb-6 px-4 py-3 rounded-xl text-sm text-center animate-[fadeIn_0.6s_ease-out]" style="background: rgba(168, 0, 30, 0.15); border: 1px solid rgba(168, 0, 30, 0.3); color: #ff8a8a;">
+            You're signed in but don't have access yet. Purchase below to unlock the masterclass.
+          </div>
+        )}
+
         <div class="flex flex-col sm:flex-row items-center justify-center gap-3 mb-6 animate-[fadeIn_0.6s_ease-out_0.6s_both]">
-          <a
-            href="/masterclass/course"
-            class="btn btn-primary text-lg px-8 py-4"
-          >
-            Get Instant Access
-          </a>
+          <MasterclassBuyButton client:load variant="hero" className="text-lg px-8 py-4" />
           <a
             href="/masterclass/course/mindset-disclaimer/assessment"
             class="btn btn-tertiary text-lg px-8 py-4"
@@ -415,12 +421,9 @@ const modulesWithScenarios = courseManifest.modules.filter((m) => m.scenarios &&
             One-time payment &middot; Lifetime access &middot; All future updates
           </p>
 
-          <a
-            href="/masterclass/course"
-            class="btn btn-primary btn-large btn-full mb-4"
-          >
-            Get Instant Access
-          </a>
+          <div class="mb-4">
+            <MasterclassBuyButton client:load variant="pricing" className="w-full text-lg py-4" />
+          </div>
 
           <a
             href="/masterclass/course/mindset-disclaimer/assessment"
@@ -457,12 +460,7 @@ const modulesWithScenarios = courseManifest.modules.filter((m) => m.scenarios &&
           One bad session costs more than $97. One good framework saves you thousands.
         </p>
         <div class="flex flex-col sm:flex-row items-center justify-center gap-3">
-          <a
-            href="/masterclass/course"
-            class="btn btn-primary text-lg px-8 py-4"
-          >
-            Unlock the Masterclass
-          </a>
+          <MasterclassBuyButton client:load variant="compact" className="text-lg px-8 py-4" />
           <a
             href="/masterclass/course/mindset-disclaimer/the-gamblers-code"
             class="btn btn-tertiary px-8 py-4"
