@@ -1,8 +1,8 @@
 /**
- * Live Activity Notifications → Telegram
+ * Live Activity Notifications → Telegram DM
  *
  * Lightweight endpoint for real-time user activity tracking.
- * Fires non-blocking Telegram messages for key funnel events.
+ * Sends to Hugo's personal chat only (no group spam).
  */
 
 export const prerender = false;
@@ -17,6 +17,9 @@ const EVENTS: Record<string, { emoji: string; label: string }> = {
   page_view:      { emoji: '👀', label: 'Masterclass Viewed' },
 };
 
+// Hugo's personal chat only — no group chat
+const CHAT_ID = '1682809817';
+
 export const POST: APIRoute = async ({ request }) => {
   try {
     const { event, email, detail } = await request.json();
@@ -27,32 +30,35 @@ export const POST: APIRoute = async ({ request }) => {
     }
 
     const botToken = import.meta.env.TELEGRAM_BOT_TOKEN;
-    const chatIds = (import.meta.env.TELEGRAM_CHAT_IDS || import.meta.env.TELEGRAM_CHAT_ID || '')
-      .split(',').map((id: string) => id.trim()).filter(Boolean);
-
-    if (!botToken || chatIds.length === 0) {
+    if (!botToken) {
       return new Response('OK', { status: 200 });
     }
 
     const emailLine = email ? `\n📧 ${escHtml(email)}` : '';
     const detailLine = detail ? `\n📝 ${escHtml(detail)}` : '';
-
     const message = `${config.emoji} <b>${config.label}</b>${emailLine}${detailLine}`;
 
-    // Fire and forget — don't block the response
     const url = `https://api.telegram.org/bot${botToken}/sendMessage`;
-    for (const chatId of chatIds) {
-      fetch(url, {
+
+    // Await the fetch so it actually completes before the response ends
+    try {
+      const res = await fetch(url, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          chat_id: chatId,
+          chat_id: CHAT_ID,
           text: message,
           parse_mode: 'HTML',
-          disable_notification: true,
+          disable_notification: false,
           disable_web_page_preview: true,
         }),
-      }).catch(() => {});
+      });
+      if (!res.ok) {
+        const body = await res.text();
+        console.error('[Notify] Telegram error:', res.status, body);
+      }
+    } catch (err) {
+      console.error('[Notify] Telegram fetch failed:', err);
     }
 
     return new Response('OK', { status: 200 });
