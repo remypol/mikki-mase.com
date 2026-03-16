@@ -184,11 +184,19 @@ export function DailyDropsFeed() {
   return (
     <div className="max-w-2xl mx-auto">
       {/* Header */}
-      <div className="mb-6">
-        <h1 className="text-2xl font-black text-white mb-1">Daily Drops</h1>
-        <p className="text-sm" style={{ color: '#9A9A9A' }}>
-          Knowledge bombs from Mikki Mase — fresh insights every day
-        </p>
+      <div className="mb-8">
+        <div className="flex items-center gap-3 mb-2">
+          <div className="w-10 h-10 rounded-full overflow-hidden flex-shrink-0 ring-2 ring-[#CFB53B]/40">
+            <img src="/images/mikki-avatar.jpg" alt="Mikki Mase" className="w-full h-full object-cover" />
+          </div>
+          <div>
+            <h1 className="text-2xl font-black text-white">The Inner Circle</h1>
+            <p className="text-xs" style={{ color: '#9A9A9A' }}>
+              Members-only insights from Mikki Mase
+            </p>
+          </div>
+        </div>
+        <div className="h-px mt-4" style={{ background: 'linear-gradient(to right, #CFB53B, transparent)' }} />
       </div>
 
       {/* Category filter — horizontal scroll on mobile */}
