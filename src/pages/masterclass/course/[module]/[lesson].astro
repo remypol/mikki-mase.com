@@ -70,26 +70,30 @@ const pageTitle = isQuiz
   hideBackToTop={true}
 >
   <PasswordGate>
-  <CourseLayout
-    client:load
-    currentModuleSlug={moduleSlug!}
-    currentLessonSlug={lessonSlug!}
-  >
-    <LessonPage
+  <div transition:name="course-sidebar" transition:animate="none">
+    <CourseLayout
       client:load
-      moduleSlug={moduleSlug!}
-      lessonSlug={lessonSlug!}
-      moduleTitle={mod.title}
-      moduleIcon={mod.icon}
-      isQuiz={isQuiz}
-      isPractice={isPractice}
-      isAssessment={isAssessment}
-      lessonContent={lessonContent}
-      quizContent={quizContent}
-      prevHref={prevHref}
-      nextHref={nextHref}
-    />
-  </CourseLayout>
+      currentModuleSlug={moduleSlug!}
+      currentLessonSlug={lessonSlug!}
+    >
+      <div transition:name="course-content" transition:animate="fade">
+        <LessonPage
+          client:load
+          moduleSlug={moduleSlug!}
+          lessonSlug={lessonSlug!}
+          moduleTitle={mod.title}
+          moduleIcon={mod.icon}
+          isQuiz={isQuiz}
+          isPractice={isPractice}
+          isAssessment={isAssessment}
+          lessonContent={lessonContent}
+          quizContent={quizContent}
+          prevHref={prevHref}
+          nextHref={nextHref}
+        />
+      </div>
+    </CourseLayout>
+  </div>
   </PasswordGate>
 
   <!-- Lesson prose styles -->

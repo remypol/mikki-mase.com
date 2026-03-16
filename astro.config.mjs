@@ -11,6 +11,9 @@ export default defineConfig({
   output: 'static',
   adapter: vercel(),
   compressHTML: true,
+  prefetch: {
+    prefetchAll: true,
+  },
   build: {
     inlineStylesheets: 'auto',
   },

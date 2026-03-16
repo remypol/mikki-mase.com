@@ -78,7 +78,15 @@ export default function LessonControls({ prevHref, nextHref, onMarkComplete, isC
             onClick={() => {
               onMarkComplete();
               if (nextHref) {
-                setTimeout(() => { window.location.href = nextHref; }, 300);
+                // Short delay for completion state, then navigate via anchor click
+                // so Astro's ClientRouter intercepts it for smooth View Transitions
+                setTimeout(() => {
+                  const a = document.createElement('a');
+                  a.href = nextHref;
+                  document.body.appendChild(a);
+                  a.click();
+                  a.remove();
+                }, 300);
               }
             }}
             className="

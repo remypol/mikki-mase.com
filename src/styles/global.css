@@ -522,6 +522,32 @@
   animation: fadeIn 600ms cubic-bezier(0.4, 0, 0.2, 1) forwards;
 }
 
+/* ============================================
+   VIEW TRANSITIONS: Course area
+   Sidebar & progress persist, content crossfades
+   ============================================ */
+::view-transition-old(course-sidebar),
+::view-transition-new(course-sidebar),
+::view-transition-old(course-progress),
+::view-transition-new(course-progress) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+::view-transition-old(course-content) {
+  animation: 220ms cubic-bezier(0.4, 0, 0.2, 1) both fade-out;
+}
+::view-transition-new(course-content) {
+  animation: 220ms cubic-bezier(0.4, 0, 0.2, 1) 80ms both fade-in-up;
+}
+
+@keyframes fade-out {
+  to { opacity: 0; }
+}
+@keyframes fade-in-up {
+  from { opacity: 0; transform: translateY(8px); }
+}
+
 /* Reduced Motion */
 @media (prefers-reduced-motion: reduce) {
   *,
