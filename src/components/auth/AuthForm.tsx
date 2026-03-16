@@ -55,6 +55,8 @@ export default function AuthForm({ redirectTo }: Props) {
   const safeRedirect = sanitizeRedirect(redirectTo);
   const siteUrl = typeof window !== 'undefined' ? window.location.origin : '';
   const callbackUrl = `${siteUrl}/api/auth/callback?next=${encodeURIComponent(safeRedirect)}`;
+  // Email confirmation lands on /auth/verified which auto-picks up the session
+  const signupRedirectUrl = `${siteUrl}/auth/verified`;
 
   // Manage resend cooldown timer
   useEffect(() => {
@@ -76,7 +78,7 @@ export default function AuthForm({ redirectTo }: Props) {
     setResendSuccess(false);
     try {
       const supabase = getBrowserClient();
-      const { error: resendError } = await supabase.auth.resend({ type: 'signup', email: signupEmail || email });
+      const { error: resendError } = await supabase.auth.resend({ type: 'signup', email: signupEmail || email, options: { emailRedirectTo: signupRedirectUrl } });
       if (resendError) throw resendError;
       setResendSuccess(true);
       setResendCooldown(60);
@@ -124,7 +126,7 @@ export default function AuthForm({ redirectTo }: Props) {
           password,
           options: {
             data: { full_name: fullName.trim() },
-            emailRedirectTo: callbackUrl,
+            emailRedirectTo: signupRedirectUrl,
           },
         });
         if (signupError) throw signupError;
