@@ -3,8 +3,16 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import PasswordGate from '../components/PasswordGate.astro';
-import MasterclassBuyButton from '../components/MasterclassBuyButton.tsx';
 import { courseManifest } from '../config/course/manifest';
+
+// Framer Motion components
+import MasterclassHero from '../components/motion/MasterclassHero';
+import CredibilityStrip from '../components/motion/CredibilityStrip';
+import WhatYouGet from '../components/motion/WhatYouGet';
+import FreePreviewBanner from '../components/motion/FreePreviewBanner';
+import WhoThisIsFor from '../components/motion/WhoThisIsFor';
+import PricingSection from '../components/motion/PricingSection';
+import FinalCTA from '../components/motion/FinalCTA';
 
 // Check for access=denied query param (redirect from middleware)
 const accessDenied = Astro.url.searchParams.get('access') === 'denied';
@@ -28,204 +36,32 @@ const modulesWithScenarios = courseManifest.modules.filter((m) => m.scenarios &&
   <Header />
 
   <main id="main-content">
-    <!-- ============================================
-         HERO
-         ============================================ -->
-    <section class="relative flex items-center justify-center overflow-hidden" style="background: #000; min-height: min(85vh, 720px);">
-      <!-- Background glow -->
-      <div
-        class="absolute inset-0"
-        style="background: radial-gradient(ellipse at 50% 20%, rgba(207, 181, 59, 0.12) 0%, transparent 60%);"
-      />
+    <!-- HERO — client:load for instant stagger animation on page load -->
+    <MasterclassHero
+      client:load
+      totalLessons={totalLessons}
+      accessDenied={accessDenied}
+    />
 
-      <div class="relative z-10 max-w-4xl mx-auto px-5 sm:px-6 text-center py-16 md:py-24">
-        <span class="eyebrow inline-block mb-4 animate-[fadeIn_0.6s_ease-out]">
-          From the man banned from 100+ casinos
-        </span>
+    <!-- CREDIBILITY STRIP — client:visible for scroll-triggered counter animation -->
+    <CredibilityStrip
+      client:visible
+      moduleCount={courseManifest.modules.length}
+      totalLessons={totalLessons}
+    />
 
-        <h1 class="text-white mb-5 font-black animate-[fadeIn_0.6s_ease-out_0.2s_both]" style="font-size: clamp(2.5rem, 7vw, 5rem); line-height: 1.05; letter-spacing: -0.01em;">
-          THE MIKKI MASE <span style="color: #CFB53B;">MASTERCLASS</span>
-        </h1>
+    <!-- WHAT YOU GET — client:visible for staggered feature grid -->
+    <WhatYouGet
+      client:visible
+      moduleCount={courseManifest.modules.length}
+      scenarioCount={modulesWithScenarios}
+    />
 
-        <p class="text-base md:text-lg mx-auto mb-6 animate-[fadeIn_0.6s_ease-out_0.4s_both]" style="color: #BEBEBE; max-width: 48ch; line-height: 1.6;">
-          The discipline, strategy, and decision-making behind $52M+ in winnings — now available as an instant-access masterclass.
-        </p>
-
-        <!-- Price anchor -->
-        <div class="flex items-center justify-center gap-3 mb-6 animate-[fadeIn_0.6s_ease-out_0.5s_both]">
-          <span class="text-3xl md:text-4xl font-black text-white">$97</span>
-          <span class="text-lg line-through" style="color: #6B6B6B;">$297</span>
-          <span class="text-xs font-bold uppercase px-2 py-1 rounded" style="background: rgba(207, 181, 59, 0.15); color: #CFB53B;">
-            Launch Price
-          </span>
-        </div>
-
-        <!-- Access denied banner -->
-        {accessDenied && (
-          <div class="mb-6 px-4 py-3 rounded-xl text-sm text-center animate-[fadeIn_0.6s_ease-out]" style="background: rgba(168, 0, 30, 0.15); border: 1px solid rgba(168, 0, 30, 0.3); color: #ff8a8a;">
-            You're signed in but don't have access yet. Purchase below to unlock the masterclass.
-          </div>
-        )}
-
-        <div class="flex flex-col sm:flex-row items-center justify-center gap-3 mb-6 animate-[fadeIn_0.6s_ease-out_0.6s_both]">
-          <MasterclassBuyButton client:load variant="hero" className="text-lg px-8 py-4" />
-          <a
-            href="/masterclass/course/mindset-disclaimer/assessment"
-            class="btn btn-tertiary text-lg px-8 py-4"
-          >
-            Try Free Assessment
-          </a>
-        </div>
-
-        <!-- Mini proof -->
-        <div class="flex items-center justify-center gap-6 text-xs animate-[fadeIn_0.6s_ease-out_0.7s_both]" style="color: #9A9A9A;">
-          <span>Instant access</span>
-          <span style="color: #3A3A3A;">&bull;</span>
-          <span>{totalLessons}+ lessons</span>
-          <span style="color: #3A3A3A;">&bull;</span>
-          <span>7-day guarantee</span>
-        </div>
-      </div>
-    </section>
+    <!-- FREE PREVIEW BANNER — client:visible for scroll reveal -->
+    <FreePreviewBanner client:visible />
 
     <!-- ============================================
-         CREDIBILITY STRIP
-         ============================================ -->
-    <section style="background: #0A0A0A; border-top: 1px solid #1A1A1A; border-bottom: 1px solid #1A1A1A;">
-      <div class="max-w-4xl mx-auto px-4 py-8 md:py-10">
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8 text-center">
-          <div>
-            <div class="text-2xl md:text-3xl font-black" style="color: #CFB53B;">$52M+</div>
-            <div class="text-xs mt-1 uppercase tracking-wider" style="color: #9A9A9A;">Won Gambling</div>
-          </div>
-          <div>
-            <div class="text-2xl md:text-3xl font-black text-white">100+</div>
-            <div class="text-xs mt-1 uppercase tracking-wider" style="color: #9A9A9A;">Casinos Banned From</div>
-          </div>
-          <div>
-            <div class="text-2xl md:text-3xl font-black text-white">{courseManifest.modules.length}</div>
-            <div class="text-xs mt-1 uppercase tracking-wider" style="color: #9A9A9A;">In-Depth Modules</div>
-          </div>
-          <div>
-            <div class="text-2xl md:text-3xl font-black text-white">{totalLessons}+</div>
-            <div class="text-xs mt-1 uppercase tracking-wider" style="color: #9A9A9A;">Lessons & Scenarios</div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ============================================
-         WHAT YOU GET
-         ============================================ -->
-    <section class="py-16 md:py-20" style="background: #000;">
-      <div class="max-w-4xl mx-auto px-4 sm:px-6">
-        <div class="text-center mb-12">
-          <span class="text-xs font-bold uppercase tracking-widest" style="color: #CFB53B;">
-            Everything Included
-          </span>
-          <h2 class="text-2xl md:text-3xl font-black text-white mt-3">
-            What You Get for $97
-          </h2>
-        </div>
-
-        <div class="grid md:grid-cols-2 gap-4">
-          <!-- Item 1 -->
-          <div class="flex items-start gap-4 p-5 rounded-xl" style="background: #111; border: 1px solid #1A1A1A;">
-            <div class="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0" style="background: rgba(207, 181, 59, 0.1);">
-              <span style="color: #CFB53B;">&#9654;</span>
-            </div>
-            <div>
-              <h3 class="text-base font-bold text-white mb-1">{courseManifest.modules.length} Full Modules</h3>
-              <p class="text-sm" style="color: #BEBEBE;">From casino psychology to bankroll management — the complete system.</p>
-            </div>
-          </div>
-          <!-- Item 2 -->
-          <div class="flex items-start gap-4 p-5 rounded-xl" style="background: #111; border: 1px solid #1A1A1A;">
-            <div class="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0" style="background: rgba(207, 181, 59, 0.1);">
-              <span style="color: #CFB53B;">&#9881;</span>
-            </div>
-            <div>
-              <h3 class="text-base font-bold text-white mb-1">{modulesWithScenarios} Interactive Scenarios</h3>
-              <p class="text-sm" style="color: #BEBEBE;">Practice real casino decisions with hands-on simulations.</p>
-            </div>
-          </div>
-          <!-- Item 3 -->
-          <div class="flex items-start gap-4 p-5 rounded-xl" style="background: #111; border: 1px solid #1A1A1A;">
-            <div class="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0" style="background: rgba(207, 181, 59, 0.1);">
-              <span style="color: #CFB53B;">&#10003;</span>
-            </div>
-            <div>
-              <h3 class="text-base font-bold text-white mb-1">Quizzes After Every Module</h3>
-              <p class="text-sm" style="color: #BEBEBE;">Test your knowledge and track progress with scored assessments.</p>
-            </div>
-          </div>
-          <!-- Item 4 -->
-          <div class="flex items-start gap-4 p-5 rounded-xl" style="background: #111; border: 1px solid #1A1A1A;">
-            <div class="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0" style="background: rgba(207, 181, 59, 0.1);">
-              <span style="color: #CFB53B;">&#127942;</span>
-            </div>
-            <div>
-              <h3 class="text-base font-bold text-white mb-1">Casino IQ Assessment</h3>
-              <p class="text-sm" style="color: #BEBEBE;">Find your strengths and leaks with a 4-station skill assessment.</p>
-            </div>
-          </div>
-          <!-- Item 5 -->
-          <div class="flex items-start gap-4 p-5 rounded-xl" style="background: #111; border: 1px solid #1A1A1A;">
-            <div class="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0" style="background: rgba(207, 181, 59, 0.1);">
-              <span style="color: #CFB53B;">&#128640;</span>
-            </div>
-            <div>
-              <h3 class="text-base font-bold text-white mb-1">Lifetime Access</h3>
-              <p class="text-sm" style="color: #BEBEBE;">One payment. No subscriptions. All future updates included.</p>
-            </div>
-          </div>
-          <!-- Item 6 -->
-          <div class="flex items-start gap-4 p-5 rounded-xl" style="background: #111; border: 1px solid #1A1A1A;">
-            <div class="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0" style="background: rgba(207, 181, 59, 0.1);">
-              <span style="color: #CFB53B;">&#128170;</span>
-            </div>
-            <div>
-              <h3 class="text-base font-bold text-white mb-1">Blackjack Practice Trainer</h3>
-              <p class="text-sm" style="color: #BEBEBE;">Unlimited adaptive drills to master basic strategy decisions.</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ============================================
-         FREE PREVIEW BANNER
-         ============================================ -->
-    <section style="background: linear-gradient(135deg, rgba(207, 181, 59, 0.08) 0%, rgba(207, 181, 59, 0.02) 100%); border-top: 1px solid rgba(207, 181, 59, 0.15); border-bottom: 1px solid rgba(207, 181, 59, 0.15);">
-      <div class="max-w-3xl mx-auto px-4 sm:px-6 py-10 md:py-12 text-center">
-        <span class="text-xs font-bold uppercase tracking-widest" style="color: #CFB53B;">
-          No credit card required
-        </span>
-        <h2 class="text-xl md:text-2xl font-black text-white mt-2 mb-3">
-          Try Module 1 Free
-        </h2>
-        <p class="text-sm mb-6 mx-auto" style="color: #BEBEBE; max-width: 42ch;">
-          Get the Gambler's Code lesson and take the Casino IQ Assessment to discover your strengths and leaks — completely free.
-        </p>
-        <div class="flex flex-col sm:flex-row items-center justify-center gap-3">
-          <a
-            href="/masterclass/course/mindset-disclaimer/the-gamblers-code"
-            class="btn btn-secondary px-6 py-3 text-base"
-          >
-            Start Free Module
-          </a>
-          <a
-            href="/masterclass/course/mindset-disclaimer/assessment"
-            class="btn btn-tertiary px-6 py-3 text-base"
-          >
-            Take Casino IQ Assessment
-          </a>
-        </div>
-      </div>
-    </section>
-
-    <!-- ============================================
-         CURRICULUM (EXPANDABLE MODULES)
+         CURRICULUM (Astro-native — server-rendered accordion)
          ============================================ -->
     <section class="py-16 md:py-20" id="curriculum" style="background: #0A0A0A;">
       <div class="max-w-4xl mx-auto px-4 sm:px-6">
@@ -244,7 +80,6 @@ const modulesWithScenarios = courseManifest.modules.filter((m) => m.scenarios &&
         <div class="space-y-3" id="module-accordion">
           {courseManifest.modules.map((mod) => (
             <div class="module-card rounded-xl border overflow-hidden transition-all duration-200" style="background: #141414; border-color: #2D2D2D;" data-module={mod.slug}>
-              <!-- Module Header (clickable) -->
               <button
                 class="w-full text-left p-5 flex items-start gap-4 cursor-pointer hover:bg-white/[0.02] transition-colors"
                 type="button"
@@ -271,19 +106,15 @@ const modulesWithScenarios = courseManifest.modules.filter((m) => m.scenarios &&
                   <h3 class="text-base md:text-lg font-bold text-white mb-1">{mod.title}</h3>
                   <p class="text-sm hidden sm:block" style="color: #BEBEBE;">{mod.description}</p>
                 </div>
-                <!-- Chevron -->
                 <svg class="w-5 h-5 flex-shrink-0 mt-1 transition-transform duration-200" style="color: #6B6B6B;" data-chevron fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                   <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
                 </svg>
               </button>
 
-              <!-- Expandable Content -->
               <div class="accordion-content" style="max-height: 0; overflow: hidden; transition: max-height 0.3s ease;">
                 <div class="px-5 pb-5 pt-0">
-                  <!-- Divider -->
                   <div class="mb-4" style="border-top: 1px solid #2D2D2D;" />
 
-                  <!-- Lessons -->
                   <div class="space-y-2">
                     {mod.lessons.map((lesson, idx) => (
                       <div class="flex items-center gap-3 py-2 px-3 rounded-lg" style="background: rgba(255,255,255,0.02);">
@@ -295,7 +126,6 @@ const modulesWithScenarios = courseManifest.modules.filter((m) => m.scenarios &&
                       </div>
                     ))}
 
-                    <!-- Quiz row -->
                     {mod.hasQuiz && (
                       <div class="flex items-center gap-3 py-2 px-3 rounded-lg" style="background: rgba(207, 181, 59, 0.04);">
                         <span class="w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 text-[11px]" style="background: rgba(207, 181, 59, 0.1); color: #CFB53B; border: 1px solid rgba(207, 181, 59, 0.2);">
@@ -306,7 +136,6 @@ const modulesWithScenarios = courseManifest.modules.filter((m) => m.scenarios &&
                       </div>
                     )}
 
-                    <!-- Scenarios -->
                     {mod.scenarios && mod.scenarios.length > 0 && (
                       <div class="flex items-center gap-3 py-2 px-3 rounded-lg" style="background: rgba(207, 181, 59, 0.04);">
                         <span class="w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 text-[11px]" style="background: rgba(207, 181, 59, 0.1); color: #CFB53B; border: 1px solid rgba(207, 181, 59, 0.2);">
@@ -318,7 +147,6 @@ const modulesWithScenarios = courseManifest.modules.filter((m) => m.scenarios &&
                     )}
                   </div>
 
-                  <!-- Module summary -->
                   <div class="flex items-center gap-4 mt-4 pt-3" style="border-top: 1px solid #2D2D2D;">
                     <span class="text-xs" style="color: #9A9A9A;">
                       {mod.lessons.length} lessons &middot; ~{mod.lessons.reduce((s, l) => s + l.estimatedMinutes, 0)} min
@@ -341,135 +169,14 @@ const modulesWithScenarios = courseManifest.modules.filter((m) => m.scenarios &&
       </div>
     </section>
 
-    <!-- ============================================
-         WHO THIS IS FOR
-         ============================================ -->
-    <section class="py-16 md:py-20" style="background: #000;">
-      <div class="max-w-4xl mx-auto px-4 sm:px-6">
-        <div class="text-center mb-10">
-          <h2 class="text-2xl md:text-3xl font-black text-white">
-            Built for Serious Players
-          </h2>
-        </div>
+    <!-- WHO THIS IS FOR — client:visible for staggered list reveal -->
+    <WhoThisIsFor client:visible />
 
-        <div class="grid md:grid-cols-2 gap-6">
-          <!-- For -->
-          <div class="p-6 rounded-xl" style="background: #0A0A0A; border: 1px solid #1A1A1A;">
-            <h3 class="text-base font-bold mb-4" style="color: #059669;">This Is For You If&hellip;</h3>
-            <ul class="space-y-3">
-              <li class="flex items-start gap-3">
-                <span class="mt-0.5" style="color: #059669;">&#10003;</span>
-                <span class="text-sm text-white">You want a structured framework, not random gambling tips</span>
-              </li>
-              <li class="flex items-start gap-3">
-                <span class="mt-0.5" style="color: #059669;">&#10003;</span>
-                <span class="text-sm text-white">You're tired of emotional, impulsive casino decisions</span>
-              </li>
-              <li class="flex items-start gap-3">
-                <span class="mt-0.5" style="color: #059669;">&#10003;</span>
-                <span class="text-sm text-white">You want to understand bankroll management and session discipline</span>
-              </li>
-              <li class="flex items-start gap-3">
-                <span class="mt-0.5" style="color: #059669;">&#10003;</span>
-                <span class="text-sm text-white">You follow Mikki and want to learn how he actually thinks</span>
-              </li>
-            </ul>
-          </div>
+    <!-- PRICING + GUARANTEE — client:visible for premium card entrance -->
+    <PricingSection client:visible />
 
-          <!-- Not for -->
-          <div class="p-6 rounded-xl" style="background: #0A0A0A; border: 1px solid #1A1A1A;">
-            <h3 class="text-base font-bold mb-4" style="color: #A8001E;">This Is Not For You If&hellip;</h3>
-            <ul class="space-y-3">
-              <li class="flex items-start gap-3">
-                <span class="mt-0.5" style="color: #A8001E;">&#10007;</span>
-                <span class="text-sm" style="color: #BEBEBE;">You're looking for "guaranteed wins" or magic systems</span>
-              </li>
-              <li class="flex items-start gap-3">
-                <span class="mt-0.5" style="color: #A8001E;">&#10007;</span>
-                <span class="text-sm" style="color: #BEBEBE;">You ignore bankroll limits and chase losses</span>
-              </li>
-              <li class="flex items-start gap-3">
-                <span class="mt-0.5" style="color: #A8001E;">&#10007;</span>
-                <span class="text-sm" style="color: #BEBEBE;">You want reckless gambling advice with no discipline</span>
-              </li>
-              <li class="flex items-start gap-3">
-                <span class="mt-0.5" style="color: #A8001E;">&#10007;</span>
-                <span class="text-sm" style="color: #BEBEBE;">You're not willing to study and practice the strategies</span>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ============================================
-         PRICING + GUARANTEE
-         ============================================ -->
-    <section class="py-16 md:py-20" style="background: #0A0A0A; border-top: 1px solid #1A1A1A;">
-      <div class="max-w-lg mx-auto px-4 sm:px-6">
-        <div class="rounded-2xl p-8 text-center" style="background: #111; border: 1px solid rgba(207, 181, 59, 0.2); box-shadow: 0 0 60px rgba(207, 181, 59, 0.08);">
-          <span class="text-xs font-bold uppercase tracking-widest" style="color: #CFB53B;">
-            Full Masterclass Access
-          </span>
-
-          <div class="flex items-center justify-center gap-3 mt-4 mb-2">
-            <span class="text-4xl md:text-5xl font-black text-white">$97</span>
-            <span class="text-xl line-through" style="color: #6B6B6B;">$297</span>
-          </div>
-
-          <p class="text-xs mb-6" style="color: #9A9A9A;">
-            One-time payment &middot; Lifetime access &middot; All future updates
-          </p>
-
-          <div class="mb-4">
-            <MasterclassBuyButton client:load variant="pricing" className="w-full text-lg py-4" />
-          </div>
-
-          <a
-            href="/masterclass/course/mindset-disclaimer/assessment"
-            class="btn btn-tertiary btn-full text-sm py-3"
-          >
-            Or Try Free Assessment First
-          </a>
-
-          <!-- Guarantee -->
-          <div class="mt-6 pt-6" style="border-top: 1px solid #2D2D2D;">
-            <div class="flex items-center justify-center gap-2 mb-2">
-              <svg class="w-5 h-5" style="color: #059669;" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-              </svg>
-              <span class="text-sm font-bold" style="color: #059669;">7-Day Money-Back Guarantee</span>
-            </div>
-            <p class="text-xs" style="color: #9A9A9A;">
-              Go through the masterclass. If it doesn't sharpen your casino discipline and decision-making, email us within 7 days for a full refund. No questions asked.
-            </p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ============================================
-         FINAL CTA
-         ============================================ -->
-    <section class="py-16 md:py-20" style="background: #000; border-top: 1px solid #1A1A1A;">
-      <div class="max-w-2xl mx-auto px-4 sm:px-6 text-center">
-        <h2 class="text-2xl md:text-3xl font-black text-white mb-3">
-          Stop Playing Blind. Start Thinking Like Mikki.
-        </h2>
-        <p class="text-sm mb-8 mx-auto" style="color: #BEBEBE; max-width: 40ch;">
-          One bad session costs more than $97. One good framework saves you thousands.
-        </p>
-        <div class="flex flex-col sm:flex-row items-center justify-center gap-3">
-          <MasterclassBuyButton client:load variant="compact" className="text-lg px-8 py-4" />
-          <a
-            href="/masterclass/course/mindset-disclaimer/the-gamblers-code"
-            class="btn btn-tertiary px-8 py-4"
-          >
-            Start Module 1 Free
-          </a>
-        </div>
-      </div>
-    </section>
+    <!-- FINAL CTA — client:visible for staggered reveal -->
+    <FinalCTA client:visible />
   </main>
 
   <Footer />
@@ -493,12 +200,10 @@ const modulesWithScenarios = courseManifest.modules.filter((m) => m.scenarios &&
         const isOpen = trigger.getAttribute('aria-expanded') === 'true';
 
         if (isOpen) {
-          // Close
           content.style.maxHeight = '0';
           trigger.setAttribute('aria-expanded', 'false');
           if (chevron) chevron.style.transform = 'rotate(0deg)';
         } else {
-          // Close all others first
           triggers.forEach((otherTrigger) => {
             if (otherTrigger === trigger) return;
             const otherCard = otherTrigger.closest('.module-card');
@@ -510,7 +215,6 @@ const modulesWithScenarios = courseManifest.modules.filter((m) => m.scenarios &&
             if (otherChevron) otherChevron.style.transform = 'rotate(0deg)';
           });
 
-          // Open clicked
           content.style.maxHeight = content.scrollHeight + 'px';
           trigger.setAttribute('aria-expanded', 'true');
           if (chevron) chevron.style.transform = 'rotate(180deg)';
