@@ -52,8 +52,8 @@ const bannedSchema = {
 ---
 
 <BaseLayout
-  title="Casino Ban Map - Mikki Mase Banned From 150+ Properties"
-  description={`Interactive map of ${stats.total} casinos that banned Mikki Mase worldwide. Vegas, Atlantic City, Macau locations with ban reasons explained.`}
+  title="Mikki Mase Banned From 150+ Casinos — Interactive Map (2026)"
+  description={`Interactive map of all ${stats.total} casinos that banned Mikki Mase. Vegas, Atlantic City, and worldwide locations with ban reasons and legal details.`}
   ogType="article"
   schema={bannedSchema}
 >
@@ -423,7 +423,7 @@ const bannedSchema = {
   <!-- Leaflet JS + Map Initialization -->
   <script is:inline define:vars={{ casinoBans }}>
     // Wait for Leaflet to load
-    document.addEventListener('astro:page-load', function() {
+    document.addEventListener('DOMContentLoaded', function() {
       // Load Leaflet dynamically
       const leafletScript = document.createElement('script');
       leafletScript.src = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js';

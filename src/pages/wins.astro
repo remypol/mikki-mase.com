@@ -71,8 +71,8 @@ const winsSchema = {
 ---
 
 <BaseLayout
-  title="Mikki Mase Wins & Losses - Verified Casino Results"
-  description="Mikki Mase's casino wins and losses: $10M+ verified at the Venetian, $1.5M loss at Wynn, $938K poker losses, and $32M claimed total. Verified vs. unverified."
+  title="Mikki Mase Wins: $10M+ Verified, $32M Claimed (2026)"
+  description="Every Mikki Mase casino win fact-checked: $10M+ verified at the Venetian, $1.5M Wynn loss, $938K poker losses. Verified vs. claimed breakdown inside."
   schema={winsSchema}
 >
   <Header />
@@ -1231,7 +1231,6 @@ const winsSchema = {
 <script>
   import Chart from 'chart.js/auto';
 
-  document.addEventListener('astro:page-load', () => {
   let distributionChart: Chart | null = null;
   let timelineChart: Chart | null = null;
 
@@ -1405,7 +1404,8 @@ const winsSchema = {
     });
   });
 
-  // Initialize charts
-  initCharts();
-  });
+  // Initialize charts when page loads
+  if (typeof window !== 'undefined') {
+    window.addEventListener('DOMContentLoaded', initCharts);
+  }
 </script>
