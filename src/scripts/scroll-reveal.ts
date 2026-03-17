@@ -66,11 +66,4 @@ export function initScrollReveal() {
   });
 }
 
-// Auto-initialize on DOM ready
-if (typeof window !== 'undefined') {
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initScrollReveal);
-  } else {
-    initScrollReveal();
-  }
-}
+// Note: initScrollReveal() is called from BaseLayout.astro via astro:page-load

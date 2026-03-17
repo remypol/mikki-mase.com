@@ -89,8 +89,8 @@
 </style>
 
 <script>
-  // Wait for DOM to be fully loaded
-  document.addEventListener('DOMContentLoaded', () => {
+  // Re-init on every page load (View Transitions compat)
+  document.addEventListener('astro:page-load', () => {
     const fab = document.getElementById('chapter-nav-fab');
     const chapterNav = document.getElementById('chapter-nav');
     const chapterNavToggle = document.getElementById('chapter-nav-toggle');

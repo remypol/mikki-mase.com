@@ -215,43 +215,36 @@ const textClasses = {
   }
 
   // Initialize all counters when they scroll into view
-  if (typeof window !== 'undefined') {
-    const initCounters = () => {
-      const statValues = document.querySelectorAll('.stat-value[data-target]');
-      const counters: SmartCounter[] = [];
+  // Use astro:page-load for View Transitions compatibility
+  document.addEventListener('astro:page-load', () => {
+    const statValues = document.querySelectorAll('.stat-value[data-target]');
+    const counters: SmartCounter[] = [];
 
-      const observer = new IntersectionObserver(
-        (entries) => {
-          entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-              const element = entry.target as HTMLElement;
-              const counter = new SmartCounter(element);
-              counters.push(counter);
-              counter.start();
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const element = entry.target as HTMLElement;
+            const counter = new SmartCounter(element);
+            counters.push(counter);
+            counter.start();
 
-              // Stop observing after animation starts
-              observer.unobserve(element);
-            }
-          });
-        },
-        {
-          threshold: 0.3,
-          rootMargin: '0px 0px -100px 0px'
-        }
-      );
+            // Stop observing after animation starts
+            observer.unobserve(element);
+          }
+        });
+      },
+      {
+        threshold: 0.3,
+        rootMargin: '0px 0px -100px 0px'
+      }
+    );
 
-      statValues.forEach((el) => observer.observe(el));
+    statValues.forEach((el) => observer.observe(el));
 
-      // Cleanup on page unload
-      window.addEventListener('beforeunload', () => {
-        counters.forEach(c => c.stop());
-      });
-    };
-
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', initCounters);
-    } else {
-      initCounters();
-    }
-  }
+    // Cleanup on page unload
+    window.addEventListener('beforeunload', () => {
+      counters.forEach(c => c.stop());
+    });
+  });
 </script>
