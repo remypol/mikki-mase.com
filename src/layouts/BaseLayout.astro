@@ -379,8 +379,8 @@ const finalSchema = schema ? {
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
 
-      // CTA Click Tracking
-      document.addEventListener('DOMContentLoaded', function() {
+      // CTA Click Tracking — use astro:page-load for View Transitions compat
+      document.addEventListener('astro:page-load', function() {
         // Track "Join Community" button clicks - custom event for better GA4 tracking
         document.querySelectorAll('a[href="/join"], a[href*="bit.ly/MikkiCommunity"], a[href*="t.me"], a[href*="telegram"]').forEach(function(btn) {
           btn.addEventListener('click', function() {
@@ -497,7 +497,9 @@ const finalSchema = schema ? {
     <!-- Scroll Reveal Animation Script -->
     <script>
       import { initScrollReveal } from '../scripts/scroll-reveal';
-      initScrollReveal();
+      document.addEventListener('astro:page-load', () => {
+        initScrollReveal();
+      });
     </script>
   </body>
 </html>

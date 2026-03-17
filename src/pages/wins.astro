@@ -1231,6 +1231,7 @@ const winsSchema = {
 <script>
   import Chart from 'chart.js/auto';
 
+  document.addEventListener('astro:page-load', () => {
   let distributionChart: Chart | null = null;
   let timelineChart: Chart | null = null;
 
@@ -1404,8 +1405,7 @@ const winsSchema = {
     });
   });
 
-  // Initialize charts when page loads
-  if (typeof window !== 'undefined') {
-    window.addEventListener('DOMContentLoaded', initCharts);
-  }
+  // Initialize charts
+  initCharts();
+  });
 </script>

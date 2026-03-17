@@ -585,11 +585,12 @@ const toolSchema = {
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 
 <script>
+document.addEventListener('astro:page-load', () => {
   const state = {
     wheel: 'european',
     bet: 'even',
     amount: 100,
-    recentSpins: []
+    recentSpins: [] as string[]
   };
 
   const redNumbers = [1, 3, 5, 7, 9, 12, 14, 16, 18, 19, 21, 23, 25, 27, 30, 32, 34, 36];
@@ -1049,10 +1050,9 @@ const toolSchema = {
   });
 
   // Initial calculation and charts
-  document.addEventListener('DOMContentLoaded', () => {
-    calculate();
-    updateComparisonChart();
-    updateDoubleZeroBtn();
-    updateSpinDisplay();
-  });
+  calculate();
+  updateComparisonChart();
+  updateDoubleZeroBtn();
+  updateSpinDisplay();
+});
 </script>

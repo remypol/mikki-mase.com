@@ -185,7 +185,7 @@ const modulesWithScenarios = courseManifest.modules.filter((m) => m.scenarios &&
 
 <!-- Accordion Script -->
 <script>
-  document.addEventListener('DOMContentLoaded', () => {
+  document.addEventListener('astro:page-load', () => {
     const triggers = document.querySelectorAll('[data-accordion-trigger]');
 
     triggers.forEach((trigger) => {

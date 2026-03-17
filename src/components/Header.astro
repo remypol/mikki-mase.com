@@ -253,124 +253,119 @@ const ariaCurrent = (href: string) => isActive(href) ? "page" : undefined;
 </style>
 
 <script>
-  // Mobile menu toggle
-  const toggle = document.getElementById('mobile-menu-toggle');
-  const menu = document.getElementById('mobile-menu');
-  const menuIcon = toggle?.querySelector('svg');
+  // Re-init on every page load (needed for Astro View Transitions)
+  document.addEventListener('astro:page-load', () => {
+    // Mobile menu toggle
+    const toggle = document.getElementById('mobile-menu-toggle');
+    const menu = document.getElementById('mobile-menu');
+    const menuIcon = toggle?.querySelector('svg');
 
-  toggle?.addEventListener('click', () => {
-    const isOpen = !menu?.classList.contains('hidden');
-    menu?.classList.toggle('hidden');
-    toggle.setAttribute('aria-expanded', String(!isOpen));
-    // Swap icon between hamburger and X
-    if (menuIcon) {
-      menuIcon.innerHTML = isOpen
-        ? '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />'
-        : '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />';
-    }
-  });
-
-  // Close menu when clicking a link
-  menu?.querySelectorAll('a').forEach(link => {
-    link.addEventListener('click', () => {
-      menu.classList.add('hidden');
-      toggle?.setAttribute('aria-expanded', 'false');
+    toggle?.addEventListener('click', () => {
+      const isOpen = !menu?.classList.contains('hidden');
+      menu?.classList.toggle('hidden');
+      toggle.setAttribute('aria-expanded', String(!isOpen));
       if (menuIcon) {
-        menuIcon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />';
+        menuIcon.innerHTML = isOpen
+          ? '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />'
+          : '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />';
       }
     });
-  });
 
-  // Close menu on escape key
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && !menu?.classList.contains('hidden')) {
-      menu?.classList.add('hidden');
-      toggle?.setAttribute('aria-expanded', 'false');
-      toggle?.focus();
-      if (menuIcon) {
-        menuIcon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />';
+    // Close menu when clicking a link
+    menu?.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        menu.classList.add('hidden');
+        toggle?.setAttribute('aria-expanded', 'false');
+        if (menuIcon) {
+          menuIcon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />';
+        }
+      });
+    });
+
+    // Close menu on escape key
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && !menu?.classList.contains('hidden')) {
+        menu?.classList.add('hidden');
+        toggle?.setAttribute('aria-expanded', 'false');
+        toggle?.focus();
+        if (menuIcon) {
+          menuIcon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />';
+        }
       }
+    });
+
+    // Mega Menu functionality
+    const learnMoreTrigger = document.querySelector('#learn-more-menu .mega-menu-trigger');
+    const learnMoreDropdown = document.getElementById('learn-more-dropdown');
+
+    let isHoveringTrigger = false;
+    let isHoveringDropdown = false;
+    let closeTimeout: ReturnType<typeof setTimeout> | null = null;
+
+    function openMegaMenu() {
+      if (closeTimeout) {
+        clearTimeout(closeTimeout);
+        closeTimeout = null;
+      }
+      learnMoreDropdown?.setAttribute('aria-hidden', 'false');
+      learnMoreTrigger?.setAttribute('aria-expanded', 'true');
     }
-  });
 
-  // Mega Menu functionality
-  const learnMoreTrigger = document.querySelector('#learn-more-menu .mega-menu-trigger');
-  const learnMoreDropdown = document.getElementById('learn-more-dropdown');
-  const learnMoreWrapper = document.getElementById('learn-more-menu');
-
-  let isHoveringTrigger = false;
-  let isHoveringDropdown = false;
-  let closeTimeout: ReturnType<typeof setTimeout> | null = null;
-
-  function openMegaMenu() {
-    if (closeTimeout) {
-      clearTimeout(closeTimeout);
-      closeTimeout = null;
+    function closeMegaMenu() {
+      closeTimeout = setTimeout(() => {
+        if (!isHoveringTrigger && !isHoveringDropdown) {
+          learnMoreDropdown?.setAttribute('aria-hidden', 'true');
+          learnMoreTrigger?.setAttribute('aria-expanded', 'false');
+        }
+      }, 150);
     }
-    learnMoreDropdown?.setAttribute('aria-hidden', 'false');
-    learnMoreTrigger?.setAttribute('aria-expanded', 'true');
-  }
 
-  function closeMegaMenu() {
-    closeTimeout = setTimeout(() => {
-      if (!isHoveringTrigger && !isHoveringDropdown) {
+    learnMoreTrigger?.addEventListener('mouseenter', () => {
+      isHoveringTrigger = true;
+      openMegaMenu();
+    });
+
+    learnMoreTrigger?.addEventListener('mouseleave', () => {
+      isHoveringTrigger = false;
+      closeMegaMenu();
+    });
+
+    learnMoreDropdown?.addEventListener('mouseenter', () => {
+      isHoveringDropdown = true;
+      openMegaMenu();
+    });
+
+    learnMoreDropdown?.addEventListener('mouseleave', () => {
+      isHoveringDropdown = false;
+      closeMegaMenu();
+    });
+
+    learnMoreTrigger?.addEventListener('click', (e) => {
+      e.preventDefault();
+      const isOpen = learnMoreDropdown?.getAttribute('aria-hidden') === 'false';
+      if (isOpen) {
         learnMoreDropdown?.setAttribute('aria-hidden', 'true');
         learnMoreTrigger?.setAttribute('aria-expanded', 'false');
+      } else {
+        openMegaMenu();
       }
-    }, 150); // 150ms delay for smooth UX
-  }
+    });
 
-  // Trigger hover events
-  learnMoreTrigger?.addEventListener('mouseenter', () => {
-    isHoveringTrigger = true;
-    openMegaMenu();
-  });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && learnMoreDropdown?.getAttribute('aria-hidden') === 'false') {
+        learnMoreDropdown?.setAttribute('aria-hidden', 'true');
+        learnMoreTrigger?.setAttribute('aria-expanded', 'false');
+        (learnMoreTrigger as HTMLElement)?.focus();
+      }
+    });
 
-  learnMoreTrigger?.addEventListener('mouseleave', () => {
-    isHoveringTrigger = false;
-    closeMegaMenu();
-  });
-
-  // Dropdown hover events
-  learnMoreDropdown?.addEventListener('mouseenter', () => {
-    isHoveringDropdown = true;
-    openMegaMenu();
-  });
-
-  learnMoreDropdown?.addEventListener('mouseleave', () => {
-    isHoveringDropdown = false;
-    closeMegaMenu();
-  });
-
-  // Click to toggle (for touch devices)
-  learnMoreTrigger?.addEventListener('click', (e) => {
-    e.preventDefault();
-    const isOpen = learnMoreDropdown?.getAttribute('aria-hidden') === 'false';
-    if (isOpen) {
-      learnMoreDropdown?.setAttribute('aria-hidden', 'true');
-      learnMoreTrigger?.setAttribute('aria-expanded', 'false');
-    } else {
-      openMegaMenu();
-    }
-  });
-
-  // Close mega menu on Escape
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && learnMoreDropdown?.getAttribute('aria-hidden') === 'false') {
-      learnMoreDropdown?.setAttribute('aria-hidden', 'true');
-      learnMoreTrigger?.setAttribute('aria-expanded', 'false');
-      learnMoreTrigger?.focus();
-    }
-  });
-
-  // Highlight active page in mega menu
-  const currentPath = window.location.pathname;
-  const megaMenuLinks = learnMoreDropdown?.querySelectorAll('.mega-menu-link');
-
-  megaMenuLinks?.forEach(link => {
-    const href = link.getAttribute('href');
-    if (href && currentPath.startsWith(href) && href !== '/') {
-      link.setAttribute('data-active', 'true');
-    }
+    // Highlight active page in mega menu
+    const currentPath = window.location.pathname;
+    learnMoreDropdown?.querySelectorAll('.mega-menu-link').forEach(link => {
+      const href = link.getAttribute('href');
+      if (href && currentPath.startsWith(href) && href !== '/') {
+        link.setAttribute('data-active', 'true');
+      }
+    });
   });
 </script>

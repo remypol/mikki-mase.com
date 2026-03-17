@@ -337,136 +337,135 @@ const toolSchema = {
 <script>
   import Chart from 'chart.js/auto';
 
-  // Calculator State
-  let state = {
-    totalBankroll: 10000,
-    riskLevel: 'moderate',
-    goalMultiplier: 2.0
-  };
-
-  const riskLevels = {
-    conservative: 0.20,
-    moderate: 0.30,
-    aggressive: 0.40
-  };
-
-  // Chart Instance
-  let bankrollChart: Chart | null = null;
-
-  // Format currency
-  function formatCurrency(value: number): string {
-    return new Intl.NumberFormat('en-US', {
-      style: 'currency',
-      currency: 'USD',
-      minimumFractionDigits: 0,
-      maximumFractionDigits: 0
-    }).format(value);
-  }
-
-  // Format number with commas
-  function formatNumber(value: number): string {
-    return new Intl.NumberFormat('en-US').format(value);
-  }
-
-  // Calculate Results
-  function calculate() {
-    const sessionPercent = riskLevels[state.riskLevel as keyof typeof riskLevels];
-    const sessionBankroll = state.totalBankroll * sessionPercent;
-    const stopLoss = sessionBankroll * 0.5; // Stop at 50% loss
-    const winGoal = sessionBankroll * state.goalMultiplier;
-    const sessions = state.totalBankroll / sessionBankroll;
-
-    return {
-      sessionBankroll,
-      stopLoss,
-      winGoal,
-      sessions,
-      reserved: state.totalBankroll - sessionBankroll
+  document.addEventListener('astro:page-load', () => {
+    // Calculator State
+    let state = {
+      totalBankroll: 10000,
+      riskLevel: 'moderate',
+      goalMultiplier: 2.0
     };
-  }
 
-  // Update Display
-  function updateDisplay() {
-    const results = calculate();
+    const riskLevels = {
+      conservative: 0.20,
+      moderate: 0.30,
+      aggressive: 0.40
+    };
 
-    // Update text values
-    document.getElementById('session-amount')!.textContent = formatCurrency(results.sessionBankroll);
-    document.getElementById('stop-loss')!.textContent = formatCurrency(results.stopLoss);
-    document.getElementById('win-goal')!.textContent = formatCurrency(results.winGoal);
-    document.getElementById('sessions')!.textContent = results.sessions.toFixed(1);
-    document.getElementById('bankroll-input')!.setAttribute('value', formatNumber(state.totalBankroll));
+    // Chart Instance
+    let bankrollChart: Chart | null = null;
 
-    // Update Chart
-    updateChart(results);
-  }
+    // Format currency
+    function formatCurrency(value: number): string {
+      return new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency: 'USD',
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 0
+      }).format(value);
+    }
 
-  // Initialize Chart
-  function initChart() {
-    const ctx = document.getElementById('bankroll-chart') as HTMLCanvasElement;
-    const results = calculate();
+    // Format number with commas
+    function formatNumber(value: number): string {
+      return new Intl.NumberFormat('en-US').format(value);
+    }
 
-    bankrollChart = new Chart(ctx, {
-      type: 'doughnut',
-      data: {
-        labels: ['Current Session', 'Reserved Bankroll'],
-        datasets: [{
-          data: [results.sessionBankroll, results.reserved],
-          backgroundColor: [
-            'rgba(212, 160, 23, 0.8)',
-            'rgba(75, 85, 99, 0.4)'
-          ],
-          borderColor: [
-            'rgba(212, 160, 23, 1)',
-            'rgba(75, 85, 99, 0.6)'
-          ],
-          borderWidth: 2
-        }]
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: true,
-        plugins: {
-          legend: {
-            position: 'bottom',
-            labels: {
-              color: '#fff',
-              font: {
-                size: 14,
-                weight: 'bold'
-              },
-              padding: 20
-            }
-          },
-          tooltip: {
-            callbacks: {
-              label: function(context) {
-                const label = context.label || '';
-                const value = context.parsed;
-                const total = context.dataset.data.reduce((a: number, b: number) => a + b, 0);
-                const percentage = ((value / total) * 100).toFixed(1);
-                return `${label}: ${formatCurrency(value)} (${percentage}%)`;
+    // Calculate Results
+    function calculate() {
+      const sessionPercent = riskLevels[state.riskLevel as keyof typeof riskLevels];
+      const sessionBankroll = state.totalBankroll * sessionPercent;
+      const stopLoss = sessionBankroll * 0.5; // Stop at 50% loss
+      const winGoal = sessionBankroll * state.goalMultiplier;
+      const sessions = state.totalBankroll / sessionBankroll;
+
+      return {
+        sessionBankroll,
+        stopLoss,
+        winGoal,
+        sessions,
+        reserved: state.totalBankroll - sessionBankroll
+      };
+    }
+
+    // Update Display
+    function updateDisplay() {
+      const results = calculate();
+
+      // Update text values
+      document.getElementById('session-amount')!.textContent = formatCurrency(results.sessionBankroll);
+      document.getElementById('stop-loss')!.textContent = formatCurrency(results.stopLoss);
+      document.getElementById('win-goal')!.textContent = formatCurrency(results.winGoal);
+      document.getElementById('sessions')!.textContent = results.sessions.toFixed(1);
+      document.getElementById('bankroll-input')!.setAttribute('value', formatNumber(state.totalBankroll));
+
+      // Update Chart
+      updateChart(results);
+    }
+
+    // Initialize Chart
+    function initChart() {
+      const ctx = document.getElementById('bankroll-chart') as HTMLCanvasElement;
+      const results = calculate();
+
+      bankrollChart = new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+          labels: ['Current Session', 'Reserved Bankroll'],
+          datasets: [{
+            data: [results.sessionBankroll, results.reserved],
+            backgroundColor: [
+              'rgba(212, 160, 23, 0.8)',
+              'rgba(75, 85, 99, 0.4)'
+            ],
+            borderColor: [
+              'rgba(212, 160, 23, 1)',
+              'rgba(75, 85, 99, 0.6)'
+            ],
+            borderWidth: 2
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: true,
+          plugins: {
+            legend: {
+              position: 'bottom',
+              labels: {
+                color: '#fff',
+                font: {
+                  size: 14,
+                  weight: 'bold'
+                },
+                padding: 20
+              }
+            },
+            tooltip: {
+              callbacks: {
+                label: function(context) {
+                  const label = context.label || '';
+                  const value = context.parsed;
+                  const total = context.dataset.data.reduce((a: number, b: number) => a + b, 0);
+                  const percentage = ((value / total) * 100).toFixed(1);
+                  return `${label}: ${formatCurrency(value)} (${percentage}%)`;
+                }
               }
             }
+          },
+          animation: {
+            animateRotate: true,
+            animateScale: true
           }
-        },
-        animation: {
-          animateRotate: true,
-          animateScale: true
         }
-      }
-    });
-  }
-
-  // Update Chart
-  function updateChart(results: any) {
-    if (bankrollChart) {
-      bankrollChart.data.datasets[0].data = [results.sessionBankroll, results.reserved];
-      bankrollChart.update('active');
+      });
     }
-  }
 
-  // Event Listeners
-  document.addEventListener('DOMContentLoaded', () => {
+    // Update Chart
+    function updateChart(results: any) {
+      if (bankrollChart) {
+        bankrollChart.data.datasets[0].data = [results.sessionBankroll, results.reserved];
+        bankrollChart.update('active');
+      }
+    }
+
     // Initialize
     initChart();
     updateDisplay();

@@ -359,7 +359,7 @@ if (sessionId) {
         ga4ProductPrice: product.price
       }}
     >
-      (function() {
+      document.addEventListener('astro:page-load', function() {
         // Prevent duplicate purchase tracking on page refresh
         var trackedKey = 'purchase_tracked_' + transactionId;
 
@@ -389,14 +389,14 @@ if (sessionId) {
         // Mark as tracked to prevent duplicates
         sessionStorage.setItem(trackedKey, 'true');
         console.log('[GA4] purchase fired:', transactionId, ga4ProductPrice);
-      })();
+      });
     </script>
   )}
 
   <!-- Issue #6: Masterclass purchase status polling -->
   {isMasterclass && (
     <script is:inline>
-      (function() {
+      document.addEventListener('astro:page-load', function() {
         var polling = document.getElementById('mc-polling');
         var ctaBtn = document.getElementById('mc-cta-btn');
         var timeoutMsg = document.getElementById('mc-timeout-msg');
@@ -446,7 +446,7 @@ if (sessionId) {
         }
 
         pollStatus();
-      })();
+      });
     </script>
   )}
 </BaseLayout>

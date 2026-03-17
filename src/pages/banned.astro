@@ -423,7 +423,7 @@ const bannedSchema = {
   <!-- Leaflet JS + Map Initialization -->
   <script is:inline define:vars={{ casinoBans }}>
     // Wait for Leaflet to load
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('astro:page-load', function() {
       // Load Leaflet dynamically
       const leafletScript = document.createElement('script');
       leafletScript.src = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js';

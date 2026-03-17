@@ -351,6 +351,7 @@ const slots = [
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 
 <script>
+document.addEventListener('astro:page-load', () => {
   let currentBet = 1;
 
   const betBtns = document.querySelectorAll('#bet-options .bet-btn');
@@ -636,8 +637,7 @@ const slots = [
   });
 
   // Initialize
-  document.addEventListener('DOMContentLoaded', () => {
-    initCharts();
-    updateCalculations();
-  });
+  initCharts();
+  updateCalculations();
+});
 </script>

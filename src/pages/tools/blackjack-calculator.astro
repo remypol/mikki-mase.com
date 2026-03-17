@@ -371,6 +371,7 @@ const toolSchema = {
 <script>
   import Chart from 'chart.js/auto';
 
+document.addEventListener('astro:page-load', () => {
   const state = {
     dealer: null as string | null,
     player1: null as string | null,
@@ -987,4 +988,5 @@ const toolSchema = {
       probabilityChart = null;
     }
   });
+});
 </script>

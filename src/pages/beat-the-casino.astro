@@ -438,7 +438,7 @@ const pageSchema = {
 <!-- GA4: view_item event -->
 <script define:vars={{ productId: product.id, productName: product.name, productPrice: product.price }}>
   // Fire view_item when page loads
-  window.addEventListener('DOMContentLoaded', function() {
+  document.addEventListener('astro:page-load', function() {
     // dataLayer for GTM
     var dataLayer = window.dataLayer || [];
     dataLayer.push({

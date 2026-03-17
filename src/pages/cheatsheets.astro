@@ -548,7 +548,7 @@ const combinedSchema = [productSchema, faqSchema, breadcrumbSchema];
 
   <!-- GA4 Ecommerce: view_item Event -->
   <script is:inline define:vars={{ productId: product.id, productName: product.name, productPrice: product.price }}>
-    (function() {
+    document.addEventListener('astro:page-load', function() {
       // Ensure dataLayer and gtag exist
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
@@ -565,12 +565,12 @@ const combinedSchema = [productSchema, faqSchema, breadcrumbSchema];
         }]
       });
       console.log('[GA4] view_item fired:', productId, productPrice);
-    })();
+    });
   </script>
 
   <!-- GA4: Track preview link clicks from sales page -->
   <script is:inline>
-    (function() {
+    document.addEventListener('astro:page-load', function() {
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
 
@@ -585,7 +585,7 @@ const combinedSchema = [productSchema, faqSchema, breadcrumbSchema];
           console.log('[GA4] sales_to_preview:', location);
         });
       });
-    })();
+    });
   </script>
 </BaseLayout>
 

@@ -344,8 +344,8 @@ const tools = [
 </style>
 
 <script>
-  // Add mouse tracking for card glow effect
-  document.addEventListener('DOMContentLoaded', () => {
+  document.addEventListener('astro:page-load', () => {
+    // Add mouse tracking for card glow effect
     const cards = document.querySelectorAll('.tool-card');
 
     cards.forEach(card => {
