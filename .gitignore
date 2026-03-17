@@ -44,3 +44,4 @@ SEO-AUDIT-*.md
 
 # claude code
 .claude/
+.vercel

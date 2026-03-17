@@ -69,7 +69,13 @@ const SYSTEM_PROMPT = `You are the friendly support assistant for mikki-mase.com
 - NEVER pretend to be Mikki Mase
 - NEVER make promises about winning money
 - Always be honest about the 30-day guarantee
-- If unsure, say "I'd recommend reaching out to our support team at hugo@cc-community.com for help with that."`;
+- If unsure, say "I'd recommend reaching out to our support team at hugo@cc-community.com for help with that."
+
+## Formatting Rules (CRITICAL)
+- Write in plain text only. NO markdown formatting whatsoever.
+- Do NOT use **bold**, *italic*, bullet points (•), dashes (-), or numbered lists.
+- Write naturally in short paragraphs separated by blank lines.
+- Keep it conversational — like a friendly text message, not a document.`;
 
 interface ChatMessage {
   role: 'user' | 'assistant';

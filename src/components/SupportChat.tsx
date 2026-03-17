@@ -193,7 +193,12 @@ export default function SupportChat() {
                     wordBreak: 'break-word',
                   }}
                 >
-                  {msg.content}
+                  {msg.content.split('\n').map((line, j) => (
+                    <span key={j}>
+                      {j > 0 && <br />}
+                      {line || '\u00A0'}
+                    </span>
+                  ))}
                 </div>
               </div>
             ))}
