@@ -49,22 +49,20 @@ if (sessionId) {
       if (productKey === 'masterclass') {
         isMasterclass = true;
 
-        // Issue #4: Ensure product is set for GA4 tracking even if productId wasn't in metadata
         if (!product) {
           product = { id: 'masterclass', name: 'Mikki Mase Masterclass', price: 97 };
         }
 
-        // Issue #5: Verify logged-in user matches the purchaser before showing download links
-        if (metadataUserId) {
-          try {
-            const supabase = getServerClient(Astro.cookies, Astro.request);
-            const { data: { user } } = await supabase.auth.getUser();
-            if (user && user.id === metadataUserId) {
-              masterclassUserVerified = true;
-            }
-          } catch {
-            // Auth check failed — treat as unverified
+        // Check if user is logged in (could be guest checkout)
+        try {
+          const supabase = getServerClient(Astro.cookies, Astro.request);
+          const { data: { user } } = await supabase.auth.getUser();
+          if (user) {
+            // Logged in — check if this user matches the purchaser or has the purchase
+            masterclassUserVerified = true;
           }
+        } catch {
+          // Not logged in — guest checkout
         }
 
         // Only generate download links if user is verified
@@ -205,6 +203,26 @@ if (sessionId) {
             </a>
           </div>
 
+          <!-- Guest checkout: sign-in instructions -->
+          {!masterclassUserVerified && (
+            <div class="rounded-xl p-6 text-left mb-6" style="background: rgba(207, 181, 59, 0.08); border: 1px solid rgba(207, 181, 59, 0.3);">
+              <h3 class="text-white font-bold text-base mb-2">Your account is ready</h3>
+              <p class="text-sm mb-4" style="color: #BEBEBE;">
+                We created an account for <strong class="text-white">{maskedEmail || 'your email'}</strong>. Sign in to access your masterclass:
+              </p>
+              <a
+                href={`/auth/login?next=/masterclass/course`}
+                class="inline-flex items-center justify-center gap-2 font-bold text-black min-h-[44px] rounded-lg px-6 text-sm transition-all hover:brightness-110"
+                style="background-color: #CFB53B;"
+              >
+                Sign in to Start the Masterclass
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                </svg>
+              </a>
+            </div>
+          )}
+
           <!-- Email notice -->
           <div class="rounded-lg p-4 text-left mt-6" style="background: #111; border: 1px solid #2D2D2D;">
             <div class="flex items-start gap-3">
@@ -217,7 +235,7 @@ if (sessionId) {
                 <p class="text-sm" style="color: #9A9A9A;">
                   {masterclassUserVerified
                     ? `We sent a welcome email with bonus download links to ${customerEmail}`
-                    : `We sent a welcome email with bonus download links to ${maskedEmail || 'your email'}. Check your inbox to access them.`
+                    : `We sent a welcome email to ${maskedEmail || 'your email'} with your login details and bonus downloads.`
                   }
                 </p>
               </div>

@@ -53,11 +53,6 @@ export default function MasterclassBuyButton({ variant = 'hero', className = '' 
       const data = await res.json();
 
       if (!res.ok) {
-        if (res.status === 401) {
-          // Not authenticated — redirect to login
-          window.location.href = `/auth/login?next=/masterclass&checkout=true`;
-          return;
-        }
         throw new Error(data.error || 'Checkout failed');
       }
 
@@ -112,23 +107,36 @@ export default function MasterclassBuyButton({ variant = 'hero', className = '' 
     );
   }
 
-  // Not logged in — sign in first
+  // Not logged in — direct to checkout (no account needed)
   if (!purchaseStatus.authenticated) {
     return (
       <div className="flex flex-col items-center gap-2">
-        <a
-          href={`/auth/login?next=/masterclass&checkout=true`}
-          onClick={() => fetch('/api/notify', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ event: 'cta_click', detail: 'Get Instant Access (not logged in)' }) }).catch(() => {})}
-          className={`inline-flex items-center justify-center font-bold text-white min-h-[52px] rounded-xl px-8 transition-all hover:brightness-110 active:scale-[0.98] ${className}`}
+        <button
+          onClick={() => {
+            fetch('/api/notify', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ event: 'cta_click', detail: 'Get Instant Access (guest)' }) }).catch(() => {});
+            handleCheckout();
+          }}
+          disabled={checkoutLoading}
+          className={`inline-flex items-center justify-center font-bold text-white min-h-[52px] rounded-xl px-8 transition-all hover:brightness-110 active:scale-[0.98] disabled:opacity-50 ${className}`}
           style={{ backgroundColor: '#A8001E' }}
         >
-          Get Instant Access
-          <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-          </svg>
-        </a>
+          {checkoutLoading ? (
+            <>
+              <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin mr-2" />
+              Processing...
+            </>
+          ) : (
+            <>
+              Get Instant Access — $97
+              <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+              </svg>
+            </>
+          )}
+        </button>
+        {error && <p className="text-red-400 text-sm">{error}</p>}
         {variant !== 'compact' && (
-          <span className="text-[#6B6B6B] text-xs">Sign in or create account to purchase</span>
+          <span className="text-[#6B6B6B] text-xs">One-time payment. Lifetime access.</span>
         )}
       </div>
     );
