@@ -192,7 +192,7 @@ export function DailyDropsFeed() {
           <div>
             <h1 className="text-2xl font-black text-white">The Inner Circle</h1>
             <p className="text-xs" style={{ color: '#9A9A9A' }}>
-              Members-only insights from Mikki Mase
+              Exclusive updates from Mikki's team
             </p>
           </div>
         </div>
@@ -257,7 +257,7 @@ export function DailyDropsFeed() {
           <h3 className="text-white font-bold text-lg mb-2">No drops yet</h3>
           <p className="text-sm" style={{ color: '#9A9A9A' }}>
             {category === 'all'
-              ? 'The first knowledge bomb is coming soon.'
+              ? 'New content is coming soon — stay tuned.'
               : `No ${category} posts yet. Check back soon.`
             }
           </p>

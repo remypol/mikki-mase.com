@@ -302,7 +302,7 @@ export const masterclass: Product = {
   cover: '/images/masterclass/og-image.jpg',
   gallery: [],
 
-  price: 97,
+  price: 47,
   compareAt: 297,
   currency: 'USD',
 
@@ -314,7 +314,7 @@ export const masterclass: Product = {
   category: 'courses',
 
   seo: {
-    title: 'The Mikki Mase Masterclass | Beat the Casino. Play Smart. Get Paid. | $97',
+    title: 'The Mikki Mase Masterclass | Beat the Casino. Play Smart. Get Paid. | $47',
     description:
       '10 modules, 30+ lessons, interactive scenarios, quizzes. The complete casino strategy system from the man who won $52M+ and got banned from 100+ casinos.',
     image: '/images/masterclass/og-image.jpg',
@@ -327,7 +327,7 @@ export const masterclass: Product = {
       brand: { '@type': 'Brand', name: 'Mikki Mase' },
       offers: {
         '@type': 'Offer',
-        price: 97,
+        price: 47,
         priceCurrency: 'USD',
         availability: 'https://schema.org/InStock',
         url: 'https://www.mikki-mase.com/masterclass',

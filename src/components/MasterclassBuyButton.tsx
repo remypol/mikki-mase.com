@@ -72,8 +72,8 @@ export default function MasterclassBuyButton({ variant = 'hero', className = '' 
             event: 'begin_checkout',
             ecommerce: {
               currency: 'USD',
-              value: 97,
-              items: [{ item_id: 'masterclass', item_name: 'The Mikki Mase Masterclass', price: 97, quantity: 1 }],
+              value: 47,
+              items: [{ item_id: 'masterclass', item_name: 'The Mikki Mase Masterclass', price: 47, quantity: 1 }],
             },
           });
         }
@@ -150,7 +150,7 @@ export default function MasterclassBuyButton({ variant = 'hero', className = '' 
           </>
         ) : (
           <>
-            Get Instant Access — $97
+            Get Instant Access — $47
             <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
             </svg>

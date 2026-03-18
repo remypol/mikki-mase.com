@@ -143,7 +143,7 @@ async function handleCheckoutComplete(session: Stripe.Checkout.Session) {
         ? session.payment_intent
         : (session.payment_intent as any)?.id || null,
       product_key: 'masterclass',
-      amount_cents: session.amount_total ?? 9700, // ?? not || (preserve $0 promo codes)
+      amount_cents: session.amount_total ?? 4700, // ?? not || (preserve $0 promo codes)
       status: 'completed',
     });
 
@@ -200,7 +200,7 @@ async function handleCheckoutComplete(session: Stripe.Checkout.Session) {
         customerEmail,
         customerName: session.customer_details?.name || undefined,
         productName: 'Mikki Mase Masterclass',
-        amountCents: session.amount_total ?? 9700,
+        amountCents: session.amount_total ?? 4700,
         currency: session.currency || 'usd',
         stripeSessionId: session.id,
       });
