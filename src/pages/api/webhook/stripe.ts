@@ -132,64 +132,18 @@ async function handleCheckoutComplete(session: Stripe.Checkout.Session) {
   // MASTERCLASS PURCHASE
   // ============================================
 
-  if (productKey === 'masterclass') {
+  if (productKey === 'masterclass' && userId) {
     const supabase = getServiceClient();
-    const customerEmail = session.customer_details?.email || userEmail;
-    let finalUserId = userId;
-
-    // If no userId (guest checkout), auto-create a Supabase account
-    if (!finalUserId && customerEmail) {
-      // Check if user already exists with this email
-      const { data: existingUsers } = await supabase.auth.admin.listUsers();
-      const existingUser = existingUsers?.users?.find(u => u.email === customerEmail);
-
-      if (existingUser) {
-        finalUserId = existingUser.id;
-        console.log(`Guest checkout: found existing user ${finalUserId} for ${customerEmail}`);
-      } else {
-        // Create new user with a random password (they'll use magic link to sign in)
-        const randomPassword = crypto.randomUUID() + crypto.randomUUID();
-        const { data: newUser, error: createError } = await supabase.auth.admin.createUser({
-          email: customerEmail,
-          password: randomPassword,
-          email_confirm: true, // Auto-confirm since they paid
-          user_metadata: {
-            full_name: session.customer_details?.name || undefined,
-            source: 'stripe_checkout',
-          },
-        });
-
-        if (createError) {
-          console.error('Failed to create user for guest checkout:', createError);
-          throw new Error(`Guest user creation failed: ${createError.message}`);
-        }
-
-        finalUserId = newUser.user.id;
-        console.log(`Guest checkout: created new user ${finalUserId} for ${customerEmail}`);
-
-        // Ensure profile exists
-        await supabase.from('profiles').upsert({
-          id: finalUserId,
-          email: customerEmail,
-          full_name: session.customer_details?.name || null,
-        }, { onConflict: 'id' });
-      }
-    }
-
-    if (!finalUserId) {
-      console.error('No userId and no email — cannot process masterclass purchase');
-      throw new Error('Cannot identify buyer for masterclass purchase');
-    }
 
     // Insert purchase record (unique constraint on stripe_session_id prevents duplicates)
     const { error: purchaseError } = await supabase.from('purchases').insert({
-      user_id: finalUserId,
+      user_id: userId,
       stripe_session_id: session.id,
       stripe_payment_intent_id: typeof session.payment_intent === 'string'
         ? session.payment_intent
         : (session.payment_intent as any)?.id || null,
       product_key: 'masterclass',
-      amount_cents: session.amount_total ?? 9700,
+      amount_cents: session.amount_total ?? 9700, // ?? not || (preserve $0 promo codes)
       status: 'completed',
     });
 
@@ -197,10 +151,11 @@ async function handleCheckoutComplete(session: Stripe.Checkout.Session) {
       if (purchaseError.code === '23505') {
         console.log('Purchase already recorded for session:', session.id);
       } else {
+        // Non-duplicate error — throw to trigger 500 and Stripe retry
         throw new Error(`Failed to insert purchase: ${purchaseError.message}`);
       }
     } else {
-      console.log(`Masterclass purchase recorded for user ${finalUserId}`);
+      console.log(`Masterclass purchase recorded for user ${userId}`);
     }
 
     // Link Stripe customer ID to profile (non-critical, don't throw on failure)
@@ -212,7 +167,7 @@ async function handleCheckoutComplete(session: Stripe.Checkout.Session) {
       const { error: profileError } = await supabase
         .from('profiles')
         .update({ stripe_customer_id: customerId })
-        .eq('id', finalUserId)
+        .eq('id', userId)
         .is('stripe_customer_id', null);
 
       if (profileError) {
@@ -220,7 +175,8 @@ async function handleCheckoutComplete(session: Stripe.Checkout.Session) {
       }
     }
 
-    // Send welcome email with magic link for guest users (non-critical)
+    // Send welcome email (non-critical, don't throw on failure)
+    const customerEmail = userEmail || session.customer_details?.email;
     if (customerEmail) {
       try {
         const cheatsheetToken = generateDownloadToken('mmc-cheatsheet-bundle', customerEmail, session.id);
