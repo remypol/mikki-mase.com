@@ -1,6 +1,10 @@
 /**
  * MasterclassBuyButton — Auth-aware purchase button
  * Checks auth + purchase status, routes appropriately
+ *
+ * Not logged in → link to login (then redirect to /checkout/masterclass)
+ * Logged in, not purchased → link to /checkout/masterclass (embedded Stripe)
+ * Already purchased → link to course
  */
 
 import { useState, useEffect } from 'react';
@@ -21,8 +25,6 @@ interface PurchaseStatus {
 export default function MasterclassBuyButton({ variant = 'hero', className = '' }: Props) {
   const { user, loading: authLoading } = useAuth();
   const [purchaseStatus, setPurchaseStatus] = useState<PurchaseStatus | null>(null);
-  const [checkoutLoading, setCheckoutLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
 
   // Check purchase status when user is available
   useEffect(() => {
@@ -38,54 +40,6 @@ export default function MasterclassBuyButton({ variant = 'hero', className = '' 
       .then((data) => setPurchaseStatus(data))
       .catch(() => setPurchaseStatus({ authenticated: true, purchased: false }));
   }, [user, authLoading]);
-
-  async function handleCheckout() {
-    setError(null);
-    setCheckoutLoading(true);
-
-    try {
-      const res = await fetch('/api/checkout/create', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ productKey: 'masterclass' }),
-      });
-
-      const data = await res.json();
-
-      if (!res.ok) {
-        if (res.status === 401) {
-          // Not authenticated — redirect to login
-          window.location.href = `/auth/login?next=/masterclass&checkout=true`;
-          return;
-        }
-        throw new Error(data.error || 'Checkout failed');
-      }
-
-      // Notify checkout started
-      fetch('/api/notify', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ event: 'checkout_start', email: user?.email || '' }) }).catch(() => {});
-
-      // Redirect to Stripe Checkout
-      if (data.url) {
-        // GA4 tracking
-        if (typeof window !== 'undefined' && (window as any).dataLayer) {
-          (window as any).dataLayer.push({
-            event: 'begin_checkout',
-            ecommerce: {
-              currency: 'USD',
-              value: 47,
-              items: [{ item_id: 'masterclass', item_name: 'The Mikki Mase Masterclass', price: 47, quantity: 1 }],
-            },
-          });
-        }
-        // Short delay for GA4 event to fire
-        await new Promise((r) => setTimeout(r, 100));
-        window.location.href = data.url;
-      }
-    } catch (err: any) {
-      setError(err.message || 'Something went wrong');
-      setCheckoutLoading(false);
-    }
-  }
 
   // Loading state
   if (authLoading || !purchaseStatus) {
@@ -112,12 +66,12 @@ export default function MasterclassBuyButton({ variant = 'hero', className = '' 
     );
   }
 
-  // Not logged in — sign in first
+  // Not logged in — sign in first, then redirect to checkout
   if (!purchaseStatus.authenticated) {
     return (
       <div className="flex flex-col items-center gap-2">
         <a
-          href={`/auth/login?next=/masterclass&checkout=true`}
+          href="/auth/login?next=/checkout/masterclass&checkout=true"
           onClick={() => fetch('/api/notify', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ event: 'cta_click', detail: 'Get Instant Access (not logged in)' }) }).catch(() => {})}
           className={`inline-flex items-center justify-center font-bold text-white min-h-[52px] rounded-xl px-8 transition-all hover:brightness-110 active:scale-[0.98] ${className}`}
           style={{ backgroundColor: '#A8001E' }}
@@ -134,30 +88,20 @@ export default function MasterclassBuyButton({ variant = 'hero', className = '' 
     );
   }
 
-  // Logged in but not purchased — buy button
+  // Logged in but not purchased — go to embedded checkout page
   return (
     <div className="flex flex-col items-center gap-2">
-      <button
-        onClick={handleCheckout}
-        disabled={checkoutLoading}
-        className={`inline-flex items-center justify-center font-bold text-white min-h-[52px] rounded-xl px-8 transition-all hover:brightness-110 active:scale-[0.98] disabled:opacity-50 ${className}`}
+      <a
+        href="/checkout/masterclass"
+        onClick={() => fetch('/api/notify', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ event: 'cta_click', detail: 'Get Instant Access (checkout)' }) }).catch(() => {})}
+        className={`inline-flex items-center justify-center font-bold text-white min-h-[52px] rounded-xl px-8 transition-all hover:brightness-110 active:scale-[0.98] ${className}`}
         style={{ backgroundColor: '#A8001E' }}
       >
-        {checkoutLoading ? (
-          <>
-            <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin mr-2" />
-            Processing...
-          </>
-        ) : (
-          <>
-            Get Instant Access — $47
-            <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-            </svg>
-          </>
-        )}
-      </button>
-      {error && <p className="text-red-400 text-sm">{error}</p>}
+        Get Instant Access — $47
+        <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+        </svg>
+      </a>
       {variant !== 'compact' && (
         <span className="text-[#6B6B6B] text-xs">One-time payment. Lifetime access.</span>
       )}

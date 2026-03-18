@@ -1,0 +1,182 @@
+---
+/**
+ * Embedded Masterclass Checkout Page
+ *
+ * Renders the Stripe payment form directly on our site.
+ * Auth-gated: redirects to login if not authenticated.
+ * Purchase-gated: redirects to course if already purchased.
+ */
+
+export const prerender = false;
+
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import EmbeddedMasterclassCheckout from '../../components/EmbeddedMasterclassCheckout';
+import { getServerClient, getServiceClient } from '../../lib/supabase';
+
+// Server-side auth check
+const supabase = getServerClient(Astro.cookies, Astro.request);
+const { data: { user } } = await supabase.auth.getUser();
+
+if (!user) {
+  return Astro.redirect('/auth/login?next=/checkout/masterclass&checkout=true');
+}
+
+// Server-side purchase check
+const serviceClient = getServiceClient();
+const { data: existingPurchase, error: purchaseError } = await serviceClient
+  .from('purchases')
+  .select('id')
+  .eq('user_id', user.id)
+  .eq('product_key', 'masterclass')
+  .eq('status', 'completed')
+  .limit(1)
+  .single();
+
+if (purchaseError && purchaseError.code !== 'PGRST116') {
+  console.error('Purchase check error:', purchaseError);
+}
+
+if (existingPurchase) {
+  return Astro.redirect('/masterclass/course');
+}
+---
+
+<BaseLayout
+  title="Checkout | The Mikki Mase Masterclass"
+  description="Complete your purchase of The Mikki Mase Masterclass."
+  noIndex={true}
+  hideMobileNav={true}
+  hideBackToTop={true}
+>
+  <Header />
+
+  <main id="main-content" class="min-h-screen" style="background: #0A0A0A;">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 py-8 md:py-16">
+
+      <!-- Back link -->
+      <a
+        href="/masterclass"
+        class="inline-flex items-center gap-2 text-sm mb-8 transition-colors hover:text-white"
+        style="color: #6B6B6B;"
+      >
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+        </svg>
+        Back to course details
+      </a>
+
+      <!-- Two-column layout -->
+      <div class="grid grid-cols-1 lg:grid-cols-5 gap-8 lg:gap-12">
+
+        <!-- LEFT: Order Summary (on desktop) / below checkout (on mobile) -->
+        <div class="lg:col-span-2 order-2 lg:order-1">
+          <div
+            class="rounded-2xl p-6 lg:sticky lg:top-8"
+            style="background: #111; border: 1px solid #2D2D2D;"
+          >
+            <h2
+              class="text-xs font-bold uppercase tracking-widest mb-6"
+              style="color: #CFB53B;"
+            >
+              Order Summary
+            </h2>
+
+            <!-- Product card -->
+            <div class="flex items-start gap-4 mb-6">
+              <div
+                class="w-14 h-14 rounded-lg flex items-center justify-center flex-shrink-0"
+                style="background: rgba(207, 181, 59, 0.1); border: 1px solid rgba(207, 181, 59, 0.2);"
+              >
+                <svg class="w-7 h-7" style="color: #CFB53B;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                </svg>
+              </div>
+              <div>
+                <h3 class="text-white font-bold text-sm">The Mikki Mase Masterclass</h3>
+                <p class="text-xs mt-1" style="color: #9A9A9A;">
+                  Beat the Casino. Play Smart. Get Paid.
+                </p>
+              </div>
+            </div>
+
+            <!-- Price -->
+            <div
+              class="flex items-center justify-between py-4"
+              style="border-top: 1px solid #2D2D2D;"
+            >
+              <span class="text-white font-semibold text-sm">Total</span>
+              <div class="flex items-center gap-2">
+                <span class="text-base line-through" style="color: #6B6B6B;">$97</span>
+                <span class="text-2xl font-black text-white">$47</span>
+              </div>
+            </div>
+
+            <!-- What's included -->
+            <div class="pt-4 space-y-3" style="border-top: 1px solid #2D2D2D;">
+              <p class="text-xs font-bold uppercase tracking-wider" style="color: #9A9A9A;">
+                Included
+              </p>
+              {[
+                '10 Modules of Casino Strategy',
+                '30+ In-Depth Lessons (~8 hours)',
+                'Interactive Scenarios & Quizzes',
+                'MMC Cheatsheet Bundle (Bonus)',
+                'Beat the Casino Ebook (Bonus)',
+                'Lifetime Access + Future Updates',
+              ].map((item) => (
+                <div class="flex items-start gap-2">
+                  <svg class="w-4 h-4 mt-0.5 flex-shrink-0" style="color: #CFB53B;" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                  </svg>
+                  <span class="text-sm" style="color: #BEBEBE;">{item}</span>
+                </div>
+              ))}
+            </div>
+
+            <!-- Trust signals -->
+            <div
+              class="mt-6 pt-4 space-y-3"
+              style="border-top: 1px solid #2D2D2D;"
+            >
+              <div class="flex items-center gap-2">
+                <svg class="w-4 h-4 flex-shrink-0" style="color: #059669;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                </svg>
+                <span class="text-xs" style="color: #9A9A9A;">
+                  Secure checkout powered by Stripe
+                </span>
+              </div>
+              <div class="flex items-center gap-2">
+                <svg class="w-4 h-4 flex-shrink-0" style="color: #CFB53B;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                <span class="text-xs" style="color: #9A9A9A;">
+                  7-day money-back guarantee
+                </span>
+              </div>
+              <div class="flex items-center gap-2">
+                <svg class="w-4 h-4 flex-shrink-0" style="color: #CFB53B;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                </svg>
+                <span class="text-xs" style="color: #9A9A9A;">
+                  Instant access after payment
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- RIGHT: Embedded Checkout -->
+        <div class="lg:col-span-3 order-1 lg:order-2">
+          <h1 class="text-white text-xl font-bold mb-6">Complete your purchase</h1>
+          <EmbeddedMasterclassCheckout client:load />
+        </div>
+
+      </div>
+    </div>
+  </main>
+
+  <Footer />
+</BaseLayout>

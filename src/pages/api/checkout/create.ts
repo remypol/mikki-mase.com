@@ -55,7 +55,7 @@ export const POST: APIRoute = async ({ request, cookies }) => {
       );
     }
 
-    const { productId, productKey, variantId } = body;
+    const { productId, productKey, variantId, embedded } = body;
     const quantity = Math.max(1, Math.min(10, Math.floor(Number(body.quantity) || 1)));
 
     // ============================================
@@ -142,8 +142,6 @@ export const POST: APIRoute = async ({ request, cookies }) => {
         // No payment_method_types — let Stripe auto-select based on customer location
         // (shows Card, Apple Pay, Google Pay, PayPal, Klarna, etc.)
         line_items: [{ price: priceId, quantity: 1 }],
-        success_url: `${siteUrl}/checkout/success?session_id={CHECKOUT_SESSION_ID}`,
-        cancel_url: `${siteUrl}/masterclass`,
         metadata: {
           userId: user.id,
           userEmail: user.email || '',
@@ -155,6 +153,15 @@ export const POST: APIRoute = async ({ request, cookies }) => {
         allow_promotion_codes: true,
       };
 
+      // Embedded mode: render checkout on our site (no redirect to Stripe)
+      if (embedded) {
+        sessionConfig.ui_mode = 'embedded';
+        sessionConfig.return_url = `${siteUrl}/checkout/success?session_id={CHECKOUT_SESSION_ID}`;
+      } else {
+        sessionConfig.success_url = `${siteUrl}/checkout/success?session_id={CHECKOUT_SESSION_ID}`;
+        sessionConfig.cancel_url = `${siteUrl}/masterclass`;
+      }
+
       if (stripeCustomerId) {
         sessionConfig.customer = stripeCustomerId;
       } else {
@@ -163,6 +170,14 @@ export const POST: APIRoute = async ({ request, cookies }) => {
       }
 
       const session = await stripe.checkout.sessions.create(sessionConfig);
+
+      // Embedded mode returns clientSecret; hosted mode returns URL
+      if (embedded) {
+        return new Response(
+          JSON.stringify({ clientSecret: session.client_secret }),
+          { status: 200, headers }
+        );
+      }
 
       return new Response(
         JSON.stringify({ url: session.url, sessionId: session.id }),

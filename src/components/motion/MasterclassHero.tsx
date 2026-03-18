@@ -93,7 +93,7 @@ export default function MasterclassHero({ totalLessons, accessDenied = false }: 
           className="flex items-center justify-center gap-3 mb-6"
         >
           <span className="text-3xl md:text-4xl font-black text-white">$47</span>
-          <span className="text-lg line-through" style={{ color: '#6B6B6B' }}>$297</span>
+          <span className="text-lg line-through" style={{ color: '#6B6B6B' }}>$97</span>
           <span
             className="text-xs font-bold uppercase px-2 py-1 rounded"
             style={{ background: 'rgba(207, 181, 59, 0.15)', color: '#CFB53B' }}

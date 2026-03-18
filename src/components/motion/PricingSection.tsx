@@ -36,7 +36,7 @@ export default function PricingSection() {
           <div className="flex items-center justify-center gap-3 mt-4 mb-2">
             <span className="text-4xl md:text-5xl font-black text-white">$47</span>
             <span className="text-xl line-through" style={{ color: '#6B6B6B' }}>
-              $297
+              $97
             </span>
           </div>
 

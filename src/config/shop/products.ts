@@ -303,7 +303,7 @@ export const masterclass: Product = {
   gallery: [],
 
   price: 47,
-  compareAt: 297,
+  compareAt: 97,
   currency: 'USD',
 
   // Stripe IDs — update after creating product in Stripe Dashboard
