@@ -91,6 +91,12 @@ export const POST: APIRoute = async ({ request }) => {
         break;
       }
 
+      case 'payment_intent.succeeded': {
+        const paymentIntent = event.data.object as Stripe.PaymentIntent;
+        await handlePaymentIntentSucceeded(paymentIntent);
+        break;
+      }
+
       case 'payment_intent.payment_failed': {
         const paymentIntent = event.data.object as Stripe.PaymentIntent;
         console.log('Payment failed:', paymentIntent.id);
@@ -277,6 +283,97 @@ async function handleCheckoutComplete(session: Stripe.Checkout.Session) {
       }
       break;
     }
+  }
+}
+
+// ============================================
+// PAYMENT INTENT SUCCEEDED (Custom Payment Element flow)
+// ============================================
+
+async function handlePaymentIntentSucceeded(paymentIntent: Stripe.PaymentIntent) {
+  const { userId, userEmail, productKey } = paymentIntent.metadata || {};
+
+  // Only handle masterclass purchases from the custom payment element flow
+  if (productKey !== 'masterclass' || !userId) {
+    // Not a masterclass payment or handled by checkout.session.completed
+    return;
+  }
+
+  const supabase = getServiceClient();
+
+  // Check if purchase was already recorded (by checkout.session.completed or duplicate)
+  const { data: existing } = await supabase
+    .from('purchases')
+    .select('id')
+    .eq('stripe_payment_intent_id', paymentIntent.id)
+    .eq('status', 'completed')
+    .limit(1)
+    .single();
+
+  if (existing) {
+    console.log('Purchase already recorded for PaymentIntent:', paymentIntent.id);
+    return;
+  }
+
+  // Insert purchase record
+  const { error: purchaseError } = await supabase.from('purchases').insert({
+    user_id: userId,
+    stripe_session_id: `pi_${paymentIntent.id}`, // Use PI id as session ref
+    stripe_payment_intent_id: paymentIntent.id,
+    product_key: 'masterclass',
+    amount_cents: paymentIntent.amount ?? 4700,
+    status: 'completed',
+  });
+
+  if (purchaseError) {
+    if (purchaseError.code === '23505') {
+      console.log('Purchase already recorded for PI:', paymentIntent.id);
+    } else {
+      throw new Error(`Failed to insert purchase: ${purchaseError.message}`);
+    }
+  } else {
+    console.log(`Masterclass purchase recorded via PaymentIntent for user ${userId}`);
+  }
+
+  // Link Stripe customer ID to profile (non-critical)
+  if (paymentIntent.customer) {
+    const customerId = typeof paymentIntent.customer === 'string'
+      ? paymentIntent.customer
+      : (paymentIntent.customer as any).id;
+
+    await supabase
+      .from('profiles')
+      .update({ stripe_customer_id: customerId })
+      .eq('id', userId)
+      .is('stripe_customer_id', null);
+  }
+
+  // Send welcome email (non-critical)
+  const customerEmail = userEmail || paymentIntent.receipt_email;
+  if (customerEmail) {
+    try {
+      const cheatsheetToken = generateDownloadToken('mmc-cheatsheet-bundle', customerEmail, paymentIntent.id);
+      const ebookToken = generateDownloadToken('beat-the-casino', customerEmail, paymentIntent.id);
+
+      await sendMasterclassWelcome({
+        customerEmail,
+        courseUrl: 'https://www.mikki-mase.com/masterclass/course',
+        cheatsheetDownloadUrl: getDownloadUrl(cheatsheetToken),
+        ebookDownloadUrl: getDownloadUrl(ebookToken),
+      });
+      console.log(`Masterclass welcome email sent to ${customerEmail}`);
+    } catch (emailErr) {
+      console.error('Failed to send masterclass welcome email:', emailErr);
+    }
+
+    // Telegram notification (non-critical)
+    await sendPaymentNotification({
+      customerEmail,
+      productName: 'Mikki Mase Masterclass',
+      amountCents: paymentIntent.amount ?? 4700,
+      currency: paymentIntent.currency || 'usd',
+      stripeSessionId: paymentIntent.id,
+    });
   }
 }
 

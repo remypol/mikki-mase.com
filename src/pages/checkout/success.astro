@@ -15,8 +15,10 @@ import { getProductById } from '../../config/shop/products';
 import { generateDownloadToken } from '../../lib/downloads';
 import { getServerClient } from '../../lib/supabase';
 
-// Get session from URL
+// Get session or payment intent from URL
 const sessionId = Astro.url.searchParams.get('session_id');
+const paymentIntentId = Astro.url.searchParams.get('payment_intent');
+const redirectStatus = Astro.url.searchParams.get('redirect_status');
 
 let product: { id: string; name: string; price: number; [key: string]: any } | null = null;
 let downloadUrl = null;
@@ -28,6 +30,52 @@ let ebookDownloadUrl = '';
 let masterclassUserVerified = false;
 let maskedEmail = '';
 let metadataUserId = '';
+
+// Handle PaymentIntent redirect (from custom Payment Element checkout)
+if (paymentIntentId && !sessionId) {
+  try {
+    const stripe = await getStripeServer();
+    const pi = await stripe.paymentIntents.retrieve(paymentIntentId);
+
+    if (pi.status === 'succeeded') {
+      const productKey = pi.metadata?.productKey;
+      metadataUserId = pi.metadata?.userId || '';
+      customerEmail = pi.receipt_email || pi.metadata?.userEmail || null;
+
+      if (productKey === 'masterclass') {
+        isMasterclass = true;
+        product = { id: 'masterclass', name: 'Mikki Mase Masterclass', price: 47 };
+
+        if (metadataUserId) {
+          try {
+            const supabase = getServerClient(Astro.cookies, Astro.request);
+            const { data: { user } } = await supabase.auth.getUser();
+            if (user && user.id === metadataUserId) {
+              masterclassUserVerified = true;
+            }
+          } catch { /* Auth check failed */ }
+        }
+
+        if (masterclassUserVerified && customerEmail) {
+          const csToken = generateDownloadToken('mmc-cheatsheet-bundle', customerEmail, paymentIntentId);
+          const ebToken = generateDownloadToken('beat-the-casino', customerEmail, paymentIntentId);
+          cheatsheetDownloadUrl = `/download/${csToken}`;
+          ebookDownloadUrl = `/download/${ebToken}`;
+        }
+
+        if (customerEmail) {
+          const [localPart, domain] = customerEmail.split('@');
+          maskedEmail = localPart.slice(0, 2) + '***@' + domain;
+        }
+      }
+    } else {
+      error = 'Payment has not been completed yet.';
+    }
+  } catch (e) {
+    console.error('Error retrieving PaymentIntent:', e);
+    error = 'Unable to verify payment.';
+  }
+}
 
 if (sessionId) {
   try {
