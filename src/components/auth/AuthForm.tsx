@@ -27,6 +27,9 @@ function mapAuthError(raw: string): string {
   if (lower.includes('email not confirmed')) return 'Please check your inbox and confirm your email before signing in.';
   if (lower.includes('user already registered')) return 'An account with this email already exists. Try signing in instead.';
   if (lower.includes('password should be at least 6 characters')) return 'Password must be at least 6 characters.';
+  if (lower.includes('rate limit')) return 'Too many attempts. Please wait a minute and try again.';
+  if (lower.includes('email link is invalid or has expired')) return 'This link has expired. Please request a new one.';
+  if (lower.includes('weak_password') || lower.includes('password is too weak')) return 'Password is too weak. Use at least 6 characters with a mix of letters and numbers.';
   return 'Something went wrong. Please try again.';
 }
 
