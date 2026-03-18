@@ -261,11 +261,14 @@ export const POST: APIRoute = async ({ request, cookies }) => {
       { status: 200, headers }
     );
 
-  } catch (error) {
-    console.error('Checkout error:', error);
+  } catch (error: any) {
+    console.error('Checkout error:', error?.message || error);
 
     return new Response(
-      JSON.stringify({ error: 'Failed to create checkout session' }),
+      JSON.stringify({
+        error: 'Failed to create checkout session',
+        detail: error?.message || 'Unknown error',
+      }),
       { status: 500, headers }
     );
   }
