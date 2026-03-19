@@ -11,6 +11,7 @@ import CredibilityStrip from '../components/motion/CredibilityStrip';
 import WhatYouGet from '../components/motion/WhatYouGet';
 import FreePreviewBanner from '../components/motion/FreePreviewBanner';
 import WhoThisIsFor from '../components/motion/WhoThisIsFor';
+import StudentReviews from '../components/motion/StudentReviews';
 import PricingSection from '../components/motion/PricingSection';
 import FinalCTA from '../components/motion/FinalCTA';
 
@@ -171,6 +172,9 @@ const modulesWithScenarios = courseManifest.modules.filter((m) => m.scenarios &&
 
     <!-- WHO THIS IS FOR — client:visible for staggered list reveal -->
     <WhoThisIsFor client:visible />
+
+    <!-- STUDENT REVIEWS — social proof before pricing -->
+    <StudentReviews client:visible />
 
     <!-- PRICING + GUARANTEE — client:visible for premium card entrance -->
     <PricingSection client:visible />
