@@ -61,6 +61,15 @@ const reviews = [
     text: `The scenario things where you practice actual hands before playing for real money is insane. I kept making the wrong call on the blackjack sim and it shows you exactly why and what the right move wouldve been. Ran through it like 20 times before my trip and I swear I played different. You dont just read theory you actually train`,
     verified: true,
   },
+  {
+    name: 'Jason B.',
+    location: 'Arizona',
+    avatar: 'J',
+    rating: 5,
+    timeAgo: '4 days ago',
+    text: `My buddy told me about this and I thought it was cap. Its not. Wish I had this 2 years ago`,
+    verified: true,
+  },
 ];
 
 function Stars({ count }: { count: number }) {
