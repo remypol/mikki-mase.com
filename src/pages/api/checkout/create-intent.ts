@@ -58,95 +58,98 @@ export const POST: APIRoute = async ({ request, cookies }) => {
       );
     }
 
-    // Require authentication
+    // Auth is OPTIONAL — supports both logged-in and guest checkout
     const supabase = getServerClient(cookies, request);
     const { data: { user } } = await supabase.auth.getUser();
 
-    if (!user) {
-      return new Response(
-        JSON.stringify({ error: 'Authentication required' }),
-        { status: 401, headers }
-      );
-    }
-
-    // Check if already purchased
     const serviceClient = getServiceClient();
-    const { data: existingPurchase, error: purchaseLookupError } = await serviceClient
-      .from('purchases')
-      .select('id')
-      .eq('user_id', user.id)
-      .eq('product_key', 'masterclass')
-      .eq('status', 'completed')
-      .limit(1)
-      .single();
 
-    if (purchaseLookupError && purchaseLookupError.code !== 'PGRST116') {
-      console.error('Purchase lookup failed:', purchaseLookupError);
-      return new Response(
-        JSON.stringify({ error: 'Unable to verify purchase status' }),
-        { status: 503, headers }
-      );
-    }
+    // If logged in, check for existing purchase
+    if (user) {
+      const { data: existingPurchase, error: purchaseLookupError } = await serviceClient
+        .from('purchases')
+        .select('id')
+        .eq('user_id', user.id)
+        .eq('product_key', 'masterclass')
+        .eq('status', 'completed')
+        .limit(1)
+        .single();
 
-    if (existingPurchase) {
-      return new Response(
-        JSON.stringify({ error: 'Already purchased', redirect: '/masterclass/course' }),
-        { status: 409, headers }
-      );
-    }
+      if (purchaseLookupError && purchaseLookupError.code !== 'PGRST116') {
+        console.error('Purchase lookup failed:', purchaseLookupError);
+        return new Response(
+          JSON.stringify({ error: 'Unable to verify purchase status' }),
+          { status: 503, headers }
+        );
+      }
 
-    if (!user.email) {
-      return new Response(
-        JSON.stringify({ error: 'User email is required' }),
-        { status: 400, headers }
-      );
+      if (existingPurchase) {
+        return new Response(
+          JSON.stringify({ error: 'Already purchased', redirect: '/masterclass/course' }),
+          { status: 409, headers }
+        );
+      }
     }
 
     const stripe = await getStripeServer();
 
-    // Look up or create Stripe customer
-    let stripeCustomerId: string | undefined;
-    const { data: profile } = await serviceClient
-      .from('profiles')
-      .select('stripe_customer_id')
-      .eq('id', user.id)
-      .single();
+    // Build metadata
+    const metadata: Record<string, string> = {
+      productKey: 'masterclass',
+      productId: 'masterclass',
+      fulfillmentType: 'digital',
+    };
 
-    if (profile?.stripe_customer_id) {
-      stripeCustomerId = profile.stripe_customer_id;
+    if (user) {
+      metadata.userId = user.id;
+      metadata.userEmail = user.email || '';
     } else {
-      // Create a Stripe customer so we can link them
-      const customer = await stripe.customers.create({
-        email: user.email,
-        metadata: { supabase_user_id: user.id },
-      });
-      stripeCustomerId = customer.id;
-
-      // Save to profile (non-critical)
-      await serviceClient
-        .from('profiles')
-        .update({ stripe_customer_id: customer.id })
-        .eq('id', user.id);
+      metadata.isGuestCheckout = 'true';
     }
 
-    // Create PaymentIntent
-    const paymentIntent = await stripe.paymentIntents.create({
+    // PaymentIntent config
+    const piConfig: Record<string, any> = {
       amount: 4700, // $47.00
       currency: 'usd',
-      customer: stripeCustomerId,
-      receipt_email: user.email,
       automatic_payment_methods: { enabled: true },
-      metadata: {
-        userId: user.id,
-        userEmail: user.email,
-        productKey: 'masterclass',
-        productId: 'masterclass',
-        fulfillmentType: 'digital',
-      },
-    });
+      metadata,
+    };
+
+    // Link to Stripe customer if logged in
+    if (user) {
+      let stripeCustomerId: string | undefined;
+      const { data: profile } = await serviceClient
+        .from('profiles')
+        .select('stripe_customer_id')
+        .eq('id', user.id)
+        .single();
+
+      if (profile?.stripe_customer_id) {
+        stripeCustomerId = profile.stripe_customer_id;
+      } else if (user.email) {
+        const customer = await stripe.customers.create({
+          email: user.email,
+          metadata: { supabase_user_id: user.id },
+        });
+        stripeCustomerId = customer.id;
+
+        await serviceClient
+          .from('profiles')
+          .update({ stripe_customer_id: customer.id })
+          .eq('id', user.id);
+      }
+
+      if (stripeCustomerId) piConfig.customer = stripeCustomerId;
+      if (user.email) piConfig.receipt_email = user.email;
+    }
+
+    const paymentIntent = await stripe.paymentIntents.create(piConfig);
 
     return new Response(
-      JSON.stringify({ clientSecret: paymentIntent.client_secret }),
+      JSON.stringify({
+        clientSecret: paymentIntent.client_secret,
+        isGuest: !user,
+      }),
       { status: 200, headers }
     );
 

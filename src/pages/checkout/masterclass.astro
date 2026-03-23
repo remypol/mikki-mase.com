@@ -167,10 +167,47 @@ if (user) {
           </div>
         </div>
 
-        <!-- RIGHT: Embedded Checkout -->
+        <!-- RIGHT: Checkout + Reviews -->
         <div class="lg:col-span-3 order-1 lg:order-2">
           <h1 class="text-white text-xl font-bold mb-6">Complete your purchase</h1>
           <CustomMasterclassCheckout client:load />
+
+          <!-- Social proof reviews -->
+          <div class="mt-8 space-y-4">
+            <div
+              class="rounded-xl p-5"
+              style="background: #111; border: 1px solid #2D2D2D;"
+            >
+              <div class="flex items-center gap-1 mb-2">
+                {[1,2,3,4,5].map(() => (
+                  <svg class="w-4 h-4" style="color: #CFB53B;" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                  </svg>
+                ))}
+              </div>
+              <p class="text-sm text-white leading-relaxed">
+                "Finally someone who actually explains the math instead of selling a 'system.' The bankroll management section alone changed how I approach every session. I went from losing $500/month to being up consistently. This is $47 that will save you thousands."
+              </p>
+              <p class="text-xs mt-2" style="color: #6B6B6B;">Marcus T. &mdash; Verified Buyer</p>
+            </div>
+
+            <div
+              class="rounded-xl p-5"
+              style="background: #111; border: 1px solid #2D2D2D;"
+            >
+              <div class="flex items-center gap-1 mb-2">
+                {[1,2,3,4,5].map(() => (
+                  <svg class="w-4 h-4" style="color: #CFB53B;" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                  </svg>
+                ))}
+              </div>
+              <p class="text-sm text-white leading-relaxed">
+                "I was skeptical because of all the haters online. But this is legit. Mikki breaks down exactly how casinos manipulate you and how to think like a professional. The module on casino psychology opened my eyes. Best $47 I ever spent."
+              </p>
+              <p class="text-xs mt-2" style="color: #6B6B6B;">Daniel K. &mdash; Verified Buyer</p>
+            </div>
+          </div>
         </div>
 
       </div>

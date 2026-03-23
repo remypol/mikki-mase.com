@@ -3,6 +3,7 @@
  *
  * Uses PaymentIntent + Payment Element for complete UI control.
  * Dark theme matching the site's #0A0A0A / #111 / #CFB53B palette.
+ * Works for both authenticated users and guests (guests get an email field).
  */
 
 import { useState, useEffect } from 'react';
@@ -12,8 +13,6 @@ import {
   PaymentElement,
   useStripe,
   useElements,
-  EmbeddedCheckoutProvider,
-  EmbeddedCheckout,
 } from '@stripe/react-stripe-js';
 
 const stripePromise = loadStripe(
@@ -76,15 +75,34 @@ const appearance = {
 };
 
 /** Inner form component — must be inside <Elements> */
-function CheckoutForm({ returnUrl }: { returnUrl: string }) {
+function CheckoutForm({ returnUrl, isGuest }: { returnUrl: string; isGuest: boolean }) {
   const stripe = useStripe();
   const elements = useElements();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [email, setEmail] = useState('');
+  const [emailError, setEmailError] = useState<string | null>(null);
+
+  function validateEmail(value: string) {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+  }
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     if (!stripe || !elements) return;
+
+    // Validate email for guests
+    if (isGuest) {
+      if (!email.trim()) {
+        setEmailError('Email is required');
+        return;
+      }
+      if (!validateEmail(email.trim())) {
+        setEmailError('Please enter a valid email address');
+        return;
+      }
+      setEmailError(null);
+    }
 
     setError(null);
     setLoading(true);
@@ -101,10 +119,24 @@ function CheckoutForm({ returnUrl }: { returnUrl: string }) {
       });
     }
 
+    // Update PaymentIntent with guest email before confirming
+    if (isGuest && email.trim()) {
+      try {
+        await fetch('/api/checkout/update-intent-email', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email: email.trim() }),
+        });
+      } catch {
+        // Non-critical — webhook will use customer_details.email from Stripe
+      }
+    }
+
     const { error: submitError } = await stripe.confirmPayment({
       elements,
       confirmParams: {
         return_url: returnUrl,
+        ...(isGuest && email.trim() ? { receipt_email: email.trim() } : {}),
       },
     });
 
@@ -122,6 +154,41 @@ function CheckoutForm({ returnUrl }: { returnUrl: string }) {
 
   return (
     <form onSubmit={handleSubmit}>
+      {/* Email field for guest checkout */}
+      {isGuest && (
+        <div className="mb-5">
+          <label
+            htmlFor="guest-email"
+            style={{ color: '#BEBEBE', fontSize: '13px', fontWeight: 500 }}
+            className="block mb-1.5"
+          >
+            Email
+          </label>
+          <input
+            id="guest-email"
+            type="email"
+            value={email}
+            onChange={(e) => { setEmail(e.target.value); setEmailError(null); }}
+            placeholder="you@example.com"
+            required
+            className="w-full rounded-xl px-4 py-3 text-white outline-none transition-colors"
+            style={{
+              backgroundColor: '#1A1A1A',
+              border: emailError ? '1px solid #A8001E' : '1px solid #2D2D2D',
+              fontSize: '15px',
+            }}
+            onFocus={(e) => (e.target.style.border = '1px solid #CFB53B')}
+            onBlur={(e) => (e.target.style.border = emailError ? '1px solid #A8001E' : '1px solid #2D2D2D')}
+          />
+          {emailError && (
+            <p className="text-xs mt-1" style={{ color: '#A8001E' }}>{emailError}</p>
+          )}
+          <p className="text-xs mt-1.5" style={{ color: '#6B6B6B' }}>
+            We'll send your course access to this email
+          </p>
+        </div>
+      )}
+
       <PaymentElement
         options={{
           layout: {
@@ -147,16 +214,16 @@ function CheckoutForm({ returnUrl }: { returnUrl: string }) {
       <button
         type="submit"
         disabled={!stripe || loading}
-        className="w-full mt-6 font-bold text-white min-h-[52px] rounded-xl px-8 transition-all hover:brightness-110 active:scale-[0.98] disabled:opacity-50"
-        style={{ backgroundColor: '#A8001E' }}
+        className="w-full mt-6 font-bold text-black min-h-[52px] rounded-xl px-8 transition-all hover:brightness-110 active:scale-[0.98] disabled:opacity-50"
+        style={{ backgroundColor: '#CFB53B', color: '#000000' }}
       >
         {loading ? (
           <span className="inline-flex items-center gap-2">
-            <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+            <div className="w-5 h-5 border-2 border-black/30 border-t-black rounded-full animate-spin" />
             Processing...
           </span>
         ) : (
-          'Pay $47 →'
+          'Pay $47'
         )}
       </button>
 
@@ -167,19 +234,19 @@ function CheckoutForm({ returnUrl }: { returnUrl: string }) {
   );
 }
 
-/** Main component — handles PaymentIntent creation and Elements setup */
+/** Main component — always branded, works for guests and authenticated users */
 export default function CustomMasterclassCheckout() {
   const [clientSecret, setClientSecret] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
-  const [isEmbeddedMode, setIsEmbeddedMode] = useState(false);
+  const [isGuest, setIsGuest] = useState(false);
 
   const returnUrl = typeof window !== 'undefined'
     ? `${window.location.origin}/checkout/success`
     : 'https://mikki-mase.com/checkout/success';
 
   useEffect(() => {
-    // Try PaymentIntent first (for logged-in users), fall back to checkout session (guest-compatible)
+    // Always use branded PaymentIntent — works for both guests and authenticated
     fetch('/api/checkout/create-intent', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -188,26 +255,6 @@ export default function CustomMasterclassCheckout() {
       .then(async (res) => {
         const data = await res.json();
         if (!res.ok) {
-          // 401 = not logged in → use guest-compatible checkout session instead
-          if (res.status === 401) {
-            return fetch('/api/checkout/create', {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ productKey: 'masterclass', embedded: true }),
-            }).then(async (res2) => {
-              const data2 = await res2.json();
-              if (!res2.ok) {
-                if (res2.status === 409 && data2.redirect) {
-                  window.location.href = data2.redirect;
-                  return;
-                }
-                throw new Error(data2.error || 'Failed to initialize payment');
-              }
-              // Switch to embedded checkout mode
-              setClientSecret(data2.clientSecret);
-              setIsEmbeddedMode(true);
-            });
-          }
           if (res.status === 409 && data.redirect) {
             window.location.href = data.redirect;
             return;
@@ -215,12 +262,13 @@ export default function CustomMasterclassCheckout() {
           throw new Error(data.error || 'Failed to initialize payment');
         }
         setClientSecret(data.clientSecret);
+        setIsGuest(data.isGuest || false);
 
         // Notify
         fetch('/api/notify', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ event: 'checkout_start', detail: 'custom payment element' }),
+          body: JSON.stringify({ event: 'checkout_start', detail: data.isGuest ? 'guest branded' : 'branded payment element' }),
         }).catch(() => {});
       })
       .catch((err) => setError(err.message))
@@ -246,7 +294,7 @@ export default function CustomMasterclassCheckout() {
         <button
           onClick={() => window.location.reload()}
           className="font-bold text-white min-h-[44px] rounded-xl px-6 hover:brightness-110"
-          style={{ backgroundColor: '#A8001E' }}
+          style={{ backgroundColor: '#CFB53B', color: '#000000' }}
         >
           Try Again
         </button>
@@ -256,19 +304,6 @@ export default function CustomMasterclassCheckout() {
 
   if (!clientSecret) return null;
 
-  // Guest checkout: use Stripe Embedded Checkout (collects email, shows all payment methods)
-  if (isEmbeddedMode) {
-    return (
-      <EmbeddedCheckoutProvider
-        stripe={stripePromise}
-        options={{ clientSecret }}
-      >
-        <EmbeddedCheckout />
-      </EmbeddedCheckoutProvider>
-    );
-  }
-
-  // Authenticated checkout: use custom Payment Element
   return (
     <Elements
       stripe={stripePromise}
@@ -277,7 +312,7 @@ export default function CustomMasterclassCheckout() {
         appearance,
       }}
     >
-      <CheckoutForm returnUrl={returnUrl} />
+      <CheckoutForm returnUrl={returnUrl} isGuest={isGuest} />
     </Elements>
   );
 }

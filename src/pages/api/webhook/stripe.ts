@@ -398,17 +398,87 @@ async function handleCheckoutComplete(session: Stripe.Checkout.Session) {
 // ============================================
 
 async function handlePaymentIntentSucceeded(paymentIntent: Stripe.PaymentIntent) {
-  const { userId, userEmail, productKey } = paymentIntent.metadata || {};
+  const { userId, userEmail, productKey, isGuestCheckout } = paymentIntent.metadata || {};
 
   // Only handle masterclass purchases from the custom payment element flow
-  if (productKey !== 'masterclass' || !userId) {
-    // Not a masterclass payment or handled by checkout.session.completed
+  if (productKey !== 'masterclass') return;
+
+  const supabase = getServiceClient();
+  let resolvedUserId = userId;
+  let isGuest = isGuestCheckout === 'true';
+  let magicLoginLink: string | undefined;
+  const customerEmail = userEmail || paymentIntent.receipt_email;
+
+  // ---- GUEST CHECKOUT: auto-create or find user ----
+  if (!resolvedUserId && customerEmail) {
+    isGuest = true;
+    console.log(`Guest PaymentIntent for ${customerEmail} — resolving user...`);
+
+    let existingUser: any = null;
+    try {
+      const { data: userList } = await supabase.auth.admin.listUsers({ page: 1, perPage: 1000 });
+      if (userList?.users) {
+        existingUser = userList.users.find((u: any) => u.email === customerEmail);
+      }
+    } catch (e) {
+      console.warn('Could not list users, will try creating:', e);
+    }
+
+    if (existingUser) {
+      resolvedUserId = existingUser.id;
+      console.log(`Found existing user ${resolvedUserId} for ${customerEmail}`);
+    } else {
+      const { data: newUser, error: createError } = await supabase.auth.admin.createUser({
+        email: customerEmail,
+        email_confirm: true,
+        user_metadata: { guest_account: true },
+      });
+
+      if (createError) {
+        if (createError.message?.includes('already been registered') || createError.message?.includes('already exists')) {
+          try {
+            const { data: retryList } = await supabase.auth.admin.listUsers({ page: 1, perPage: 1000 });
+            existingUser = retryList?.users?.find((u: any) => u.email === customerEmail);
+            if (existingUser) resolvedUserId = existingUser.id;
+          } catch (e) {
+            throw new Error(`Guest user creation failed: ${createError.message}`);
+          }
+        }
+        if (!resolvedUserId) throw new Error(`Failed to create guest user: ${createError.message}`);
+      } else if (newUser?.user) {
+        resolvedUserId = newUser.user.id;
+        console.log(`Created guest user ${resolvedUserId} for ${customerEmail}`);
+        await supabase.from('profiles').upsert({
+          id: resolvedUserId,
+          email: customerEmail,
+          full_name: '',
+        }, { onConflict: 'id' });
+      }
+    }
+
+    // Generate magic link
+    if (resolvedUserId && customerEmail) {
+      try {
+        const { data: linkData, error: linkError } = await supabase.auth.admin.generateLink({
+          type: 'magiclink',
+          email: customerEmail,
+          options: { redirectTo: 'https://www.mikki-mase.com/masterclass/course' },
+        });
+        if (!linkError && linkData?.properties?.action_link) {
+          magicLoginLink = linkData.properties.action_link;
+        }
+      } catch (e) {
+        console.warn('Magic link generation error:', e);
+      }
+    }
+  }
+
+  if (!resolvedUserId) {
+    // Not a masterclass payment we can handle
     return;
   }
 
-  const supabase = getServiceClient();
-
-  // Check if purchase was already recorded (by checkout.session.completed or duplicate)
+  // Check if purchase was already recorded
   const { data: existing } = await supabase
     .from('purchases')
     .select('id')
@@ -424,8 +494,8 @@ async function handlePaymentIntentSucceeded(paymentIntent: Stripe.PaymentIntent)
 
   // Insert purchase record
   const { error: purchaseError } = await supabase.from('purchases').insert({
-    user_id: userId,
-    stripe_session_id: `pi_${paymentIntent.id}`, // Use PI id as session ref
+    user_id: resolvedUserId,
+    stripe_session_id: `pi_${paymentIntent.id}`,
     stripe_payment_intent_id: paymentIntent.id,
     product_key: 'masterclass',
     amount_cents: paymentIntent.amount ?? 4700,
@@ -439,7 +509,7 @@ async function handlePaymentIntentSucceeded(paymentIntent: Stripe.PaymentIntent)
       throw new Error(`Failed to insert purchase: ${purchaseError.message}`);
     }
   } else {
-    console.log(`Masterclass purchase recorded via PaymentIntent for user ${userId}`);
+    console.log(`Masterclass purchase recorded via PaymentIntent for user ${resolvedUserId}${isGuest ? ' (guest)' : ''}`);
   }
 
   // Link Stripe customer ID to profile (non-critical)
@@ -451,12 +521,11 @@ async function handlePaymentIntentSucceeded(paymentIntent: Stripe.PaymentIntent)
     await supabase
       .from('profiles')
       .update({ stripe_customer_id: customerId })
-      .eq('id', userId)
+      .eq('id', resolvedUserId)
       .is('stripe_customer_id', null);
   }
 
   // Send welcome email (non-critical)
-  const customerEmail = userEmail || paymentIntent.receipt_email;
   if (customerEmail) {
     try {
       const cheatsheetToken = generateDownloadToken('mmc-cheatsheet-bundle', customerEmail, paymentIntent.id);
@@ -464,11 +533,13 @@ async function handlePaymentIntentSucceeded(paymentIntent: Stripe.PaymentIntent)
 
       await sendMasterclassWelcome({
         customerEmail,
-        courseUrl: 'https://www.mikki-mase.com/masterclass/course',
+        courseUrl: magicLoginLink || 'https://www.mikki-mase.com/masterclass/course',
         cheatsheetDownloadUrl: getDownloadUrl(cheatsheetToken),
         ebookDownloadUrl: getDownloadUrl(ebookToken),
+        magicLink: magicLoginLink,
+        isGuest,
       });
-      console.log(`Masterclass welcome email sent to ${customerEmail}`);
+      console.log(`Masterclass welcome email sent to ${customerEmail}${isGuest ? ' (guest)' : ''}`);
     } catch (emailErr) {
       console.error('Failed to send masterclass welcome email:', emailErr);
     }
@@ -476,7 +547,7 @@ async function handlePaymentIntentSucceeded(paymentIntent: Stripe.PaymentIntent)
     // Telegram notification (non-critical)
     await sendPaymentNotification({
       customerEmail,
-      productName: 'Mikki Mase Masterclass',
+      productName: `Mikki Mase Masterclass${isGuest ? ' (Guest)' : ''}`,
       amountCents: paymentIntent.amount ?? 4700,
       currency: paymentIntent.currency || 'usd',
       stripeSessionId: paymentIntent.id,
