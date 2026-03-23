@@ -63,50 +63,38 @@ export const POST: APIRoute = async ({ request, cookies }) => {
     // ============================================
 
     if (productKey === 'masterclass') {
-      // Require authentication
+      // Auth is OPTIONAL — supports both logged-in and guest checkout
       const supabase = getServerClient(cookies, request);
       const { data: { user } } = await supabase.auth.getUser();
 
-      if (!user) {
-        return new Response(
-          JSON.stringify({ error: 'Authentication required' }),
-          { status: 401, headers }
-        );
-      }
-
-      // Check if already purchased
       const serviceClient = getServiceClient();
-      const { data: existingPurchase, error: purchaseLookupError } = await serviceClient
-        .from('purchases')
-        .select('id')
-        .eq('user_id', user.id)
-        .eq('product_key', 'masterclass')
-        .eq('status', 'completed')
-        .limit(1)
-        .single();
 
-      // PGRST116 = no rows found (expected when not purchased)
-      if (purchaseLookupError && purchaseLookupError.code !== 'PGRST116') {
-        console.error('Purchase lookup failed:', purchaseLookupError);
-        return new Response(
-          JSON.stringify({ error: 'Unable to verify purchase status' }),
-          { status: 503, headers }
-        );
-      }
+      // If logged in, check for existing purchase
+      if (user) {
+        const { data: existingPurchase, error: purchaseLookupError } = await serviceClient
+          .from('purchases')
+          .select('id')
+          .eq('user_id', user.id)
+          .eq('product_key', 'masterclass')
+          .eq('status', 'completed')
+          .limit(1)
+          .single();
 
-      if (existingPurchase) {
-        return new Response(
-          JSON.stringify({ error: 'Already purchased', redirect: '/masterclass/course' }),
-          { status: 409, headers }
-        );
-      }
+        // PGRST116 = no rows found (expected when not purchased)
+        if (purchaseLookupError && purchaseLookupError.code !== 'PGRST116') {
+          console.error('Purchase lookup failed:', purchaseLookupError);
+          return new Response(
+            JSON.stringify({ error: 'Unable to verify purchase status' }),
+            { status: 503, headers }
+          );
+        }
 
-      // Validate user email exists for checkout
-      if (!user.email) {
-        return new Response(
-          JSON.stringify({ error: 'User email is required for checkout' }),
-          { status: 400, headers }
-        );
+        if (existingPurchase) {
+          return new Response(
+            JSON.stringify({ error: 'Already purchased', redirect: '/masterclass/course' }),
+            { status: 409, headers }
+          );
+        }
       }
 
       // Derive price server-side (never trust client-sent price)
@@ -120,21 +108,18 @@ export const POST: APIRoute = async ({ request, cookies }) => {
 
       const stripe = await getStripeServer();
 
-      // Look up or create Stripe customer
-      let stripeCustomerId: string | undefined;
-      const { data: profile, error: profileError } = await serviceClient
-        .from('profiles')
-        .select('stripe_customer_id')
-        .eq('id', user.id)
-        .single();
+      // Build metadata — include userId only if authenticated
+      const metadata: Record<string, string> = {
+        productKey: 'masterclass',
+        productId: 'masterclass',
+        fulfillmentType: 'digital',
+      };
 
-      if (profileError && profileError.code !== 'PGRST116') {
-        console.error('Profile lookup failed:', profileError);
-        // Non-critical: proceed without customer linking rather than blocking checkout
-      }
-
-      if (profile?.stripe_customer_id) {
-        stripeCustomerId = profile.stripe_customer_id;
+      if (user) {
+        metadata.userId = user.id;
+        metadata.userEmail = user.email || '';
+      } else {
+        metadata.isGuestCheckout = 'true';
       }
 
       const sessionConfig: Record<string, any> = {
@@ -142,16 +127,13 @@ export const POST: APIRoute = async ({ request, cookies }) => {
         // No payment_method_types — let Stripe auto-select based on customer location
         // (shows Card, Apple Pay, Google Pay, PayPal, Klarna, etc.)
         line_items: [{ price: priceId, quantity: 1 }],
-        metadata: {
-          userId: user.id,
-          userEmail: user.email || '',
-          productKey: 'masterclass',
-          productId: 'masterclass',
-          fulfillmentType: 'digital',
-        },
-        client_reference_id: user.id,
+        metadata,
         allow_promotion_codes: true,
       };
+
+      if (user) {
+        sessionConfig.client_reference_id = user.id;
+      }
 
       // Embedded mode: render checkout on our site (no redirect to Stripe)
       if (embedded) {
@@ -162,10 +144,31 @@ export const POST: APIRoute = async ({ request, cookies }) => {
         sessionConfig.cancel_url = `${siteUrl}/masterclass`;
       }
 
-      if (stripeCustomerId) {
-        sessionConfig.customer = stripeCustomerId;
+      // Link to existing Stripe customer if logged in
+      if (user) {
+        let stripeCustomerId: string | undefined;
+        const { data: profile, error: profileError } = await serviceClient
+          .from('profiles')
+          .select('stripe_customer_id')
+          .eq('id', user.id)
+          .single();
+
+        if (profileError && profileError.code !== 'PGRST116') {
+          console.error('Profile lookup failed:', profileError);
+        }
+
+        if (profile?.stripe_customer_id) {
+          stripeCustomerId = profile.stripe_customer_id;
+        }
+
+        if (stripeCustomerId) {
+          sessionConfig.customer = stripeCustomerId;
+        } else {
+          sessionConfig.customer_email = user.email;
+          sessionConfig.customer_creation = 'always';
+        }
       } else {
-        sessionConfig.customer_email = user.email;
+        // Guest checkout — Stripe will collect email in the form
         sessionConfig.customer_creation = 'always';
       }
 

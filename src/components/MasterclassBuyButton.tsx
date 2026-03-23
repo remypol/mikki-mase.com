@@ -66,34 +66,12 @@ export default function MasterclassBuyButton({ variant = 'hero', className = '' 
     );
   }
 
-  // Not logged in — sign in first, then redirect to checkout
-  if (!purchaseStatus.authenticated) {
-    return (
-      <div className="flex flex-col items-center gap-2">
-        <a
-          href="/auth/login?next=/checkout/masterclass&checkout=true"
-          onClick={() => fetch('/api/notify', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ event: 'cta_click', detail: 'Get Instant Access (not logged in)' }) }).catch(() => {})}
-          className={`inline-flex items-center justify-center font-bold text-white min-h-[52px] rounded-xl px-8 transition-all hover:brightness-110 active:scale-[0.98] ${className}`}
-          style={{ backgroundColor: '#A8001E' }}
-        >
-          Get Instant Access
-          <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-          </svg>
-        </a>
-        {variant !== 'compact' && (
-          <span className="text-[#6B6B6B] text-xs">Sign in or create account to purchase</span>
-        )}
-      </div>
-    );
-  }
-
-  // Logged in but not purchased — go to embedded checkout page
+  // Not purchased — go directly to checkout (works for both logged-in and guest)
   return (
     <div className="flex flex-col items-center gap-2">
       <a
         href="/checkout/masterclass"
-        onClick={() => fetch('/api/notify', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ event: 'cta_click', detail: 'Get Instant Access (checkout)' }) }).catch(() => {})}
+        onClick={() => fetch('/api/notify', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ event: 'cta_click', detail: `Get Instant Access (${purchaseStatus.authenticated ? 'checkout' : 'guest'})` }) }).catch(() => {})}
         className={`inline-flex items-center justify-center font-bold text-white min-h-[52px] rounded-xl px-8 transition-all hover:brightness-110 active:scale-[0.98] ${className}`}
         style={{ backgroundColor: '#A8001E' }}
       >
@@ -103,7 +81,7 @@ export default function MasterclassBuyButton({ variant = 'hero', className = '' 
         </svg>
       </a>
       {variant !== 'compact' && (
-        <span className="text-[#6B6B6B] text-xs">One-time payment. Lifetime access.</span>
+        <span className="text-[#6B6B6B] text-xs">One-time payment. Lifetime access. No account needed.</span>
       )}
     </div>
   );

@@ -15,32 +15,31 @@ import Footer from '../../components/Footer.astro';
 import CustomMasterclassCheckout from '../../components/CustomMasterclassCheckout';
 import { getServerClient, getServiceClient } from '../../lib/supabase';
 
-// Server-side auth check
+// Auth is OPTIONAL — supports both logged-in and guest checkout
 const supabase = getServerClient(Astro.cookies, Astro.request);
 const { data: { user } } = await supabase.auth.getUser();
 
-if (!user) {
-  return Astro.redirect('/auth/login?next=/checkout/masterclass&checkout=true');
-}
+// If logged in, check if already purchased → redirect to course
+if (user) {
+  const serviceClient = getServiceClient();
+  const { data: existingPurchase, error: purchaseError } = await serviceClient
+    .from('purchases')
+    .select('id')
+    .eq('user_id', user.id)
+    .eq('product_key', 'masterclass')
+    .eq('status', 'completed')
+    .limit(1)
+    .single();
 
-// Server-side purchase check
-const serviceClient = getServiceClient();
-const { data: existingPurchase, error: purchaseError } = await serviceClient
-  .from('purchases')
-  .select('id')
-  .eq('user_id', user.id)
-  .eq('product_key', 'masterclass')
-  .eq('status', 'completed')
-  .limit(1)
-  .single();
+  if (purchaseError && purchaseError.code !== 'PGRST116') {
+    console.error('Purchase check error:', purchaseError);
+  }
 
-if (purchaseError && purchaseError.code !== 'PGRST116') {
-  console.error('Purchase check error:', purchaseError);
+  if (existingPurchase) {
+    return Astro.redirect('/masterclass/course');
+  }
 }
-
-if (existingPurchase) {
-  return Astro.redirect('/masterclass/course');
-}
+// If not logged in: show checkout page anyway (guest checkout)
 ---
 
 <BaseLayout
