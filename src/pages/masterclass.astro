@@ -14,6 +14,7 @@ import WhoThisIsFor from '../components/motion/WhoThisIsFor';
 import StudentReviews from '../components/motion/StudentReviews';
 import PricingSection from '../components/motion/PricingSection';
 import FinalCTA from '../components/motion/FinalCTA';
+import { masterclass } from '../config/shop/products';
 
 // Check for access=denied query param (redirect from middleware)
 const accessDenied = Astro.url.searchParams.get('access') === 'denied';
@@ -186,6 +187,41 @@ const modulesWithScenarios = courseManifest.modules.filter((m) => m.scenarios &&
   <Footer />
   </PasswordGate>
 </BaseLayout>
+
+<!-- GA4: view_item event -->
+<script define:vars={{ productId: masterclass.id, productName: masterclass.name, productPrice: masterclass.price }}>
+  document.addEventListener('astro:page-load', function() {
+    // dataLayer for GTM
+    var dataLayer = window.dataLayer || [];
+    dataLayer.push({
+      event: 'view_item',
+      ecommerce: {
+        currency: 'USD',
+        value: productPrice,
+        items: [{
+          item_id: productId,
+          item_name: productName,
+          price: productPrice,
+          quantity: 1
+        }]
+      }
+    });
+
+    // gtag for direct GA4
+    if (typeof gtag !== 'undefined') {
+      gtag('event', 'view_item', {
+        currency: 'USD',
+        value: productPrice,
+        items: [{
+          item_id: productId,
+          item_name: productName,
+          price: productPrice,
+          quantity: 1
+        }]
+      });
+    }
+  });
+</script>
 
 <!-- Accordion Script -->
 <script>
