@@ -565,6 +565,10 @@ export interface MasterclassWelcomeData {
   courseUrl: string;
   cheatsheetDownloadUrl: string;
   ebookDownloadUrl: string;
+  /** Magic login link for guest accounts (one-click login, no password) */
+  magicLink?: string;
+  /** Whether this is a guest checkout (no account existed before payment) */
+  isGuest?: boolean;
 }
 
 /**
@@ -608,13 +612,26 @@ export async function sendMasterclassWelcome(data: MasterclassWelcomeData) {
                 You now have <strong style="color: #CFB53B;">lifetime access</strong> to all 10 modules, 30+ lessons, interactive scenarios, quizzes, and bonus content.
               </p>
 
+              ${data.isGuest && data.magicLink ? `
+              <!-- Guest account notice -->
+              <table role="presentation" style="width: 100%; border-collapse: collapse; margin-bottom: 20px;">
+                <tr>
+                  <td style="background-color: rgba(207, 181, 59, 0.1); border: 1px solid rgba(207, 181, 59, 0.3); border-radius: 12px; padding: 16px;">
+                    <p style="margin: 0; color: #CFB53B; font-size: 14px; font-weight: 600;">
+                      We created your account automatically. Click below to log in instantly. No password needed.
+                    </p>
+                  </td>
+                </tr>
+              </table>
+              ` : ''}
+
               <!-- Course Access Button -->
               <table role="presentation" style="width: 100%; border-collapse: collapse;">
                 <tr>
                   <td align="center" style="padding: 20px 0;">
-                    <a href="${data.courseUrl}"
+                    <a href="${data.magicLink || data.courseUrl}"
                        style="display: inline-block; background-color: #A8001E; color: #ffffff; text-decoration: none; padding: 16px 40px; border-radius: 12px; font-weight: 700; font-size: 18px;">
-                      Start the Masterclass
+                      ${data.isGuest && data.magicLink ? 'Click to Access Your Masterclass' : 'Start the Masterclass'}
                     </a>
                   </td>
                 </tr>
@@ -690,8 +707,7 @@ Welcome to The Mikki Mase Masterclass
 ${greeting} to the Masterclass!
 
 You now have lifetime access to all 10 modules, 30+ lessons, interactive scenarios, quizzes, and bonus content.
-
-Start the Masterclass: ${data.courseUrl}
+${data.isGuest && data.magicLink ? `\nWe created your account automatically. Click below to log in instantly — no password needed.\n\nAccess Your Masterclass: ${data.magicLink}` : `\nStart the Masterclass: ${data.courseUrl}`}
 
 ---
 

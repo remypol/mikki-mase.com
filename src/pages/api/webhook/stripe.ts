@@ -121,7 +121,7 @@ export const POST: APIRoute = async ({ request }) => {
 // ============================================
 
 async function handleCheckoutComplete(session: Stripe.Checkout.Session) {
-  const { productId, productKey, fulfillmentType, userId, userEmail } = session.metadata || {};
+  const { productId, productKey, fulfillmentType, userId, userEmail, isGuestCheckout } = session.metadata || {};
 
   if (!productId) {
     console.error('No productId in session metadata');
@@ -135,15 +135,121 @@ async function handleCheckoutComplete(session: Stripe.Checkout.Session) {
   }
 
   // ============================================
-  // MASTERCLASS PURCHASE
+  // MASTERCLASS PURCHASE (authenticated + guest)
   // ============================================
 
-  if (productKey === 'masterclass' && userId) {
+  if (productKey === 'masterclass') {
     const supabase = getServiceClient();
+    let resolvedUserId = userId;
+    let isGuest = isGuestCheckout === 'true';
+    let magicLoginLink: string | undefined;
+    const customerEmail = userEmail || session.customer_details?.email;
 
-    // Insert purchase record (unique constraint on stripe_session_id prevents duplicates)
+    // ---- GUEST CHECKOUT: auto-create or find user ----
+    if (!resolvedUserId && customerEmail) {
+      isGuest = true;
+      console.log(`Guest checkout for ${customerEmail} — resolving user...`);
+
+      // Check if a Supabase user already exists with this email
+      const { data: existingUsers, error: listError } = await supabase.auth.admin.listUsers({
+        page: 1,
+        perPage: 1,
+      });
+
+      // listUsers doesn't filter by email, so we need to search manually
+      // Use a more targeted approach: try to create and handle "already exists" error
+      let existingUser: any = null;
+
+      // Try fetching by email using the admin API
+      try {
+        const { data: userList } = await supabase.auth.admin.listUsers({ page: 1, perPage: 1000 });
+        if (userList?.users) {
+          existingUser = userList.users.find((u: any) => u.email === customerEmail);
+        }
+      } catch (e) {
+        console.warn('Could not list users, will try creating:', e);
+      }
+
+      if (existingUser) {
+        // User already exists — use their ID
+        resolvedUserId = existingUser.id;
+        console.log(`Found existing user ${resolvedUserId} for ${customerEmail}`);
+      } else {
+        // Create new guest user (email auto-confirmed, no password needed)
+        const { data: newUser, error: createError } = await supabase.auth.admin.createUser({
+          email: customerEmail,
+          email_confirm: true,
+          user_metadata: {
+            guest_account: true,
+            full_name: session.customer_details?.name || '',
+          },
+        });
+
+        if (createError) {
+          // Handle "user already registered" race condition
+          if (createError.message?.includes('already been registered') || createError.message?.includes('already exists')) {
+            // Retry fetching
+            try {
+              const { data: retryList } = await supabase.auth.admin.listUsers({ page: 1, perPage: 1000 });
+              existingUser = retryList?.users?.find((u: any) => u.email === customerEmail);
+              if (existingUser) {
+                resolvedUserId = existingUser.id;
+                console.log(`Found existing user on retry: ${resolvedUserId}`);
+              }
+            } catch (e) {
+              throw new Error(`Guest user creation failed and retry lookup failed: ${createError.message}`);
+            }
+          }
+
+          if (!resolvedUserId) {
+            throw new Error(`Failed to create guest user: ${createError.message}`);
+          }
+        } else if (newUser?.user) {
+          resolvedUserId = newUser.user.id;
+          console.log(`Created guest user ${resolvedUserId} for ${customerEmail}`);
+
+          // The handle_new_user() trigger should create the profile automatically.
+          // But just in case, ensure profile exists (upsert)
+          await supabase.from('profiles').upsert({
+            id: resolvedUserId,
+            email: customerEmail,
+            full_name: session.customer_details?.name || '',
+          }, { onConflict: 'id' });
+        }
+      }
+
+      // Generate magic link for guest user (so they can log in with one click)
+      if (resolvedUserId && customerEmail) {
+        try {
+          const { data: linkData, error: linkError } = await supabase.auth.admin.generateLink({
+            type: 'magiclink',
+            email: customerEmail,
+            options: {
+              redirectTo: 'https://www.mikki-mase.com/masterclass/course',
+            },
+          });
+
+          if (linkError) {
+            console.warn('Failed to generate magic link:', linkError.message);
+          } else if (linkData?.properties?.action_link) {
+            magicLoginLink = linkData.properties.action_link;
+            console.log(`Magic link generated for ${customerEmail}`);
+          }
+        } catch (e) {
+          console.warn('Magic link generation error:', e);
+        }
+      }
+    }
+
+    // ---- Bail if we still don't have a user ID ----
+    if (!resolvedUserId) {
+      console.error('Could not resolve user ID for masterclass purchase:', session.id);
+      throw new Error('No user ID resolved for masterclass purchase');
+    }
+
+    // ---- Insert purchase record ----
     const { error: purchaseError } = await supabase.from('purchases').insert({
-      user_id: userId,
+      user_id: resolvedUserId,
       stripe_session_id: session.id,
       stripe_payment_intent_id: typeof session.payment_intent === 'string'
         ? session.payment_intent
@@ -161,10 +267,10 @@ async function handleCheckoutComplete(session: Stripe.Checkout.Session) {
         throw new Error(`Failed to insert purchase: ${purchaseError.message}`);
       }
     } else {
-      console.log(`Masterclass purchase recorded for user ${userId}`);
+      console.log(`Masterclass purchase recorded for user ${resolvedUserId}${isGuest ? ' (guest)' : ''}`);
     }
 
-    // Link Stripe customer ID to profile (non-critical, don't throw on failure)
+    // ---- Link Stripe customer ID to profile (non-critical) ----
     if (session.customer) {
       const customerId = typeof session.customer === 'string'
         ? session.customer
@@ -173,7 +279,7 @@ async function handleCheckoutComplete(session: Stripe.Checkout.Session) {
       const { error: profileError } = await supabase
         .from('profiles')
         .update({ stripe_customer_id: customerId })
-        .eq('id', userId)
+        .eq('id', resolvedUserId)
         .is('stripe_customer_id', null);
 
       if (profileError) {
@@ -181,8 +287,7 @@ async function handleCheckoutComplete(session: Stripe.Checkout.Session) {
       }
     }
 
-    // Send welcome email (non-critical, don't throw on failure)
-    const customerEmail = userEmail || session.customer_details?.email;
+    // ---- Send welcome email (non-critical) ----
     if (customerEmail) {
       try {
         const cheatsheetToken = generateDownloadToken('mmc-cheatsheet-bundle', customerEmail, session.id);
@@ -191,11 +296,13 @@ async function handleCheckoutComplete(session: Stripe.Checkout.Session) {
         await sendMasterclassWelcome({
           customerEmail,
           customerName: session.customer_details?.name || undefined,
-          courseUrl: 'https://www.mikki-mase.com/masterclass/course',
+          courseUrl: magicLoginLink || 'https://www.mikki-mase.com/masterclass/course',
           cheatsheetDownloadUrl: getDownloadUrl(cheatsheetToken),
           ebookDownloadUrl: getDownloadUrl(ebookToken),
+          magicLink: magicLoginLink,
+          isGuest,
         });
-        console.log(`Masterclass welcome email sent to ${customerEmail}`);
+        console.log(`Masterclass welcome email sent to ${customerEmail}${isGuest ? ' (guest, with magic link)' : ''}`);
       } catch (emailErr) {
         // Email failure is non-critical — don't fail the whole webhook
         console.error('Failed to send masterclass welcome email:', emailErr);
@@ -205,7 +312,7 @@ async function handleCheckoutComplete(session: Stripe.Checkout.Session) {
       await sendPaymentNotification({
         customerEmail,
         customerName: session.customer_details?.name || undefined,
-        productName: 'Mikki Mase Masterclass',
+        productName: `Mikki Mase Masterclass${isGuest ? ' (Guest Checkout)' : ''}`,
         amountCents: session.amount_total ?? 4700,
         currency: session.currency || 'usd',
         stripeSessionId: session.id,

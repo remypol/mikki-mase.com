@@ -30,6 +30,7 @@ let ebookDownloadUrl = '';
 let masterclassUserVerified = false;
 let maskedEmail = '';
 let metadataUserId = '';
+let isGuestCheckout = false;
 
 // Handle PaymentIntent redirect (from custom Payment Element checkout)
 if (paymentIntentId && !sessionId) {
@@ -96,6 +97,7 @@ if (sessionId) {
       // Masterclass purchase
       if (productKey === 'masterclass') {
         isMasterclass = true;
+        isGuestCheckout = session.metadata?.isGuestCheckout === 'true' || !metadataUserId;
 
         // Issue #4: Ensure product is set for GA4 tracking even if productId wasn't in metadata
         if (!product) {
@@ -109,6 +111,7 @@ if (sessionId) {
             const { data: { user } } = await supabase.auth.getUser();
             if (user && user.id === metadataUserId) {
               masterclassUserVerified = true;
+              isGuestCheckout = false;
             }
           } catch {
             // Auth check failed — treat as unverified
@@ -123,7 +126,7 @@ if (sessionId) {
           ebookDownloadUrl = `/download/${ebToken}`;
         }
 
-        // Mask email for unverified users
+        // Mask email for unverified/guest users
         if (customerEmail) {
           const [localPart, domain] = customerEmail.split('@');
           if (localPart && domain) {
@@ -190,33 +193,59 @@ if (sessionId) {
           <h1 class="text-3xl font-bold text-white mb-2">Welcome to the Masterclass</h1>
           <p class="text-lg mb-8" style="color: #CFB53B;">You now have lifetime access</p>
 
-          <!-- Issue #6: Course CTA with polling for webhook completion -->
-          <div id="masterclass-cta">
-            <div id="mc-polling" class="flex flex-col items-center gap-3 mb-6">
-              <div class="flex items-center gap-2">
-                <svg class="w-5 h-5 animate-spin" style="color: #CFB53B;" fill="none" viewBox="0 0 24 24">
-                  <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                  <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+          <!-- Course CTA: different for guest vs authenticated -->
+          {isGuestCheckout ? (
+            <!-- Guest checkout: direct to check email -->
+            <div class="mb-6">
+              <div
+                class="rounded-xl p-6 text-left mb-4"
+                style="background: rgba(207, 181, 59, 0.08); border: 1px solid rgba(207, 181, 59, 0.25);"
+              >
+                <div class="flex items-start gap-3">
+                  <svg class="w-6 h-6 flex-shrink-0 mt-0.5" style="color: #CFB53B;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                  </svg>
+                  <div>
+                    <p class="text-white font-bold text-base mb-1">Check your email to access the course</p>
+                    <p class="text-sm" style="color: #BEBEBE;">
+                      We've sent a <strong class="text-white">one-click login link</strong> to <strong class="text-white">{maskedEmail || 'your email'}</strong>. Click it to access your masterclass instantly. No password needed.
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <p class="text-xs text-center" style="color: #6B6B6B;">
+                Already have an account? <a href="/auth/login?next=/masterclass/course" class="hover:underline" style="color: #CFB53B;">Sign in here</a>
+              </p>
+            </div>
+          ) : (
+            <!-- Authenticated: polling for webhook completion -->
+            <div id="masterclass-cta">
+              <div id="mc-polling" class="flex flex-col items-center gap-3 mb-6">
+                <div class="flex items-center gap-2">
+                  <svg class="w-5 h-5 animate-spin" style="color: #CFB53B;" fill="none" viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                  </svg>
+                  <span class="text-white font-medium text-sm">Unlocking your access...</span>
+                </div>
+              </div>
+              <a
+                id="mc-cta-btn"
+                href="/masterclass/course"
+                class="w-full inline-flex items-center justify-center gap-2 font-bold text-black min-h-[52px] rounded-xl px-8 transition-all hover:brightness-110 active:scale-[0.98] mb-6"
+                style="background-color: #CFB53B; display: none;"
+              >
+                Start the Masterclass
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
                 </svg>
-                <span class="text-white font-medium text-sm">Unlocking your access...</span>
+              </a>
+              <div id="mc-timeout-msg" class="rounded-lg px-4 py-3 mb-6 text-sm text-left" style="display: none; background: rgba(207, 181, 59, 0.1); border: 1px solid rgba(207, 181, 59, 0.2);">
+                <p class="text-white font-medium mb-1">Access is being set up</p>
+                <p style="color: #BEBEBE;">You'll receive a confirmation email shortly. You can also try <button id="mc-refresh-btn" class="underline" style="color: #CFB53B;">refreshing this page</button> in a few seconds.</p>
               </div>
             </div>
-            <a
-              id="mc-cta-btn"
-              href="/masterclass/course"
-              class="w-full inline-flex items-center justify-center gap-2 font-bold text-black min-h-[52px] rounded-xl px-8 transition-all hover:brightness-110 active:scale-[0.98] mb-6"
-              style="background-color: #CFB53B; display: none;"
-            >
-              Start the Masterclass
-              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-              </svg>
-            </a>
-            <div id="mc-timeout-msg" class="rounded-lg px-4 py-3 mb-6 text-sm text-left" style="display: none; background: rgba(207, 181, 59, 0.1); border: 1px solid rgba(207, 181, 59, 0.2);">
-              <p class="text-white font-medium mb-1">Access is being set up</p>
-              <p style="color: #BEBEBE;">You'll receive a confirmation email shortly. You can also try <button id="mc-refresh-btn" class="underline" style="color: #CFB53B;">refreshing this page</button> in a few seconds.</p>
-            </div>
-          </div>
+          )}
 
           <!-- Issue #5: Only show bonus downloads to verified users -->
           {masterclassUserVerified && (cheatsheetDownloadUrl || ebookDownloadUrl) && (
@@ -263,9 +292,11 @@ if (sessionId) {
               <div>
                 <p class="text-white font-medium text-sm">Check your email</p>
                 <p class="text-sm" style="color: #9A9A9A;">
-                  {masterclassUserVerified
-                    ? `We sent a welcome email with bonus download links to ${customerEmail}`
-                    : `We sent a welcome email with bonus download links to ${maskedEmail || 'your email'}. Check your inbox to access them.`
+                  {isGuestCheckout
+                    ? `We sent a login link and bonus downloads to ${maskedEmail || 'your email'}. Click the link to access your masterclass instantly.`
+                    : masterclassUserVerified
+                      ? `We sent a welcome email with bonus download links to ${customerEmail}`
+                      : `We sent a welcome email with bonus download links to ${maskedEmail || 'your email'}. Check your inbox to access them.`
                   }
                 </p>
               </div>
@@ -441,8 +472,8 @@ if (sessionId) {
     </script>
   )}
 
-  <!-- Issue #6: Masterclass purchase status polling -->
-  {isMasterclass && (
+  <!-- Masterclass purchase status polling (only for authenticated users, not guests) -->
+  {isMasterclass && !isGuestCheckout && (
     <script is:inline>
       document.addEventListener('astro:page-load', function() {
         var polling = document.getElementById('mc-polling');

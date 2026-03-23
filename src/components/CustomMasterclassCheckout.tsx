@@ -12,6 +12,8 @@ import {
   PaymentElement,
   useStripe,
   useElements,
+  EmbeddedCheckoutProvider,
+  EmbeddedCheckout,
 } from '@stripe/react-stripe-js';
 
 const stripePromise = loadStripe(
@@ -170,12 +172,14 @@ export default function CustomMasterclassCheckout() {
   const [clientSecret, setClientSecret] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
+  const [isEmbeddedMode, setIsEmbeddedMode] = useState(false);
 
   const returnUrl = typeof window !== 'undefined'
     ? `${window.location.origin}/checkout/success`
     : 'https://mikki-mase.com/checkout/success';
 
   useEffect(() => {
+    // Try PaymentIntent first (for logged-in users), fall back to checkout session (guest-compatible)
     fetch('/api/checkout/create-intent', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -184,9 +188,25 @@ export default function CustomMasterclassCheckout() {
       .then(async (res) => {
         const data = await res.json();
         if (!res.ok) {
+          // 401 = not logged in → use guest-compatible checkout session instead
           if (res.status === 401) {
-            window.location.href = '/auth/login?next=/checkout/masterclass&checkout=true';
-            return;
+            return fetch('/api/checkout/create', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ productKey: 'masterclass', embedded: true }),
+            }).then(async (res2) => {
+              const data2 = await res2.json();
+              if (!res2.ok) {
+                if (res2.status === 409 && data2.redirect) {
+                  window.location.href = data2.redirect;
+                  return;
+                }
+                throw new Error(data2.error || 'Failed to initialize payment');
+              }
+              // Switch to embedded checkout mode
+              setClientSecret(data2.clientSecret);
+              setIsEmbeddedMode(true);
+            });
           }
           if (res.status === 409 && data.redirect) {
             window.location.href = data.redirect;
@@ -236,6 +256,19 @@ export default function CustomMasterclassCheckout() {
 
   if (!clientSecret) return null;
 
+  // Guest checkout: use Stripe Embedded Checkout (collects email, shows all payment methods)
+  if (isEmbeddedMode) {
+    return (
+      <EmbeddedCheckoutProvider
+        stripe={stripePromise}
+        options={{ clientSecret }}
+      >
+        <EmbeddedCheckout />
+      </EmbeddedCheckoutProvider>
+    );
+  }
+
+  // Authenticated checkout: use custom Payment Element
   return (
     <Elements
       stripe={stripePromise}
