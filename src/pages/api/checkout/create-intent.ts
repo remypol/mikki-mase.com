@@ -107,11 +107,11 @@ export const POST: APIRoute = async ({ request, cookies }) => {
       metadata.isGuestCheckout = 'true';
     }
 
-    // PaymentIntent config
+    // PaymentIntent config — explicit payment methods (no Stripe Link popup)
     const piConfig: Record<string, any> = {
       amount: 4700, // $47.00
       currency: 'usd',
-      automatic_payment_methods: { enabled: true },
+      payment_method_types: ['card', 'ideal', 'bancontact', 'eps', 'giropay', 'p24', 'sofort'],
       metadata,
     };
 
