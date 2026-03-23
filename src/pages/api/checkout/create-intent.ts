@@ -107,11 +107,13 @@ export const POST: APIRoute = async ({ request, cookies }) => {
       metadata.isGuestCheckout = 'true';
     }
 
-    // PaymentIntent config — card only (no Stripe Link popup)
+    // PaymentIntent config — auto-detect enabled payment methods
+    // Apple Pay & Google Pay work automatically via card
+    // Disable Link in Stripe Dashboard: dashboard.stripe.com/settings/payment_methods
     const piConfig: Record<string, any> = {
       amount: 4700, // $47.00
       currency: 'usd',
-      payment_method_types: ['card'],
+      automatic_payment_methods: { enabled: true },
       metadata,
     };
 
