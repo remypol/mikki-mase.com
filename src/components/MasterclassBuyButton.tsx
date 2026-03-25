@@ -66,7 +66,8 @@ export default function MasterclassBuyButton({ variant = 'hero', className = '' 
     );
   }
 
-  // Not purchased — go directly to checkout (works for both logged-in and guest)
+  // A/B variant is assigned server-side via httpOnly cookie on checkout page load
+  // No client-side assignment needed — just link to checkout
   return (
     <div className="flex flex-col items-center gap-2">
       <a

@@ -13,6 +13,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import Header from '../../components/Header.astro';
 import Footer from '../../components/Footer.astro';
 import CustomMasterclassCheckout from '../../components/CustomMasterclassCheckout';
+import WheelCheckout from '../../components/WheelCheckout';
 import { getServerClient, getServiceClient } from '../../lib/supabase';
 
 // Auth is OPTIONAL — supports both logged-in and guest checkout
@@ -40,6 +41,23 @@ if (user) {
   }
 }
 // If not logged in: show checkout page anyway (guest checkout)
+
+// A/B test: server-side assignment via httpOnly cookie
+let abVariant = Astro.cookies.get('ab_variant')?.value as 'A' | 'B' | undefined;
+if (!abVariant || (abVariant !== 'A' && abVariant !== 'B')) {
+  // 50/50 random assignment on first visit
+  abVariant = Math.random() < 0.5 ? 'A' : 'B';
+  Astro.cookies.set('ab_variant', abVariant, {
+    path: '/',
+    httpOnly: true,
+    secure: !import.meta.env.DEV,
+    sameSite: 'lax',
+    maxAge: 60 * 60 * 24 * 30, // 30 days
+  });
+}
+
+const isWheelVariant = abVariant === 'B';
+const displayPrice = isWheelVariant ? 27 : 47;
 ---
 
 <BaseLayout
@@ -108,7 +126,7 @@ if (user) {
               <span class="text-white font-semibold text-sm">Total</span>
               <div class="flex items-center gap-2">
                 <span class="text-base line-through" style="color: #6B6B6B;">$97</span>
-                <span class="text-2xl font-black text-white">$47</span>
+                <span class="text-2xl font-black text-white">${displayPrice}</span>
               </div>
             </div>
 
@@ -170,7 +188,11 @@ if (user) {
         <!-- RIGHT: Checkout + Reviews -->
         <div class="lg:col-span-3 order-1 lg:order-2">
           <h1 class="text-white text-xl font-bold mb-6">Complete your purchase</h1>
-          <CustomMasterclassCheckout client:load />
+          {isWheelVariant ? (
+            <WheelCheckout client:load />
+          ) : (
+            <CustomMasterclassCheckout client:load />
+          )}
 
           <!-- Social proof reviews -->
           <div class="mt-8 space-y-4">

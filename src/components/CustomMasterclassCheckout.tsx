@@ -75,7 +75,7 @@ const appearance = {
 };
 
 /** Inner form component — must be inside <Elements> */
-function CheckoutForm({ returnUrl, isGuest }: { returnUrl: string; isGuest: boolean }) {
+function CheckoutForm({ returnUrl, isGuest, price }: { returnUrl: string; isGuest: boolean; price: number }) {
   const stripe = useStripe();
   const elements = useElements();
   const [loading, setLoading] = useState(false);
@@ -113,8 +113,8 @@ function CheckoutForm({ returnUrl, isGuest }: { returnUrl: string; isGuest: bool
         event: 'begin_checkout',
         ecommerce: {
           currency: 'USD',
-          value: 47,
-          items: [{ item_id: 'masterclass', item_name: 'The Mikki Mase Masterclass', price: 47, quantity: 1 }],
+          value: price,
+          items: [{ item_id: 'masterclass', item_name: 'The Mikki Mase Masterclass', price, quantity: 1 }],
         },
       });
     }
@@ -132,24 +132,28 @@ function CheckoutForm({ returnUrl, isGuest }: { returnUrl: string; isGuest: bool
       }
     }
 
-    const { error: submitError } = await stripe.confirmPayment({
-      elements,
-      confirmParams: {
-        return_url: returnUrl,
-        ...(isGuest && email.trim() ? { receipt_email: email.trim() } : {}),
-      },
-    });
+    try {
+      const { error: submitError } = await stripe.confirmPayment({
+        elements,
+        confirmParams: {
+          return_url: returnUrl,
+          ...(isGuest && email.trim() ? { receipt_email: email.trim() } : {}),
+        },
+      });
 
-    // This will only reach here if there's an error (success = redirect)
-    if (submitError) {
-      if (submitError.type === 'card_error' || submitError.type === 'validation_error') {
-        setError(submitError.message || 'Payment failed.');
-      } else {
-        setError('Something went wrong. Please try again.');
+      // This will only reach here if there's an error (success = redirect)
+      if (submitError) {
+        if (submitError.type === 'card_error' || submitError.type === 'validation_error') {
+          setError(submitError.message || 'Payment failed.');
+        } else {
+          setError('Something went wrong. Please try again.');
+        }
       }
+    } catch (err: any) {
+      setError(err?.message || 'Payment failed. Please try again.');
+    } finally {
+      setLoading(false);
     }
-
-    setLoading(false);
   }
 
   return (
@@ -223,7 +227,7 @@ function CheckoutForm({ returnUrl, isGuest }: { returnUrl: string; isGuest: bool
             Processing...
           </span>
         ) : (
-          'Pay $47'
+          `Pay $${price}`
         )}
       </button>
 
@@ -240,13 +244,15 @@ export default function CustomMasterclassCheckout() {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [isGuest, setIsGuest] = useState(false);
+  const [price, setPrice] = useState(47);
 
   const returnUrl = typeof window !== 'undefined'
     ? `${window.location.origin}/checkout/success`
     : 'https://mikki-mase.com/checkout/success';
 
   useEffect(() => {
-    // Always use branded PaymentIntent — works for both guests and authenticated
+    // Server determines price from httpOnly cookies (ab_variant + wheel_eligible)
+    // Client does NOT send pricing info — prevents tampering
     fetch('/api/checkout/create-intent', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -263,12 +269,13 @@ export default function CustomMasterclassCheckout() {
         }
         setClientSecret(data.clientSecret);
         setIsGuest(data.isGuest || false);
+        if (data.amount) setPrice(data.amount);
 
         // Notify
         fetch('/api/notify', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ event: 'checkout_start', detail: data.isGuest ? 'guest branded' : 'branded payment element' }),
+          body: JSON.stringify({ event: 'checkout_start', detail: `${data.isGuest ? 'guest' : 'auth'} $${data.amount}` }),
         }).catch(() => {});
       })
       .catch((err) => setError(err.message))
@@ -312,7 +319,7 @@ export default function CustomMasterclassCheckout() {
         appearance,
       }}
     >
-      <CheckoutForm returnUrl={returnUrl} isGuest={isGuest} />
+      <CheckoutForm returnUrl={returnUrl} isGuest={isGuest} price={price} />
     </Elements>
   );
 }
