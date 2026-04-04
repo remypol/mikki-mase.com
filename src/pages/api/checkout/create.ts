@@ -270,7 +270,7 @@ export const POST: APIRoute = async ({ request, cookies }) => {
     return new Response(
       JSON.stringify({
         error: 'Failed to create checkout session',
-        detail: error?.message || 'Unknown error',
+        
       }),
       { status: 500, headers }
     );

@@ -75,10 +75,9 @@ export const POST: APIRoute = async ({ request, cookies }) => {
         .eq('user_id', user.id)
         .eq('product_key', 'masterclass')
         .eq('status', 'completed')
-        .limit(1)
-        .single();
+        .maybeSingle();
 
-      if (purchaseLookupError && purchaseLookupError.code !== 'PGRST116') {
+      if (purchaseLookupError) {
         console.error('Purchase lookup failed:', purchaseLookupError);
         return new Response(
           JSON.stringify({ error: 'Unable to verify purchase status' }),
@@ -164,10 +163,7 @@ export const POST: APIRoute = async ({ request, cookies }) => {
     console.error('PaymentIntent error:', error?.message || error);
 
     return new Response(
-      JSON.stringify({
-        error: 'Failed to create payment',
-        detail: error?.message || 'Unknown error',
-      }),
+      JSON.stringify({ error: 'Failed to create payment. Please try again.' }),
       { status: 500, headers }
     );
   }

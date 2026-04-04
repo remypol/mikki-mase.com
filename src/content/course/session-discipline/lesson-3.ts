@@ -132,7 +132,7 @@ export const lesson3: Lesson = {
 
     <h3>The Final Word</h3>
 
-    <p>I'll leave you with this. I've won over $52 million in casinos. I've been banned from nearly every major property. I didn't do it by being lucky. I didn't do it by cheating. I did it by understanding math, controlling my emotions, playing a disciplined system, and treating every single session like a business operation.</p>
+    <p>I'll leave you with this. I've won over $32 million in casinos. I've been banned from nearly every major property. I didn't do it by being lucky. I didn't do it by cheating. I did it by understanding math, controlling my emotions, playing a disciplined system, and treating every single session like a business operation.</p>
 
     <p>The house always wins... against players who don't know what they're doing. Against players who sit too long. Against players who bet with emotion. Against players who don't know about loss rebates, or comps, or optimal strategy.</p>
 

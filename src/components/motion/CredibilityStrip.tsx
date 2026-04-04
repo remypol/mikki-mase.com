@@ -34,7 +34,7 @@ export default function CredibilityStrip({ moduleCount, totalLessons }: Props) {
   return (
     <section
       style={{
-        background: '#0A0A0A',
+        background: 'var(--color-gray-950)',
         borderTop: '1px solid #1A1A1A',
         borderBottom: '1px solid #1A1A1A',
       }}
@@ -48,19 +48,19 @@ export default function CredibilityStrip({ moduleCount, totalLessons }: Props) {
           className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8 text-center"
         >
           <motion.div variants={item}>
-            <div className="text-2xl md:text-3xl font-black" style={{ color: '#CFB53B' }}>
-              <AnimatedCounter target={52} prefix="$" suffix="M+" />
+            <div className="text-2xl md:text-3xl font-black" style={{ color: 'var(--color-gold)' }}>
+              <AnimatedCounter target={32} prefix="$" suffix="M+" />
             </div>
-            <div className="text-xs mt-1 uppercase tracking-wider" style={{ color: '#9A9A9A' }}>
+            <div className="text-xs mt-1 uppercase tracking-wider" style={{ color: 'var(--color-gray-500)' }}>
               Won Gambling
             </div>
           </motion.div>
 
           <motion.div variants={item}>
             <div className="text-2xl md:text-3xl font-black text-white">
-              <AnimatedCounter target={100} suffix="+" />
+              <AnimatedCounter target={150} suffix="+" />
             </div>
-            <div className="text-xs mt-1 uppercase tracking-wider" style={{ color: '#9A9A9A' }}>
+            <div className="text-xs mt-1 uppercase tracking-wider" style={{ color: 'var(--color-gray-500)' }}>
               Casinos Banned From
             </div>
           </motion.div>
@@ -69,7 +69,7 @@ export default function CredibilityStrip({ moduleCount, totalLessons }: Props) {
             <div className="text-2xl md:text-3xl font-black text-white">
               <AnimatedCounter target={moduleCount} />
             </div>
-            <div className="text-xs mt-1 uppercase tracking-wider" style={{ color: '#9A9A9A' }}>
+            <div className="text-xs mt-1 uppercase tracking-wider" style={{ color: 'var(--color-gray-500)' }}>
               In-Depth Modules
             </div>
           </motion.div>
@@ -78,7 +78,7 @@ export default function CredibilityStrip({ moduleCount, totalLessons }: Props) {
             <div className="text-2xl md:text-3xl font-black text-white">
               <AnimatedCounter target={totalLessons} suffix="+" />
             </div>
-            <div className="text-xs mt-1 uppercase tracking-wider" style={{ color: '#9A9A9A' }}>
+            <div className="text-xs mt-1 uppercase tracking-wider" style={{ color: 'var(--color-gray-500)' }}>
               Lessons & Scenarios
             </div>
           </motion.div>

@@ -26,7 +26,7 @@ export const courseManifest = {
   id: 'mikki-masterclass',
   title: 'The Mikki Mase Masterclass',
   subtitle: 'Beat the Casino. Play Smart. Get Paid.',
-  description: '10 modules. 30+ lessons. Interactive scenarios. The complete casino strategy system from the man who won $52M+ and got banned from 100+ casinos.',
+  description: '10 modules. 30+ lessons. Interactive scenarios. The complete casino strategy system from the man who won $32M+ and got banned from 150+ casinos.',
   estimatedHours: 8,
   modules: [
     {

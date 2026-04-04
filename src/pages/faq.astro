@@ -105,7 +105,7 @@ const faqs = [
       },
       {
         q: "Can I learn to win at baccarat like Mikki Mase?",
-        a: "Mikki shares insights through his free Telegram community, including pattern recognition techniques and bankroll management strategies. However, he doesn't sell a course or claim to have a teachable 'magic system.' His success likely comes from years of observation, massive bankroll (allowing him to play $250K/hand), and approaches he hasn't fully disclosed. Attempting to replicate his results without similar resources and experience is extremely risky."
+        a: "Mikki shares insights through his free Telegram community, including pattern recognition techniques and bankroll management strategies. He doesn't claim to have a teachable 'magic system,' though his team has assembled his core strategies into a structured masterclass. His success likely comes from years of observation, massive bankroll (allowing him to play $250K/hand), and approaches he hasn't fully disclosed. Attempting to replicate his results without similar resources and experience is extremely risky."
       }
     ]
   },
@@ -239,7 +239,7 @@ const faqs = [
     questions: [
       {
         q: "Does Mikki Mase sell courses or teach baccarat?",
-        a: "No. Mikki Mase does not sell courses, masterclasses, or paid training. His Telegram community is 100% free with no upsells or hidden fees. He shares strategies, cheatsheets, and behind-the-scenes stories for free. This transparency separates him from scam gambling 'gurus' who charge thousands for courses."
+        a: "Mikki himself doesn't sell courses. His team has assembled The Mikki Mase Masterclass—a structured course based on his proven strategies—for those who want a complete system. The Telegram community remains 100% free with no hidden fees. He shares strategies, cheatsheets, and behind-the-scenes stories for free. This transparency separates him from scam gambling 'gurus' who charge thousands just for community access."
       },
       {
         q: "Can I learn Mikki Mase's baccarat system?",
@@ -256,6 +256,27 @@ const faqs = [
     ]
   },
   {
+    category: "The Mikki Mase Masterclass",
+    questions: [
+      {
+        q: "What is The Mikki Mase Masterclass?",
+        a: "The Mikki Mase Masterclass is a structured online course assembled by Mikki's team, based on his proven casino strategies. It covers 10 modules with 30+ lessons on baccarat strategy, bankroll management, casino psychology, and session discipline. It's available for a one-time payment of $27 with lifetime access. <a href='/masterclass' class='text-gold hover:text-gold-light underline'>Learn more about the masterclass</a>."
+      },
+      {
+        q: "How is the masterclass different from the free Telegram community?",
+        a: "The Telegram community is free and offers daily tips, cheatsheets, and live updates. The masterclass is a structured, step-by-step course with interactive scenarios, quizzes, and in-depth lessons organized into a complete learning path. Think of the Telegram as the free highlights, and the masterclass as the full playbook."
+      },
+      {
+        q: "Does Mikki teach the masterclass himself?",
+        a: "The masterclass is based entirely on Mikki's strategies, insights, and real-world experience. His team has assembled and structured the content into a comprehensive course format. The strategies, examples, and principles are all Mikki's — the team handled the production and organization."
+      },
+      {
+        q: "Is there a money-back guarantee?",
+        a: "Yes. The masterclass comes with a 7-day, no-questions-asked money-back guarantee. If it doesn't sharpen your casino discipline and decision-making, email the support team within 7 days for a full refund. <a href='/checkout/masterclass' class='text-gold hover:text-gold-light underline'>Get started for $27</a>."
+      }
+    ]
+  },
+  {
     category: "2026 Updates & Trending Questions",
     questions: [
       {
@@ -268,7 +289,7 @@ const faqs = [
       },
       {
         q: "Is Mikki Mase a scam or legit?",
-        a: "Mikki Mase is legit in that he's a real person (Michael David Meiterman) with verified casino wins. His $10M+ Venetian win was confirmed by poker pro Jake Ormand. Key legitimacy factors: (1) He doesn't sell courses or charge for his community, (2) He documents losses ($1.5M at Wynn, $938K poker losses), (3) He's been banned from 150+ casinos (casinos don't ban people who lose). However, his $32M total claim is self-reported and unverified. Verdict: Real gambler with real wins, but total numbers can't be independently confirmed."
+        a: "Mikki Mase is legit in that he's a real person (Michael David Meiterman) with verified casino wins. His $10M+ Venetian win was confirmed by poker pro Jake Ormand. Key legitimacy factors: (1) His Telegram community is completely free—no hidden fees or upsells, (2) He documents losses ($1.5M at Wynn, $938K poker losses), (3) He's been banned from 150+ casinos (casinos don't ban people who lose). However, his $32M total claim is self-reported and unverified. Verdict: Real gambler with real wins, but total numbers can't be independently confirmed."
       },
       {
         q: "Has Mikki Mase been in legal trouble or arrested?",
@@ -276,7 +297,7 @@ const faqs = [
       },
       {
         q: "How can I contact Mikki Mase or join his community?",
-        a: "The best way to connect with Mikki Mase is through his free Telegram community at <a href='/join' class='text-gold hover:text-gold-light underline'>bit.ly/mikkilandingspage</a>. He's also active on <a href='https://www.instagram.com/mikki_mase_community' target='_blank' rel='noopener noreferrer' class='text-gold hover:text-gold-light underline'>Instagram (@mikki_mase_community)</a> and <a href='https://www.youtube.com/@Mikki_Mase' target='_blank' rel='noopener noreferrer' class='text-gold hover:text-gold-light underline'>YouTube (@Mikki_Mase)</a>. He doesn't do paid consultations or sell courses. The Telegram community is 100% free with no upsells."
+        a: "The best way to connect with Mikki Mase is through his free Telegram community at <a href='/join' class='text-gold hover:text-gold-light underline'>bit.ly/mikkilandingspage</a>. He's also active on <a href='https://www.instagram.com/mikki_mase_community' target='_blank' rel='noopener noreferrer' class='text-gold hover:text-gold-light underline'>Instagram (@mikki_mase_community)</a> and <a href='https://www.youtube.com/@Mikki_Mase' target='_blank' rel='noopener noreferrer' class='text-gold hover:text-gold-light underline'>YouTube (@Mikki_Mase)</a>. The Telegram community is 100% free. His team also offers an official <a href='/masterclass' class='text-gold hover:text-gold-light underline'>masterclass</a> for structured learning."
       }
     ]
   }
@@ -445,13 +466,13 @@ const faqSchema = {
 
   /* Focus state for accessibility */
   .faq-question:focus-visible {
-    outline: 3px solid var(--color-gold, #d4a017);
+    outline: 3px solid var(--color-gold, #CFB53B);
     outline-offset: 2px;
   }
 
   /* Gold left border when open */
   .faq-item[open] .faq-question {
-    border-left: 3px solid #d4a017;
+    border-left: 3px solid #CFB53B;
     padding-left: calc(1.25rem - 3px);
   }
 </style>

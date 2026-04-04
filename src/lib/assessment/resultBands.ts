@@ -39,7 +39,7 @@ export const RESULT_BANDS: ResultBand[] = [
     minScore: 0,
     title: 'Casual Instincts',
     subtitle: 'You know the vibe, not the math',
-    description: 'Your decisions are based on gut feel rather than strategy. That\'s where most players start. The masterclass gives you the exact framework that turned Mikki from a regular player into someone who beat 100+ casinos.',
+    description: 'Your decisions are based on gut feel rather than strategy. That\'s where most players start. The masterclass gives you the exact framework that turned Mikki from a regular player into someone who beat 150+ casinos.',
   },
 ];
 

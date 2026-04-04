@@ -17,7 +17,7 @@ export default function FreePreviewBanner() {
       <ScrollReveal className="max-w-3xl mx-auto px-4 sm:px-6 py-10 md:py-12 text-center">
         <span
           className="text-xs font-bold uppercase tracking-widest"
-          style={{ color: '#CFB53B' }}
+          style={{ color: 'var(--color-gold)' }}
         >
           No credit card required
         </span>
@@ -26,7 +26,7 @@ export default function FreePreviewBanner() {
         </h2>
         <p
           className="text-sm mb-6 mx-auto"
-          style={{ color: '#BEBEBE', maxWidth: '42ch' }}
+          style={{ color: 'var(--color-gray-400)', maxWidth: '42ch' }}
         >
           Get the Gambler's Code lesson and take the Casino IQ Assessment to discover
           your strengths and leaks — completely free.

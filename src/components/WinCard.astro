@@ -18,6 +18,8 @@ const { amount, casino, location, story, date, image } = Astro.props;
         src={image}
         alt={`Mikki Mase ${amount} baccarat win at ${casino} ${location} high stakes gambling`}
         class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+        loading="lazy"
+        decoding="async"
       />
       <div class="absolute inset-0 bg-gradient-to-t from-gray-900 via-gray-900/50 to-transparent"></div>
 

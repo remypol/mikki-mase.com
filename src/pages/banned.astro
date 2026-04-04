@@ -482,7 +482,7 @@ const bannedSchema = {
               </div>
               ${ban.banDate ? `<p style="color: #9ca3af; font-size: 12px; margin: 0 0 8px 0;">Ban Date: ${ban.banDate}</p>` : ''}
               ${ban.story ? `<p style="color: #d1d5db; font-size: 13px; line-height: 1.5; margin: 0;">${ban.story}</p>` : ''}
-              ${ban.relatedWin ? `<a href="${ban.relatedWin}" style="display: inline-block; color: #d4a017; font-size: 13px; font-weight: 600; margin-top: 8px; text-decoration: none;">View Related Win →</a>` : ''}
+              ${ban.relatedWin ? `<a href="${ban.relatedWin}" style="display: inline-block; color: #CFB53B; font-size: 13px; font-weight: 600; margin-top: 8px; text-decoration: none;">View Related Win →</a>` : ''}
             </div>
           `;
 
@@ -514,7 +514,7 @@ const bannedSchema = {
             font-size: 24px !important;
           }
           .leaflet-container a.leaflet-popup-close-button:hover {
-            color: #d4a017 !important;
+            color: #CFB53B !important;
           }
         `;
         document.head.appendChild(style);

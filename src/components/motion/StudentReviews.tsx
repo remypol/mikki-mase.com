@@ -49,7 +49,7 @@ const reviews = [
     avatar: 'M',
     rating: 5,
     timeAgo: '3 days ago',
-    text: `Spent more than $47 on my last losing hand so this was a no brainer. The bankroll management stuff changed how I play completely. I used to just bring whatever cash I had and sit down and play til its gone or I doubled up. Thats literally what the casino wants you to do and I had no idea. Feel stupid for not knowing this earlier honestly`,
+    text: `Spent more than $27 on my last losing hand so this was a no brainer. The bankroll management stuff changed how I play completely. I used to just bring whatever cash I had and sit down and play til its gone or I doubled up. Thats literally what the casino wants you to do and I had no idea. Feel stupid for not knowing this earlier honestly`,
     verified: true,
   },
   {
@@ -79,7 +79,7 @@ function Stars({ count }: { count: number }) {
         <svg
           key={i}
           className="w-4 h-4"
-          style={{ color: i < count ? '#CFB53B' : '#2D2D2D' }}
+          style={{ color: i < count ? 'var(--color-gold)' : 'var(--color-gray-800)' }}
           fill="currentColor"
           viewBox="0 0 20 20"
         >
@@ -92,7 +92,7 @@ function Stars({ count }: { count: number }) {
 
 export default function StudentReviews() {
   return (
-    <section className="py-16 md:py-20" style={{ background: '#0A0A0A' }}>
+    <section className="py-16 md:py-20" style={{ background: 'var(--color-gray-950)' }}>
       <motion.div
         className="max-w-5xl mx-auto px-4 sm:px-6"
         variants={container}
@@ -104,7 +104,7 @@ export default function StudentReviews() {
         <motion.div variants={item} className="text-center mb-12">
           <span
             className="text-xs font-bold uppercase tracking-widest"
-            style={{ color: '#CFB53B' }}
+            style={{ color: 'var(--color-gold)' }}
           >
             From Real Students
           </span>
@@ -114,7 +114,7 @@ export default function StudentReviews() {
           <div className="flex items-center justify-center gap-2 mt-4">
             <Stars count={5} />
             <span className="text-sm font-semibold text-white">4.9</span>
-            <span className="text-sm" style={{ color: '#6B6B6B' }}>
+            <span className="text-sm" style={{ color: 'var(--color-gray-600)' }}>
               from verified buyers
             </span>
           </div>
@@ -128,7 +128,7 @@ export default function StudentReviews() {
               variants={item}
               className="rounded-xl p-5 md:p-6"
               style={{
-                background: '#111',
+                background: 'var(--color-gray-950)',
                 border: '1px solid #2D2D2D',
               }}
             >
@@ -139,7 +139,7 @@ export default function StudentReviews() {
                     className="w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold"
                     style={{
                       background: 'rgba(207, 181, 59, 0.1)',
-                      color: '#CFB53B',
+                      color: 'var(--color-gold)',
                       border: '1px solid rgba(207, 181, 59, 0.2)',
                     }}
                   >
@@ -153,7 +153,7 @@ export default function StudentReviews() {
                       {review.verified && (
                         <svg
                           className="w-4 h-4"
-                          style={{ color: '#059669' }}
+                          style={{ color: 'var(--color-success)' }}
                           fill="currentColor"
                           viewBox="0 0 20 20"
                         >
@@ -165,12 +165,12 @@ export default function StudentReviews() {
                         </svg>
                       )}
                     </div>
-                    <span className="text-xs" style={{ color: '#6B6B6B' }}>
+                    <span className="text-xs" style={{ color: 'var(--color-gray-600)' }}>
                       {review.location}
                     </span>
                   </div>
                 </div>
-                <span className="text-xs" style={{ color: '#6B6B6B' }}>
+                <span className="text-xs" style={{ color: 'var(--color-gray-600)' }}>
                   {review.timeAgo}
                 </span>
               </div>
@@ -183,7 +183,7 @@ export default function StudentReviews() {
               {/* Review text */}
               <p
                 className="text-sm leading-relaxed"
-                style={{ color: '#BEBEBE' }}
+                style={{ color: 'var(--color-gray-400)' }}
               >
                 {review.text}
               </p>
@@ -196,7 +196,7 @@ export default function StudentReviews() {
                 >
                   <svg
                     className="w-3.5 h-3.5"
-                    style={{ color: '#059669' }}
+                    style={{ color: 'var(--color-success)' }}
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
@@ -208,7 +208,7 @@ export default function StudentReviews() {
                       d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"
                     />
                   </svg>
-                  <span className="text-xs" style={{ color: '#6B6B6B' }}>
+                  <span className="text-xs" style={{ color: 'var(--color-gray-600)' }}>
                     Verified purchase
                   </span>
                 </div>

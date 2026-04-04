@@ -12,7 +12,7 @@ export default defineConfig({
   adapter: vercel(),
   compressHTML: true,
   prefetch: {
-    prefetchAll: true,
+    defaultStrategy: 'hover',
   },
   build: {
     inlineStylesheets: 'auto',

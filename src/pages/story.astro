@@ -11,6 +11,7 @@ import ReadingTime from '../components/ReadingTime.astro';
 import ChapterNav from '../components/ChapterNav.astro';
 import ChapterNavToggle from '../components/ChapterNavToggle.astro';
 import EnhancedTimeline from '../components/EnhancedTimeline.astro';
+import ArticleCTA from '../components/ArticleCTA.astro';
 
 // Timeline Events Data for Enhanced Timeline Component
 const timelineEvents = [
@@ -180,7 +181,7 @@ const timelineEvents = [
     year: "2026",
     date: "Today",
     title: "Runs Telegram Community",
-    description: "Shares pattern recognition techniques; plays under others' accounts; doesn't sell courses",
+    description: "Shares insights freely in his Telegram community; plays under others' accounts",
     category: "personal" as const,
     verified: false,
     featured: true
@@ -779,6 +780,8 @@ const storySchema = {
         </p>
       </section>
 
+      <ArticleCTA />
+
       <!-- The Wynn Reality Check -->
       <section id="wynn-loss" class="mb-16 md:mb-20">
         <h2 class="text-white text-3xl md:text-4xl font-bold mb-6">The Wynn Reality Check</h2>
@@ -970,7 +973,7 @@ const storySchema = {
         </p>
 
         <p class="text-gray-300 text-lg leading-relaxed mb-6">
-          He runs a <a href="/join" class="text-gold hover:text-gold-light underline">private Telegram community</a> where he shares insights, pattern recognition techniques, and behind-the-scenes stories from high-stakes tables. He doesn't sell a course. He doesn't promise a magic system. He just shows people what he sees.
+          He runs a <a href="/join" class="text-gold hover:text-gold-light underline">private Telegram community</a> where he shares insights, pattern recognition techniques, and behind-the-scenes stories from high-stakes tables. He doesn't promise a magic system. He shows people what he sees—and his team has assembled his strategies into a structured masterclass for those who want to go deeper.
         </p>
 
         <p class="text-gray-300 text-lg leading-relaxed">

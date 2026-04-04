@@ -63,7 +63,7 @@ export default function MasterclassHero({ totalLessons, accessDenied = false }: 
           variants={item}
           className="eyebrow inline-block mb-4"
         >
-          From the man banned from 100+ casinos
+          From the man banned from 150+ casinos
         </motion.span>
 
         <motion.h1
@@ -75,15 +75,15 @@ export default function MasterclassHero({ totalLessons, accessDenied = false }: 
             letterSpacing: '-0.01em',
           }}
         >
-          THE MIKKI MASE <span style={{ color: '#CFB53B' }}>MASTERCLASS</span>
+          THE MIKKI MASE <span style={{ color: 'var(--color-gold)' }}>MASTERCLASS</span>
         </motion.h1>
 
         <motion.p
           variants={item}
           className="text-base md:text-lg mx-auto mb-6"
-          style={{ color: '#BEBEBE', maxWidth: '48ch', lineHeight: 1.6 }}
+          style={{ color: 'var(--color-gray-400)', maxWidth: '48ch', lineHeight: 1.6 }}
         >
-          The discipline, strategy, and decision-making behind $52M+ in winnings — now
+          The discipline, strategy, and decision-making behind $32M+ in winnings — now
           available as an instant-access masterclass.
         </motion.p>
 
@@ -92,13 +92,13 @@ export default function MasterclassHero({ totalLessons, accessDenied = false }: 
           variants={item}
           className="flex items-center justify-center gap-3 mb-6"
         >
-          <span className="text-3xl md:text-4xl font-black text-white">$47</span>
-          <span className="text-lg line-through" style={{ color: '#6B6B6B' }}>$97</span>
+          <span className="text-3xl md:text-4xl font-black text-white">$27</span>
+          <span className="text-lg line-through" style={{ color: 'var(--color-gray-600)' }}>$97</span>
           <span
             className="text-xs font-bold uppercase px-2 py-1 rounded"
-            style={{ background: 'rgba(207, 181, 59, 0.15)', color: '#CFB53B' }}
+            style={{ background: 'rgba(207, 181, 59, 0.15)', color: 'var(--color-gold)' }}
           >
-            Launch Price
+            One-Time Price
           </span>
         </motion.div>
 
@@ -135,12 +135,12 @@ export default function MasterclassHero({ totalLessons, accessDenied = false }: 
         <motion.div
           variants={item}
           className="flex items-center justify-center gap-6 text-xs"
-          style={{ color: '#9A9A9A' }}
+          style={{ color: 'var(--color-gray-500)' }}
         >
           <span>Instant access</span>
-          <span style={{ color: '#3A3A3A' }}>&bull;</span>
+          <span style={{ color: 'var(--color-gray-700)' }}>&bull;</span>
           <span>{totalLessons}+ lessons</span>
-          <span style={{ color: '#3A3A3A' }}>&bull;</span>
+          <span style={{ color: 'var(--color-gray-700)' }}>&bull;</span>
           <span>7-day guarantee</span>
         </motion.div>
       </motion.div>

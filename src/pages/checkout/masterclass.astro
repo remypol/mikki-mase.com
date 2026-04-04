@@ -3,8 +3,8 @@
  * Embedded Masterclass Checkout Page
  *
  * Renders the Stripe payment form directly on our site.
- * Auth-gated: redirects to login if not authenticated.
- * Purchase-gated: redirects to course if already purchased.
+ * Supports both logged-in and guest checkout.
+ * Purchase-gated: redirects to course if already purchased (logged-in users only).
  */
 
 export const prerender = false;
@@ -29,10 +29,9 @@ if (user) {
     .eq('user_id', user.id)
     .eq('product_key', 'masterclass')
     .eq('status', 'completed')
-    .limit(1)
-    .single();
+    .maybeSingle();
 
-  if (purchaseError && purchaseError.code !== 'PGRST116') {
+  if (purchaseError) {
     console.error('Purchase check error:', purchaseError);
   }
 

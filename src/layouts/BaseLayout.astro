@@ -17,6 +17,7 @@ interface Props {
   noIndex?: boolean;
   hideMobileNav?: boolean;
   hideBackToTop?: boolean;
+  publishedDate?: string;
 }
 
 const {
@@ -29,6 +30,7 @@ const {
   noIndex = false,
   hideMobileNav = false,
   hideBackToTop = false,
+  publishedDate,
 } = Astro.props;
 
 // Default OG image, can be overridden per-page
@@ -174,7 +176,7 @@ const finalSchema = schema ? {
     {ogType === 'article' && (
       <>
         <meta property="article:author" content="Mikki Mase" />
-        <meta property="article:published_time" content="2026-01-02T00:00:00Z" />
+        <meta property="article:published_time" content={publishedDate || new Date().toISOString()} />
         <meta property="article:modified_time" content={new Date().toISOString()} />
       </>
     )}

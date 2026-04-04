@@ -9,6 +9,7 @@ import RelatedContent from '../components/RelatedContent.astro';
 import QuickAnswer from '../components/QuickAnswer.astro';
 import ReadingTime from '../components/ReadingTime.astro';
 import ChapterNav from '../components/ChapterNav.astro';
+import ArticleCTA from '../components/ArticleCTA.astro';
 
 // Chapter Navigation Data
 const winsChapters = [
@@ -241,6 +242,8 @@ const winsSchema = {
         </div>
 
       </section>
+
+      <ArticleCTA />
 
       <!-- DOCUMENTED LOSSES -->
       <section id="documented-losses" class="max-w-6xl mx-auto mb-20 md:mb-32 filter-section" data-category="losses">
@@ -1207,14 +1210,14 @@ const winsSchema = {
 
   .filter-btn:hover {
     background: rgba(212, 160, 23, 0.15);
-    border-color: #d4a017;
-    color: #d4a017;
+    border-color: #CFB53B;
+    color: #CFB53B;
     transform: translateY(-2px);
   }
 
   .filter-btn.active {
-    background: #d4a017;
-    border-color: #d4a017;
+    background: #CFB53B;
+    border-color: #CFB53B;
     color: black;
     transform: scale(1.05);
   }

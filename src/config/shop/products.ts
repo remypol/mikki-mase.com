@@ -298,7 +298,7 @@ export const masterclass: Product = {
   name: 'The Mikki Mase Masterclass',
   tagline: 'Beat the Casino. Play Smart. Get Paid.',
   description:
-    '10 modules, 30+ lessons, interactive scenarios, quizzes, and bonus cheatsheets + ebook. The complete casino strategy system from the man who won $52M+.',
+    '10 modules, 30+ lessons, interactive scenarios, quizzes, and bonus cheatsheets + ebook. The complete casino strategy system from the man who won $32M+.',
   cover: '/images/masterclass/og-image.jpg',
   gallery: [],
 
@@ -314,9 +314,9 @@ export const masterclass: Product = {
   category: 'courses',
 
   seo: {
-    title: 'The Mikki Mase Masterclass | Beat the Casino. Play Smart. Get Paid. | $47',
+    title: 'The Mikki Mase Masterclass | Beat the Casino. Play Smart. Get Paid. | $27',
     description:
-      '10 modules, 30+ lessons, interactive scenarios, quizzes. The complete casino strategy system from the man who won $52M+ and got banned from 100+ casinos.',
+      '10 modules, 30+ lessons, interactive scenarios, quizzes. The complete casino strategy system from the man who won $32M+ and got banned from 150+ casinos.',
     image: '/images/masterclass/og-image.jpg',
     schema: {
       '@context': 'https://schema.org',

@@ -34,7 +34,7 @@ export const lesson1: Lesson = {
 
     <h3>My #1 Piece of Gambling Advice</h3>
 
-    <p>Let me start with something that's going to sound insane coming from the guy who's won over $52 million at casinos.</p>
+    <p>Let me start with something that's going to sound insane coming from the guy who's won over $32 million at casinos.</p>
 
     <blockquote>
       "My number one piece of gambling advice is: do not gamble."

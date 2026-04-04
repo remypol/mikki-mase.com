@@ -34,10 +34,10 @@ export default function WhoThisIsFor() {
           <StaggerContainer
             staggerDelay={0.06}
             className="p-6 rounded-xl"
-            style={{ background: '#0A0A0A', border: '1px solid #1A1A1A' }}
+            style={{ background: 'var(--color-gray-950)', border: '1px solid #1A1A1A' }}
           >
             <StaggerItem>
-              <h3 className="text-base font-bold mb-4" style={{ color: '#059669' }}>
+              <h3 className="text-base font-bold mb-4" style={{ color: 'var(--color-success)' }}>
                 This Is For You If&hellip;
               </h3>
             </StaggerItem>
@@ -45,7 +45,7 @@ export default function WhoThisIsFor() {
               {forYou.map((text, i) => (
                 <StaggerItem key={i}>
                   <li className="flex items-start gap-3">
-                    <span className="mt-0.5" style={{ color: '#059669' }}>&#10003;</span>
+                    <span className="mt-0.5" style={{ color: 'var(--color-success)' }}>&#10003;</span>
                     <span className="text-sm text-white">{text}</span>
                   </li>
                 </StaggerItem>
@@ -57,10 +57,10 @@ export default function WhoThisIsFor() {
           <StaggerContainer
             staggerDelay={0.06}
             className="p-6 rounded-xl"
-            style={{ background: '#0A0A0A', border: '1px solid #1A1A1A' }}
+            style={{ background: 'var(--color-gray-950)', border: '1px solid #1A1A1A' }}
           >
             <StaggerItem>
-              <h3 className="text-base font-bold mb-4" style={{ color: '#A8001E' }}>
+              <h3 className="text-base font-bold mb-4" style={{ color: 'var(--color-red-bright)' }}>
                 This Is Not For You If&hellip;
               </h3>
             </StaggerItem>
@@ -68,8 +68,8 @@ export default function WhoThisIsFor() {
               {notForYou.map((text, i) => (
                 <StaggerItem key={i}>
                   <li className="flex items-start gap-3">
-                    <span className="mt-0.5" style={{ color: '#A8001E' }}>&#10007;</span>
-                    <span className="text-sm" style={{ color: '#BEBEBE' }}>{text}</span>
+                    <span className="mt-0.5" style={{ color: 'var(--color-red-bright)' }}>&#10007;</span>
+                    <span className="text-sm" style={{ color: 'var(--color-gray-400)' }}>{text}</span>
                   </li>
                 </StaggerItem>
               ))}

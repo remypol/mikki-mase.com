@@ -26,12 +26,12 @@ export default function WhatYouGet(props: Props) {
         <ScrollReveal className="text-center mb-12">
           <span
             className="text-xs font-bold uppercase tracking-widest"
-            style={{ color: '#CFB53B' }}
+            style={{ color: 'var(--color-gold)' }}
           >
             Everything Included
           </span>
           <h2 className="text-2xl md:text-3xl font-black text-white mt-3">
-            What You Get for $47
+            What You Get for $27
           </h2>
         </ScrollReveal>
 
@@ -43,19 +43,19 @@ export default function WhatYouGet(props: Props) {
             <StaggerItem key={i}>
               <div
                 className="flex items-start gap-4 p-5 rounded-xl"
-                style={{ background: '#111', border: '1px solid #1A1A1A' }}
+                style={{ background: 'var(--color-gray-950)', border: '1px solid #1A1A1A' }}
               >
                 <div
                   className="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0"
                   style={{ background: 'rgba(207, 181, 59, 0.1)' }}
                 >
-                  <span style={{ color: '#CFB53B' }}>{f.icon}</span>
+                  <span style={{ color: 'var(--color-gold)' }}>{f.icon}</span>
                 </div>
                 <div>
                   <h3 className="text-base font-bold text-white mb-1">
                     {f.titleFn(props)}
                   </h3>
-                  <p className="text-sm" style={{ color: '#BEBEBE' }}>
+                  <p className="text-sm" style={{ color: 'var(--color-gray-400)' }}>
                     {f.desc}
                   </p>
                 </div>

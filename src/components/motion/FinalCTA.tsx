@@ -48,9 +48,9 @@ export default function FinalCTA() {
         <motion.p
           variants={item}
           className="text-sm mb-8 mx-auto"
-          style={{ color: '#BEBEBE', maxWidth: '40ch' }}
+          style={{ color: 'var(--color-gray-400)', maxWidth: '40ch' }}
         >
-          One bad session costs more than $47. One good framework saves you thousands.
+          One bad session costs more than $27. One good framework saves you thousands.
         </motion.p>
 
         <motion.div

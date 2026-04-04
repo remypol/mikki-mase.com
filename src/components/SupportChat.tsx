@@ -222,7 +222,7 @@ export default function SupportChat() {
                 'How do I access the Masterclass?',
                 "I paid but can't log in",
                 'Can I get a refund?',
-                "What's included for $47?",
+                "What's included for $27?",
               ].map((q) => (
                 <button
                   key={q}

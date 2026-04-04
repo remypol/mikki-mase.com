@@ -3,10 +3,10 @@
  *
  * Sets a cookie on first visit with a deadline 24h from now.
  * Returning visitors see the same deadline (consistent).
- * When expired, shows "Offer expired" with original price.
+ * When expired, resets to a new 24h window automatically.
  */
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 const COOKIE_NAME = 'promo_deadline';
 const HOURS = 24;
@@ -21,12 +21,13 @@ function setCookie(name: string, value: string, maxAgeSeconds: number) {
   document.cookie = `${name}=${encodeURIComponent(value)}; path=/; max-age=${maxAgeSeconds}; SameSite=Lax`;
 }
 
-function getDeadline(): number {
+function getOrCreateDeadline(): number {
   const existing = getCookie(COOKIE_NAME);
   if (existing) {
     const ts = parseInt(existing, 10);
-    if (!isNaN(ts)) return ts;
+    if (!isNaN(ts) && ts > Date.now()) return ts;
   }
+  // Expired or no cookie — set a fresh 24h deadline
   const deadline = Date.now() + HOURS * 60 * 60 * 1000;
   setCookie(COOKIE_NAME, String(deadline), HOURS * 60 * 60);
   return deadline;
@@ -43,35 +44,40 @@ function formatTime(ms: number): string {
 
 export default function UrgencyTimer() {
   const [remaining, setRemaining] = useState<number | null>(null);
+  const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const deadlineRef = useRef<number>(0);
 
   useEffect(() => {
-    const deadline = getDeadline();
-    setRemaining(deadline - Date.now());
+    deadlineRef.current = getOrCreateDeadline();
+    setRemaining(deadlineRef.current - Date.now());
 
-    const interval = setInterval(() => {
-      const diff = deadline - Date.now();
-      setRemaining(diff > 0 ? diff : 0);
+    intervalRef.current = setInterval(() => {
+      const diff = deadlineRef.current - Date.now();
+      if (diff <= 0) {
+        // Reset to a new 24h cycle
+        deadlineRef.current = getOrCreateDeadline();
+        setRemaining(deadlineRef.current - Date.now());
+      } else {
+        setRemaining(diff);
+      }
     }, 1000);
 
-    return () => clearInterval(interval);
+    return () => {
+      if (intervalRef.current) clearInterval(intervalRef.current);
+    };
   }, []);
 
-  // SSR / loading state
-  if (remaining === null) return null;
-
-  if (remaining <= 0) {
+  // SSR / loading — render placeholder to avoid layout shift
+  if (remaining === null) {
     return (
       <div
-        className="rounded-xl p-4 text-center"
+        className="rounded-xl p-4 flex items-center justify-center gap-3"
         style={{
-          background: 'rgba(168, 0, 30, 0.1)',
-          border: '1px solid rgba(168, 0, 30, 0.3)',
+          background: 'rgba(207, 181, 59, 0.08)',
+          border: '1px solid rgba(207, 181, 59, 0.25)',
+          minHeight: '68px',
         }}
-      >
-        <p className="text-sm font-semibold" style={{ color: '#ff6b6b' }}>
-          This discount has expired
-        </p>
-      </div>
+      />
     );
   }
 
@@ -85,7 +91,7 @@ export default function UrgencyTimer() {
     >
       <svg
         className="w-5 h-5 flex-shrink-0"
-        style={{ color: '#CFB53B' }}
+        style={{ color: 'var(--color-gold)' }}
         fill="none"
         stroke="currentColor"
         viewBox="0 0 24 24"
@@ -98,12 +104,12 @@ export default function UrgencyTimer() {
         />
       </svg>
       <div className="text-center">
-        <p className="text-xs font-medium" style={{ color: '#9A9A9A' }}>
+        <p className="text-xs font-medium" style={{ color: 'var(--color-gray-500)' }}>
           This price expires in
         </p>
         <p
           className="text-lg font-black tracking-wider tabular-nums"
-          style={{ color: '#CFB53B' }}
+          style={{ color: 'var(--color-gold)' }}
         >
           {formatTime(remaining)}
         </p>
