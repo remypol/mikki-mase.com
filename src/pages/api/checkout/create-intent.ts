@@ -58,14 +58,8 @@ export const POST: APIRoute = async ({ request, cookies }) => {
       );
     }
 
-    // A/B test pricing — determined by SERVER-SIDE cookies only (not client input)
-    const abVariant = cookies.get('ab_variant')?.value;
-    const wheelEligible = cookies.get('wheel_eligible')?.value === 'true';
-
-    // Only give $27 price if: assigned to variant B AND wheel was completed
-    const isWheelPrice = abVariant === 'B' && wheelEligible;
-    const variant = isWheelPrice ? 'wheel' : 'standard';
-    const amount = isWheelPrice ? 2700 : 4700;
+    // Flat $27 pricing
+    const amount = 2700;
 
     // Auth is OPTIONAL — supports both logged-in and guest checkout
     const supabase = getServerClient(cookies, request);
@@ -116,9 +110,6 @@ export const POST: APIRoute = async ({ request, cookies }) => {
       metadata.isGuestCheckout = 'true';
     }
 
-    // Track A/B variant in metadata
-    metadata.abVariant = variant === 'wheel' ? 'B' : 'A';
-    metadata.priceVariant = variant;
 
     // PaymentIntent config — auto-detect enabled payment methods
     // Apple Pay & Google Pay work automatically via card
@@ -164,7 +155,6 @@ export const POST: APIRoute = async ({ request, cookies }) => {
       JSON.stringify({
         clientSecret: paymentIntent.client_secret,
         isGuest: !user,
-        priceVariant: variant,
         amount: amount / 100,
       }),
       { status: 200, headers }
