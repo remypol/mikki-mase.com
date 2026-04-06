@@ -89,6 +89,19 @@ export const badges: Badge[] = [
     description: 'Active 3+ days in a week',
     icon: '🔥',
   },
+  // Tier-based badges
+  {
+    id: 'founding-member',
+    name: 'Founding Member',
+    description: 'Lifetime VIP — Early supporter of the Mikki Mase Masterclass',
+    icon: '👑',
+  },
+  {
+    id: 'inner-circle-member',
+    name: 'Inner Circle',
+    description: 'Inner Circle member — Access to exclusive strategy content',
+    icon: '🔮',
+  },
 ];
 
 export function getBadgeById(id: string): Badge | undefined {

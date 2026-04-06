@@ -1,7 +1,8 @@
 ---
 /**
  * The Inner Circle — Members-only community feed
- * Protected: requires auth + masterclass purchase (via middleware)
+ * Protected: requires auth + Inner Circle or Lifetime VIP tier (via middleware)
+ * Masterclass-only users are redirected to course dashboard with upgrade prompt.
  */
 export const prerender = false;
 
@@ -9,6 +10,13 @@ import BaseLayout from '../../../layouts/BaseLayout.astro';
 import Header from '../../../components/Header.astro';
 import Footer from '../../../components/Footer.astro';
 import { DailyDropsFeed } from '../../../components/daily-drops/DailyDropsFeed';
+import { hasInnerCircleAccess } from '../../../lib/tiers';
+
+// Tier gating: only Inner Circle and Lifetime VIP can access daily drops
+const tier = Astro.locals.tier;
+if (!tier || !hasInnerCircleAccess(tier)) {
+  return Astro.redirect('/masterclass/course?upgrade=inner-circle');
+}
 
 // Set cache headers for protected page
 Astro.response.headers.set('Cache-Control', 'private, no-store, max-age=0');

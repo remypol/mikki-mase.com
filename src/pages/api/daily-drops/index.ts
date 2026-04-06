@@ -22,6 +22,35 @@ export const GET: APIRoute = async ({ request, cookies }) => {
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) return new Response(JSON.stringify({ error: 'Unauthorized' }), { status: 401, headers });
 
+    // Tier check: only Inner Circle and Lifetime VIP can access daily drops
+    const { data: purchases } = await supabase
+      .from('purchases')
+      .select('product_key')
+      .eq('user_id', user.id)
+      .in('product_key', ['inner-circle-yearly', 'lifetime-vip'])
+      .eq('status', 'completed');
+
+    let hasAccess = (purchases && purchases.length > 0);
+
+    if (!hasAccess) {
+      try {
+        const { data: sub } = await supabase
+          .from('subscriptions')
+          .select('id')
+          .eq('user_id', user.id)
+          .eq('status', 'active')
+          .maybeSingle();
+        if (sub) hasAccess = true;
+      } catch { /* table might not exist */ }
+    }
+
+    if (!hasAccess) {
+      return new Response(
+        JSON.stringify({ error: 'Inner Circle feature — upgrade to access', upgrade: true }),
+        { status: 403, headers }
+      );
+    }
+
     const url = new URL(request.url);
     const rawPage = parseInt(url.searchParams.get('page') || '1');
     const rawLimit = parseInt(url.searchParams.get('limit') || '10');
@@ -30,7 +59,7 @@ export const GET: APIRoute = async ({ request, cookies }) => {
     const category = url.searchParams.get('category');
     const offset = (page - 1) * limit;
 
-    // Build query
+    // Build query — only show posts where published_at <= now (scheduled posts)
     let query = supabase
       .from('daily_drops')
       .select(`
@@ -39,6 +68,7 @@ export const GET: APIRoute = async ({ request, cookies }) => {
         reactions:daily_drops_reactions(reaction, user_id),
         comments:daily_drops_comments(count)
       `, { count: 'exact' })
+      .lte('published_at', new Date().toISOString())
       .order('pinned', { ascending: false })
       .order('published_at', { ascending: false })
       .range(offset, offset + limit - 1);
