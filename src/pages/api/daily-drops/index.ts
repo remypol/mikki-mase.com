@@ -56,7 +56,8 @@ export const GET: APIRoute = async ({ request, cookies }) => {
     const rawLimit = parseInt(url.searchParams.get('limit') || '10');
     const page = Math.max(1, Number.isNaN(rawPage) ? 1 : rawPage);
     const limit = Math.min(50, Math.max(1, Number.isNaN(rawLimit) ? 10 : rawLimit));
-    const category = url.searchParams.get('category');
+    const rawCategory = url.searchParams.get('category');
+    const category = rawCategory && (VALID_CATEGORIES as readonly string[]).includes(rawCategory) ? rawCategory : null;
     const offset = (page - 1) * limit;
 
     // Build query — only show posts where published_at <= now (scheduled posts)

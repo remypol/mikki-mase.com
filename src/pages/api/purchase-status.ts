@@ -30,12 +30,12 @@ export const GET: APIRoute = async ({ cookies, request }) => {
       .from('purchases')
       .select('id, product_key, created_at')
       .eq('user_id', user.id)
-      .in('product_key', ['masterclass', 'inner-circle-yearly', 'lifetime-vip'])
+      .in('product_key', ['masterclass', 'inner-circle-monthly', 'inner-circle-yearly', 'lifetime-vip'])
       .eq('status', 'completed')
+      .order('created_at', { ascending: false })
       .limit(1)
-      .single();
+      .maybeSingle();
 
-    // PGRST116 = no rows found (expected when user hasn't purchased)
     if (purchaseError && purchaseError.code !== 'PGRST116') {
       console.error('Purchase status DB error:', purchaseError);
       return new Response(
@@ -44,10 +44,24 @@ export const GET: APIRoute = async ({ cookies, request }) => {
       );
     }
 
+    // Also check active subscriptions
+    let hasSubscription = false;
+    if (!purchase) {
+      try {
+        const { data: sub } = await supabase
+          .from('subscriptions')
+          .select('id')
+          .eq('user_id', user.id)
+          .eq('status', 'active')
+          .maybeSingle();
+        if (sub) hasSubscription = true;
+      } catch { /* table might not exist */ }
+    }
+
     return new Response(
       JSON.stringify({
         authenticated: true,
-        purchased: !!purchase,
+        purchased: !!purchase || hasSubscription,
         user: {
           email: user.email,
           name: user.user_metadata?.full_name || user.user_metadata?.name || null,

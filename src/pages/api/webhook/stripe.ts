@@ -255,7 +255,7 @@ async function handleCheckoutComplete(session: Stripe.Checkout.Session) {
         ? session.payment_intent
         : (session.payment_intent as any)?.id || null,
       product_key: 'masterclass',
-      amount_cents: session.amount_total ?? 4700, // ?? not || (preserve $0 promo codes)
+      amount_cents: session.amount_total ?? 6700, // ?? not || (preserve $0 promo codes)
       status: 'completed',
     });
 
@@ -313,7 +313,7 @@ async function handleCheckoutComplete(session: Stripe.Checkout.Session) {
         customerEmail,
         customerName: session.customer_details?.name || undefined,
         productName: `Mikki Mase Masterclass${isGuest ? ' (Guest Checkout)' : ''}`,
-        amountCents: session.amount_total ?? 4700,
+        amountCents: session.amount_total ?? 6700,
         currency: session.currency || 'usd',
         stripeSessionId: session.id,
       });
@@ -403,6 +403,21 @@ async function handlePaymentIntentSucceeded(paymentIntent: Stripe.PaymentIntent)
   // Handle all masterclass tier purchases from the custom payment element flow
   const masterclassTiers = ['masterclass', 'inner-circle-yearly', 'lifetime-vip'];
   if (!productKey || !masterclassTiers.includes(productKey)) return;
+
+  // Verify payment amount matches expected tier price (defense in depth)
+  const EXPECTED_AMOUNTS: Record<string, number> = {
+    masterclass: 6700,
+    'inner-circle-yearly': 9999,
+    'lifetime-vip': 24900,
+  };
+  const expectedAmount = EXPECTED_AMOUNTS[productKey];
+  if (expectedAmount && paymentIntent.amount !== expectedAmount) {
+    console.error(`Amount mismatch for ${productKey}: expected ${expectedAmount}, got ${paymentIntent.amount}`);
+    // Allow small discounts (promo codes) but reject if amount is suspiciously low
+    if (paymentIntent.amount < expectedAmount * 0.5) {
+      throw new Error(`Suspicious amount for ${productKey}: ${paymentIntent.amount} (expected ${expectedAmount})`);
+    }
+  }
 
   const supabase = getServiceClient();
   let resolvedUserId = userId;

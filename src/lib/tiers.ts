@@ -16,14 +16,24 @@ const TIER_MAP: Record<string, UserTier> = {
 /** Tier priority (highest first) */
 const TIER_PRIORITY: UserTier[] = ['lifetime-vip', 'inner-circle', 'masterclass'];
 
-export function getTierFromProductKey(productKey: string): UserTier {
-  return TIER_MAP[productKey] || 'masterclass';
+export function getTierFromProductKey(productKey: string): UserTier | null {
+  return TIER_MAP[productKey] ?? null;
 }
 
-export function getHighestTier(productKeys: string[]): UserTier {
-  const tiers = productKeys.map(getTierFromProductKey);
-  return TIER_PRIORITY.find((t) => tiers.includes(t)) || 'masterclass';
+export function getHighestTier(productKeys: string[]): UserTier | null {
+  const tiers = productKeys
+    .map(getTierFromProductKey)
+    .filter((t): t is UserTier => t !== null);
+  return TIER_PRIORITY.find((t) => tiers.includes(t)) ?? null;
 }
+
+/** All valid product keys that grant course access */
+export const ALL_ENTITLEMENT_KEYS = [
+  'masterclass',
+  'inner-circle-monthly',
+  'inner-circle-yearly',
+  'lifetime-vip',
+] as const;
 
 export function hasInnerCircleAccess(tier: UserTier): boolean {
   return tier === 'inner-circle' || tier === 'lifetime-vip';

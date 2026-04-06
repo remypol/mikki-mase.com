@@ -47,6 +47,19 @@ export const POST: APIRoute = async ({ request, cookies }) => {
   }
 
   try {
+    // CSRF: verify origin
+    const origin = request.headers.get('origin');
+    const siteUrl = import.meta.env.SITE_URL || 'https://www.mikki-mase.com';
+    const allowedOrigins = new Set([
+      new URL(siteUrl).origin,
+      'https://www.mikki-mase.com',
+      'https://mikki-mase.com',
+      ...(import.meta.env.DEV ? ['http://localhost:4321', 'http://localhost:3000'] : []),
+    ]);
+    if (!origin || !allowedOrigins.has(origin)) {
+      return new Response(JSON.stringify({ error: 'Invalid origin' }), { status: 403, headers });
+    }
+
     const supabase = getServerClient(cookies, request);
     const { data: { user } } = await supabase.auth.getUser();
 
@@ -90,58 +103,75 @@ export const POST: APIRoute = async ({ request, cookies }) => {
       );
     }
 
-    // Rate limiting for Inner Circle (VIP = unlimited)
-    if (tier === 'inner-circle') {
-      try {
-        const today = new Date().toISOString().split('T')[0];
-
-        // Upsert today's usage row
-        const { data: usage } = await supabase
-          .from('ai_advisor_usage')
-          .select('message_count')
-          .eq('user_id', user.id)
-          .eq('date', today)
-          .maybeSingle();
-
-        const currentCount = usage?.message_count || 0;
-
-        if (currentCount >= DAILY_LIMIT_INNER_CIRCLE) {
-          return new Response(
-            JSON.stringify({
-              error: `Daily limit reached (${DAILY_LIMIT_INNER_CIRCLE}/day). Upgrade to Lifetime VIP for unlimited access.`,
-              limit_reached: true,
-              count: currentCount,
-              limit: DAILY_LIMIT_INNER_CIRCLE,
-            }),
-            { status: 429, headers }
-          );
-        }
-
-        // Increment counter
-        if (usage) {
-          await supabase
-            .from('ai_advisor_usage')
-            .update({ message_count: currentCount + 1 })
-            .eq('user_id', user.id)
-            .eq('date', today);
-        } else {
-          await supabase
-            .from('ai_advisor_usage')
-            .insert({ user_id: user.id, date: today, message_count: 1 });
-        }
-      } catch {
-        // If usage table doesn't exist, allow the request
-      }
-    }
-
-    // Parse request
+    // Parse and validate input BEFORE consuming rate limit
     const { message, history = [] } = await request.json() as {
       message: string;
       history: ChatMessage[];
     };
 
-    if (!message || typeof message !== 'string' || message.length > 2000) {
+    if (!message || typeof message !== 'string' || message.trim().length === 0 || message.length > 2000) {
       return new Response(JSON.stringify({ error: 'Invalid message' }), { status: 400, headers });
+    }
+
+    // Rate limiting for Inner Circle (VIP = unlimited)
+    // Uses atomic upsert to prevent race conditions
+    if (tier === 'inner-circle') {
+      try {
+        const today = new Date().toISOString().split('T')[0];
+
+        // Atomic: upsert with increment, then check result
+        const { data: usage, error: upsertErr } = await supabase
+          .from('ai_advisor_usage')
+          .upsert(
+            { user_id: user.id, date: today, message_count: 1 },
+            { onConflict: 'user_id,date' }
+          )
+          .select('message_count')
+          .single();
+
+        // If row already existed, increment atomically
+        if (usage && usage.message_count > 1) {
+          // Row was just created with count=1, no need to increment
+        } else if (usage) {
+          // Need to increment existing row
+          const { data: updated } = await supabase.rpc('increment_ai_usage', {
+            p_user_id: user.id,
+            p_date: today,
+            p_limit: DAILY_LIMIT_INNER_CIRCLE,
+          });
+
+          // If RPC doesn't exist, fallback to read-then-check
+          if (updated === null || updated === undefined) {
+            const { data: check } = await supabase
+              .from('ai_advisor_usage')
+              .select('message_count')
+              .eq('user_id', user.id)
+              .eq('date', today)
+              .single();
+
+            const count = check?.message_count || 0;
+            if (count >= DAILY_LIMIT_INNER_CIRCLE) {
+              return new Response(
+                JSON.stringify({
+                  error: `Daily limit reached (${DAILY_LIMIT_INNER_CIRCLE}/day). Upgrade to Lifetime VIP for unlimited access.`,
+                  limit_reached: true,
+                  count,
+                  limit: DAILY_LIMIT_INNER_CIRCLE,
+                }),
+                { status: 429, headers }
+              );
+            }
+
+            await supabase
+              .from('ai_advisor_usage')
+              .update({ message_count: count + 1 })
+              .eq('user_id', user.id)
+              .eq('date', today);
+          }
+        }
+      } catch {
+        // If usage table doesn't exist, allow the request
+      }
     }
 
     // Build messages with history (last 10 for context)

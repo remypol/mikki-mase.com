@@ -8,7 +8,7 @@
 
 import { defineMiddleware } from 'astro:middleware';
 import { getServerClient } from './lib/supabase';
-import { getHighestTier, type UserTier } from './lib/tiers';
+import { getHighestTier, ALL_ENTITLEMENT_KEYS, type UserTier } from './lib/tiers';
 
 export const onRequest = defineMiddleware(async (context, next) => {
   const { pathname } = context.url;
@@ -54,7 +54,7 @@ export const onRequest = defineMiddleware(async (context, next) => {
     .from('purchases')
     .select('id, product_key')
     .eq('user_id', user.id)
-    .in('product_key', ['masterclass', 'inner-circle-yearly', 'lifetime-vip'])
+    .in('product_key', [...ALL_ENTITLEMENT_KEYS])
     .eq('status', 'completed');
 
   if (purchaseError && purchaseError.code !== 'PGRST116') {
@@ -92,8 +92,12 @@ export const onRequest = defineMiddleware(async (context, next) => {
     return context.redirect('/masterclass?access=denied');
   }
 
-  // Resolve highest tier
-  const tier: UserTier = getHighestTier(productKeys);
+  // Resolve highest tier (fail closed: null = no valid tier)
+  const tier = getHighestTier(productKeys);
+
+  if (!tier) {
+    return context.redirect('/masterclass?access=denied');
+  }
 
   context.locals.hasMasterclass = true;
   context.locals.tier = tier;
