@@ -1,8 +1,9 @@
 /**
- * Astro Middleware — Server-side auth & purchase gating
+ * Astro Middleware — Server-side auth & purchase/subscription gating
  *
  * Only runs for pages with `prerender = false` (SSR).
  * Protects /masterclass/course/* routes (except free preview modules).
+ * Checks both one-time purchases AND active subscriptions.
  */
 
 import { defineMiddleware } from 'astro:middleware';
@@ -50,15 +51,15 @@ export const onRequest = defineMiddleware(async (context, next) => {
     return context.redirect(loginUrl);
   }
 
-  // Check for active masterclass purchase
+  // Check for active masterclass purchase (any tier)
   const { data: purchase, error: purchaseError } = await supabase
     .from('purchases')
     .select('id')
     .eq('user_id', user.id)
-    .eq('product_key', 'masterclass')
+    .in('product_key', ['masterclass', 'inner-circle-yearly', 'lifetime-vip'])
     .eq('status', 'completed')
     .limit(1)
-    .single();
+    .maybeSingle();
 
   // PGRST116 = no rows found (expected when user hasn't purchased)
   if (purchaseError && purchaseError.code !== 'PGRST116') {
@@ -70,15 +71,34 @@ export const onRequest = defineMiddleware(async (context, next) => {
     });
   }
 
-  if (!purchase) {
-    // Authenticated but no purchase — redirect to sales page
-    return context.redirect('/masterclass?access=denied');
+  if (purchase) {
+    context.locals.hasMasterclass = true;
+    const response = await next();
+    response.headers.set('Cache-Control', 'private, no-store, max-age=0');
+    return response;
   }
 
-  context.locals.hasMasterclass = true;
+  // Also check active subscriptions (for inner-circle-monthly subscribers)
+  const { data: subscription, error: subError } = await supabase
+    .from('subscriptions')
+    .select('id')
+    .eq('user_id', user.id)
+    .eq('status', 'active')
+    .limit(1)
+    .maybeSingle();
 
-  // Set cache headers for protected pages
-  const response = await next();
-  response.headers.set('Cache-Control', 'private, no-store, max-age=0');
-  return response;
+  if (subError && subError.code !== 'PGRST116') {
+    console.error('Subscription check DB error:', subError);
+    // Graceful degradation: fall through to purchase-only check
+  }
+
+  if (subscription) {
+    context.locals.hasMasterclass = true;
+    const response = await next();
+    response.headers.set('Cache-Control', 'private, no-store, max-age=0');
+    return response;
+  }
+
+  // No purchase or subscription — redirect to sales page
+  return context.redirect('/masterclass?access=denied');
 });

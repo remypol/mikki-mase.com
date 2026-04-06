@@ -90,17 +90,24 @@ export default function MasterclassHero({ totalLessons, accessDenied = false }: 
         {/* Price anchor */}
         <motion.div
           variants={item}
-          className="flex items-center justify-center gap-3 mb-6"
+          className="flex items-center justify-center gap-3 mb-3"
         >
-          <span className="text-3xl md:text-4xl font-black text-white">$27</span>
-          <span className="text-lg line-through" style={{ color: 'var(--color-gray-600)' }}>$97</span>
+          <span className="text-3xl md:text-4xl font-black text-white">From $67</span>
+          <span className="text-lg line-through" style={{ color: 'var(--color-gray-600)' }}>$197</span>
           <span
             className="text-xs font-bold uppercase px-2 py-1 rounded"
             style={{ background: 'rgba(207, 181, 59, 0.15)', color: 'var(--color-gold)' }}
           >
-            One-Time Price
+            Launch Price
           </span>
         </motion.div>
+        <motion.p
+          variants={item}
+          className="text-xs mb-6"
+          style={{ color: 'var(--color-gray-600)' }}
+        >
+          Or $8.33/mo with the Inner Circle &middot; <a href="#pricing" style={{ color: 'var(--color-gold)' }}>See all plans</a>
+        </motion.p>
 
         {/* Access denied banner */}
         {accessDenied && (

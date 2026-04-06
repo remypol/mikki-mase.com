@@ -32,6 +32,9 @@ let maskedEmail = '';
 let metadataUserId = '';
 let isGuestCheckout = false;
 
+// Check if user is coming from upsell (skip upsell redirect)
+const fromUpsell = Astro.url.searchParams.get('from_upsell') === 'true';
+
 // Handle PaymentIntent redirect (from custom Payment Element checkout)
 if (paymentIntentId && !sessionId) {
   try {
@@ -42,6 +45,14 @@ if (paymentIntentId && !sessionId) {
       const productKey = pi.metadata?.productKey;
       metadataUserId = pi.metadata?.userId || '';
       customerEmail = pi.receipt_email || pi.metadata?.userEmail || null;
+
+      // Upsell redirect: if they bought the base masterclass and haven't seen the upsell yet
+      if (productKey === 'masterclass' && !fromUpsell) {
+        const upsellParams = new URLSearchParams();
+        upsellParams.set('payment_intent', paymentIntentId);
+        if (redirectStatus) upsellParams.set('redirect_status', redirectStatus);
+        return Astro.redirect(`/checkout/upsell?${upsellParams.toString()}`);
+      }
 
       if (productKey === 'masterclass') {
         isMasterclass = true;

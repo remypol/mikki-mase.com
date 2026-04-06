@@ -302,9 +302,10 @@ export const masterclass: Product = {
   cover: '/images/masterclass/og-image.jpg',
   gallery: [],
 
-  price: 47,
-  compareAt: 97,
+  price: 67,
+  compareAt: 197,
   currency: 'USD',
+  billingInterval: 'one-time',
 
   // Stripe IDs — update after creating product in Stripe Dashboard
   stripePriceId: import.meta.env.STRIPE_MASTERCLASS_PRICE_ID || 'price_masterclass_placeholder',
@@ -314,7 +315,7 @@ export const masterclass: Product = {
   category: 'courses',
 
   seo: {
-    title: 'The Mikki Mase Masterclass | Beat the Casino. Play Smart. Get Paid. | $27',
+    title: 'The Mikki Mase Masterclass | Beat the Casino. Play Smart. Get Paid.',
     description:
       '10 modules, 30+ lessons, interactive scenarios, quizzes. The complete casino strategy system from the man who won $32M+ and got banned from 150+ casinos.',
     image: '/images/masterclass/og-image.jpg',
@@ -327,7 +328,153 @@ export const masterclass: Product = {
       brand: { '@type': 'Brand', name: 'Mikki Mase' },
       offers: {
         '@type': 'Offer',
-        price: 47,
+        price: 67,
+        priceCurrency: 'USD',
+        availability: 'https://schema.org/InStock',
+        url: 'https://www.mikki-mase.com/masterclass',
+      },
+    },
+  },
+};
+
+// ============================================
+// INNER CIRCLE MEMBERSHIP (subscription)
+// ============================================
+
+export const innerCircleMonthly: Product = {
+  id: 'inner-circle-monthly',
+  slug: 'inner-circle-monthly',
+  type: 'subscription',
+  fulfillment: 'digital',
+
+  name: 'Inner Circle Monthly',
+  tagline: 'Masterclass + Community + Monthly Updates',
+  description:
+    'Full masterclass access plus the Inner Circle: daily strategy drops, community feed, new scenarios monthly, and exclusive content.',
+  cover: '/images/masterclass/og-image.jpg',
+  gallery: [],
+
+  price: 14.99,
+  currency: 'USD',
+  billingInterval: 'monthly',
+
+  stripePriceId: import.meta.env.STRIPE_INNER_CIRCLE_MONTHLY_PRICE_ID || 'price_ic_monthly_placeholder',
+  stripeProductId: import.meta.env.STRIPE_INNER_CIRCLE_PRODUCT_ID || 'prod_ic_placeholder',
+
+  featured: false,
+  category: 'subscriptions',
+
+  seo: {
+    title: 'Inner Circle Monthly | Mikki Mase',
+    description: 'Monthly access to the Mikki Mase Masterclass, Inner Circle community, and exclusive strategy updates.',
+    image: '/images/masterclass/og-image.jpg',
+    schema: {
+      '@context': 'https://schema.org',
+      '@type': 'Product',
+      name: 'Inner Circle Monthly',
+      description: 'Monthly masterclass and community membership.',
+      image: 'https://www.mikki-mase.com/images/masterclass/og-image.jpg',
+      brand: { '@type': 'Brand', name: 'Mikki Mase' },
+      offers: {
+        '@type': 'Offer',
+        price: 14.99,
+        priceCurrency: 'USD',
+        availability: 'https://schema.org/InStock',
+        url: 'https://www.mikki-mase.com/masterclass',
+      },
+    },
+  },
+};
+
+export const innerCircleYearly: Product = {
+  id: 'inner-circle-yearly',
+  slug: 'inner-circle-yearly',
+  type: 'subscription',
+  fulfillment: 'digital',
+
+  name: 'Inner Circle Annual',
+  tagline: 'Best Value — Save 44%',
+  description:
+    'Full masterclass access plus the Inner Circle for a full year. Daily strategy drops, community, new scenarios, and exclusive content. Save 44% vs monthly.',
+  cover: '/images/masterclass/og-image.jpg',
+  gallery: [],
+
+  price: 99.99,
+  compareAt: 179.88, // 12 × $14.99
+  currency: 'USD',
+  billingInterval: 'yearly',
+  monthlyEquivalent: 8.33,
+
+  stripePriceId: import.meta.env.STRIPE_INNER_CIRCLE_YEARLY_PRICE_ID || 'price_ic_yearly_placeholder',
+  stripeProductId: import.meta.env.STRIPE_INNER_CIRCLE_PRODUCT_ID || 'prod_ic_placeholder',
+
+  featured: true,
+  category: 'subscriptions',
+
+  seo: {
+    title: 'Inner Circle Annual | Mikki Mase — Best Value',
+    description: 'Annual access to the Mikki Mase Masterclass, Inner Circle community, and exclusive strategy updates. Save 44%.',
+    image: '/images/masterclass/og-image.jpg',
+    schema: {
+      '@context': 'https://schema.org',
+      '@type': 'Product',
+      name: 'Inner Circle Annual',
+      description: 'Annual masterclass and community membership.',
+      image: 'https://www.mikki-mase.com/images/masterclass/og-image.jpg',
+      brand: { '@type': 'Brand', name: 'Mikki Mase' },
+      offers: {
+        '@type': 'Offer',
+        price: 99.99,
+        priceCurrency: 'USD',
+        availability: 'https://schema.org/InStock',
+        url: 'https://www.mikki-mase.com/masterclass',
+      },
+    },
+  },
+};
+
+// ============================================
+// LIFETIME VIP (one-time, everything forever)
+// ============================================
+
+export const lifetimeVip: Product = {
+  id: 'lifetime-vip',
+  slug: 'lifetime-vip',
+  type: 'lifetime',
+  fulfillment: 'digital',
+
+  name: 'Lifetime VIP',
+  tagline: 'Everything. Forever.',
+  description:
+    'Full masterclass + Inner Circle forever. Founding Member badge, priority support, all future content included. Limited to 500 members.',
+  cover: '/images/masterclass/og-image.jpg',
+  gallery: [],
+
+  price: 249,
+  compareAt: 497,
+  currency: 'USD',
+  billingInterval: 'lifetime',
+
+  stripePriceId: import.meta.env.STRIPE_LIFETIME_VIP_PRICE_ID || 'price_lifetime_placeholder',
+  stripeProductId: import.meta.env.STRIPE_LIFETIME_VIP_PRODUCT_ID || 'prod_lifetime_placeholder',
+
+  featured: false,
+  category: 'lifetime',
+
+  seo: {
+    title: 'Lifetime VIP | Mikki Mase — Everything Forever',
+    description: 'Lifetime access to the Mikki Mase Masterclass, Inner Circle, all future content, and Founding Member status.',
+    image: '/images/masterclass/og-image.jpg',
+    schema: {
+      '@context': 'https://schema.org',
+      '@type': 'Product',
+      name: 'Lifetime VIP',
+      description: 'Lifetime masterclass and community access with Founding Member status.',
+      image: 'https://www.mikki-mase.com/images/masterclass/og-image.jpg',
+      brand: { '@type': 'Brand', name: 'Mikki Mase' },
+      offers: {
+        '@type': 'Offer',
+        price: 249,
         priceCurrency: 'USD',
         availability: 'https://schema.org/InStock',
         url: 'https://www.mikki-mase.com/masterclass',
@@ -343,7 +490,91 @@ export const masterclass: Product = {
 
 export const productKeyToPriceId: Record<string, string> = {
   masterclass: masterclass.stripePriceId,
+  'inner-circle-monthly': innerCircleMonthly.stripePriceId,
+  'inner-circle-yearly': innerCircleYearly.stripePriceId,
+  'lifetime-vip': lifetimeVip.stripePriceId,
 };
+
+// ============================================
+// PRICING TIERS (for the masterclass sales page)
+// ============================================
+
+export interface PricingTier {
+  id: string;
+  name: string;
+  tagline: string;
+  price: number;
+  compareAt?: number;
+  billingLabel: string;
+  monthlyEquivalent?: number;
+  features: string[];
+  highlighted: boolean;
+  badge?: string;
+  ctaText: string;
+  ctaHref: string;
+}
+
+export const pricingTiers: PricingTier[] = [
+  {
+    id: 'masterclass',
+    name: 'Masterclass',
+    tagline: 'The Complete System',
+    price: 67,
+    compareAt: 197,
+    billingLabel: 'one-time',
+    features: [
+      '10 modules, 30+ lessons',
+      'Interactive scenarios & quizzes',
+      'Cheatsheet Bundle (bonus)',
+      'Beat the Casino Ebook (bonus)',
+      'Lifetime course access',
+    ],
+    highlighted: false,
+    ctaText: 'Get Instant Access',
+    ctaHref: '/checkout/masterclass?tier=masterclass',
+  },
+  {
+    id: 'inner-circle-yearly',
+    name: 'Inner Circle',
+    tagline: 'Best Value — Save 44%',
+    price: 99.99,
+    compareAt: 179.88,
+    billingLabel: '/year',
+    monthlyEquivalent: 8.33,
+    features: [
+      'Everything in Masterclass',
+      'Inner Circle community access',
+      'Monthly strategy updates',
+      'New scenarios & quizzes monthly',
+      'AI Casino Strategy Advisor',
+      'Member leaderboard & challenges',
+    ],
+    highlighted: true,
+    badge: 'MOST POPULAR',
+    ctaText: 'Join the Inner Circle',
+    ctaHref: '/checkout/masterclass?tier=inner-circle-yearly',
+  },
+  {
+    id: 'lifetime-vip',
+    name: 'Lifetime VIP',
+    tagline: 'Everything. Forever.',
+    price: 249,
+    compareAt: 497,
+    billingLabel: 'one-time',
+    features: [
+      'Everything in Inner Circle',
+      'Lifetime access (never pay again)',
+      'Founding Member badge',
+      'Priority support',
+      'All future content included',
+      'Limited to 500 members',
+    ],
+    highlighted: false,
+    badge: 'LIMITED',
+    ctaText: 'Go VIP',
+    ctaHref: '/checkout/masterclass?tier=lifetime-vip',
+  },
+];
 
 // ============================================
 // PRODUCT REGISTRY
@@ -354,6 +585,9 @@ export const products: Record<string, Product> = {
   'beat-the-casino': beatTheCasino,
   'ultimate-mmc-bundle': ultimateMmcBundle,
   masterclass,
+  'inner-circle-monthly': innerCircleMonthly,
+  'inner-circle-yearly': innerCircleYearly,
+  'lifetime-vip': lifetimeVip,
 };
 
 // ============================================

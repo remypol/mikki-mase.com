@@ -31,7 +31,7 @@ export default function WhatYouGet(props: Props) {
             Everything Included
           </span>
           <h2 className="text-2xl md:text-3xl font-black text-white mt-3">
-            What You Get for $27
+            What's Inside the Masterclass
           </h2>
         </ScrollReveal>
 

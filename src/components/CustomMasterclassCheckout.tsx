@@ -232,7 +232,10 @@ function CheckoutForm({ returnUrl, isGuest, price }: { returnUrl: string; isGues
       </button>
 
       <p className="text-center text-xs mt-3" style={{ color: '#6B6B6B' }}>
-        Secure payment powered by Stripe · 7-day money-back guarantee
+        Secure payment powered by Stripe
+      </p>
+      <p className="text-center text-xs mt-1.5" style={{ color: '#9A9A9A' }}>
+        7-day money-back guarantee · No questions asked · Cancel anytime
       </p>
     </form>
   );
@@ -244,19 +247,22 @@ export default function CustomMasterclassCheckout() {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [isGuest, setIsGuest] = useState(false);
-  const [price, setPrice] = useState(47);
+  const [price, setPrice] = useState(67);
 
   const returnUrl = typeof window !== 'undefined'
     ? `${window.location.origin}/checkout/success`
     : 'https://mikki-mase.com/checkout/success';
 
   useEffect(() => {
-    // Server determines price from httpOnly cookies (ab_variant + wheel_eligible)
-    // Client does NOT send pricing info — prevents tampering
+    // Read tier from URL query param (set by pricing section links)
+    const params = new URLSearchParams(window.location.search);
+    const tier = params.get('tier') || 'masterclass';
+
+    // Server determines price — client sends tier selection only
     fetch('/api/checkout/create-intent', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ productKey: 'masterclass' }),
+      body: JSON.stringify({ productKey: 'masterclass', tier }),
     })
       .then(async (res) => {
         const data = await res.json();

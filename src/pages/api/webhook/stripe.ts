@@ -400,8 +400,9 @@ async function handleCheckoutComplete(session: Stripe.Checkout.Session) {
 async function handlePaymentIntentSucceeded(paymentIntent: Stripe.PaymentIntent) {
   const { userId, userEmail, productKey, isGuestCheckout } = paymentIntent.metadata || {};
 
-  // Only handle masterclass purchases from the custom payment element flow
-  if (productKey !== 'masterclass') return;
+  // Handle all masterclass tier purchases from the custom payment element flow
+  const masterclassTiers = ['masterclass', 'inner-circle-yearly', 'lifetime-vip'];
+  if (!productKey || !masterclassTiers.includes(productKey)) return;
 
   const supabase = getServiceClient();
   let resolvedUserId = userId;
@@ -497,8 +498,8 @@ async function handlePaymentIntentSucceeded(paymentIntent: Stripe.PaymentIntent)
     user_id: resolvedUserId,
     stripe_session_id: `pi_${paymentIntent.id}`,
     stripe_payment_intent_id: paymentIntent.id,
-    product_key: 'masterclass',
-    amount_cents: paymentIntent.amount ?? 4700,
+    product_key: productKey,
+    amount_cents: paymentIntent.amount ?? 6700,
     status: 'completed',
   });
 
@@ -545,10 +546,15 @@ async function handlePaymentIntentSucceeded(paymentIntent: Stripe.PaymentIntent)
     }
 
     // Telegram notification (non-critical)
+    const tierLabels: Record<string, string> = {
+      masterclass: 'Masterclass',
+      'inner-circle-yearly': 'Inner Circle Annual',
+      'lifetime-vip': 'Lifetime VIP',
+    };
     await sendPaymentNotification({
       customerEmail,
-      productName: `Mikki Mase Masterclass${isGuest ? ' (Guest)' : ''}`,
-      amountCents: paymentIntent.amount ?? 4700,
+      productName: `Mikki Mase ${tierLabels[productKey] || 'Masterclass'}${isGuest ? ' (Guest)' : ''}`,
+      amountCents: paymentIntent.amount ?? 6700,
       currency: paymentIntent.currency || 'usd',
       stripeSessionId: paymentIntent.id,
     });

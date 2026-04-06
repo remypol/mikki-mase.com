@@ -7,8 +7,9 @@
 // CORE TYPES
 // ============================================
 
-export type ProductType = 'ebook' | 'merch' | 'course' | 'bundle';
+export type ProductType = 'ebook' | 'merch' | 'course' | 'bundle' | 'subscription' | 'lifetime';
 export type FulfillmentType = 'digital' | 'physical' | 'hybrid';
+export type BillingInterval = 'monthly' | 'yearly' | 'lifetime' | 'one-time';
 export type Currency = 'USD' | 'EUR';
 
 // ============================================
@@ -34,10 +35,14 @@ export interface Product {
   compareAt?: number;
   previousPrice?: number; // For triple strike-through (original → previous → current)
   currency: Currency;
+  billingInterval?: BillingInterval;
+  monthlyEquivalent?: number; // For annual plans: show per-month cost
 
   // Stripe
   stripePriceId: string;
   stripeProductId: string;
+  stripeMonthlyPriceId?: string; // For subscription products with monthly option
+  stripeYearlyPriceId?: string; // For subscription products with yearly option
 
   // Variants (merch)
   variants?: ProductVariant[];

@@ -50,7 +50,7 @@ export default function FinalCTA() {
           className="text-sm mb-8 mx-auto"
           style={{ color: 'var(--color-gray-400)', maxWidth: '40ch' }}
         >
-          One bad session costs more than $27. One good framework saves you thousands.
+          One bad session costs more than $67. One good framework saves you thousands.
         </motion.p>
 
         <motion.div

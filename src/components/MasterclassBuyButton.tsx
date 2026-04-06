@@ -76,7 +76,7 @@ export default function MasterclassBuyButton({ variant = 'hero', className = '' 
         className={`inline-flex items-center justify-center font-bold text-black min-h-[52px] rounded-xl px-8 transition-all hover:brightness-110 active:scale-[0.98] ${className}`}
         style={{ backgroundColor: '#CFB53B' }}
       >
-        Get Instant Access — $27
+        Get Instant Access — $67
         <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
         </svg>

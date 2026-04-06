@@ -1,6 +1,9 @@
 /**
  * Create PaymentIntent for custom Payment Element checkout
- * Used by CustomMasterclassCheckout for fully branded dark-theme payment form.
+ * Supports multiple pricing tiers:
+ * - masterclass: $67 one-time
+ * - inner-circle-yearly: $99.99/yr (handled as one-time, subscription created via webhook)
+ * - lifetime-vip: $249 one-time
  */
 
 export const prerender = false;
@@ -8,6 +11,13 @@ export const prerender = false;
 import type { APIRoute } from 'astro';
 import { getStripeServer } from '../../../lib/stripe';
 import { getServerClient, getServiceClient } from '../../../lib/supabase';
+
+// Tier pricing in cents (server-authoritative — never trust client)
+const TIER_PRICING: Record<string, { amount: number; label: string }> = {
+  masterclass: { amount: 6700, label: 'Masterclass' },
+  'inner-circle-yearly': { amount: 9999, label: 'Inner Circle Annual' },
+  'lifetime-vip': { amount: 24900, label: 'Lifetime VIP' },
+};
 
 export const POST: APIRoute = async ({ request, cookies }) => {
   const headers = { 'Content-Type': 'application/json' };
@@ -49,17 +59,19 @@ export const POST: APIRoute = async ({ request, cookies }) => {
       );
     }
 
-    const { productKey } = body;
+    const { productKey, tier } = body;
 
-    if (productKey !== 'masterclass') {
+    // Resolve which tier to charge
+    const resolvedTier = tier || productKey || 'masterclass';
+
+    if (!TIER_PRICING[resolvedTier]) {
       return new Response(
-        JSON.stringify({ error: 'This endpoint only supports masterclass checkout' }),
+        JSON.stringify({ error: `Unknown tier: ${resolvedTier}` }),
         { status: 400, headers }
       );
     }
 
-    // Flat $27 pricing
-    const amount = 2700;
+    const { amount, label } = TIER_PRICING[resolvedTier];
 
     // Auth is OPTIONAL — supports both logged-in and guest checkout
     const supabase = getServerClient(cookies, request);
@@ -67,27 +79,50 @@ export const POST: APIRoute = async ({ request, cookies }) => {
 
     const serviceClient = getServiceClient();
 
-    // If logged in, check for existing purchase
+    // If logged in, check for existing purchase or subscription
     if (user) {
-      const { data: existingPurchase, error: purchaseLookupError } = await serviceClient
+      // Check one-time purchase
+      const { data: existingPurchase } = await serviceClient
         .from('purchases')
-        .select('id')
+        .select('id, product_key')
         .eq('user_id', user.id)
-        .eq('product_key', 'masterclass')
         .eq('status', 'completed')
-        .maybeSingle();
+        .in('product_key', ['masterclass', 'inner-circle-yearly', 'lifetime-vip']);
 
-      if (purchaseLookupError) {
-        console.error('Purchase lookup failed:', purchaseLookupError);
-        return new Response(
-          JSON.stringify({ error: 'Unable to verify purchase status' }),
-          { status: 503, headers }
-        );
+      if (existingPurchase && existingPurchase.length > 0) {
+        // If they already have lifetime VIP, no need to buy anything
+        const hasLifetime = existingPurchase.some((p: any) => p.product_key === 'lifetime-vip');
+        if (hasLifetime) {
+          return new Response(
+            JSON.stringify({ error: 'Already purchased', redirect: '/masterclass/course' }),
+            { status: 409, headers }
+          );
+        }
+
+        // If buying same tier, redirect
+        const hasSameTier = existingPurchase.some((p: any) => p.product_key === resolvedTier);
+        if (hasSameTier) {
+          return new Response(
+            JSON.stringify({ error: 'Already purchased', redirect: '/masterclass/course' }),
+            { status: 409, headers }
+          );
+        }
+
+        // If they have masterclass and are upgrading, allow it
+        // (Inner Circle or Lifetime VIP upgrade)
       }
 
-      if (existingPurchase) {
+      // Also check active subscriptions
+      const { data: existingSub } = await serviceClient
+        .from('subscriptions')
+        .select('id, plan')
+        .eq('user_id', user.id)
+        .eq('status', 'active')
+        .maybeSingle();
+
+      if (existingSub && resolvedTier === 'inner-circle-yearly') {
         return new Response(
-          JSON.stringify({ error: 'Already purchased', redirect: '/masterclass/course' }),
+          JSON.stringify({ error: 'Active subscription exists', redirect: '/masterclass/course' }),
           { status: 409, headers }
         );
       }
@@ -97,9 +132,10 @@ export const POST: APIRoute = async ({ request, cookies }) => {
 
     // Build metadata
     const metadata: Record<string, string> = {
-      productKey: 'masterclass',
-      productId: 'masterclass',
+      productKey: resolvedTier,
+      productId: resolvedTier,
       fulfillmentType: 'digital',
+      tier: resolvedTier,
     };
 
     if (user) {
@@ -109,15 +145,13 @@ export const POST: APIRoute = async ({ request, cookies }) => {
       metadata.isGuestCheckout = 'true';
     }
 
-
-    // PaymentIntent config — auto-detect enabled payment methods
-    // Apple Pay & Google Pay work automatically via card
-    // Disable Link in Stripe Dashboard: dashboard.stripe.com/settings/payment_methods
+    // PaymentIntent config
     const piConfig: Record<string, any> = {
       amount,
       currency: 'usd',
       automatic_payment_methods: { enabled: true },
       metadata,
+      description: `Mikki Mase - ${label}`,
     };
 
     // Link to Stripe customer if logged in
@@ -155,6 +189,7 @@ export const POST: APIRoute = async ({ request, cookies }) => {
         clientSecret: paymentIntent.client_secret,
         isGuest: !user,
         amount: amount / 100,
+        tier: resolvedTier,
       }),
       { status: 200, headers }
     );

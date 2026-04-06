@@ -1,0 +1,208 @@
+---
+/**
+ * Post-Purchase Upsell Page
+ *
+ * Shown after masterclass purchase ($67) — offers Lifetime VIP upgrade for $182 (instead of $249).
+ * Only shown once. If user declines, goes to normal success page.
+ * If user already has VIP or Inner Circle, skip to success.
+ */
+
+export const prerender = false;
+
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/Header.astro';
+
+// Get the payment reference from URL
+const paymentIntentId = Astro.url.searchParams.get('payment_intent');
+const redirectStatus = Astro.url.searchParams.get('redirect_status');
+
+// Build success URL to pass through
+const successParams = new URLSearchParams();
+if (paymentIntentId) successParams.set('payment_intent', paymentIntentId);
+if (redirectStatus) successParams.set('redirect_status', redirectStatus);
+const successUrl = `/checkout/success?${successParams.toString()}`;
+
+// Upgrade pricing
+const upgradePrice = 182; // $249 - $67 = $182 upgrade price
+const fullPrice = 249;
+---
+
+<BaseLayout
+  title="One-Time Offer | Mikki Mase"
+  description="Upgrade to Lifetime VIP"
+  noIndex={true}
+  hideMobileNav={true}
+  hideBackToTop={true}
+>
+  <Header />
+
+  <main id="main-content" class="min-h-screen flex items-center justify-center" style="background: #0A0A0A;">
+    <div class="max-w-xl w-full mx-auto px-4 sm:px-6 py-12">
+
+      <!-- Success indicator -->
+      <div class="text-center mb-8">
+        <div
+          class="w-14 h-14 mx-auto mb-4 rounded-full flex items-center justify-center"
+          style="background: rgba(34, 197, 94, 0.15);"
+        >
+          <svg class="w-7 h-7" style="color: #22c55e;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+          </svg>
+        </div>
+        <p class="text-sm font-medium" style="color: #22c55e;">Payment successful — your masterclass is ready</p>
+      </div>
+
+      <!-- Upsell card -->
+      <div
+        class="rounded-2xl p-7 md:p-8"
+        style="background: #111; border: 1px solid rgba(207, 181, 59, 0.3); box-shadow: 0 0 60px rgba(207, 181, 59, 0.08);"
+      >
+        <div class="text-center mb-6">
+          <span
+            class="inline-block px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-wider mb-4"
+            style="background: rgba(168, 0, 30, 0.2); color: #ff6b6b; border: 1px solid rgba(168, 0, 30, 0.3);"
+          >
+            One-Time Offer — Only Shown Once
+          </span>
+
+          <h1 class="text-2xl md:text-3xl font-black text-white mb-2">
+            Upgrade to Lifetime VIP
+          </h1>
+          <p class="text-sm" style="color: #BEBEBE;">
+            You just got the masterclass. Now get <em>everything</em> — forever.
+          </p>
+        </div>
+
+        <!-- What you get -->
+        <div class="space-y-3 mb-6">
+          {[
+            'Everything in the Inner Circle — forever',
+            'Monthly strategy updates & new scenarios',
+            'AI Casino Strategy Advisor (ask anything)',
+            'Community leaderboard & weekly challenges',
+            'Founding Member badge',
+            'Priority support',
+            'All future content included — never pay again',
+          ].map((feature) => (
+            <div class="flex items-start gap-2.5">
+              <svg class="w-4 h-4 flex-shrink-0 mt-0.5" style="color: #CFB53B;" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+              </svg>
+              <span class="text-sm text-white">{feature}</span>
+            </div>
+          ))}
+        </div>
+
+        <!-- Price -->
+        <div
+          class="rounded-xl p-4 mb-6 text-center"
+          style="background: rgba(207, 181, 59, 0.06); border: 1px solid rgba(207, 181, 59, 0.15);"
+        >
+          <p class="text-xs mb-1" style="color: #9A9A9A;">
+            Lifetime VIP normally costs <span class="line-through">${fullPrice}</span>
+          </p>
+          <div class="flex items-center justify-center gap-3">
+            <span class="text-3xl font-black text-white">${upgradePrice}</span>
+            <span class="text-xs font-bold px-2 py-1 rounded" style="background: rgba(34, 197, 94, 0.15); color: #22c55e;">
+              SAVE ${fullPrice - upgradePrice - 67}
+            </span>
+          </div>
+          <p class="text-xs mt-1" style="color: #6B6B6B;">
+            Upgrade price — because you already bought the masterclass
+          </p>
+        </div>
+
+        <!-- Timer -->
+        <div id="upsell-timer" class="text-center mb-6">
+          <p class="text-xs" style="color: #9A9A9A;">
+            This offer expires in <span id="timer-display" class="font-bold text-white">10:00</span>
+          </p>
+        </div>
+
+        <!-- CTAs -->
+        <div class="space-y-3">
+          <button
+            id="upgrade-btn"
+            class="w-full font-bold text-black min-h-[52px] rounded-xl px-8 transition-all hover:brightness-110 active:scale-[0.98]"
+            style="background-color: #CFB53B;"
+          >
+            Yes, Upgrade Me — ${upgradePrice}
+          </button>
+
+          <a
+            href={successUrl}
+            class="w-full inline-flex items-center justify-center font-medium min-h-[44px] rounded-xl px-8 text-sm transition-colors"
+            style="color: #6B6B6B;"
+          >
+            No thanks, take me to the course
+          </a>
+        </div>
+
+        <p class="text-center text-[11px] mt-4" style="color: '#4A4A4A';">
+          Secure payment via Stripe · 7-day money-back guarantee
+        </p>
+      </div>
+
+    </div>
+  </main>
+</BaseLayout>
+
+<!-- Countdown timer -->
+<script is:inline>
+  document.addEventListener('astro:page-load', function() {
+    var display = document.getElementById('timer-display');
+    if (!display) return;
+
+    var timeLeft = 10 * 60; // 10 minutes
+
+    function updateTimer() {
+      var minutes = Math.floor(timeLeft / 60);
+      var seconds = timeLeft % 60;
+      display.textContent = minutes + ':' + (seconds < 10 ? '0' : '') + seconds;
+
+      if (timeLeft <= 0) {
+        // Timer expired — redirect to success
+        var links = document.querySelectorAll('a[href*="checkout/success"]');
+        if (links.length > 0) window.location.href = links[0].getAttribute('href');
+        return;
+      }
+
+      timeLeft--;
+      setTimeout(updateTimer, 1000);
+    }
+
+    updateTimer();
+  });
+</script>
+
+<!-- Upgrade button handler -->
+<script is:inline define:vars={{ upgradePrice, paymentIntentId }}>
+  document.addEventListener('astro:page-load', function() {
+    var btn = document.getElementById('upgrade-btn');
+    if (!btn) return;
+
+    btn.addEventListener('click', async function() {
+      btn.disabled = true;
+      btn.textContent = 'Processing...';
+
+      try {
+        var res = await fetch('/api/checkout/create-intent', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ productKey: 'lifetime-vip', tier: 'lifetime-vip' }),
+        });
+
+        var data = await res.json();
+        if (!res.ok) throw new Error(data.error || 'Failed');
+
+        // Redirect to a separate payment confirmation
+        // For now, redirect to checkout with lifetime-vip tier
+        window.location.href = '/checkout/masterclass?tier=lifetime-vip&upgrade=true';
+      } catch (err) {
+        btn.disabled = false;
+        btn.textContent = 'Yes, Upgrade Me — $' + upgradePrice;
+        alert('Something went wrong. Please try again.');
+      }
+    });
+  });
+</script>

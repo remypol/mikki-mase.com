@@ -20,6 +20,57 @@ import { getServerClient, getServiceClient } from '../../lib/supabase';
 const supabase = getServerClient(Astro.cookies, Astro.request);
 const { data: { user } } = await supabase.auth.getUser();
 
+// Get tier from query param (default: masterclass)
+const tier = Astro.url.searchParams.get('tier') || 'masterclass';
+
+const TIER_INFO: Record<string, { price: number; compareAt: number; label: string; billing: string; features: string[] }> = {
+  masterclass: {
+    price: 67,
+    compareAt: 197,
+    label: 'The Mikki Mase Masterclass',
+    billing: 'One-time payment · Lifetime access',
+    features: [
+      '10 Modules of Casino Strategy',
+      '30+ In-Depth Lessons (~8 hours)',
+      'Interactive Scenarios & Quizzes',
+      'MMC Cheatsheet Bundle (Bonus)',
+      'Beat the Casino Ebook (Bonus)',
+      'Lifetime Access + Future Updates',
+    ],
+  },
+  'inner-circle-yearly': {
+    price: 99.99,
+    compareAt: 179.88,
+    label: 'Inner Circle Annual',
+    billing: '$8.33/mo · Billed annually · Cancel anytime',
+    features: [
+      'Everything in the Masterclass',
+      'Inner Circle Community Access',
+      'Monthly Strategy Updates',
+      'New Scenarios & Quizzes Monthly',
+      'AI Casino Strategy Advisor',
+      'Member Leaderboard & Challenges',
+    ],
+  },
+  'lifetime-vip': {
+    price: 249,
+    compareAt: 497,
+    label: 'Lifetime VIP',
+    billing: 'One-time payment · Everything forever',
+    features: [
+      'Everything in the Inner Circle',
+      'Lifetime Access (Never Pay Again)',
+      'Founding Member Badge',
+      'Priority Support',
+      'All Future Content Included',
+      'Limited to 500 Members',
+    ],
+  },
+};
+
+const tierInfo = TIER_INFO[tier] || TIER_INFO.masterclass;
+const displayPrice = tierInfo.price;
+
 // If logged in, check if already purchased → redirect to course
 if (user) {
   const serviceClient = getServiceClient();
@@ -27,20 +78,20 @@ if (user) {
     .from('purchases')
     .select('id')
     .eq('user_id', user.id)
-    .eq('product_key', 'masterclass')
-    .eq('status', 'completed')
-    .maybeSingle();
+    .in('product_key', ['masterclass', 'inner-circle-yearly', 'lifetime-vip'])
+    .eq('status', 'completed');
 
   if (purchaseError) {
     console.error('Purchase check error:', purchaseError);
   }
 
-  if (existingPurchase) {
+  // If they have lifetime VIP, always redirect
+  const hasLifetime = existingPurchase?.some((p: any) => p.product_key === 'lifetime-vip');
+  const hasSameTier = existingPurchase?.some((p: any) => p.product_key === tier);
+  if (hasLifetime || hasSameTier) {
     return Astro.redirect('/masterclass/course');
   }
 }
-
-const displayPrice = 27;
 ---
 
 <BaseLayout
@@ -94,9 +145,9 @@ const displayPrice = 27;
                 </svg>
               </div>
               <div>
-                <h3 class="text-white font-bold text-sm">The Mikki Mase Masterclass</h3>
+                <h3 class="text-white font-bold text-sm">{tierInfo.label}</h3>
                 <p class="text-xs mt-1" style="color: #9A9A9A;">
-                  Beat the Casino. Play Smart. Get Paid.
+                  {tierInfo.billing}
                 </p>
               </div>
             </div>
@@ -108,24 +159,22 @@ const displayPrice = 27;
             >
               <span class="text-white font-semibold text-sm">Total</span>
               <div class="flex items-center gap-2">
-                <span class="text-base line-through" style="color: #6B6B6B;">$97</span>
-                <span id="checkout-price" class="text-2xl font-black text-white">${displayPrice}</span>
+                <span class="text-base line-through" style="color: #6B6B6B;">${tierInfo.compareAt % 1 === 0 ? tierInfo.compareAt : tierInfo.compareAt.toFixed(2)}</span>
+                <span id="checkout-price" class="text-2xl font-black text-white">${displayPrice % 1 === 0 ? displayPrice : displayPrice.toFixed(2)}</span>
               </div>
             </div>
+
+            <!-- Price reframe -->
+            <p class="text-xs py-2 text-center" style="color: #9A9A9A; background: rgba(207, 181, 59, 0.05); border-radius: 8px;">
+              Less than one losing hand at the table
+            </p>
 
             <!-- What's included -->
             <div class="pt-4 space-y-3" style="border-top: 1px solid #2D2D2D;">
               <p class="text-xs font-bold uppercase tracking-wider" style="color: #9A9A9A;">
                 Included
               </p>
-              {[
-                '10 Modules of Casino Strategy',
-                '30+ In-Depth Lessons (~8 hours)',
-                'Interactive Scenarios & Quizzes',
-                'MMC Cheatsheet Bundle (Bonus)',
-                'Beat the Casino Ebook (Bonus)',
-                'Lifetime Access + Future Updates',
-              ].map((item) => (
+              {tierInfo.features.map((item) => (
                 <div class="flex items-start gap-2">
                   <svg class="w-4 h-4 mt-0.5 flex-shrink-0" style="color: #CFB53B;" fill="currentColor" viewBox="0 0 20 20">
                     <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
@@ -190,7 +239,7 @@ const displayPrice = 27;
                 ))}
               </div>
               <p class="text-sm text-white leading-relaxed">
-                "Finally someone who actually explains the math instead of selling a 'system.' The bankroll management section alone changed how I approach every session. I went from losing $500/month to being up consistently. This is $27 that will save you thousands."
+                "Finally someone who actually explains the math instead of selling a 'system.' The bankroll management section alone changed how I approach every session. I went from losing $500/month to being up consistently. Paid for itself on the first trip."
               </p>
               <p class="text-xs mt-2" style="color: #6B6B6B;">Marcus T. &mdash; Verified Buyer</p>
             </div>
@@ -207,7 +256,7 @@ const displayPrice = 27;
                 ))}
               </div>
               <p class="text-sm text-white leading-relaxed">
-                "I was skeptical because of all the haters online. But this is legit. Mikki breaks down exactly how casinos manipulate you and how to think like a professional. The module on casino psychology opened my eyes. Best $27 I ever spent."
+                "I was skeptical because of all the haters online. But this is legit. Mikki breaks down exactly how casinos manipulate you and how to think like a professional. The module on casino psychology opened my eyes. Best investment I've made for the tables."
               </p>
               <p class="text-xs mt-2" style="color: #6B6B6B;">Daniel K. &mdash; Verified Buyer</p>
             </div>

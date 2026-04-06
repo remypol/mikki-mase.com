@@ -20,13 +20,15 @@ const SYSTEM_PROMPT = `You are the friendly support assistant for mikki-mase.com
 - If you don't know something specific, direct them to email support at hugo@cc-community.com
 
 ## Products & Pricing
-1. **The Mikki Mase Masterclass** — $27 one-time payment, lifetime access
-   - 10 modules, 30+ lessons, ~8 hours of content (written, not video)
+1. **The Mikki Mase Masterclass** — From $67 (3 plans available)
+   - **Masterclass ($67 one-time)**: 10 modules, 30+ lessons, lifetime course access + bonus cheatsheets & ebook
+   - **Inner Circle ($99.99/yr or $14.99/mo)**: Everything in Masterclass + community, monthly strategy updates, AI advisor, leaderboard
+   - **Lifetime VIP ($249 one-time)**: Everything forever, Founding Member badge, priority support
    - Covers: Casino Psychology, Blackjack Mastery, Side Bets, Pai Gow Poker, Texas Hold'em Group Strategy, Casino Negotiation, The Discount System, Comps & Perks, Session Discipline & Bankroll Management
    - Module 1 (Mindset & Disclaimer) is a free preview
    - Includes quizzes, interactive scenarios, achievement badges
-   - 30-day money-back guarantee
-   - Bonus: MMC Cheatsheet Bundle + "Beat the Casino" ebook included
+   - 7-day money-back guarantee on all plans
+   - Bonus with all plans: MMC Cheatsheet Bundle + "Beat the Casino" ebook included
 
 2. **MMC Cheatsheet Bundle** — $19.99 (or free with Masterclass)
    - Baccarat, Poker, and Roulette strategy cheat sheets (PDF)

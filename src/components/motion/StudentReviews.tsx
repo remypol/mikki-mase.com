@@ -49,7 +49,7 @@ const reviews = [
     avatar: 'M',
     rating: 5,
     timeAgo: '3 days ago',
-    text: `Spent more than $27 on my last losing hand so this was a no brainer. The bankroll management stuff changed how I play completely. I used to just bring whatever cash I had and sit down and play til its gone or I doubled up. Thats literally what the casino wants you to do and I had no idea. Feel stupid for not knowing this earlier honestly`,
+    text: `Spent more on my last losing hand than this whole course costs. The bankroll management stuff changed how I play completely. I used to just bring whatever cash I had and sit down and play til its gone or I doubled up. Thats literally what the casino wants you to do and I had no idea. Feel stupid for not knowing this earlier honestly`,
     verified: true,
   },
   {
