@@ -188,6 +188,18 @@ export const POST: APIRoute = async ({ request, cookies }) => {
 
     const paymentIntent = await stripe.paymentIntents.create(piConfig);
 
+    // Track checkout intent for abandoned cart recovery
+    const trackEmail = user?.email || null;
+    if (trackEmail) {
+      try {
+        await serviceClient.from('checkout_intents').insert({
+          email: trackEmail,
+          product_key: resolvedTier,
+          tier: resolvedTier,
+        });
+      } catch { /* non-critical */ }
+    }
+
     return new Response(
       JSON.stringify({
         clientSecret: paymentIntent.client_secret,

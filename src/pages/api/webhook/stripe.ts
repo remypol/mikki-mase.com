@@ -541,6 +541,17 @@ async function handlePaymentIntentSucceeded(paymentIntent: Stripe.PaymentIntent)
       .is('stripe_customer_id', null);
   }
 
+  // Mark checkout intent as completed (for abandoned cart tracking)
+  if (customerEmail) {
+    try {
+      await supabase
+        .from('checkout_intents')
+        .update({ completed_at: new Date().toISOString() })
+        .eq('email', customerEmail)
+        .is('completed_at', null);
+    } catch { /* non-critical */ }
+  }
+
   // Send welcome email (non-critical)
   if (customerEmail) {
     try {
