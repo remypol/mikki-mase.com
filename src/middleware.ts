@@ -79,24 +79,28 @@ export const onRequest = defineMiddleware(async (context, next) => {
   }
 
   // Also check active subscriptions (for inner-circle-monthly subscribers)
-  const { data: subscription, error: subError } = await supabase
-    .from('subscriptions')
-    .select('id')
-    .eq('user_id', user.id)
-    .eq('status', 'active')
-    .limit(1)
-    .maybeSingle();
+  // Graceful: if subscriptions table doesn't exist yet, skip silently
+  try {
+    const { data: subscription, error: subError } = await supabase
+      .from('subscriptions')
+      .select('id')
+      .eq('user_id', user.id)
+      .eq('status', 'active')
+      .limit(1)
+      .maybeSingle();
 
-  if (subError && subError.code !== 'PGRST116') {
-    console.error('Subscription check DB error:', subError);
-    // Graceful degradation: fall through to purchase-only check
-  }
+    if (subError && subError.code !== 'PGRST116' && subError.code !== '42P01') {
+      console.error('Subscription check DB error:', subError);
+    }
 
-  if (subscription) {
-    context.locals.hasMasterclass = true;
-    const response = await next();
-    response.headers.set('Cache-Control', 'private, no-store, max-age=0');
-    return response;
+    if (subscription) {
+      context.locals.hasMasterclass = true;
+      const response = await next();
+      response.headers.set('Cache-Control', 'private, no-store, max-age=0');
+      return response;
+    }
+  } catch {
+    // Table might not exist yet — fall through to denial
   }
 
   // No purchase or subscription — redirect to sales page

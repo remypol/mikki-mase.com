@@ -112,19 +112,23 @@ export const POST: APIRoute = async ({ request, cookies }) => {
         // (Inner Circle or Lifetime VIP upgrade)
       }
 
-      // Also check active subscriptions
-      const { data: existingSub } = await serviceClient
-        .from('subscriptions')
-        .select('id, plan')
-        .eq('user_id', user.id)
-        .eq('status', 'active')
-        .maybeSingle();
+      // Also check active subscriptions (graceful if table doesn't exist yet)
+      try {
+        const { data: existingSub } = await serviceClient
+          .from('subscriptions')
+          .select('id, plan')
+          .eq('user_id', user.id)
+          .eq('status', 'active')
+          .maybeSingle();
 
-      if (existingSub && resolvedTier === 'inner-circle-yearly') {
-        return new Response(
-          JSON.stringify({ error: 'Active subscription exists', redirect: '/masterclass/course' }),
-          { status: 409, headers }
-        );
+        if (existingSub && resolvedTier === 'inner-circle-yearly') {
+          return new Response(
+            JSON.stringify({ error: 'Active subscription exists', redirect: '/masterclass/course' }),
+            { status: 409, headers }
+          );
+        }
+      } catch {
+        // subscriptions table might not exist yet — skip check
       }
     }
 
