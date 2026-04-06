@@ -54,9 +54,16 @@ if (paymentIntentId && !sessionId) {
         return Astro.redirect(`/checkout/upsell?${upsellParams.toString()}`);
       }
 
-      if (productKey === 'masterclass') {
+      const masterclassTiers = ['masterclass', 'inner-circle-yearly', 'lifetime-vip'];
+      if (productKey && masterclassTiers.includes(productKey)) {
         isMasterclass = true;
-        product = { id: 'masterclass', name: 'Mikki Mase Masterclass', price: 47 };
+        const tierNames: Record<string, string> = {
+          masterclass: 'Mikki Mase Masterclass',
+          'inner-circle-yearly': 'Inner Circle Annual',
+          'lifetime-vip': 'Lifetime VIP',
+        };
+        const tierPrices: Record<string, number> = { masterclass: 67, 'inner-circle-yearly': 99.99, 'lifetime-vip': 249 };
+        product = { id: productKey, name: tierNames[productKey] || 'Masterclass', price: tierPrices[productKey] || 67 };
 
         if (metadataUserId) {
           try {
@@ -105,14 +112,21 @@ if (sessionId) {
       customerEmail = session.customer_details?.email;
       metadataUserId = session.metadata?.userId || '';
 
-      // Masterclass purchase
-      if (productKey === 'masterclass') {
+      // Masterclass tier purchase (masterclass, inner-circle-yearly, lifetime-vip)
+      const sessionMasterclassTiers = ['masterclass', 'inner-circle-yearly', 'lifetime-vip'];
+      if (productKey && sessionMasterclassTiers.includes(productKey)) {
         isMasterclass = true;
         isGuestCheckout = session.metadata?.isGuestCheckout === 'true' || !metadataUserId;
 
-        // Issue #4: Ensure product is set for GA4 tracking even if productId wasn't in metadata
+        // Ensure product is set for GA4 tracking
         if (!product) {
-          product = { id: 'masterclass', name: 'The Mikki Mase Masterclass', price: 47 };
+          const sTierNames: Record<string, string> = {
+            masterclass: 'The Mikki Mase Masterclass',
+            'inner-circle-yearly': 'Inner Circle Annual',
+            'lifetime-vip': 'Lifetime VIP',
+          };
+          const sTierPrices: Record<string, number> = { masterclass: 67, 'inner-circle-yearly': 99.99, 'lifetime-vip': 249 };
+          product = { id: productKey, name: sTierNames[productKey] || 'Masterclass', price: sTierPrices[productKey] || 67 };
         }
 
         // Issue #5: Verify logged-in user matches the purchaser before showing download links

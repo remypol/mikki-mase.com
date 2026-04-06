@@ -75,7 +75,7 @@ const appearance = {
 };
 
 /** Inner form component — must be inside <Elements> */
-function CheckoutForm({ returnUrl, isGuest, price }: { returnUrl: string; isGuest: boolean; price: number }) {
+function CheckoutForm({ returnUrl, isGuest, price, tier }: { returnUrl: string; isGuest: boolean; price: number; tier: string }) {
   const stripe = useStripe();
   const elements = useElements();
   const [loading, setLoading] = useState(false);
@@ -114,7 +114,7 @@ function CheckoutForm({ returnUrl, isGuest, price }: { returnUrl: string; isGues
         ecommerce: {
           currency: 'USD',
           value: price,
-          items: [{ item_id: 'masterclass', item_name: 'The Mikki Mase Masterclass', price, quantity: 1 }],
+          items: [{ item_id: tier, item_name: `Mikki Mase - ${tier}`, price, quantity: 1 }],
         },
       });
     }
@@ -248,6 +248,7 @@ export default function CustomMasterclassCheckout() {
   const [loading, setLoading] = useState(true);
   const [isGuest, setIsGuest] = useState(false);
   const [price, setPrice] = useState(67);
+  const [tier, setTier] = useState('masterclass');
 
   const returnUrl = typeof window !== 'undefined'
     ? `${window.location.origin}/checkout/success`
@@ -276,6 +277,7 @@ export default function CustomMasterclassCheckout() {
         setClientSecret(data.clientSecret);
         setIsGuest(data.isGuest || false);
         if (data.amount) setPrice(data.amount);
+        if (data.tier) setTier(data.tier);
 
         // Notify
         fetch('/api/notify', {
@@ -325,7 +327,7 @@ export default function CustomMasterclassCheckout() {
         appearance,
       }}
     >
-      <CheckoutForm returnUrl={returnUrl} isGuest={isGuest} price={price} />
+      <CheckoutForm returnUrl={returnUrl} isGuest={isGuest} price={price} tier={tier} />
     </Elements>
   );
 }

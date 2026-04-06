@@ -25,12 +25,12 @@ export const GET: APIRoute = async ({ cookies, request }) => {
       );
     }
 
-    // Check for active masterclass purchase
+    // Check for active masterclass purchase (any tier)
     const { data: purchase, error: purchaseError } = await supabase
       .from('purchases')
       .select('id, product_key, created_at')
       .eq('user_id', user.id)
-      .eq('product_key', 'masterclass')
+      .in('product_key', ['masterclass', 'inner-circle-yearly', 'lifetime-vip'])
       .eq('status', 'completed')
       .limit(1)
       .single();
