@@ -499,6 +499,12 @@ export const productKeyToPriceId: Record<string, string> = {
 // PRICING TIERS (for the masterclass sales page)
 // ============================================
 
+export interface ValueStackItem {
+  name: string;
+  value: number;
+  isFree?: boolean; // Show as "FREE" with strikethrough value
+}
+
 export interface PricingTier {
   id: string;
   name: string;
@@ -508,6 +514,8 @@ export interface PricingTier {
   billingLabel: string;
   monthlyEquivalent?: number;
   features: string[];
+  valueStack: ValueStackItem[];
+  totalValue: number;
   highlighted: boolean;
   badge?: string;
   ctaText: string;
@@ -523,12 +531,17 @@ export const pricingTiers: PricingTier[] = [
     compareAt: 197,
     billingLabel: 'one-time',
     features: [
-      '10 modules, 30+ lessons',
-      'Interactive scenarios & quizzes',
-      'Cheatsheet Bundle (bonus)',
-      'Beat the Casino Ebook (bonus)',
       'Lifetime course access',
+      'All future updates included',
     ],
+    valueStack: [
+      { name: '10-Module Casino Strategy System', value: 197 },
+      { name: 'Interactive Blackjack Scenarios', value: 49 },
+      { name: 'Module Quizzes & Assessments', value: 29 },
+      { name: 'MMC Cheatsheet Bundle', value: 57, isFree: true },
+      { name: 'Beat the Casino Ebook (98 pages)', value: 29, isFree: true },
+    ],
+    totalValue: 361,
     highlighted: false,
     ctaText: 'Get Instant Access',
     ctaHref: '/checkout/masterclass?tier=masterclass',
@@ -542,13 +555,17 @@ export const pricingTiers: PricingTier[] = [
     billingLabel: '/year',
     monthlyEquivalent: 8.33,
     features: [
-      'Everything in Masterclass',
-      'Inner Circle community access',
-      'Monthly strategy updates',
-      'New scenarios & quizzes monthly',
-      'AI Casino Strategy Advisor',
-      'Member leaderboard & challenges',
+      'Cancel anytime',
     ],
+    valueStack: [
+      { name: 'Full Masterclass Access (10 modules)', value: 197 },
+      { name: 'Inner Circle Community Feed', value: 99 },
+      { name: 'AI Casino Strategy Advisor', value: 99 },
+      { name: 'Monthly Strategy Updates & Scenarios', value: 120 },
+      { name: 'MMC Cheatsheet Bundle', value: 57, isFree: true },
+      { name: 'Beat the Casino Ebook (98 pages)', value: 29, isFree: true },
+    ],
+    totalValue: 601,
     highlighted: true,
     badge: 'MOST POPULAR',
     ctaText: 'Join the Inner Circle',
@@ -562,13 +579,19 @@ export const pricingTiers: PricingTier[] = [
     compareAt: 497,
     billingLabel: 'one-time',
     features: [
-      'Everything in Inner Circle',
-      'Lifetime access (never pay again)',
-      'Founding Member badge',
-      'Priority support',
-      'All future content included',
+      'Never pay again',
       'Limited to 500 members',
     ],
+    valueStack: [
+      { name: 'Full Masterclass + Inner Circle', value: 296 },
+      { name: 'AI Casino Advisor (Unlimited)', value: 199 },
+      { name: 'All Future Content & Modules', value: 149 },
+      { name: 'Founding Member Badge', value: 0 },
+      { name: 'Priority Support', value: 49 },
+      { name: 'MMC Cheatsheet Bundle', value: 57, isFree: true },
+      { name: 'Beat the Casino Ebook (98 pages)', value: 29, isFree: true },
+    ],
+    totalValue: 779,
     highlighted: false,
     badge: 'LIMITED',
     ctaText: 'Go VIP',
