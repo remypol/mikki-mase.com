@@ -1,0 +1,238 @@
+/**
+ * Mikki Mase Masterclass Knowledge Base
+ * Auto-generated from course content.
+ */
+
+export const MIKKI_KB = `## Blackjack Mastery — Blackjack Types Ranked
+- 'Double deck blackjack with 3:2 payouts is the best variant for advantage players -- fewer cards and fair payout structure.
+- Single deck sounds ideal but almost always pays 6:5 on blackjack instead of 3:2, which dramatically increases the house edge.
+- Continuous Shuffle Machines (CSMs) make it impossible to gain any edge -- walk away from these tables immediately.
+- Penetration (how deep the dealer goes before reshuffling) is one of the most important factors in choosing a table.
+- NEVER play at a table that pays 6:5 on blackjack -- the 3:2 payout is non-negotiable.',
+PRO TIP: Before you sit down at any blackjack table, check three things: (1) Does it pay 3:2 on blackjack? This is printed on the felt. (2) How many decks are in the shoe? Ask the dealer. (3) Is it a continuous shuffle machine? If you see cards going back in after every hand, walk away. These three checks take 10 seconds and save you thousands.
+
+## Blackjack Mastery — Basic Strategy Decoded
+- 'Basic strategy is the mathematically optimal play for every possible hand combination -- deviating from it costs you real money.
+- Always hit 16 against a dealer 7 or higher, even though it feels wrong -- the math demands it.
+- Never take insurance -- it carries a 7.7% house edge and is a pure sucker bet regardless of your hand.
+- Doubling down on 9, 10, and 11 against dealer 4-5-6 is where you make your money -- these are your profit hands.
+- When surrender is available, use it on 16 vs dealer 10 and 15 vs dealer 10 -- losing half your bet is better than losing all of it.',
+PRO TIP: Print out a basic strategy card and bring it to the casino. This is completely legal -- casinos even sell them in their gift shops. Use it until you have every decision memorized. There is zero shame in using a card. The shame is in guessing and losing money because of ego.
+
+## Blackjack Mastery — Soft Hands & Splitting
+- 'A soft hand contains an Ace counting as 11 -- you cannot bust by hitting a soft hand, which gives you more aggressive options.
+- Always split Aces -- every time, no exceptions. Two shots at 21 is always better than one hand of 12.
+- Mikki says DO NOT split 8s against a dealer 10 -- surrender or hit instead. This is controversial but the math supports losing less money.
+- Never split 10s -- you already have 20, which is one of the strongest hands in the game.
+- Soft 18 (A-7) is NOT a standing hand against strong dealer upcards -- hit against 9, 10, and Ace.',
+PRO TIP: The splitting 8s debate is one of the most controversial topics in blackjack. Most books and strategy charts say to always split 8s. I disagree when the dealer shows a 10 or Ace. The math says you lose less money by surrendering (if available) or hitting. Test it yourself with a simulator -- the numbers don\\
+
+## Blackjack Mastery — High Limit vs Low Limit
+- 'High limit rooms consistently offer better rules, better penetration, and fewer players -- all of which reduce the house edge.
+- Fewer players at a high limit table means faster play, which means less total exposure to the house edge per hour.
+- High limit play generates significantly better comps, often flipping the overall value equation.
+- Never play at a higher limit than your bankroll can sustain -- the mathematical edge means nothing if you go broke first.
+- Getting invited to high limit rooms is about consistent play and building relationships with casino hosts.',
+PRO TIP: Your bankroll for any session should be at least 30-40x your average bet size. For a \$100 minimum high limit table, bring at least \$3,000-4,000 for that session. This gives you enough runway to survive normal variance without going bust. If you cannot bring that bankroll, you cannot afford that table. Play lower until you can.
+
+## Blackjack Mastery — Avoiding Continuous Shuffle Machines
+- 'Continuous Shuffle Machines (CSMs) feed played cards right back into the shoe, making any card-based advantage play completely impossible.
+- CSMs were invented specifically to counter advantage players -- their existence proves the casino fears informed play.
+- You can identify a CSM by watching whether discards go back into the machine after each round instead of into a separate discard tray.
+- Dealers are required to tell you if the table uses a continuous shuffle if you ask -- always ask before sitting down.
+- Walking away from a CSM table is always the correct play, even if every other seat in the casino is full.',
+PRO TIP: Before sitting down at any blackjack table, casually ask the dealer:
+
+## Casino Negotiation — Finding a Casino Host
+- 'A casino host is your personal concierge AND the casino\\'s sales rep -- they exist to keep you playing, which means they have incentive to give you things.
+- Every player should have a host, even at \$25 minimum bets. You are leaving free money on the table if you don\\'t.
+- Having multiple hosts at multiple casinos gives you maximum leverage -- you can play them against each other.
+- The host\\'s compensation is tied to your play, which means they WANT to keep you happy and coming back.
+- Building a real relationship with your host over time unlocks higher-tier comps and perks that casual players never see.',
+PRO TIP: Your first conversation with a casino host should be at the players club desk, not at a table. Walk up, introduce yourself, say you play regularly and would like to be assigned a host. They will ask about your typical game and bet size. Be friendly, be confident, and slightly overstate your action. First impressions matter. The host will remember whether you came across as a serious player or a tourist.
+
+## Casino Negotiation — What to Say (and What to Lie About)
+- 'Strategically inflating your action at competing casinos is a standard negotiation tactic -- hosts expect it and can\\'t easily verify it.
+- Always tell the truth about your identity and contact information, but be strategic about your average bet, frequency, and competing casino relationships.
+- Hosts calculate your "theoretical value" using: average bet x hands per hour x house edge x hours x days. Understanding this formula lets you manipulate how they perceive your worth.
+- Never accept the first offer from a host -- everything is negotiable, from room quality to food credits to loss rebate percentages.
+- Ask for specific things rather than vague requests. "Can I get the suite instead of the standard room?" is better than "Can you do something nice for me?
+PRO TIP: The single most effective thing you can say to a casino host is:
+
+## Casino Negotiation — Leveraging Competing Casinos
+- 'The multi-casino strategy lets you pit hosts against each other -- "Wynn offered me X, can you match it?" works because hosts have competitive instincts and discretionary budgets.
+- Loss rebates are the most valuable comp you can negotiate -- standard is 5-7% but with leverage you can push for 15-25%.
+- Timing matters: end of quarter is the best time to make big asks because hosts are trying to hit their quotas.
+- Your player\\'s card statements from one casino are powerful leverage at another -- they show documented proof of action.
+- Building a reputation as a desirable player is more important than actually having a massive bankroll -- perception drives comps.',
+PRO TIP: Here\\
+
+## Casino Psychology — How Casinos Manipulate You
+- 'Every element of a casino -- from the carpet pattern to the air temperature -- is scientifically engineered to keep you playing longer and betting more.
+- Casinos use chip psychology to abstract real money into colorful discs, making you spend more freely.
+- Near-miss engineering on slot machines tricks your brain into thinking you almost won, keeping you hooked.
+- Free drinks are the most expensive beverages you will ever consume -- they impair your judgment and increase bet sizes.
+- Once you can identify the manipulation tactics, they lose most of their power over you.',
+PRO TIP: Walk into any casino and do this exercise: count every manipulation tactic you can spot in 60 seconds. The maze layout, the sounds, the lighting, the temperature, the smell, the chips, the free drinks. Once you start seeing the machine behind the magic, you stop being the mark.
+
+## Casino Psychology — The Rewards Trap
+- 'Casino loyalty programs return only 10-30% of your losses as comps -- they are mathematically designed to keep you losing.
+- Your "theoretical loss" is calculated as: average bet x hands per hour x house edge x hours played. The casino knows this number better than you do.
+- Tier systems exploit status-seeking psychology -- you chase the next level while hemorrhaging money to get there.
+- That "free" hotel room costs the casino \$30 but required \$3,000 in losses from you to earn.
+- The comp system CAN be flipped in your favor -- but only if you understand how it actually works first.',
+PRO TIP: Before you ever swipe your players card, calculate your own theoretical loss using the formula: average bet x hands per hour x house edge x hours played. If the comps you receive are worth less than 30% of that number, the casino is winning the comp game too. In later modules, I will teach you how to flip this equation entirely.
+
+## Casino Psychology — Playing Dumb
+- 'Casinos actively profile players as "sharp" or "recreational" -- getting labeled as sharp triggers increased surveillance and can lead to being banned.
+- Mikki intentionally acts uninformed at the table to avoid triggering casino countermeasures.
+- Tipping dealers, chatting with pit bosses, and dressing casually all help you fly under the radar.
+- Never discuss strategy, card counting, or advantage play at the table or anywhere on casino property.
+- The best advantage player looks exactly like every other recreational player -- the edge is invisible.',
+PRO TIP: Develop a
+
+## Comps Perks — Comp Slips vs Room Charges
+- 'Comp slips are truly free -- the host writes a slip and your meal is completely covered with no strings attached.
+- Room charges go on your bill and may or may not get comped at checkout -- never assume they will.
+- Always request comp slips BEFORE you need them, ideally at the start of your trip.
+- If a room charge doesn\\'t get comped, you\\'re stuck paying full casino restaurant prices out of pocket.
+- Building a comp slip habit -- always asking, never assuming -- is the difference between eating free and eating expensive.',
+PRO TIP: At the start of every trip, call your host and ask for comp slips for every restaurant you might visit. Get more than you think you need. Comp slips don\\
+
+## Comps Perks — Front Money vs Credit Lines
+- 'Front money is cash you deposit with the casino cage -- it\\'s YOUR money, held for your convenience.
+- Credit lines are loans from the casino that show up on your credit report and create dangerous temptation.
+- Front money keeps you in control of your bankroll and eliminates the risk of playing with borrowed money.
+- Depositing front money signals to the casino that you\\'re a serious player, which leads to better comps and treatment.
+- Markers drawn against front money are fundamentally different from markers drawn against credit -- know the distinction.',
+PRO TIP: When you deposit front money, do it via wire transfer a few days before your trip. This gives the casino time to verify the funds and have everything ready when you arrive. Walk up to the cage, sign for a marker against your deposit, and you\\
+
+## Comps Perks — Maximizing Every Dollar
+- 'Always use your player\\'s card -- even five minutes of rated play counts toward your comp profile.
+- Rate matching is your best friend: "Wynn gives me X, match it" works more often than you think.
+- Comp everything: rooms, food, spa, shows, golf, limo, airfare -- if you\\'re not asking, you\\'re leaving money on the table.
+- Being genuinely nice to your host pays 10x returns in comps and access.
+- End-of-month and end-of-quarter pushes are when hosts are most generous -- time your asks accordingly.',
+PRO TIP: Calculate your comp rate: total comps received divided by total gambling action. If your comp rate is below 20% of your theoretical loss, you\\
+
+## Discount System — Understanding Loss Rebates
+- 'Loss rebates give you back a percentage of your losses -- this single tool can flip the entire house edge equation in your favor.
+- Standard rebate rates range from 5-7% for new players up to 25% for established high-volume players.
+- Most players have no idea loss rebates exist -- simply asking for one puts you ahead of 99% of the room.
+- Always get your rebate agreement in writing. Verbal promises disappear when the host gets transferred.
+- The difference between a loss rebate and a dead chip program can mean thousands of dollars -- know both.',
+PRO TIP: When you first approach a casino about a loss rebate, don\\
+
+## Discount System — Multi-Casino Discount Strategy
+- 'Playing at 3-5 casinos simultaneously with loss rebates at each creates a mathematical edge through variance alone.
+- You collect rebates from the casinos where you lose while keeping 100% of the profits from casinos where you win.
+- Geographic strategy matters -- pick casinos close enough to rotate between them in a single trip.
+- Meticulous record-keeping across all properties is non-negotiable for this strategy to work.
+- Over time, variance guarantees you will win at some properties and lose at others -- the rebates turn this into a net positive.',
+PRO TIP: Set up your multi-casino rotation in a city like Las Vegas where you can hit 3-5 major properties in one trip. Play your 30-45 minute sessions at each one, collect your rated play at all of them, and let the variance math do its thing. At the end of the trip, some will be wins, some will be losses. You keep all the wins and get rebates on all the losses. This is not theory -- this is how I operate every single time I go to Vegas.
+
+## Mindset Disclaimer — The Gambler
+- 'Mikki\\'s #1 gambling advice is literally "do not gamble" -- this should tell you everything about the mindset required.
+- Advantage players (APs) treat the casino as a workplace, not a playground.
+- Ego is the fastest way to go broke. Discipline is the only edge that never expires.
+- If you cannot afford to lose it, you cannot afford to bet it. Period.
+- Responsible gambling resources exist for a reason -- use them if you need them.',
+PRO TIP: Before you ever sit down at a table, decide your stop-win and stop-loss numbers. Write them on your phone. When you hit either number, you stand up and walk away -- no exceptions, no
+
+## Mindset Disclaimer — Why Most Players Lose
+- 'Casinos are scientifically engineered environments designed to make you lose track of time, money, and rational thought.
+- The house edge is a built-in mathematical tax on every single bet you make -- it never sleeps.
+- Emotional decision-making is the #1 killer of bankrolls. Math doesn\\'t care about your feelings.
+- Loyalty programs and comps are not gifts -- they\\'re calculated investments to keep you spending more than you receive.
+- If the casino is letting you win consistently, they will ban you. That tells you everything about who the game is designed to favor.',
+PRO TIP: Next time you walk into a casino, look for the clocks. Look for the windows. Look for a clear path to the exit. You won\\
+
+## Pai Gow — Face-Up Pai Gow Fundamentals
+- 'Pai Gow Poker is the single best game for bankroll preservation -- you push (tie) roughly 40% of hands, meaning your money lasts longer than any other table game.
+- In Face-Up Pai Gow, the dealer\\'s hand is completely visible, which removes guesswork and lets you make mathematically optimal decisions every time.
+- The 5% commission on winning hands is the casino\\'s built-in edge -- but it\\'s manageable when combined with the right bonus strategy.
+- The "house way" is how the dealer sets their hand -- understanding when to follow it and when to deviate is the foundation of Pai Gow mastery.
+- Low hourly loss rate means you can play long sessions without destroying your bankroll, which is critical for accumulating comps and bonus payouts.',
+PRO TIP: When you sit down at a Pai Gow table, your goal is NOT to win hand after hand. Your goal is to survive. Every push is a victory because you\\
+
+## Pai Gow — Bonus Betting with 7 Cards
+- 'The bonus bet in Face-Up Pai Gow pays based on your BEST possible 7-card poker hand, regardless of how you set your two hands.
+- The base Pai Gow game is close to breakeven -- the bonus bet is where you actually make money.
+- Bonus payouts escalate dramatically: trips pay 2:1, but a straight flush can pay 50:1 or more depending on the casino.
+- You should ALWAYS play the bonus bet in Face-Up Pai Gow -- skipping it means leaving the most profitable part of the game on the table.
+- Proper bet sizing on the bonus relative to your base bet is critical to maximizing your expected value.',
+PRO TIP: Here\\
+
+## Pai Gow — The Break-Even Strategy
+- 'You do NOT need to win at the base Pai Gow game to profit -- breaking even on the base game while collecting bonus payouts is the entire strategy.
+- The compounding effect of breakeven base game + bonus wins + comps = net positive expected value over time.
+- Casinos rate you for your total action, not your net result -- so you get full comp value while barely losing money.
+- Optimal hand-setting sometimes means sacrificing your base game win probability to protect a bonus-qualifying hand.
+- Most casinos have not caught on to this strategy because Pai Gow is low-traffic and the edge is subtle.',
+PRO TIP: Here\\
+
+## Session Discipline — Win/Loss Limits
+- 'Set your stop-win and stop-loss limits BEFORE you walk through the casino door -- never at the table.
+- A stop-win of 30-50% of your buy-in locks in profits before greed takes over.
+- Your stop-loss should never exceed your session bankroll -- when it\\'s gone, you\\'re gone.
+- Write your limits on your phone and tell someone for accountability -- emotions will try to override logic.
+- The trap of "I\\'m up \$5,000, let me push for \$10,000" is how winners become losers in a single session.',
+PRO TIP: Before every single session, open the notes app on your phone and type:
+
+## Session Discipline — The 30-45 Minute Rule
+- 'Play for 30-45 minutes MAX per session -- this minimizes your exposure to the house edge.
+- The house edge compounds over time: shorter sessions mean less mathematical grinding against your bankroll.
+- Multiple short sessions dramatically outperform one long session in terms of expected results.
+- Casinos are designed to keep you seated for hours -- no clocks, free drinks, comfortable chairs. Recognize the trap.
+- Short sessions still count for comp tracking -- you get rated for action intensity, not just time.',
+PRO TIP: Set an actual timer on your phone for 35 minutes when you sit down. When it goes off, do a position check: Am I up or down? Have I hit my stop-win or stop-loss? If not, evaluate whether to play the last 10 minutes or cash out now. The timer removes the guesswork and takes the decision out of your emotional brain. I\\
+
+## Session Discipline — Play Big and Fast
+- 'Fewer hands at higher bets means less house edge exposure than many hands at lower bets for the same total action.
+- Never risk more than 5% of your session bankroll on a single hand -- aggressive does not mean reckless.
+- Controlled aggression means big bets within a disciplined framework of limits, timers, and strategy.
+- Track every session with a log: date, casino, game, buy-in, cash-out, session time, and notes.
+- The endgame is combining ALL strategies from ALL modules: game selection, optimal play, loss rebates, comps, and session discipline.',
+PRO TIP: Create a session log on your phone or a small notebook. Before every session, write: Date, Casino, Game, Buy-in, Stop-win, Stop-loss. After every session, add: Cash-out, Session time, Notes. Review your log at the end of every trip. Over time, you\\
+
+## Side Bets — The 21+3 Side Bet
+- 'The 21+3 side bet combines your two cards plus the dealer upcard to form a three-card poker hand -- paying 9:1 on any qualifying combination.
+- Unlike most side bets, 21+3 can approach a player-favorable edge when combined with card information from the main game.
+- The sweet spot for 21+3 is betting approximately 10% of your main blackjack bet -- enough to profit when it hits without draining your bankroll.
+- Qualifying hands include flush, straight, three of a kind, straight flush, and suited trips -- learn to recognize them instantly.
+- The 21+3 bet is one of the very few side bets worth considering, but only at tables where the payout structure is favorable.',
+PRO TIP: Not all 21+3 payouts are created equal. The best version pays a flat 9:1 for any qualifying hand. Some casinos have changed to tiered payouts (5:1 for a flush, 10:1 for a straight, etc.) which can actually be worse overall. Check the payout table printed on the felt before you place the bet. The flat 9:1 version is what you want.
+
+## Side Bets — Side Bets to Avoid
+- 'Insurance is a side bet with a 7.7% house edge disguised as a protective measure -- never take it under any circumstances.
+- Perfect Pairs, Lucky Ladies, Dealer Bust, and progressive jackpot side bets all carry enormous house edges ranging from 5% to over 25%.
+- The golden rule: if the casino is heavily promoting a side bet, it is because that bet is extremely profitable for THEM.
+- Casinos continuously add more side bets to their tables because side bets have dramatically higher margins than the base game.
+- Every dollar you put into a bad side bet is a dollar taken away from your base blackjack game where you actually have a fighting chance.',
+PRO TIP: Here is a simple test for any side bet: ask yourself,
+
+## Uth Group Play — The Group Play Concept
+- 'In Ultimate Texas Hold\\'em, all players\\' cards are dealt face-up, meaning a group of 5 players can collectively see 10 cards out of 52 before community cards are dealt.
+- Seeing almost 20% of the deck gives your group a significant statistical advantage over the house when making betting decisions.
+- This strategy is completely legal -- you are not marking cards or colluding on bet amounts. You are simply using publicly visible information.
+- Casinos hate this strategy and some have tried to ban table talk, but sharing publicly visible information is within the rules at most properties.
+- You need a minimum of 5 players at the table for the shared information to create a meaningful mathematical edge.',
+PRO TIP: Before you try this at a casino, do a dry run at home with friends. Deal out 5 hands face-up and practice quickly scanning all 10 cards. You need to be able to assess the collective card information in seconds, not minutes. If your group is slow, the dealer will speed things up and you\\
+
+## Uth Group Play — Card Sharing & Calculating Outs
+- 'Quick, efficient card communication at the table is the foundation of group UTH strategy -- you need to share information in seconds, not minutes.
+- With 5 players seeing 10 cards plus 3-5 community cards, you can know 13-15 out of 52 cards, leaving only 37-39 unknown.
+- Elimination math is simple: if you need a King and two Kings are visible, only 2 remain in the unknown cards instead of 4.
+- Verbal communication about face-up cards is legal at most casinos -- you are discussing publicly visible information in a public game.
+- Practice at home until card scanning and communication becomes second nature before bringing this strategy to a real casino.',
+PRO TIP: Develop a simple shorthand with your group before you hit the casino. Something like calling out
+
+## Uth Group Play — Executing the Strategy
+- 'A pre-game briefing where everyone agrees on communication methods and profit splitting is essential before sitting down.
+- The 4x pre-flop bet is the highest-value play in UTH -- shared card knowledge tells you exactly when to pull the trigger.
+- Seat positioning matters: spread out around the table so you can see all cards easily without craning your necks.
+- Lower-traffic times (weekday mornings, late nights) give you the best chance of getting 5 seats together and less casino scrutiny.
+- When casinos push back, stay calm, be polite, and know your rights -- discussing face-up cards is not against any gaming regulation.',
+PRO TIP: The absolute best time to run this strategy is Tuesday through Thursday, early afternoon. Tables are empty, dealers are relaxed, and pit bosses are paying less attention. Weekend nights? Forget it -- tables are full of random players, the energy is chaotic, and floor staff are on high alert. Pick your spots like you pick your cards.
+
+`;
