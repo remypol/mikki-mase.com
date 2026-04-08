@@ -184,9 +184,135 @@ const modulesWithScenarios = courseManifest.modules.filter((m) => m.scenarios &&
     <FinalCTA client:visible />
   </main>
 
+  <!-- Sticky mobile buy bar (appears after scrolling past hero) -->
+  <div id="mobile-sticky-cta" class="mobile-sticky-cta md:hidden">
+    <div class="mobile-sticky-inner">
+      <div class="mobile-sticky-price">
+        <span class="mobile-sticky-amount">$67</span>
+        <span class="mobile-sticky-label">one-time</span>
+      </div>
+      <a href="/checkout/masterclass" class="mobile-sticky-btn">
+        Get Access
+        <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+        </svg>
+      </a>
+    </div>
+  </div>
+
   <Footer />
   </PasswordGate>
 </BaseLayout>
+
+<style>
+  .mobile-sticky-cta {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 50;
+    background: rgba(0, 0, 0, 0.95);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-top: 1px solid rgba(207, 181, 59, 0.3);
+    padding: 12px 16px;
+    padding-bottom: calc(12px + env(safe-area-inset-bottom, 0px));
+    transform: translateY(100%);
+    transition: transform 0.3s ease;
+  }
+
+  .mobile-sticky-cta.visible {
+    transform: translateY(0);
+  }
+
+  .mobile-sticky-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    max-width: 480px;
+    margin: 0 auto;
+  }
+
+  .mobile-sticky-price {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .mobile-sticky-amount {
+    font-size: 22px;
+    font-weight: 900;
+    color: white;
+    line-height: 1;
+  }
+
+  .mobile-sticky-label {
+    font-size: 11px;
+    color: #6B6B6B;
+  }
+
+  .mobile-sticky-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 15px;
+    font-weight: 700;
+    color: #000;
+    background: #CFB53B;
+    border-radius: 12px;
+    padding: 12px 24px;
+    min-height: 48px;
+    flex: 1;
+    max-width: 240px;
+    text-decoration: none;
+    transition: all 0.15s ease;
+  }
+
+  .mobile-sticky-btn:active {
+    transform: scale(0.98);
+  }
+
+  @media (min-width: 768px) {
+    .mobile-sticky-cta {
+      display: none !important;
+    }
+  }
+</style>
+
+<script>
+  document.addEventListener('astro:page-load', () => {
+    const stickyCta = document.getElementById('mobile-sticky-cta');
+    if (!stickyCta || window.innerWidth >= 768) return;
+
+    let heroVisible = true;
+    let pricingVisible = false;
+
+    function updateVisibility() {
+      // Show when hero is NOT visible AND pricing is NOT visible
+      if (!heroVisible && !pricingVisible) {
+        stickyCta.classList.add('visible');
+      } else {
+        stickyCta.classList.remove('visible');
+      }
+    }
+
+    const hero = document.querySelector('#main-content > section:first-child');
+    if (hero) {
+      new IntersectionObserver(([entry]) => {
+        heroVisible = entry.isIntersecting;
+        updateVisibility();
+      }, { threshold: 0.1 }).observe(hero);
+    }
+
+    const pricing = document.getElementById('pricing');
+    if (pricing) {
+      new IntersectionObserver(([entry]) => {
+        pricingVisible = entry.isIntersecting;
+        updateVisibility();
+      }, { threshold: 0.15 }).observe(pricing);
+    }
+  });
+</script>
 
 <!-- GA4: view_item event -->
 <script define:vars={{ productId: masterclass.id, productName: masterclass.name, productPrice: masterclass.price }}>
