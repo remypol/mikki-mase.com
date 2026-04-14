@@ -2,7 +2,7 @@
 /**
  * Masterclass Success Page (Thank You)
  *
- * Shows purchase confirmation with course access link.
+ * Instant gratification: celebration, what they got, what to do next.
  */
 
 export const prerender = false;
@@ -11,7 +11,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import Header from '../../components/Header.astro';
 import Footer from '../../components/Footer.astro';
 import { getStripeServer } from '../../lib/stripe';
-import { getServerClient } from '../../lib/supabase';
+import { generateDownloadToken, getDownloadUrl } from '../../lib/downloads';
 import { sessionPlaybook } from '../../config/shop/products';
 
 const sessionId = Astro.url.searchParams.get('session_id');
@@ -23,6 +23,8 @@ let metadataUserId = '';
 let isGuestCheckout = false;
 let error: string | null = null;
 let purchaseAmount = sessionPlaybook.price;
+let cheatsheetUrl = '';
+let ebookUrl = '';
 
 if (!sessionId) {
   error = 'No session ID provided';
@@ -46,6 +48,12 @@ if (!sessionId) {
           const visible = localPart.length <= 2 ? localPart[0] : localPart.slice(0, 2);
           maskedEmail = `${visible}${'*'.repeat(Math.max(localPart.length - 2, 1))}@${domain}`;
         }
+
+        // Generate bonus download links
+        const csToken = generateDownloadToken('mmc-cheatsheet-bundle', customerEmail, sessionId);
+        const ebToken = generateDownloadToken('beat-the-casino', customerEmail, sessionId);
+        cheatsheetUrl = getDownloadUrl(csToken);
+        ebookUrl = getDownloadUrl(ebToken);
       }
     } else {
       error = 'Payment has not been completed yet.';
@@ -58,8 +66,8 @@ if (!sessionId) {
 ---
 
 <BaseLayout
-  title="Your Masterclass is Ready! | Mikki Mase"
-  description="Purchase confirmed. Access your Masterclass."
+  title="You're In! | Mikki Mase Masterclass"
+  description="Purchase confirmed. Welcome to the Masterclass."
   noIndex={true}
   hideMobileNav={true}
   hideBackToTop={true}
@@ -79,11 +87,7 @@ if (!sessionId) {
           </div>
           <h1 class="text-2xl font-bold text-white mb-4">Something went wrong</h1>
           <p class="mb-8" style="color: #9A9A9A;">{error}</p>
-          <a
-            href="/masterclass"
-            class="inline-block font-semibold px-6 py-3 rounded-lg transition-colors"
-            style="background: #CFB53B; color: #000;"
-          >
+          <a href="/masterclass" class="inline-block font-semibold px-6 py-3 rounded-lg" style="background: #CFB53B; color: #000;">
             Return to Course
           </a>
         </div>
@@ -92,70 +96,192 @@ if (!sessionId) {
         <!-- Success State -->
         <div>
 
-          <!-- Confirmation -->
-          <div class="text-center mb-12">
+          <!-- Celebration Header -->
+          <div class="text-center mb-10">
             <div class="w-20 h-20 mx-auto mb-6 rounded-full flex items-center justify-center animate-scale" style="background: rgba(207, 181, 59, 0.2);">
               <svg class="w-10 h-10" style="color: #CFB53B;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
               </svg>
             </div>
 
-            <h1 class="text-3xl font-bold text-white mb-2">Your Masterclass is ready!</h1>
-            <p class="text-lg mb-4" style="color: #CFB53B;">Purchase confirmed</p>
+            <h1 class="text-3xl md:text-4xl font-black text-white mb-3">You're in!</h1>
+            <p class="text-lg mb-1" style="color: #CFB53B; font-weight: 700;">Welcome to The Mikki Mase Masterclass</p>
+            <p class="text-sm" style="color: #9A9A9A;">You just made the smartest bet of the day.</p>
+          </div>
 
-            {isGuestCheckout ? (
-              <div
-                class="rounded-xl p-5 text-left mb-6 max-w-md mx-auto"
-                style="background: rgba(207, 181, 59, 0.08); border: 1px solid rgba(207, 181, 59, 0.25);"
-              >
-                <div class="flex items-start gap-3">
-                  <svg class="w-6 h-6 flex-shrink-0 mt-0.5" style="color: #CFB53B;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                  </svg>
-                  <div>
-                    <p class="text-white font-bold text-sm mb-1">Check your email to access the Masterclass</p>
-                    <p class="text-xs" style="color: #BEBEBE;">
-                      We sent a <strong class="text-white">one-click login link</strong> to <strong class="text-white">{maskedEmail || 'your email'}</strong>.
-                    </p>
-                  </div>
+          <!-- What You Got -->
+          <div class="rounded-2xl p-6 mb-8" style="background: #111; border: 1px solid #2D2D2D;">
+            <h2 class="text-sm font-bold uppercase tracking-wider mb-4" style="color: #CFB53B;">What's Included</h2>
+            <div class="space-y-3">
+              <div class="flex items-start gap-3">
+                <svg class="w-5 h-5 flex-shrink-0 mt-0.5" style="color: #22c55e;" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                </svg>
+                <div>
+                  <p class="text-white font-semibold text-sm">10-Module Masterclass</p>
+                  <p class="text-xs" style="color: #9A9A9A;">25+ lessons, quizzes, interactive scenarios</p>
                 </div>
               </div>
-            ) : (
+              <div class="flex items-start gap-3">
+                <svg class="w-5 h-5 flex-shrink-0 mt-0.5" style="color: #22c55e;" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                </svg>
+                <div>
+                  <p class="text-white font-semibold text-sm">Cheatsheet Bundle</p>
+                  <p class="text-xs" style="color: #9A9A9A;">Baccarat, Poker & Roulette strategy cards (PDF)</p>
+                </div>
+              </div>
+              <div class="flex items-start gap-3">
+                <svg class="w-5 h-5 flex-shrink-0 mt-0.5" style="color: #22c55e;" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                </svg>
+                <div>
+                  <p class="text-white font-semibold text-sm">Beat the Casino Ebook</p>
+                  <p class="text-xs" style="color: #9A9A9A;">98-page guide to casino psychology & advantage play</p>
+                </div>
+              </div>
+              <div class="flex items-start gap-3">
+                <svg class="w-5 h-5 flex-shrink-0 mt-0.5" style="color: #22c55e;" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                </svg>
+                <div>
+                  <p class="text-white font-semibold text-sm">Lifetime Access</p>
+                  <p class="text-xs" style="color: #9A9A9A;">All future updates included, no subscription</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Access / Next Steps -->
+          {isGuestCheckout ? (
+            <div class="rounded-2xl p-6 mb-8" style="background: rgba(207, 181, 59, 0.06); border: 1px solid rgba(207, 181, 59, 0.25);">
+              <div class="flex items-start gap-3 mb-4">
+                <svg class="w-6 h-6 flex-shrink-0 mt-0.5" style="color: #CFB53B;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                </svg>
+                <div>
+                  <p class="text-white font-bold text-sm mb-1">Check your email to get started</p>
+                  <p class="text-xs" style="color: #BEBEBE;">
+                    We sent a <strong class="text-white">one-click login link</strong> to <strong class="text-white">{maskedEmail || 'your email'}</strong>. Click it to access everything instantly.
+                  </p>
+                </div>
+              </div>
+              <div class="text-xs" style="color: #6B6B6B;">
+                Don't see it? Check your spam folder or <a href="mailto:support@mikki-mase.com" style="color: #CFB53B;">contact support</a>.
+              </div>
+            </div>
+          ) : (
+            <div class="text-center mb-8">
               <a
                 href="/masterclass/course"
-                class="inline-flex items-center justify-center gap-2 font-bold text-black min-h-[48px] rounded-xl px-8 transition-all hover:brightness-110 active:scale-[0.98] mb-6"
+                class="inline-flex items-center justify-center gap-2 font-bold text-black min-h-[52px] rounded-xl px-10 text-lg transition-all hover:brightness-110 active:scale-[0.98]"
                 style="background-color: #CFB53B;"
               >
-                Access Your Masterclass
+                Start the Masterclass
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
                 </svg>
               </a>
-            )}
+              <p class="text-xs mt-3" style="color: #6B6B6B;">Module 1 is unlocked and ready to go.</p>
+            </div>
+          )}
+
+          <!-- Bonus Downloads (immediate value) -->
+          {(cheatsheetUrl || ebookUrl) && (
+            <div class="rounded-2xl p-6 mb-8" style="background: #111; border: 1px solid #2D2D2D;">
+              <h2 class="text-sm font-bold uppercase tracking-wider mb-4" style="color: #CFB53B;">Your Bonus Downloads</h2>
+              <p class="text-xs mb-4" style="color: #9A9A9A;">Download these now — they're yours to keep forever.</p>
+              <div class="space-y-3">
+                {cheatsheetUrl && (
+                  <a
+                    href={cheatsheetUrl}
+                    class="flex items-center gap-3 p-3 rounded-lg transition-colors hover:bg-white/5"
+                    style="border: 1px solid #2D2D2D;"
+                  >
+                    <div class="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0" style="background: rgba(207, 181, 59, 0.1);">
+                      <svg class="w-5 h-5" style="color: #CFB53B;" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                      </svg>
+                    </div>
+                    <div class="flex-1 min-w-0">
+                      <p class="text-white text-sm font-semibold">MMC Cheatsheet Bundle</p>
+                      <p class="text-xs" style="color: #6B6B6B;">Baccarat, Poker & Roulette — PDF</p>
+                    </div>
+                    <span class="text-xs font-bold" style="color: #CFB53B;">Download</span>
+                  </a>
+                )}
+                {ebookUrl && (
+                  <a
+                    href={ebookUrl}
+                    class="flex items-center gap-3 p-3 rounded-lg transition-colors hover:bg-white/5"
+                    style="border: 1px solid #2D2D2D;"
+                  >
+                    <div class="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0" style="background: rgba(207, 181, 59, 0.1);">
+                      <svg class="w-5 h-5" style="color: #CFB53B;" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                      </svg>
+                    </div>
+                    <div class="flex-1 min-w-0">
+                      <p class="text-white text-sm font-semibold">Beat the Casino Ebook</p>
+                      <p class="text-xs" style="color: #6B6B6B;">98 pages — PDF</p>
+                    </div>
+                    <span class="text-xs font-bold" style="color: #CFB53B;">Download</span>
+                  </a>
+                )}
+              </div>
+              <p class="text-xs mt-3" style="color: #6B6B6B;">Links expire in 7 days. You can re-download from your course dashboard.</p>
+            </div>
+          )}
+
+          <!-- What's Next -->
+          <div class="rounded-2xl p-6 mb-8" style="background: #111; border: 1px solid #2D2D2D;">
+            <h2 class="text-sm font-bold uppercase tracking-wider mb-4" style="color: #CFB53B;">What to Do Next</h2>
+            <div class="space-y-4">
+              <div class="flex items-start gap-3">
+                <div class="w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 text-xs font-bold" style="background: rgba(207, 181, 59, 0.15); color: #CFB53B;">1</div>
+                <div>
+                  <p class="text-white text-sm font-semibold">Start with Module 1: Mindset & Disclaimer</p>
+                  <p class="text-xs" style="color: #9A9A9A;">Sets the foundation — takes about 15 minutes.</p>
+                </div>
+              </div>
+              <div class="flex items-start gap-3">
+                <div class="w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 text-xs font-bold" style="background: rgba(207, 181, 59, 0.15); color: #CFB53B;">2</div>
+                <div>
+                  <p class="text-white text-sm font-semibold">Download your cheatsheets</p>
+                  <p class="text-xs" style="color: #9A9A9A;">Print them or save to your phone for your next session.</p>
+                </div>
+              </div>
+              <div class="flex items-start gap-3">
+                <div class="w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 text-xs font-bold" style="background: rgba(207, 181, 59, 0.15); color: #CFB53B;">3</div>
+                <div>
+                  <p class="text-white text-sm font-semibold">Take the quizzes</p>
+                  <p class="text-xs" style="color: #9A9A9A;">Test your understanding after each module.</p>
+                </div>
+              </div>
+            </div>
           </div>
 
-          <!-- Inner Circle mention -->
-          <div style="margin-top: 2rem; padding: 1.5rem; background: #111; border: 1px solid #1A1A1A; border-radius: 12px;">
-            <p style="color: #BEBEBE; font-size: 14px; margin: 0;">
-              Want unlimited calculator tools, AI strategy advisor, and community access?
+          <!-- Inner Circle Soft Mention -->
+          <div class="rounded-2xl p-5 mb-8" style="background: rgba(207, 181, 59, 0.04); border: 1px solid rgba(207, 181, 59, 0.15);">
+            <p class="text-sm mb-1" style="color: #BEBEBE;">
+              <strong class="text-white">Want more?</strong> Inner Circle members get unlimited calculator tools, AI strategy advisor, community access, and monthly updates.
             </p>
-            <a href="/masterclass/course" style="color: #CFB53B; font-size: 14px; font-weight: 600; text-decoration: none;">
-              Explore the Inner Circle →
+            <a href="/masterclass/course" class="text-xs font-semibold" style="color: #CFB53B; text-decoration: none;">
+              Learn more inside your dashboard →
             </a>
           </div>
 
-          <!-- Trust / Disclaimer -->
+          <!-- Trust Footer -->
           <div class="text-center space-y-3">
             <div class="flex items-center justify-center gap-4 text-xs" style="color: #6B6B6B;">
               <span>Secure checkout via Stripe</span>
               <span>|</span>
-              <span>7-day guarantee</span>
-              <span>|</span>
-              <span>Educational content only</span>
+              <span>7-day money-back guarantee</span>
             </div>
-            <p class="text-sm" style="color: #6B6B6B;">
-              Questions? <a href="mailto:support@mikki-mase.com" class="hover:underline" style="color: #CFB53B;">Contact support</a>
+            <p class="text-xs" style="color: #6B6B6B;">
+              Questions? <a href="mailto:support@mikki-mase.com" style="color: #CFB53B;">support@mikki-mase.com</a>
             </p>
+            <p class="text-xs" style="color: #4A4A4A;">For educational purposes only. No guarantee of winnings.</p>
           </div>
 
         </div>
@@ -210,12 +336,5 @@ if (!sessionId) {
   }
   .animate-scale {
     animation: scale 0.5s ease-out;
-  }
-  @keyframes spin {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
-  }
-  .animate-spin {
-    animation: spin 1s linear infinite;
   }
 </style>
