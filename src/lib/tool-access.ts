@@ -10,7 +10,9 @@ import { getServerClient } from './supabase';
 import { getHighestTier, hasInnerCircleAccess, type UserTier } from './tiers';
 import type { AstroCookies } from 'astro';
 
-const FREE_CALCULATIONS_PER_DAY = 3;
+const ANON_CALCULATIONS_PER_DAY = 3;     // Not logged in / no purchase
+const MASTERCLASS_CALCULATIONS_PER_DAY = 25; // Paid $27 masterclass
+// Inner Circle / Lifetime VIP = unlimited (no limit)
 const COOKIE_NAME = 'tool_usage';
 const COOKIE_MAX_AGE = 86400; // 24 hours
 
@@ -30,11 +32,11 @@ export async function getToolAccess(
   const { data: { user } } = await supabase.auth.getUser();
 
   if (!user) {
-    // Anonymous user — check cookie for usage count
+    // Anonymous user — 3 free per day
     const usage = getUsageFromCookie(cookies);
     return {
       hasFullAccess: false,
-      remainingFree: Math.max(0, FREE_CALCULATIONS_PER_DAY - usage),
+      remainingFree: Math.max(0, ANON_CALCULATIONS_PER_DAY - usage),
       tier: null,
       isAuthenticated: false,
     };
@@ -72,11 +74,12 @@ export async function getToolAccess(
     return { hasFullAccess: true, remainingFree: 999, tier, isAuthenticated: true };
   }
 
-  // Authenticated but no IC subscription — still limited
+  // Authenticated: masterclass buyers get 25/day, others get 3/day
+  const dailyLimit = tier === 'masterclass' ? MASTERCLASS_CALCULATIONS_PER_DAY : ANON_CALCULATIONS_PER_DAY;
   const usage = getUsageFromCookie(cookies);
   return {
     hasFullAccess: false,
-    remainingFree: Math.max(0, FREE_CALCULATIONS_PER_DAY - usage),
+    remainingFree: Math.max(0, dailyLimit - usage),
     tier,
     isAuthenticated: true,
   };
