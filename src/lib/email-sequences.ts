@@ -2,17 +2,34 @@
  * Email Sequence Engine
  * Handles post-purchase nurture, abandoned checkout recovery, and win-back emails.
  *
- * Sequences:
+ * TWO SYSTEMS:
+ * 1. Legacy step-based sequences (NURTURE_STEPS, ABANDONED_STEPS) — called by Vercel Cron
+ * 2. New state-machine sequences (SequenceManager) — Supabase email_flow_state table
+ *
+ * Sequences (legacy):
  * - nurture: Day 1, 3, 7, 14, 30 after purchase
  * - abandoned: 1hr, Day 1, Day 3 after checkout start without completion
+ *
+ * Sequences (new):
+ * - activation: Post-Playbook-purchase welcome + Day 1 nudge
+ * - masterclass_upsell: Day 7 upsell for Playbook buyers who haven't upgraded
+ * - inner_circle: Future inner circle upsell (placeholder)
+ * - abandoned: 3-step recovery (1hr, 24hr, 72hr) via new sendAbandonedCheckout
  *
  * Called by Vercel Cron (/api/cron/email-sequences)
  */
 
 import { sendEmail } from './resend';
+import {
+  sendPlaybookWelcome,
+  sendActivationNudge,
+  sendMasterclassUpsell,
+  sendAbandonedCheckout,
+} from './resend';
+import { getServiceClient } from './supabase';
 
 // ============================================
-// NURTURE SEQUENCE (post-purchase)
+// NURTURE SEQUENCE (post-purchase, legacy)
 // ============================================
 
 interface NurtureStep {
@@ -137,7 +154,7 @@ export const NURTURE_STEPS: NurtureStep[] = [
 ];
 
 // ============================================
-// ABANDONED CHECKOUT SEQUENCE
+// ABANDONED CHECKOUT SEQUENCE (legacy)
 // ============================================
 
 interface AbandonedStep {
@@ -195,7 +212,7 @@ export const ABANDONED_STEPS: AbandonedStep[] = [
 ];
 
 // ============================================
-// SEQUENCE PROCESSOR
+// LEGACY SEQUENCE PROCESSOR
 // ============================================
 
 export interface SequenceResult {
@@ -286,7 +303,7 @@ export async function processNurtureSequence(supabase: any): Promise<SequenceRes
 }
 
 /**
- * Process abandoned checkout sequence
+ * Process abandoned checkout sequence (legacy)
  */
 export async function processAbandonedSequence(supabase: any): Promise<SequenceResult> {
   const result: SequenceResult = { sent: 0, skipped: 0, errors: 0 };
@@ -313,14 +330,6 @@ export async function processAbandonedSequence(supabase: any): Promise<SequenceR
       if (!intent.email) { result.skipped++; continue; }
 
       // Check if they've since purchased (don't email buyers)
-      const { data: purchased } = await supabase
-        .from('purchases')
-        .select('id')
-        .eq('status', 'completed')
-        .ilike('stripe_session_id', `%${intent.email}%`)
-        .maybeSingle();
-
-      // Better check: look up by user email in profiles → purchases
       const { data: profile } = await supabase
         .from('profiles')
         .select('id')
@@ -374,3 +383,375 @@ export async function processAbandonedSequence(supabase: any): Promise<SequenceR
 
   return result;
 }
+
+// ============================================
+// NEW: STATE-MACHINE SEQUENCE MANAGER
+// ============================================
+
+export type SequenceName = 'activation' | 'masterclass_upsell' | 'inner_circle' | 'abandoned_v2';
+
+export interface SequenceStep {
+  /** Delay in hours after sequence start */
+  delayHours: number;
+  /** Human-readable label for logging/debugging */
+  label: string;
+  /** The action to execute for this step */
+  action: (customerId: string, email: string, metadata?: Record<string, string>) => Promise<void>;
+}
+
+export interface EmailFlowState {
+  id?: string;
+  customer_id: string;
+  customer_email: string;
+  sequence_name: SequenceName;
+  current_step: number;
+  started_at: string;
+  next_send_at: string;
+  completed_at: string | null;
+  cancelled_at: string | null;
+  metadata: Record<string, string>;
+}
+
+// ============================================
+// SEQUENCE DEFINITIONS
+// ============================================
+
+export const sequenceDefinitions: Record<SequenceName, SequenceStep[]> = {
+  /**
+   * Activation sequence — triggered on Session Playbook purchase
+   * Step 0: Welcome email (sent immediately by webhook, tracked here)
+   * Step 1: Day 1 activation nudge
+   */
+  activation: [
+    {
+      delayHours: 0,
+      label: 'Playbook Welcome (sent by webhook)',
+      action: async () => {
+        // Welcome email is sent directly by the purchase webhook
+        // This step exists as a placeholder for tracking
+      },
+    },
+    {
+      delayHours: 24,
+      label: 'Day 1 Activation Nudge',
+      action: async (_customerId, email, metadata) => {
+        await sendActivationNudge({
+          customerEmail: email,
+          customerName: metadata?.customerName,
+          accessUrl: metadata?.accessUrl || `${BASE_URL}/masterclass/course`,
+          lessonTitle: 'Bankroll Fundamentals',
+        });
+      },
+    },
+  ],
+
+  /**
+   * Masterclass upsell — triggered 7 days after Playbook purchase
+   * Only for customers who haven't upgraded yet
+   */
+  masterclass_upsell: [
+    {
+      delayHours: 168, // 7 days
+      label: 'Day 7 Masterclass Upsell',
+      action: async (_customerId, email, metadata) => {
+        await sendMasterclassUpsell({
+          customerEmail: email,
+          customerName: metadata?.customerName,
+          upgradeUrl: metadata?.upgradeUrl || `${BASE_URL}/masterclass`,
+          price: 79,
+        });
+      },
+    },
+  ],
+
+  /**
+   * Inner circle upsell — future sequence for masterclass completers
+   * Placeholder for now
+   */
+  inner_circle: [],
+
+  /**
+   * Abandoned checkout recovery v2 — 3-step sequence using new email templates
+   * Step 1: 1 hour after abandonment
+   * Step 2: 24 hours after abandonment
+   * Step 3: 72 hours after abandonment
+   */
+  abandoned_v2: [
+    {
+      delayHours: 1,
+      label: 'Abandoned Cart — Reminder',
+      action: async (_customerId, email, metadata) => {
+        await sendAbandonedCheckout({
+          customerEmail: email,
+          productName: metadata?.productName || 'Session Playbook',
+          checkoutUrl: metadata?.checkoutUrl || `${BASE_URL}/masterclass`,
+          step: 1,
+        });
+      },
+    },
+    {
+      delayHours: 24,
+      label: 'Abandoned Cart — Objection Handling',
+      action: async (_customerId, email, metadata) => {
+        await sendAbandonedCheckout({
+          customerEmail: email,
+          productName: metadata?.productName || 'Session Playbook',
+          checkoutUrl: metadata?.checkoutUrl || `${BASE_URL}/masterclass`,
+          step: 2,
+        });
+      },
+    },
+    {
+      delayHours: 72,
+      label: 'Abandoned Cart — Final Push',
+      action: async (_customerId, email, metadata) => {
+        await sendAbandonedCheckout({
+          customerEmail: email,
+          productName: metadata?.productName || 'Session Playbook',
+          checkoutUrl: metadata?.checkoutUrl || `${BASE_URL}/masterclass`,
+          step: 3,
+        });
+      },
+    },
+  ],
+};
+
+// ============================================
+// SEQUENCE MANAGEMENT
+// ============================================
+
+/**
+ * Start an email sequence for a customer.
+ * If the customer already has an active instance of this sequence, it will be replaced.
+ */
+export async function startSequence(
+  customerId: string,
+  customerEmail: string,
+  sequenceName: SequenceName,
+  metadata: Record<string, string> = {},
+): Promise<void> {
+  const supabase = getServiceClient();
+  const sequenceDef = sequenceDefinitions[sequenceName];
+
+  if (!sequenceDef || sequenceDef.length === 0) {
+    console.warn(`[email-sequences] Sequence "${sequenceName}" has no steps, skipping.`);
+    return;
+  }
+
+  const now = new Date();
+  const firstStep = sequenceDef[0];
+  const nextSendAt = new Date(now.getTime() + firstStep.delayHours * 60 * 60 * 1000);
+
+  const { error } = await supabase.from('email_flow_state').upsert(
+    {
+      customer_id: customerId,
+      customer_email: customerEmail,
+      sequence_name: sequenceName,
+      current_step: 0,
+      started_at: now.toISOString(),
+      next_send_at: nextSendAt.toISOString(),
+      completed_at: null,
+      cancelled_at: null,
+      metadata,
+    },
+    { onConflict: 'customer_id,sequence_name' },
+  );
+
+  if (error) {
+    console.error(`[email-sequences] Failed to start sequence "${sequenceName}" for ${customerId}:`, error);
+    throw error;
+  }
+
+  console.log(
+    `[email-sequences] Started "${sequenceName}" for ${customerEmail} — next send at ${nextSendAt.toISOString()}`,
+  );
+}
+
+/**
+ * Cancel an active sequence (e.g., when a customer completes checkout after abandoning)
+ */
+export async function cancelSequence(
+  customerId: string,
+  sequenceName: SequenceName,
+): Promise<void> {
+  const supabase = getServiceClient();
+
+  const { error } = await supabase
+    .from('email_flow_state')
+    .update({
+      cancelled_at: new Date().toISOString(),
+    })
+    .eq('customer_id', customerId)
+    .eq('sequence_name', sequenceName)
+    .is('completed_at', null)
+    .is('cancelled_at', null);
+
+  if (error) {
+    console.error(`[email-sequences] Failed to cancel sequence "${sequenceName}" for ${customerId}:`, error);
+    throw error;
+  }
+
+  console.log(`[email-sequences] Cancelled "${sequenceName}" for ${customerId}`);
+}
+
+/**
+ * Cancel all active sequences for a customer (e.g., on unsubscribe)
+ */
+export async function cancelAllSequences(customerId: string): Promise<void> {
+  const supabase = getServiceClient();
+
+  const { error } = await supabase
+    .from('email_flow_state')
+    .update({
+      cancelled_at: new Date().toISOString(),
+    })
+    .eq('customer_id', customerId)
+    .is('completed_at', null)
+    .is('cancelled_at', null);
+
+  if (error) {
+    console.error(`[email-sequences] Failed to cancel all sequences for ${customerId}:`, error);
+    throw error;
+  }
+
+  console.log(`[email-sequences] Cancelled all sequences for ${customerId}`);
+}
+
+// ============================================
+// QUEUE PROCESSING (called by cron)
+// ============================================
+
+/**
+ * Process pending emails in the state-machine queue.
+ * Call this from a cron job every 15 minutes alongside the legacy processors.
+ *
+ * Queries email_flow_state for sequences where:
+ * - next_send_at <= now
+ * - completed_at is null
+ * - cancelled_at is null
+ *
+ * For each match, sends the email for the current step and advances the sequence.
+ */
+export async function processEmailQueue(): Promise<{
+  processed: number;
+  errors: number;
+}> {
+  const supabase = getServiceClient();
+  const now = new Date().toISOString();
+
+  // Fetch all sequences that need to send
+  const { data: pendingRows, error: fetchError } = await supabase
+    .from('email_flow_state')
+    .select('*')
+    .lte('next_send_at', now)
+    .is('completed_at', null)
+    .is('cancelled_at', null)
+    .order('next_send_at', { ascending: true })
+    .limit(50); // Process in batches to avoid timeouts
+
+  if (fetchError) {
+    console.error('[email-sequences] Failed to fetch pending emails:', fetchError);
+    return { processed: 0, errors: 1 };
+  }
+
+  if (!pendingRows || pendingRows.length === 0) {
+    return { processed: 0, errors: 0 };
+  }
+
+  let processed = 0;
+  let errors = 0;
+
+  for (const row of pendingRows as EmailFlowState[]) {
+    const sequenceDef = sequenceDefinitions[row.sequence_name];
+    if (!sequenceDef) {
+      console.warn(`[email-sequences] Unknown sequence "${row.sequence_name}", skipping row ${row.id}`);
+      errors++;
+      continue;
+    }
+
+    const step = sequenceDef[row.current_step];
+    if (!step) {
+      // Current step is beyond the sequence length — mark completed
+      await supabase
+        .from('email_flow_state')
+        .update({ completed_at: new Date().toISOString() })
+        .eq('id', row.id);
+      continue;
+    }
+
+    try {
+      // Execute the step action
+      console.log(
+        `[email-sequences] Sending "${row.sequence_name}" step ${row.current_step} (${step.label}) to ${row.customer_email}`,
+      );
+      await step.action(row.customer_id, row.customer_email, row.metadata);
+
+      // Advance to next step
+      const nextStepIndex = row.current_step + 1;
+      const nextStep = sequenceDef[nextStepIndex];
+
+      if (nextStep) {
+        // Calculate next send time based on sequence start + next step delay
+        const startedAt = new Date(row.started_at);
+        const nextSendAt = new Date(startedAt.getTime() + nextStep.delayHours * 60 * 60 * 1000);
+
+        await supabase
+          .from('email_flow_state')
+          .update({
+            current_step: nextStepIndex,
+            next_send_at: nextSendAt.toISOString(),
+          })
+          .eq('id', row.id);
+      } else {
+        // No more steps — mark sequence as completed
+        await supabase
+          .from('email_flow_state')
+          .update({
+            current_step: nextStepIndex,
+            completed_at: new Date().toISOString(),
+          })
+          .eq('id', row.id);
+      }
+
+      processed++;
+    } catch (err) {
+      console.error(
+        `[email-sequences] Error processing "${row.sequence_name}" step ${row.current_step} for ${row.customer_email}:`,
+        err,
+      );
+      errors++;
+    }
+  }
+
+  console.log(`[email-sequences] Queue processed: ${processed} sent, ${errors} errors`);
+  return { processed, errors };
+}
+
+// ============================================
+// SUPABASE TABLE SCHEMA (for reference)
+// ============================================
+
+/**
+ * Required Supabase table: email_flow_state
+ *
+ * CREATE TABLE email_flow_state (
+ *   id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+ *   customer_id TEXT NOT NULL,
+ *   customer_email TEXT NOT NULL,
+ *   sequence_name TEXT NOT NULL,
+ *   current_step INTEGER NOT NULL DEFAULT 0,
+ *   started_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+ *   next_send_at TIMESTAMPTZ NOT NULL,
+ *   completed_at TIMESTAMPTZ,
+ *   cancelled_at TIMESTAMPTZ,
+ *   metadata JSONB DEFAULT '{}',
+ *   created_at TIMESTAMPTZ DEFAULT NOW(),
+ *   updated_at TIMESTAMPTZ DEFAULT NOW(),
+ *   UNIQUE(customer_id, sequence_name)
+ * );
+ *
+ * -- Index for queue processing
+ * CREATE INDEX idx_email_flow_pending
+ *   ON email_flow_state (next_send_at)
+ *   WHERE completed_at IS NULL AND cancelled_at IS NULL;
+ */

@@ -7,7 +7,7 @@
 // CORE TYPES
 // ============================================
 
-export type ProductType = 'ebook' | 'merch' | 'course' | 'bundle' | 'subscription' | 'lifetime';
+export type ProductType = 'ebook' | 'merch' | 'course' | 'bundle' | 'subscription' | 'lifetime' | 'quickstart';
 export type FulfillmentType = 'digital' | 'physical' | 'hybrid';
 export type BillingInterval = 'monthly' | 'yearly' | 'lifetime' | 'one-time';
 export type Currency = 'USD' | 'EUR';
@@ -15,6 +15,25 @@ export type Currency = 'USD' | 'EUR';
 // ============================================
 // PRODUCT
 // ============================================
+
+export interface OrderBumpConfig {
+  productId: string;
+  label: string;
+  description: string;
+  price: number;
+  compareAt?: number;
+  stripePriceId: string;
+}
+
+export interface UpsellConfig {
+  productId: string;
+  headline: string;
+  description: string;
+  price: number;
+  compareAt?: number;
+  stripePriceId: string;
+  features: string[];
+}
 
 export interface Product {
   // Identity
@@ -54,6 +73,7 @@ export interface Product {
   featured: boolean;
   category: string;
   relatedProducts?: string[];
+  deprecated?: boolean;
 
   // Sales page content
   salesPage?: SalesPageContent;

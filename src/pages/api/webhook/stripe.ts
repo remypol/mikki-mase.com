@@ -135,7 +135,142 @@ async function handleCheckoutComplete(session: Stripe.Checkout.Session) {
   }
 
   // ============================================
-  // MASTERCLASS PURCHASE (authenticated + guest)
+  // V2 FUNNEL: SESSION PLAYBOOK + FULL MASTERCLASS
+  // ============================================
+
+  const v2ProductKeys = ['session-playbook', 'session-toolkit', 'full-masterclass'];
+  if (productKey && v2ProductKeys.includes(productKey)) {
+    const supabase = getServiceClient();
+    let resolvedUserId = userId;
+    let isGuest = isGuestCheckout === 'true';
+    let magicLoginLink: string | undefined;
+    const customerEmail = userEmail || session.customer_details?.email;
+
+    // Resolve user (same logic as masterclass — guest or authenticated)
+    if (!resolvedUserId && customerEmail) {
+      isGuest = true;
+      let existingUser: any = null;
+      try {
+        const { data: userList } = await supabase.auth.admin.listUsers({ page: 1, perPage: 1000 });
+        existingUser = userList?.users?.find((u: any) => u.email === customerEmail);
+      } catch (e) { console.warn('Could not list users:', e); }
+
+      if (existingUser) {
+        resolvedUserId = existingUser.id;
+      } else {
+        const { data: newUser, error: createError } = await supabase.auth.admin.createUser({
+          email: customerEmail, email_confirm: true,
+          user_metadata: { guest_account: true, full_name: session.customer_details?.name || '' },
+        });
+        if (createError) {
+          if (createError.message?.includes('already')) {
+            const { data: retryList } = await supabase.auth.admin.listUsers({ page: 1, perPage: 1000 });
+            existingUser = retryList?.users?.find((u: any) => u.email === customerEmail);
+            if (existingUser) resolvedUserId = existingUser.id;
+          }
+          if (!resolvedUserId) throw new Error(`Guest user creation failed: ${createError.message}`);
+        } else if (newUser?.user) {
+          resolvedUserId = newUser.user.id;
+          await supabase.from('profiles').upsert({ id: resolvedUserId, email: customerEmail, full_name: session.customer_details?.name || '' }, { onConflict: 'id' });
+        }
+      }
+
+      if (resolvedUserId && customerEmail) {
+        try {
+          const { data: linkData } = await supabase.auth.admin.generateLink({ type: 'magiclink', email: customerEmail, options: { redirectTo: 'https://www.mikki-mase.com/masterclass/course' } });
+          if (linkData?.properties?.action_link) magicLoginLink = linkData.properties.action_link;
+        } catch (e) { console.warn('Magic link error:', e); }
+      }
+    }
+
+    if (!resolvedUserId) throw new Error('No user ID resolved for v2 purchase');
+
+    // Record purchase for each line item
+    const lineItems = session.line_items?.data || [];
+    for (const item of lineItems) {
+      const priceId = typeof item.price === 'string' ? item.price : item.price?.id;
+      const itemProductKey = Object.entries(
+        (await import('../../../config/shop/products')).productKeyToPriceId
+      ).find(([_, pid]) => pid === priceId)?.[0] || productKey;
+
+      await supabase.from('purchases').upsert({
+        user_id: resolvedUserId,
+        stripe_session_id: `${session.id}_${itemProductKey}`,
+        stripe_payment_intent_id: typeof session.payment_intent === 'string' ? session.payment_intent : null,
+        product_key: itemProductKey,
+        amount_cents: item.amount_total ?? 0,
+        status: 'completed',
+      }, { onConflict: 'stripe_session_id' });
+
+      // Grant entitlement
+      await supabase.from('entitlements').upsert({
+        customer_id: resolvedUserId,
+        product_type: itemProductKey || 'session-playbook',
+        source_order_id: null,
+      }, { onConflict: 'customer_id,product_type' }).then(() => {}).catch(() => {});
+    }
+
+    // If no line items expanded, record the main product
+    if (lineItems.length === 0) {
+      await supabase.from('purchases').upsert({
+        user_id: resolvedUserId,
+        stripe_session_id: session.id,
+        stripe_payment_intent_id: typeof session.payment_intent === 'string' ? session.payment_intent : null,
+        product_key: productKey,
+        amount_cents: session.amount_total ?? 0,
+        status: 'completed',
+      }, { onConflict: 'stripe_session_id' });
+    }
+
+    // Link Stripe customer ID
+    if (session.customer) {
+      const customerId = typeof session.customer === 'string' ? session.customer : (session.customer as any).id;
+      await supabase.from('profiles').update({ stripe_customer_id: customerId }).eq('id', resolvedUserId).is('stripe_customer_id', null);
+    }
+
+    // Start email activation sequence
+    try {
+      const { startSequence } = await import('../../../lib/email-sequences');
+      await startSequence(resolvedUserId, 'activation');
+    } catch (e) { console.warn('Email sequence start failed:', e); }
+
+    // Send welcome email
+    if (customerEmail) {
+      try {
+        const { sendPlaybookWelcome } = await import('../../../lib/resend');
+        const cheatsheetToken = generateDownloadToken('mmc-cheatsheet-bundle', customerEmail, session.id);
+        await sendPlaybookWelcome({
+          customerEmail,
+          customerName: session.customer_details?.name || undefined,
+          accessUrl: magicLoginLink || 'https://www.mikki-mase.com/masterclass/course',
+          cheatsheetDownloadUrl: getDownloadUrl(cheatsheetToken),
+          isGuest,
+          magicLink: magicLoginLink,
+        });
+      } catch (e) { console.error('Welcome email failed:', e); }
+
+      await sendPaymentNotification({
+        customerEmail,
+        customerName: session.customer_details?.name || undefined,
+        productName: `Session Playbook${isGuest ? ' (Guest)' : ''}`,
+        amountCents: session.amount_total ?? 2700,
+        currency: session.currency || 'usd',
+        stripeSessionId: session.id,
+      });
+    }
+
+    // Mark abandoned checkout as converted
+    if (customerEmail) {
+      try {
+        await supabase.from('checkout_intents').update({ completed_at: new Date().toISOString() }).eq('email', customerEmail).is('completed_at', null);
+      } catch { /* non-critical */ }
+    }
+
+    return;
+  }
+
+  // ============================================
+  // LEGACY MASTERCLASS PURCHASE (authenticated + guest)
   // ============================================
 
   if (productKey === 'masterclass') {

@@ -1,0 +1,167 @@
+---
+/**
+ * Responsible Gambling Page
+ * Resources and commitment to responsible gambling practices
+ */
+
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+
+const title = "Responsible Gambling | Mikki Mase";
+const description = "Responsible gambling resources, warning signs of problem gambling, and our commitment to educational-only content at mikki-mase.com.";
+---
+
+<BaseLayout title={title} description={description} noIndex={true}>
+  <Header />
+
+  <main id="main-content" class="bg-black min-h-screen">
+    <div class="max-w-3xl mx-auto px-4 py-16 md:py-24">
+
+      <h1 class="font-serif text-4xl md:text-5xl font-bold text-white mb-4">Responsible Gambling</h1>
+
+      <p class="text-gray-400 mb-12 text-lg leading-relaxed">
+        Gambling should be fun, not a source of stress. If it stops being entertainment, it&rsquo;s time
+        to step back and reassess. This page provides resources and information to help you stay in control.
+      </p>
+
+      <div class="prose prose-invert max-w-none space-y-12">
+
+        <!-- Warning Signs -->
+        <section>
+          <h2 class="text-2xl font-bold text-white mb-4">Warning Signs of Problem Gambling</h2>
+          <p class="text-gray-400 mb-4 leading-relaxed">
+            If any of the following apply to you or someone you know, it may be time to seek help:
+          </p>
+          <ul class="space-y-3">
+            <li class="flex items-start gap-3">
+              <span class="text-red-500 mt-0.5 shrink-0">&#9679;</span>
+              <span class="text-gray-300">Spending more money or time gambling than you can afford</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <span class="text-red-500 mt-0.5 shrink-0">&#9679;</span>
+              <span class="text-gray-300">Chasing losses or borrowing money to gamble</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <span class="text-red-500 mt-0.5 shrink-0">&#9679;</span>
+              <span class="text-gray-300">Feeling restless or irritable when trying to stop or reduce gambling</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <span class="text-red-500 mt-0.5 shrink-0">&#9679;</span>
+              <span class="text-gray-300">Lying to family or friends about how much you gamble</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <span class="text-red-500 mt-0.5 shrink-0">&#9679;</span>
+              <span class="text-gray-300">Gambling to escape problems or relieve feelings of anxiety or depression</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <span class="text-red-500 mt-0.5 shrink-0">&#9679;</span>
+              <span class="text-gray-300">Neglecting work, school, or family responsibilities because of gambling</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <span class="text-red-500 mt-0.5 shrink-0">&#9679;</span>
+              <span class="text-gray-300">Repeated unsuccessful attempts to control or stop gambling</span>
+            </li>
+          </ul>
+        </section>
+
+        <!-- Resources -->
+        <section>
+          <h2 class="text-2xl font-bold text-white mb-4">Resources &amp; Help</h2>
+          <p class="text-gray-400 mb-6 leading-relaxed">
+            If you or someone you know has a gambling problem, help is available 24/7:
+          </p>
+          <div class="space-y-4">
+            <div class="rounded-xl p-5" style="background: #111; border: 1px solid #2D2D2D;">
+              <h3 class="text-white font-bold mb-1">National Council on Problem Gambling</h3>
+              <p class="text-gray-400 text-sm mb-2">Confidential helpline available 24/7</p>
+              <a href="tel:18005224700" class="text-lg font-bold" style="color: #CFB53B;">
+                1-800-522-4700
+              </a>
+              <span class="text-gray-500 text-sm ml-2">(Call or Text)</span>
+              <p class="mt-2">
+                <a
+                  href="https://www.ncpgambling.org"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="text-sm underline"
+                  style="color: #CFB53B;"
+                >
+                  ncpgambling.org
+                </a>
+              </p>
+            </div>
+            <div class="rounded-xl p-5" style="background: #111; border: 1px solid #2D2D2D;">
+              <h3 class="text-white font-bold mb-1">Gamblers Anonymous</h3>
+              <p class="text-gray-400 text-sm mb-2">Find local meetings and support groups</p>
+              <a
+                href="https://www.gamblersanonymous.org"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="text-sm underline"
+                style="color: #CFB53B;"
+              >
+                gamblersanonymous.org
+              </a>
+            </div>
+            <div class="rounded-xl p-5" style="background: #111; border: 1px solid #2D2D2D;">
+              <h3 class="text-white font-bold mb-1">GamTrak</h3>
+              <p class="text-gray-400 text-sm mb-2">Track your gambling activity and set personal limits</p>
+              <a
+                href="https://www.gamtrak.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="text-sm underline"
+                style="color: #CFB53B;"
+              >
+                gamtrak.com
+              </a>
+            </div>
+          </div>
+        </section>
+
+        <!-- Self-Exclusion -->
+        <section>
+          <h2 class="text-2xl font-bold text-white mb-4">Self-Exclusion Programs</h2>
+          <p class="text-gray-400 leading-relaxed">
+            Most states and many countries offer self-exclusion programs that allow you to voluntarily
+            ban yourself from casinos and online gambling platforms. Contact your state&rsquo;s gaming
+            commission or visit the
+            <a
+              href="https://www.ncpgambling.org/help-treatment/national-helpline-1-800-522-4700/"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="underline"
+              style="color: #CFB53B;"
+            >
+              NCPG helpline
+            </a>
+            to learn about self-exclusion options in your area.
+          </p>
+        </section>
+
+        <!-- Our Commitment -->
+        <section class="rounded-xl p-6 md:p-8" style="background: #111; border-top: 3px solid #CFB53B;">
+          <h2 class="text-2xl font-bold text-white mb-4">Our Commitment</h2>
+          <p class="text-gray-300 leading-relaxed mb-4">
+            mikki-mase.com provides <strong class="text-white">educational content only</strong>.
+            We do not operate a casino, sportsbook, or any gambling platform. We do not facilitate
+            gambling in any form.
+          </p>
+          <p class="text-gray-300 leading-relaxed mb-4">
+            Our courses and tools are designed to help you make more informed decisions,
+            manage your bankroll responsibly, and understand the mathematics behind casino games.
+          </p>
+          <p class="text-gray-400 text-sm leading-relaxed">
+            We encourage all visitors to gamble responsibly and within their means. No educational
+            material, system, or strategy can guarantee winnings. The house always has a mathematical
+            edge, and past results do not predict future outcomes.
+          </p>
+        </section>
+
+      </div>
+    </div>
+  </main>
+
+  <Footer />
+</BaseLayout>

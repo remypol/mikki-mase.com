@@ -1,0 +1,366 @@
+---
+/**
+ * Session Playbook Success Page (Thank You + OTO Upsell)
+ *
+ * Shows purchase confirmation and presents the Full Masterclass
+ * as a one-time upgrade offer ($79, regular $149).
+ */
+
+export const prerender = false;
+
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import { getStripeServer } from '../../lib/stripe';
+import { getServerClient } from '../../lib/supabase';
+import { sessionPlaybook, fullMasterclass } from '../../config/shop/products';
+
+const sessionId = Astro.url.searchParams.get('session_id');
+
+let verified = false;
+let customerEmail: string | null = null;
+let maskedEmail = '';
+let metadataUserId = '';
+let isGuestCheckout = false;
+let error: string | null = null;
+let purchaseAmount = sessionPlaybook.price;
+let includedBump = false;
+
+if (!sessionId) {
+  error = 'No session ID provided';
+} else {
+  try {
+    const stripe = await getStripeServer();
+    const session = await stripe.checkout.sessions.retrieve(sessionId, {
+      expand: ['line_items', 'customer_details'],
+    });
+
+    if (session.payment_status === 'paid') {
+      verified = true;
+      customerEmail = session.customer_details?.email || null;
+      metadataUserId = session.metadata?.userId || '';
+      isGuestCheckout = session.metadata?.isGuestCheckout === 'true' || !metadataUserId;
+      includedBump = session.metadata?.includeBump === 'true';
+      purchaseAmount = (session.amount_total || 2700) / 100;
+
+      if (customerEmail) {
+        const [localPart, domain] = customerEmail.split('@');
+        if (localPart && domain) {
+          const visible = localPart.length <= 2 ? localPart[0] : localPart.slice(0, 2);
+          maskedEmail = `${visible}${'*'.repeat(Math.max(localPart.length - 2, 1))}@${domain}`;
+        }
+      }
+    } else {
+      error = 'Payment has not been completed yet.';
+    }
+  } catch (e) {
+    console.error('Error retrieving session:', e);
+    error = 'Unable to verify payment.';
+  }
+}
+
+const otoPrice = fullMasterclass.price;
+const otoCompareAt = fullMasterclass.compareAt || 149;
+---
+
+<BaseLayout
+  title="Your Session Playbook is Ready! | Mikki Mase"
+  description="Purchase confirmed. Access your Session Playbook."
+  noIndex={true}
+  hideMobileNav={true}
+  hideBackToTop={true}
+>
+  <Header />
+
+  <main id="main-content" class="min-h-screen" style="background: #0A0A0A;">
+    <div class="max-w-2xl mx-auto px-4 sm:px-6 py-12 md:py-20">
+
+      {error ? (
+        <!-- Error State -->
+        <div class="text-center">
+          <div class="w-16 h-16 mx-auto mb-6 rounded-full flex items-center justify-center" style="background: rgba(220, 38, 38, 0.2);">
+            <svg class="w-8 h-8" style="color: #FCA5A5;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </div>
+          <h1 class="text-2xl font-bold text-white mb-4">Something went wrong</h1>
+          <p class="mb-8" style="color: #9A9A9A;">{error}</p>
+          <a
+            href="/masterclass"
+            class="inline-block font-semibold px-6 py-3 rounded-lg transition-colors"
+            style="background: #CFB53B; color: #000;"
+          >
+            Return to Course
+          </a>
+        </div>
+
+      ) : (
+        <!-- Success State -->
+        <div>
+
+          <!-- Confirmation -->
+          <div class="text-center mb-12">
+            <div class="w-20 h-20 mx-auto mb-6 rounded-full flex items-center justify-center animate-scale" style="background: rgba(207, 181, 59, 0.2);">
+              <svg class="w-10 h-10" style="color: #CFB53B;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+              </svg>
+            </div>
+
+            <h1 class="text-3xl font-bold text-white mb-2">Your Session Playbook is ready!</h1>
+            <p class="text-lg mb-4" style="color: #CFB53B;">Purchase confirmed</p>
+
+            {isGuestCheckout ? (
+              <div
+                class="rounded-xl p-5 text-left mb-6 max-w-md mx-auto"
+                style="background: rgba(207, 181, 59, 0.08); border: 1px solid rgba(207, 181, 59, 0.25);"
+              >
+                <div class="flex items-start gap-3">
+                  <svg class="w-6 h-6 flex-shrink-0 mt-0.5" style="color: #CFB53B;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                  </svg>
+                  <div>
+                    <p class="text-white font-bold text-sm mb-1">Check your email to access the Playbook</p>
+                    <p class="text-xs" style="color: #BEBEBE;">
+                      We sent a <strong class="text-white">one-click login link</strong> to <strong class="text-white">{maskedEmail || 'your email'}</strong>.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            ) : (
+              <a
+                href="/masterclass/course"
+                class="inline-flex items-center justify-center gap-2 font-bold text-black min-h-[48px] rounded-xl px-8 transition-all hover:brightness-110 active:scale-[0.98] mb-6"
+                style="background-color: #CFB53B;"
+              >
+                Access Your Playbook
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                </svg>
+              </a>
+            )}
+          </div>
+
+          <!-- OTO: Full Masterclass Upsell -->
+          <div
+            class="rounded-2xl p-6 md:p-8 mb-8"
+            style="background: #111; border: 1px solid rgba(207, 181, 59, 0.3);"
+          >
+            <div class="text-center mb-6">
+              <span class="inline-block text-xs font-bold uppercase tracking-widest px-3 py-1 rounded-full mb-4" style="background: rgba(207, 181, 59, 0.12); color: #CFB53B;">
+                One-Time Upgrade Offer
+              </span>
+              <h2 class="text-2xl md:text-3xl font-black text-white mb-2">
+                Unlock the Full Masterclass
+              </h2>
+              <p class="text-sm" style="color: #BEBEBE; max-width: 48ch; margin: 0 auto;">
+                You have the Playbook. Now get the complete 10-module system with interactive scenarios, quizzes, and all bonus materials.
+              </p>
+            </div>
+
+            <!-- What's included -->
+            <div class="space-y-3 mb-6">
+              <div class="flex items-start gap-3">
+                <svg class="w-5 h-5 mt-0.5 flex-shrink-0" style="color: #CFB53B;" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                </svg>
+                <span class="text-sm text-white">10 Complete Modules of Casino Strategy</span>
+              </div>
+              <div class="flex items-start gap-3">
+                <svg class="w-5 h-5 mt-0.5 flex-shrink-0" style="color: #CFB53B;" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                </svg>
+                <span class="text-sm text-white">30+ In-Depth Lessons (~8 hours)</span>
+              </div>
+              <div class="flex items-start gap-3">
+                <svg class="w-5 h-5 mt-0.5 flex-shrink-0" style="color: #CFB53B;" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                </svg>
+                <span class="text-sm text-white">Interactive Scenarios & Quizzes</span>
+              </div>
+              <div class="flex items-start gap-3">
+                <svg class="w-5 h-5 mt-0.5 flex-shrink-0" style="color: #CFB53B;" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                </svg>
+                <span class="text-sm text-white">MMC Cheatsheet Bundle (Bonus)</span>
+              </div>
+              <div class="flex items-start gap-3">
+                <svg class="w-5 h-5 mt-0.5 flex-shrink-0" style="color: #CFB53B;" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                </svg>
+                <span class="text-sm text-white">Beat the Casino Ebook — 98 pages (Bonus)</span>
+              </div>
+              <div class="flex items-start gap-3">
+                <svg class="w-5 h-5 mt-0.5 flex-shrink-0" style="color: #CFB53B;" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                </svg>
+                <span class="text-sm text-white">Lifetime Access + All Future Updates</span>
+              </div>
+            </div>
+
+            <!-- Pricing -->
+            <div class="text-center mb-6 py-4" style="border-top: 1px solid #2D2D2D; border-bottom: 1px solid #2D2D2D;">
+              <div class="flex items-center justify-center gap-3">
+                <span class="text-lg line-through" style="color: #6B6B6B;">${otoCompareAt}</span>
+                <span class="text-4xl font-black text-white">${otoPrice}</span>
+              </div>
+              <p class="text-xs mt-2" style="color: #9A9A9A;">One-time payment &middot; Lifetime access</p>
+            </div>
+
+            <!-- Upgrade CTA -->
+            <button
+              id="upsell-btn"
+              type="button"
+              class="w-full inline-flex items-center justify-center gap-2 font-bold text-black min-h-[52px] rounded-xl px-8 transition-all hover:brightness-110 active:scale-[0.98] mb-4"
+              style="background-color: #CFB53B;"
+            >
+              Upgrade Now — ${otoPrice}
+            </button>
+
+            <!-- Loading state -->
+            <div id="upsell-loading" class="hidden w-full flex items-center justify-center gap-2 min-h-[52px] mb-4">
+              <svg class="w-5 h-5 animate-spin" style="color: #CFB53B;" fill="none" viewBox="0 0 24 24">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+              </svg>
+              <span class="text-white font-medium text-sm">Redirecting to checkout...</span>
+            </div>
+
+            <!-- Error message -->
+            <div id="upsell-error" class="hidden mb-4 rounded-lg px-4 py-3 text-sm" style="background: rgba(220, 38, 38, 0.1); border: 1px solid rgba(220, 38, 38, 0.3); color: #FCA5A5;">
+            </div>
+
+            <!-- Skip link -->
+            <a
+              href="/masterclass/course"
+              class="block text-center text-sm transition-colors hover:text-white"
+              style="color: #6B6B6B;"
+            >
+              No thanks, take me to my Playbook
+            </a>
+          </div>
+
+          <!-- Trust / Disclaimer -->
+          <div class="text-center space-y-3">
+            <div class="flex items-center justify-center gap-4 text-xs" style="color: #6B6B6B;">
+              <span>Secure checkout via Stripe</span>
+              <span>|</span>
+              <span>7-day guarantee</span>
+              <span>|</span>
+              <span>Educational content only</span>
+            </div>
+            <p class="text-sm" style="color: #6B6B6B;">
+              Questions? <a href="mailto:support@mikki-mase.com" class="hover:underline" style="color: #CFB53B;">Contact support</a>
+            </p>
+          </div>
+
+        </div>
+      )}
+
+    </div>
+  </main>
+
+  <Footer />
+</BaseLayout>
+
+<!-- GA4: Purchase event tracking -->
+{verified && sessionId && (
+  <script
+    is:inline
+    define:vars={{
+      transactionId: sessionId,
+      ga4ProductId: sessionPlaybook.id,
+      ga4ProductName: sessionPlaybook.name,
+      ga4ProductPrice: purchaseAmount,
+    }}
+  >
+    document.addEventListener('astro:page-load', function() {
+      var trackedKey = 'purchase_tracked_' + transactionId;
+      if (sessionStorage.getItem(trackedKey)) return;
+
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+
+      gtag('event', 'purchase', {
+        transaction_id: transactionId,
+        value: ga4ProductPrice,
+        currency: 'USD',
+        items: [{
+          item_id: ga4ProductId,
+          item_name: ga4ProductName,
+          price: ga4ProductPrice,
+          quantity: 1
+        }]
+      });
+
+      sessionStorage.setItem(trackedKey, 'true');
+    });
+  </script>
+)}
+
+<!-- OTO upsell checkout redirect -->
+{verified && (
+  <script is:inline define:vars={{ originalSessionId: sessionId || '' }}>
+    document.addEventListener('astro:page-load', function() {
+      var upsellBtn = document.getElementById('upsell-btn');
+      var loadingEl = document.getElementById('upsell-loading');
+      var errorEl = document.getElementById('upsell-error');
+
+      if (!upsellBtn) return;
+
+      upsellBtn.addEventListener('click', async function() {
+        upsellBtn.style.display = 'none';
+        if (loadingEl) loadingEl.classList.remove('hidden');
+        if (errorEl) errorEl.classList.add('hidden');
+
+        try {
+          var res = await fetch('/api/checkout/create', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            credentials: 'same-origin',
+            body: JSON.stringify({
+              productKey: 'full-masterclass',
+              originalSessionId: originalSessionId,
+            }),
+          });
+
+          var data = await res.json();
+
+          if (!res.ok) {
+            throw new Error(data.error || 'Checkout failed');
+          }
+
+          if (data.url) {
+            window.location.href = data.url;
+          } else {
+            throw new Error('No checkout URL returned');
+          }
+        } catch (err) {
+          upsellBtn.style.display = 'inline-flex';
+          if (loadingEl) loadingEl.classList.add('hidden');
+          if (errorEl) {
+            errorEl.textContent = err.message || 'Something went wrong. Please try again.';
+            errorEl.classList.remove('hidden');
+          }
+        }
+      });
+    });
+  </script>
+)}
+
+<style>
+  @keyframes scale {
+    0% { transform: scale(0); opacity: 0; }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); opacity: 1; }
+  }
+  .animate-scale {
+    animation: scale 0.5s ease-out;
+  }
+  @keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+  .animate-spin {
+    animation: spin 1s linear infinite;
+  }
+</style>

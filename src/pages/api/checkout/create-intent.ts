@@ -14,9 +14,16 @@ import { getServerClient, getServiceClient } from '../../../lib/supabase';
 
 // Tier pricing in cents (server-authoritative — never trust client)
 const TIER_PRICING: Record<string, { amount: number; label: string }> = {
+  // Legacy (keep for existing customers)
   masterclass: { amount: 6700, label: 'Masterclass' },
   'inner-circle-yearly': { amount: 9999, label: 'Inner Circle Annual' },
   'lifetime-vip': { amount: 24900, label: 'Lifetime VIP' },
+  // New funnel
+  'session-playbook': { amount: 2700, label: 'Session Playbook' },
+  'session-toolkit': { amount: 900, label: 'Session Toolkit' },
+  'full-masterclass': { amount: 7900, label: 'Full Masterclass' },
+  'inner-circle-monthly-v2': { amount: 2900, label: 'Inner Circle Monthly' },
+  'inner-circle-annual-v2': { amount: 24900, label: 'Inner Circle Annual' },
 };
 
 export const POST: APIRoute = async ({ request, cookies }) => {

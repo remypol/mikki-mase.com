@@ -14,7 +14,7 @@ import WhoThisIsFor from '../components/motion/WhoThisIsFor';
 import StudentReviews from '../components/motion/StudentReviews';
 import PricingSection from '../components/motion/PricingSection';
 import FinalCTA from '../components/motion/FinalCTA';
-import { masterclass } from '../config/shop/products';
+import { sessionPlaybook } from '../config/shop/products';
 
 // Check for access=denied query param (redirect from middleware)
 const accessDenied = Astro.url.searchParams.get('access') === 'denied';
@@ -29,8 +29,8 @@ const modulesWithScenarios = courseManifest.modules.filter((m) => m.scenarios &&
 ---
 
 <BaseLayout
-  title="The Mikki Mase Masterclass | Beat the Casino. Play Smart. Get Paid."
-  description="10 modules. 30+ lessons. Interactive scenarios. The complete casino strategy system from the man who won $32M+ and got banned from 150+ casinos."
+  title="The Mikki Mase Session Playbook | Casino Decision Framework"
+  description="Bankroll discipline, game selection, and risk management for serious players. Educational content. $27 one-time."
   hideMobileNav={true}
   hideBackToTop={true}
 >
@@ -188,10 +188,10 @@ const modulesWithScenarios = courseManifest.modules.filter((m) => m.scenarios &&
   <div id="mobile-sticky-cta" class="mobile-sticky-cta md:hidden">
     <div class="mobile-sticky-inner">
       <div class="mobile-sticky-price">
-        <span class="mobile-sticky-amount">$67</span>
+        <span class="mobile-sticky-amount">$27</span>
         <span class="mobile-sticky-label">one-time</span>
       </div>
-      <a href="/checkout/masterclass" class="mobile-sticky-btn">
+      <a href="/checkout/playbook" class="mobile-sticky-btn">
         Get Access
         <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
@@ -315,7 +315,7 @@ const modulesWithScenarios = courseManifest.modules.filter((m) => m.scenarios &&
 </script>
 
 <!-- GA4: view_item event -->
-<script define:vars={{ productId: masterclass.id, productName: masterclass.name, productPrice: masterclass.price }}>
+<script define:vars={{ productId: sessionPlaybook.id, productName: sessionPlaybook.name, productPrice: sessionPlaybook.price }}>
   document.addEventListener('astro:page-load', function() {
     // dataLayer for GTM
     var dataLayer = window.dataLayer || [];

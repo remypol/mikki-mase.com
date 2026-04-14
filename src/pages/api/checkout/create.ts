@@ -189,6 +189,241 @@ export const POST: APIRoute = async ({ request, cookies }) => {
     }
 
     // ============================================
+    // SESSION PLAYBOOK CHECKOUT ($27 front-end)
+    // ============================================
+
+    if (productKey === 'session-playbook') {
+      const supabase = getServerClient(cookies, request);
+      const { data: { user } } = await supabase.auth.getUser();
+
+      const serviceClient = getServiceClient();
+
+      // If logged in, check for existing purchase
+      if (user) {
+        const { data: existingPurchase, error: purchaseLookupError } = await serviceClient
+          .from('purchases')
+          .select('id')
+          .eq('user_id', user.id)
+          .in('product_key', ['session-playbook', 'masterclass', 'full-masterclass'])
+          .eq('status', 'completed')
+          .limit(1);
+
+        if (purchaseLookupError && purchaseLookupError.code !== 'PGRST116') {
+          console.error('Purchase lookup failed:', purchaseLookupError);
+          return new Response(
+            JSON.stringify({ error: 'Unable to verify purchase status' }),
+            { status: 503, headers }
+          );
+        }
+
+        if (existingPurchase && existingPurchase.length > 0) {
+          return new Response(
+            JSON.stringify({ error: 'Already purchased', redirect: '/masterclass/course' }),
+            { status: 409, headers }
+          );
+        }
+      }
+
+      const priceId = productKeyToPriceId['session-playbook'];
+      if (!priceId || priceId.includes('placeholder')) {
+        return new Response(
+          JSON.stringify({ error: 'Session Playbook product not configured in Stripe' }),
+          { status: 500, headers }
+        );
+      }
+
+      const lineItems: Array<{ price: string; quantity: number }> = [{ price: priceId, quantity: 1 }];
+
+      // Add bump if requested
+      const { includeBump } = body;
+      if (includeBump) {
+        const bumpPriceId = productKeyToPriceId['session-toolkit'];
+        if (bumpPriceId && !bumpPriceId.includes('placeholder')) {
+          lineItems.push({ price: bumpPriceId, quantity: 1 });
+        }
+      }
+
+      const stripe = await getStripeServer();
+
+      const metadata: Record<string, string> = {
+        productKey: 'session-playbook',
+        productId: 'session-playbook',
+        fulfillmentType: 'digital',
+        includeBump: includeBump ? 'true' : 'false',
+      };
+
+      if (user) {
+        metadata.userId = user.id;
+        metadata.userEmail = user.email || '';
+      } else {
+        metadata.isGuestCheckout = 'true';
+      }
+
+      const sessionConfig: Record<string, any> = {
+        mode: 'payment' as const,
+        line_items: lineItems,
+        metadata,
+        allow_promotion_codes: true,
+        success_url: `${siteUrl}/checkout/playbook-success?session_id={CHECKOUT_SESSION_ID}`,
+        cancel_url: `${siteUrl}/masterclass`,
+        consent_collection: {
+          terms_of_service: 'required',
+        },
+        custom_text: {
+          terms_of_service_acceptance: {
+            message: 'I understand this is educational content and agree to the [Terms of Service](https://www.mikki-mase.com/terms).',
+          },
+        },
+      };
+
+      if (user) {
+        sessionConfig.client_reference_id = user.id;
+      }
+
+      // Link to existing Stripe customer if logged in
+      if (user) {
+        let stripeCustomerId: string | undefined;
+        const { data: profile, error: profileError } = await serviceClient
+          .from('profiles')
+          .select('stripe_customer_id')
+          .eq('id', user.id)
+          .single();
+
+        if (profileError && profileError.code !== 'PGRST116') {
+          console.error('Profile lookup failed:', profileError);
+        }
+
+        if (profile?.stripe_customer_id) {
+          stripeCustomerId = profile.stripe_customer_id;
+        }
+
+        if (stripeCustomerId) {
+          sessionConfig.customer = stripeCustomerId;
+        } else {
+          sessionConfig.customer_email = user.email;
+          sessionConfig.customer_creation = 'always';
+        }
+      } else {
+        sessionConfig.customer_creation = 'always';
+      }
+
+      const session = await stripe.checkout.sessions.create(sessionConfig);
+
+      return new Response(
+        JSON.stringify({ url: session.url, sessionId: session.id }),
+        { status: 200, headers }
+      );
+    }
+
+    // ============================================
+    // FULL MASTERCLASS CHECKOUT ($79 OTO upsell)
+    // ============================================
+
+    if (productKey === 'full-masterclass') {
+      const supabase = getServerClient(cookies, request);
+      const { data: { user } } = await supabase.auth.getUser();
+
+      const serviceClient = getServiceClient();
+
+      // If logged in, check for existing purchase
+      if (user) {
+        const { data: existingPurchase, error: purchaseLookupError } = await serviceClient
+          .from('purchases')
+          .select('id')
+          .eq('user_id', user.id)
+          .eq('product_key', 'full-masterclass')
+          .eq('status', 'completed')
+          .limit(1);
+
+        if (purchaseLookupError && purchaseLookupError.code !== 'PGRST116') {
+          console.error('Purchase lookup failed:', purchaseLookupError);
+        }
+
+        if (existingPurchase && existingPurchase.length > 0) {
+          return new Response(
+            JSON.stringify({ error: 'Already purchased', redirect: '/masterclass/course' }),
+            { status: 409, headers }
+          );
+        }
+      }
+
+      const priceId = productKeyToPriceId['full-masterclass'];
+      if (!priceId || priceId.includes('placeholder')) {
+        return new Response(
+          JSON.stringify({ error: 'Full Masterclass product not configured in Stripe' }),
+          { status: 500, headers }
+        );
+      }
+
+      const stripe = await getStripeServer();
+
+      const metadata: Record<string, string> = {
+        productKey: 'full-masterclass',
+        productId: 'full-masterclass',
+        fulfillmentType: 'digital',
+      };
+
+      if (user) {
+        metadata.userId = user.id;
+        metadata.userEmail = user.email || '';
+      } else {
+        metadata.isGuestCheckout = 'true';
+      }
+
+      const sessionConfig: Record<string, any> = {
+        mode: 'payment' as const,
+        line_items: [{ price: priceId, quantity: 1 }],
+        metadata,
+        allow_promotion_codes: true,
+        success_url: `${siteUrl}/checkout/success?session_id={CHECKOUT_SESSION_ID}&from_upsell=true`,
+        cancel_url: `${siteUrl}/checkout/playbook-success?session_id=${body.originalSessionId || ''}`,
+        consent_collection: {
+          terms_of_service: 'required',
+        },
+        custom_text: {
+          terms_of_service_acceptance: {
+            message: 'I understand this is educational content and agree to the [Terms of Service](https://www.mikki-mase.com/terms).',
+          },
+        },
+      };
+
+      if (user) {
+        sessionConfig.client_reference_id = user.id;
+
+        let stripeCustomerId: string | undefined;
+        const { data: profile, error: profileError } = await serviceClient
+          .from('profiles')
+          .select('stripe_customer_id')
+          .eq('id', user.id)
+          .single();
+
+        if (profileError && profileError.code !== 'PGRST116') {
+          console.error('Profile lookup failed:', profileError);
+        }
+
+        if (profile?.stripe_customer_id) {
+          stripeCustomerId = profile.stripe_customer_id;
+        }
+
+        if (stripeCustomerId) {
+          sessionConfig.customer = stripeCustomerId;
+        } else {
+          sessionConfig.customer_email = user.email;
+          sessionConfig.customer_creation = 'always';
+        }
+      } else {
+        sessionConfig.customer_creation = 'always';
+      }
+
+      const session = await stripe.checkout.sessions.create(sessionConfig);
+
+      return new Response(
+        JSON.stringify({ url: session.url, sessionId: session.id }),
+        { status: 200, headers }
+      );
+    }
+
+    // ============================================
     // STANDARD SHOP CHECKOUT (existing flow)
     // ============================================
 

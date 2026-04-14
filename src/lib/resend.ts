@@ -737,6 +737,770 @@ Questions? Reply to this email or contact support@mikki-mase.com
 }
 
 // ============================================
+// PLAYBOOK WELCOME EMAIL (Session Playbook $27)
+// ============================================
+
+export interface PlaybookWelcomeData {
+  customerEmail: string;
+  customerName?: string;
+  accessUrl: string;
+  cheatsheetDownloadUrl: string;
+  isGuest?: boolean;
+  magicLink?: string;
+}
+
+/**
+ * Send welcome email after Session Playbook purchase ($27)
+ */
+export async function sendPlaybookWelcome(data: PlaybookWelcomeData) {
+  const greeting = data.customerName ? `${data.customerName}, your` : 'Your';
+
+  const html = `
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Your Session Playbook is Ready</title>
+</head>
+<body style="margin: 0; padding: 0; background-color: #000000; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">
+  <table role="presentation" style="width: 100%; border-collapse: collapse;">
+    <tr>
+      <td align="center" style="padding: 40px 20px;">
+        <table role="presentation" style="max-width: 600px; width: 100%; border-collapse: collapse;">
+
+          <!-- Header -->
+          <tr>
+            <td style="padding: 40px 40px 20px; text-align: center;">
+              <h1 style="margin: 0; color: #CFB53B; font-size: 28px; font-weight: 900; letter-spacing: 2px;">
+                MIKKI MASE
+              </h1>
+            </td>
+          </tr>
+
+          <!-- Main Content -->
+          <tr>
+            <td style="background: linear-gradient(135deg, #1a1a1a 0%, #0a0a0a 100%); border-radius: 16px; padding: 40px; border: 1px solid #333;">
+
+              <h2 style="margin: 0 0 20px; color: #ffffff; font-size: 24px; font-weight: 700;">
+                ${greeting} Session Playbook is Ready
+              </h2>
+
+              <p style="margin: 0 0 20px; color: #a3a3a3; font-size: 16px; line-height: 1.6;">
+                You just made the smartest $27 decision of your gambling education. The Session Playbook breaks down Mikki's core framework into actionable steps you can use before, during, and after every session.
+              </p>
+
+              ${data.isGuest && data.magicLink ? `
+              <!-- Guest account notice -->
+              <table role="presentation" style="width: 100%; border-collapse: collapse; margin-bottom: 20px;">
+                <tr>
+                  <td style="background-color: rgba(207, 181, 59, 0.1); border: 1px solid rgba(207, 181, 59, 0.3); border-radius: 12px; padding: 16px;">
+                    <p style="margin: 0; color: #CFB53B; font-size: 14px; font-weight: 600;">
+                      We created your account automatically. Click below to log in instantly &mdash; no password needed.
+                    </p>
+                  </td>
+                </tr>
+              </table>
+              ` : ''}
+
+              <!-- Access Button -->
+              <table role="presentation" style="width: 100%; border-collapse: collapse;">
+                <tr>
+                  <td align="center" style="padding: 20px 0;">
+                    <a href="${data.magicLink || data.accessUrl}"
+                       style="display: inline-block; background-color: #A8001E; color: #ffffff; text-decoration: none; padding: 16px 40px; border-radius: 12px; font-weight: 700; font-size: 18px;">
+                      ${data.isGuest && data.magicLink ? 'Click to Access Your Playbook' : 'Open Your Playbook'}
+                    </a>
+                  </td>
+                </tr>
+              </table>
+
+              <!-- Bonus Cheatsheet -->
+              <table role="presentation" style="width: 100%; border-collapse: collapse; margin-top: 30px; padding-top: 30px; border-top: 1px solid #333;">
+                <tr>
+                  <td>
+                    <h3 style="margin: 0 0 12px; color: #CFB53B; font-size: 18px; font-weight: 700;">
+                      Bonus: Blackjack Cheat Sheet
+                    </h3>
+                    <p style="margin: 0 0 12px; color: #a3a3a3; font-size: 14px; line-height: 1.6;">
+                      Your free cheat sheet is included with the Playbook. Print it, screenshot it, keep it handy.
+                    </p>
+                    <a href="${data.cheatsheetDownloadUrl}" style="color: #CFB53B; text-decoration: none; font-weight: 700; font-size: 14px;">
+                      Download Cheat Sheet &rarr;
+                    </a>
+                  </td>
+                </tr>
+              </table>
+
+              <!-- What's Inside -->
+              <table role="presentation" style="width: 100%; border-collapse: collapse; margin-top: 30px; padding-top: 30px; border-top: 1px solid #333;">
+                <tr>
+                  <td>
+                    <h3 style="margin: 0 0 16px; color: #ffffff; font-size: 18px; font-weight: 700;">
+                      What's Inside
+                    </h3>
+                    <p style="margin: 0 0 8px; color: #a3a3a3; font-size: 14px; line-height: 1.6;">
+                      &#x2713; Bankroll management fundamentals<br>
+                      &#x2713; Pre-session preparation checklist<br>
+                      &#x2713; Session tracking framework<br>
+                      &#x2713; Risk management principles<br>
+                      &#x2713; Post-session review process
+                    </p>
+                  </td>
+                </tr>
+              </table>
+
+            </td>
+          </tr>
+
+          <!-- Footer -->
+          <tr>
+            <td style="padding: 30px 40px; text-align: center;">
+              <p style="margin: 0 0 10px; color: #757575; font-size: 14px;">
+                Questions? Reply to this email or contact support@mikki-mase.com
+              </p>
+              <p style="margin: 0 0 8px; color: #555555; font-size: 12px;">
+                For educational purposes only. No guarantee of winnings. Gambling involves risk.
+              </p>
+              <p style="margin: 0 0 8px; color: #555555; font-size: 12px;">
+                18+ | Gamble Responsibly
+              </p>
+              <p style="margin: 0; color: #333333; font-size: 12px;">
+                You're receiving this because you purchased from mikki-mase.com<br>
+                &copy; ${new Date().getFullYear()} Mikki Mase. All rights reserved.
+              </p>
+            </td>
+          </tr>
+
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>
+  `.trim();
+
+  const text = `
+Your Session Playbook is Ready
+
+${greeting} Session Playbook is ready!
+
+You just made the smartest $27 decision of your gambling education. The Session Playbook breaks down Mikki's core framework into actionable steps you can use before, during, and after every session.
+${data.isGuest && data.magicLink ? `\nWe created your account automatically. Click below to log in instantly — no password needed.\n\nAccess Your Playbook: ${data.magicLink}` : `\nOpen Your Playbook: ${data.accessUrl}`}
+
+---
+
+Bonus: Blackjack Cheat Sheet
+Your free cheat sheet is included with the Playbook. Print it, screenshot it, keep it handy.
+Download: ${data.cheatsheetDownloadUrl}
+
+---
+
+What's Inside:
+- Bankroll management fundamentals
+- Pre-session preparation checklist
+- Session tracking framework
+- Risk management principles
+- Post-session review process
+
+---
+
+Questions? Reply to this email or contact support@mikki-mase.com
+
+For educational purposes only. No guarantee of winnings. Gambling involves risk.
+18+ | Gamble Responsibly
+
+You're receiving this because you purchased from mikki-mase.com
+(c) ${new Date().getFullYear()} Mikki Mase. All rights reserved.
+  `.trim();
+
+  return sendEmail({
+    to: data.customerEmail,
+    subject: 'Your Session Playbook is ready',
+    html,
+    text,
+  });
+}
+
+// ============================================
+// ACTIVATION NUDGE EMAIL (Day 1)
+// ============================================
+
+export interface ActivationNudgeData {
+  customerEmail: string;
+  customerName?: string;
+  accessUrl: string;
+  lessonTitle: string;
+}
+
+/**
+ * Send activation nudge email (Day 1 after purchase)
+ * Encourages first login and teases lesson 1
+ */
+export async function sendActivationNudge(data: ActivationNudgeData) {
+  const greeting = data.customerName ? `Hey ${data.customerName},` : 'Hey,';
+
+  const html = `
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quick win: Try this before your next session</title>
+</head>
+<body style="margin: 0; padding: 0; background-color: #000000; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">
+  <table role="presentation" style="width: 100%; border-collapse: collapse;">
+    <tr>
+      <td align="center" style="padding: 40px 20px;">
+        <table role="presentation" style="max-width: 600px; width: 100%; border-collapse: collapse;">
+
+          <!-- Header -->
+          <tr>
+            <td style="padding: 40px 40px 20px; text-align: center;">
+              <h1 style="margin: 0; color: #CFB53B; font-size: 28px; font-weight: 900; letter-spacing: 2px;">
+                MIKKI MASE
+              </h1>
+            </td>
+          </tr>
+
+          <!-- Main Content -->
+          <tr>
+            <td style="background: linear-gradient(135deg, #1a1a1a 0%, #0a0a0a 100%); border-radius: 16px; padding: 40px; border: 1px solid #333;">
+
+              <h2 style="margin: 0 0 20px; color: #ffffff; font-size: 24px; font-weight: 700;">
+                Quick Win Before Your Next Session
+              </h2>
+
+              <p style="margin: 0 0 20px; color: #a3a3a3; font-size: 16px; line-height: 1.6;">
+                ${greeting}
+              </p>
+
+              <p style="margin: 0 0 20px; color: #a3a3a3; font-size: 16px; line-height: 1.6;">
+                Most people buy a course and never open it. Don't be most people.
+              </p>
+
+              <p style="margin: 0 0 20px; color: #a3a3a3; font-size: 16px; line-height: 1.6;">
+                Lesson 1 &mdash; <strong style="color: #CFB53B;">${data.lessonTitle}</strong> &mdash; takes about 10 minutes and gives you one framework you can use immediately. It's the single most important concept in the entire playbook.
+              </p>
+
+              <p style="margin: 0 0 20px; color: #a3a3a3; font-size: 16px; line-height: 1.6;">
+                The players who get results start here. The ones who don't&hellip; well, the casino thanks them.
+              </p>
+
+              <!-- CTA Button -->
+              <table role="presentation" style="width: 100%; border-collapse: collapse;">
+                <tr>
+                  <td align="center" style="padding: 20px 0;">
+                    <a href="${data.accessUrl}"
+                       style="display: inline-block; background-color: #A8001E; color: #ffffff; text-decoration: none; padding: 16px 40px; border-radius: 12px; font-weight: 700; font-size: 18px;">
+                      Start Lesson 1
+                    </a>
+                  </td>
+                </tr>
+              </table>
+
+              <p style="margin: 20px 0 0; color: #757575; font-size: 14px; line-height: 1.6;">
+                10 minutes. One concept. Use it this weekend.
+              </p>
+
+            </td>
+          </tr>
+
+          <!-- Footer -->
+          <tr>
+            <td style="padding: 30px 40px; text-align: center;">
+              <p style="margin: 0 0 10px; color: #757575; font-size: 14px;">
+                Questions? Reply to this email or contact support@mikki-mase.com
+              </p>
+              <p style="margin: 0 0 8px; color: #555555; font-size: 12px;">
+                For educational purposes only. No guarantee of winnings. Gambling involves risk.
+              </p>
+              <p style="margin: 0 0 8px; color: #555555; font-size: 12px;">
+                18+ | Gamble Responsibly
+              </p>
+              <p style="margin: 0; color: #333333; font-size: 12px;">
+                You're receiving this because you purchased from mikki-mase.com<br>
+                &copy; ${new Date().getFullYear()} Mikki Mase. All rights reserved.
+              </p>
+            </td>
+          </tr>
+
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>
+  `.trim();
+
+  const text = `
+Quick Win Before Your Next Session
+
+${greeting}
+
+Most people buy a course and never open it. Don't be most people.
+
+Lesson 1 — ${data.lessonTitle} — takes about 10 minutes and gives you one framework you can use immediately. It's the single most important concept in the entire playbook.
+
+The players who get results start here. The ones who don't... well, the casino thanks them.
+
+Start Lesson 1: ${data.accessUrl}
+
+10 minutes. One concept. Use it this weekend.
+
+---
+
+Questions? Reply to this email or contact support@mikki-mase.com
+
+For educational purposes only. No guarantee of winnings. Gambling involves risk.
+18+ | Gamble Responsibly
+
+You're receiving this because you purchased from mikki-mase.com
+(c) ${new Date().getFullYear()} Mikki Mase. All rights reserved.
+  `.trim();
+
+  return sendEmail({
+    to: data.customerEmail,
+    subject: 'Quick win: Try this before your next session',
+    html,
+    text,
+  });
+}
+
+// ============================================
+// MASTERCLASS UPSELL EMAIL (Day 7)
+// ============================================
+
+export interface MasterclassUpsellData {
+  customerEmail: string;
+  customerName?: string;
+  upgradeUrl: string;
+  price: number;
+}
+
+/**
+ * Send masterclass upsell email (Day 7 for non-upgraders)
+ */
+export async function sendMasterclassUpsell(data: MasterclassUpsellData) {
+  const greeting = data.customerName ? `${data.customerName}, you` : 'You';
+
+  const html = `
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>You've seen the framework. Here's the full picture.</title>
+</head>
+<body style="margin: 0; padding: 0; background-color: #000000; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">
+  <table role="presentation" style="width: 100%; border-collapse: collapse;">
+    <tr>
+      <td align="center" style="padding: 40px 20px;">
+        <table role="presentation" style="max-width: 600px; width: 100%; border-collapse: collapse;">
+
+          <!-- Header -->
+          <tr>
+            <td style="padding: 40px 40px 20px; text-align: center;">
+              <h1 style="margin: 0; color: #CFB53B; font-size: 28px; font-weight: 900; letter-spacing: 2px;">
+                MIKKI MASE
+              </h1>
+            </td>
+          </tr>
+
+          <!-- Main Content -->
+          <tr>
+            <td style="background: linear-gradient(135deg, #1a1a1a 0%, #0a0a0a 100%); border-radius: 16px; padding: 40px; border: 1px solid #333;">
+
+              <h2 style="margin: 0 0 20px; color: #ffffff; font-size: 24px; font-weight: 700;">
+                You've Seen the Framework. Here's the Full Picture.
+              </h2>
+
+              <p style="margin: 0 0 20px; color: #a3a3a3; font-size: 16px; line-height: 1.6;">
+                ${greeting}'ve had the Session Playbook for a week now. If you've been applying the fundamentals, you already know this stuff works.
+              </p>
+
+              <p style="margin: 0 0 20px; color: #a3a3a3; font-size: 16px; line-height: 1.6;">
+                But the Playbook only covers the foundation. The <strong style="color: #CFB53B;">Full Masterclass</strong> goes deeper &mdash; 10 modules, 30+ lessons, interactive scenarios, and the advanced strategies Mikki actually uses at the table.
+              </p>
+
+              <!-- What's Included -->
+              <table role="presentation" style="width: 100%; border-collapse: collapse; margin: 20px 0; padding: 20px; background-color: rgba(207, 181, 59, 0.05); border: 1px solid rgba(207, 181, 59, 0.2); border-radius: 12px;">
+                <tr>
+                  <td>
+                    <h3 style="margin: 0 0 12px; color: #CFB53B; font-size: 16px; font-weight: 700;">
+                      What the Full Masterclass Includes:
+                    </h3>
+                    <p style="margin: 0; color: #a3a3a3; font-size: 14px; line-height: 2;">
+                      &#x2713; All 10 modules (Blackjack, Baccarat, Poker, Roulette &amp; more)<br>
+                      &#x2713; 30+ video lessons with real-world examples<br>
+                      &#x2713; Interactive scenario training<br>
+                      &#x2713; Advanced bankroll &amp; risk management<br>
+                      &#x2713; Casino psychology &amp; tells<br>
+                      &#x2713; MMC Cheatsheet Bundle + Beat the Casino Ebook<br>
+                      &#x2713; Lifetime access &amp; future updates
+                    </p>
+                  </td>
+                </tr>
+              </table>
+
+              <p style="margin: 0 0 20px; color: #a3a3a3; font-size: 16px; line-height: 1.6;">
+                The difference between the Playbook and the Masterclass is the difference between knowing the rules and understanding the game.
+              </p>
+
+              <!-- CTA Button -->
+              <table role="presentation" style="width: 100%; border-collapse: collapse;">
+                <tr>
+                  <td align="center" style="padding: 20px 0;">
+                    <a href="${data.upgradeUrl}"
+                       style="display: inline-block; background-color: #A8001E; color: #ffffff; text-decoration: none; padding: 16px 40px; border-radius: 12px; font-weight: 700; font-size: 18px;">
+                      Upgrade to Full Masterclass &mdash; $${data.price}
+                    </a>
+                  </td>
+                </tr>
+              </table>
+
+              <p style="margin: 20px 0 0; color: #757575; font-size: 14px; line-height: 1.6;">
+                Lifetime access. One payment. No subscriptions.
+              </p>
+
+            </td>
+          </tr>
+
+          <!-- Footer -->
+          <tr>
+            <td style="padding: 30px 40px; text-align: center;">
+              <p style="margin: 0 0 10px; color: #757575; font-size: 14px;">
+                Questions? Reply to this email or contact support@mikki-mase.com
+              </p>
+              <p style="margin: 0 0 8px; color: #555555; font-size: 12px;">
+                For educational purposes only. No guarantee of winnings. Gambling involves risk.
+              </p>
+              <p style="margin: 0 0 8px; color: #555555; font-size: 12px;">
+                18+ | Gamble Responsibly
+              </p>
+              <p style="margin: 0; color: #333333; font-size: 12px;">
+                You're receiving this because you purchased from mikki-mase.com<br>
+                &copy; ${new Date().getFullYear()} Mikki Mase. All rights reserved.
+              </p>
+            </td>
+          </tr>
+
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>
+  `.trim();
+
+  const text = `
+You've Seen the Framework. Here's the Full Picture.
+
+${greeting}'ve had the Session Playbook for a week now. If you've been applying the fundamentals, you already know this stuff works.
+
+But the Playbook only covers the foundation. The Full Masterclass goes deeper — 10 modules, 30+ lessons, interactive scenarios, and the advanced strategies Mikki actually uses at the table.
+
+What the Full Masterclass Includes:
+- All 10 modules (Blackjack, Baccarat, Poker, Roulette & more)
+- 30+ video lessons with real-world examples
+- Interactive scenario training
+- Advanced bankroll & risk management
+- Casino psychology & tells
+- MMC Cheatsheet Bundle + Beat the Casino Ebook
+- Lifetime access & future updates
+
+The difference between the Playbook and the Masterclass is the difference between knowing the rules and understanding the game.
+
+Upgrade to Full Masterclass — $${data.price}: ${data.upgradeUrl}
+
+Lifetime access. One payment. No subscriptions.
+
+---
+
+Questions? Reply to this email or contact support@mikki-mase.com
+
+For educational purposes only. No guarantee of winnings. Gambling involves risk.
+18+ | Gamble Responsibly
+
+You're receiving this because you purchased from mikki-mase.com
+(c) ${new Date().getFullYear()} Mikki Mase. All rights reserved.
+  `.trim();
+
+  return sendEmail({
+    to: data.customerEmail,
+    subject: "You've seen the framework. Here's the full picture.",
+    html,
+    text,
+  });
+}
+
+// ============================================
+// ABANDONED CHECKOUT EMAIL (3-step recovery)
+// ============================================
+
+export interface AbandonedCheckoutData {
+  customerEmail: string;
+  productName: string;
+  checkoutUrl: string;
+  step: 1 | 2 | 3;
+}
+
+/**
+ * Send abandoned checkout recovery email (3-step sequence)
+ * Step 1: 1 hour after abandonment — gentle reminder
+ * Step 2: 24 hours — objection handling
+ * Step 3: 72 hours — final push
+ */
+export async function sendAbandonedCheckout(data: AbandonedCheckoutData) {
+  const subjects: Record<1 | 2 | 3, string> = {
+    1: 'You left something behind',
+    2: 'Quick question — what held you back?',
+    3: `Last reminder: ${data.productName} — $27`,
+  };
+
+  const step1Html = `
+              <h2 style="margin: 0 0 20px; color: #ffffff; font-size: 24px; font-weight: 700;">
+                You Left Something Behind
+              </h2>
+
+              <p style="margin: 0 0 20px; color: #a3a3a3; font-size: 16px; line-height: 1.6;">
+                Looks like you were checking out the <strong style="color: #CFB53B;">${data.productName}</strong> but didn't finish.
+              </p>
+
+              <p style="margin: 0 0 20px; color: #a3a3a3; font-size: 16px; line-height: 1.6;">
+                No pressure &mdash; your cart is still waiting. If you had a technical issue or a question, just reply to this email and we'll sort it out.
+              </p>
+
+              <!-- CTA Button -->
+              <table role="presentation" style="width: 100%; border-collapse: collapse;">
+                <tr>
+                  <td align="center" style="padding: 20px 0;">
+                    <a href="${data.checkoutUrl}"
+                       style="display: inline-block; background-color: #A8001E; color: #ffffff; text-decoration: none; padding: 16px 40px; border-radius: 12px; font-weight: 700; font-size: 18px;">
+                      Complete Your Order
+                    </a>
+                  </td>
+                </tr>
+              </table>
+  `;
+
+  const step2Html = `
+              <h2 style="margin: 0 0 20px; color: #ffffff; font-size: 24px; font-weight: 700;">
+                Quick Question
+              </h2>
+
+              <p style="margin: 0 0 20px; color: #a3a3a3; font-size: 16px; line-height: 1.6;">
+                You were about to grab the <strong style="color: #CFB53B;">${data.productName}</strong> yesterday. What held you back?
+              </p>
+
+              <p style="margin: 0 0 8px; color: #a3a3a3; font-size: 16px; line-height: 1.6;">
+                If it's one of these, here's the honest answer:
+              </p>
+
+              <table role="presentation" style="width: 100%; border-collapse: collapse; margin: 16px 0;">
+                <tr>
+                  <td style="padding: 12px 16px; border-bottom: 1px solid #333;">
+                    <p style="margin: 0 0 4px; color: #ffffff; font-size: 15px; font-weight: 600;">"Is this legit?"</p>
+                    <p style="margin: 0; color: #a3a3a3; font-size: 14px; line-height: 1.5;">Over 10,000 students. Mikki's framework is built on mathematics, not luck.</p>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="padding: 12px 16px; border-bottom: 1px solid #333;">
+                    <p style="margin: 0 0 4px; color: #ffffff; font-size: 15px; font-weight: 600;">"Will it work for me?"</p>
+                    <p style="margin: 0; color: #a3a3a3; font-size: 14px; line-height: 1.5;">If you can follow a checklist, you can apply this. It's a system, not talent.</p>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="padding: 12px 16px;">
+                    <p style="margin: 0 0 4px; color: #ffffff; font-size: 15px; font-weight: 600;">"$27 is still money."</p>
+                    <p style="margin: 0; color: #a3a3a3; font-size: 14px; line-height: 1.5;">It's less than one bad hand at any table. The education lasts forever.</p>
+                  </td>
+                </tr>
+              </table>
+
+              <!-- CTA Button -->
+              <table role="presentation" style="width: 100%; border-collapse: collapse;">
+                <tr>
+                  <td align="center" style="padding: 20px 0;">
+                    <a href="${data.checkoutUrl}"
+                       style="display: inline-block; background-color: #A8001E; color: #ffffff; text-decoration: none; padding: 16px 40px; border-radius: 12px; font-weight: 700; font-size: 18px;">
+                      Get the ${data.productName}
+                    </a>
+                  </td>
+                </tr>
+              </table>
+
+              <p style="margin: 20px 0 0; color: #757575; font-size: 14px; line-height: 1.6;">
+                Still have a question? Just reply &mdash; a real person reads these.
+              </p>
+  `;
+
+  const step3Html = `
+              <h2 style="margin: 0 0 20px; color: #ffffff; font-size: 24px; font-weight: 700;">
+                Last Reminder
+              </h2>
+
+              <p style="margin: 0 0 20px; color: #a3a3a3; font-size: 16px; line-height: 1.6;">
+                This is the last time we'll email you about the <strong style="color: #CFB53B;">${data.productName}</strong>. No spam, no games.
+              </p>
+
+              <p style="margin: 0 0 20px; color: #a3a3a3; font-size: 16px; line-height: 1.6;">
+                Here's what it comes down to: for $27, you get the exact session framework that Mikki uses. Bankroll management, risk control, pre- and post-session systems &mdash; the fundamentals that separate educated players from everyone else.
+              </p>
+
+              <p style="margin: 0 0 20px; color: #a3a3a3; font-size: 16px; line-height: 1.6;">
+                If it's not for you, no hard feelings. But if you're still thinking about it, this is your last nudge.
+              </p>
+
+              <!-- CTA Button -->
+              <table role="presentation" style="width: 100%; border-collapse: collapse;">
+                <tr>
+                  <td align="center" style="padding: 20px 0;">
+                    <a href="${data.checkoutUrl}"
+                       style="display: inline-block; background-color: #A8001E; color: #ffffff; text-decoration: none; padding: 16px 40px; border-radius: 12px; font-weight: 700; font-size: 18px;">
+                      Get It Now &mdash; $27
+                    </a>
+                  </td>
+                </tr>
+              </table>
+  `;
+
+  const stepContent: Record<1 | 2 | 3, string> = {
+    1: step1Html,
+    2: step2Html,
+    3: step3Html,
+  };
+
+  const html = `
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>${subjects[data.step]}</title>
+</head>
+<body style="margin: 0; padding: 0; background-color: #000000; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">
+  <table role="presentation" style="width: 100%; border-collapse: collapse;">
+    <tr>
+      <td align="center" style="padding: 40px 20px;">
+        <table role="presentation" style="max-width: 600px; width: 100%; border-collapse: collapse;">
+
+          <!-- Header -->
+          <tr>
+            <td style="padding: 40px 40px 20px; text-align: center;">
+              <h1 style="margin: 0; color: #CFB53B; font-size: 28px; font-weight: 900; letter-spacing: 2px;">
+                MIKKI MASE
+              </h1>
+            </td>
+          </tr>
+
+          <!-- Main Content -->
+          <tr>
+            <td style="background: linear-gradient(135deg, #1a1a1a 0%, #0a0a0a 100%); border-radius: 16px; padding: 40px; border: 1px solid #333;">
+
+              ${stepContent[data.step]}
+
+            </td>
+          </tr>
+
+          <!-- Footer -->
+          <tr>
+            <td style="padding: 30px 40px; text-align: center;">
+              <p style="margin: 0 0 10px; color: #757575; font-size: 14px;">
+                Questions? Reply to this email or contact support@mikki-mase.com
+              </p>
+              <p style="margin: 0 0 8px; color: #555555; font-size: 12px;">
+                For educational purposes only. No guarantee of winnings. Gambling involves risk.
+              </p>
+              <p style="margin: 0 0 8px; color: #555555; font-size: 12px;">
+                18+ | Gamble Responsibly
+              </p>
+              <p style="margin: 0; color: #333333; font-size: 12px;">
+                You're receiving this because you started a checkout on mikki-mase.com<br>
+                If you don't want to hear from us, reply with "unsubscribe".<br>
+                &copy; ${new Date().getFullYear()} Mikki Mase. All rights reserved.
+              </p>
+            </td>
+          </tr>
+
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>
+  `.trim();
+
+  // Plain text versions per step
+  const step1Text = `
+You Left Something Behind
+
+Looks like you were checking out the ${data.productName} but didn't finish.
+
+No pressure — your cart is still waiting. If you had a technical issue or a question, just reply to this email and we'll sort it out.
+
+Complete Your Order: ${data.checkoutUrl}
+  `.trim();
+
+  const step2Text = `
+Quick Question
+
+You were about to grab the ${data.productName} yesterday. What held you back?
+
+"Is this legit?"
+Over 10,000 students. Mikki's framework is built on mathematics, not luck.
+
+"Will it work for me?"
+If you can follow a checklist, you can apply this. It's a system, not talent.
+
+"$27 is still money."
+It's less than one bad hand at any table. The education lasts forever.
+
+Get the ${data.productName}: ${data.checkoutUrl}
+
+Still have a question? Just reply — a real person reads these.
+  `.trim();
+
+  const step3Text = `
+Last Reminder
+
+This is the last time we'll email you about the ${data.productName}. No spam, no games.
+
+Here's what it comes down to: for $27, you get the exact session framework that Mikki uses. Bankroll management, risk control, pre- and post-session systems — the fundamentals that separate educated players from everyone else.
+
+If it's not for you, no hard feelings. But if you're still thinking about it, this is your last nudge.
+
+Get It Now — $27: ${data.checkoutUrl}
+  `.trim();
+
+  const stepTexts: Record<1 | 2 | 3, string> = {
+    1: step1Text,
+    2: step2Text,
+    3: step3Text,
+  };
+
+  const textFooter = `
+
+---
+
+Questions? Reply to this email or contact support@mikki-mase.com
+
+For educational purposes only. No guarantee of winnings. Gambling involves risk.
+18+ | Gamble Responsibly
+
+You're receiving this because you started a checkout on mikki-mase.com
+If you don't want to hear from us, reply with "unsubscribe".
+(c) ${new Date().getFullYear()} Mikki Mase. All rights reserved.`;
+
+  return sendEmail({
+    to: data.customerEmail,
+    subject: subjects[data.step],
+    html,
+    text: stepTexts[data.step] + textFooter,
+  });
+}
+
+// ============================================
 // PLACEHOLDER EXPORTS
 // ============================================
 
