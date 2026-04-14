@@ -6,6 +6,8 @@ import MobileNav from '../components/MobileNav.astro';
 import ReadingProgress from '../components/ReadingProgress.astro';
 import BackToTop from '../components/BackToTop.astro';
 import ExitIntentEmailCapture from '../components/ExitIntentEmailCapture.tsx';
+import AgeGate from '../components/compliance/AgeGate.tsx';
+import Disclaimers from '../components/compliance/Disclaimers.tsx';
 
 interface Props {
   title: string;
@@ -346,6 +348,9 @@ const finalSchema = schema ? {
     <ClientRouter />
   </head>
   <body class="bg-black text-white">
+    <!-- Age Verification Gate (18+) -->
+    <AgeGate client:load />
+
     <!-- Reading Progress Bar -->
     <ReadingProgress />
 
@@ -356,6 +361,9 @@ const finalSchema = schema ? {
     <a href="#main-content" class="skip-link">Skip to main content</a>
 
     <slot />
+
+    <!-- Compliance Disclaimers Footer -->
+    <Disclaimers variant="gambling" client:load />
 
     <!-- Mobile Bottom Navigation -->
     {!hideMobileNav && <MobileNav />}
