@@ -750,7 +750,7 @@ export interface PlaybookWelcomeData {
 }
 
 /**
- * Send welcome email after Session Playbook purchase ($27)
+ * Send welcome email after Masterclass purchase ($27)
  */
 export async function sendPlaybookWelcome(data: PlaybookWelcomeData) {
   const greeting = data.customerName ? `${data.customerName}, your` : 'Your';
@@ -761,7 +761,7 @@ export async function sendPlaybookWelcome(data: PlaybookWelcomeData) {
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Your Session Playbook is Ready</title>
+  <title>Welcome to the Masterclass</title>
 </head>
 <body style="margin: 0; padding: 0; background-color: #000000; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">
   <table role="presentation" style="width: 100%; border-collapse: collapse;">
@@ -783,11 +783,11 @@ export async function sendPlaybookWelcome(data: PlaybookWelcomeData) {
             <td style="background: linear-gradient(135deg, #1a1a1a 0%, #0a0a0a 100%); border-radius: 16px; padding: 40px; border: 1px solid #333;">
 
               <h2 style="margin: 0 0 20px; color: #ffffff; font-size: 24px; font-weight: 700;">
-                ${greeting} Session Playbook is Ready
+                Welcome to the Masterclass
               </h2>
 
               <p style="margin: 0 0 20px; color: #a3a3a3; font-size: 16px; line-height: 1.6;">
-                You just made the smartest $27 decision of your gambling education. The Session Playbook breaks down Mikki's core framework into actionable steps you can use before, during, and after every session.
+                You just made the smartest $27 decision of your gambling education. The Masterclass breaks down Mikki's core framework into actionable steps you can use before, during, and after every session.
               </p>
 
               ${data.isGuest && data.magicLink ? `
@@ -809,7 +809,7 @@ export async function sendPlaybookWelcome(data: PlaybookWelcomeData) {
                   <td align="center" style="padding: 20px 0;">
                     <a href="${data.magicLink || data.accessUrl}"
                        style="display: inline-block; background-color: #A8001E; color: #ffffff; text-decoration: none; padding: 16px 40px; border-radius: 12px; font-weight: 700; font-size: 18px;">
-                      ${data.isGuest && data.magicLink ? 'Click to Access Your Playbook' : 'Open Your Playbook'}
+                      ${data.isGuest && data.magicLink ? 'Click to Access Your Masterclass' : 'Open Your Masterclass'}
                     </a>
                   </td>
                 </tr>
@@ -823,7 +823,7 @@ export async function sendPlaybookWelcome(data: PlaybookWelcomeData) {
                       Bonus: Blackjack Cheat Sheet
                     </h3>
                     <p style="margin: 0 0 12px; color: #a3a3a3; font-size: 14px; line-height: 1.6;">
-                      Your free cheat sheet is included with the Playbook. Print it, screenshot it, keep it handy.
+                      Your free cheat sheet is included with the Masterclass. Print it, screenshot it, keep it handy.
                     </p>
                     <a href="${data.cheatsheetDownloadUrl}" style="color: #CFB53B; text-decoration: none; font-weight: 700; font-size: 14px;">
                       Download Cheat Sheet &rarr;
@@ -881,17 +881,17 @@ export async function sendPlaybookWelcome(data: PlaybookWelcomeData) {
   `.trim();
 
   const text = `
-Your Session Playbook is Ready
+Welcome to the Masterclass
 
-${greeting} Session Playbook is ready!
+${greeting} Masterclass is ready!
 
-You just made the smartest $27 decision of your gambling education. The Session Playbook breaks down Mikki's core framework into actionable steps you can use before, during, and after every session.
-${data.isGuest && data.magicLink ? `\nWe created your account automatically. Click below to log in instantly — no password needed.\n\nAccess Your Playbook: ${data.magicLink}` : `\nOpen Your Playbook: ${data.accessUrl}`}
+You just made the smartest $27 decision of your gambling education. The Masterclass breaks down Mikki's core framework into actionable steps you can use before, during, and after every session.
+${data.isGuest && data.magicLink ? `\nWe created your account automatically. Click below to log in instantly — no password needed.\n\nAccess Your Masterclass: ${data.magicLink}` : `\nOpen Your Masterclass: ${data.accessUrl}`}
 
 ---
 
 Bonus: Blackjack Cheat Sheet
-Your free cheat sheet is included with the Playbook. Print it, screenshot it, keep it handy.
+Your free cheat sheet is included with the Masterclass. Print it, screenshot it, keep it handy.
 Download: ${data.cheatsheetDownloadUrl}
 
 ---
@@ -916,7 +916,7 @@ You're receiving this because you purchased from mikki-mase.com
 
   return sendEmail({
     to: data.customerEmail,
-    subject: 'Your Session Playbook is ready',
+    subject: "You're in! Welcome to The Mikki Mase Masterclass",
     html,
     text,
   });

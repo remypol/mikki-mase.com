@@ -1,18 +1,23 @@
 /**
  * Tier Gating Utilities
  * Central logic for determining user tier and feature access.
+ *
+ * Tiers (highest → lowest): lifetime-vip > inner-circle > masterclass
+ * The $27 purchase grants 'masterclass' tier (full course access).
+ * Inner Circle ($29/mo) adds: tools, AI advisor, community.
  */
 
-export type UserTier = 'playbook' | 'masterclass' | 'inner-circle' | 'lifetime-vip';
+export type UserTier = 'masterclass' | 'inner-circle' | 'lifetime-vip';
 
 /** Product keys that map to each tier */
 const TIER_MAP: Record<string, UserTier> = {
-  // v2 funnel products
-  'session-playbook': 'playbook',
-  'session-toolkit': 'playbook',
-  'full-masterclass': 'masterclass',
+  // Active products
+  'session-playbook': 'masterclass',       // $27 — full course access
   'inner-circle-monthly-v2': 'inner-circle',
   'inner-circle-annual-v2': 'inner-circle',
+  // Deprecated v2 products (backwards compat — still grant masterclass)
+  'session-toolkit': 'masterclass',
+  'full-masterclass': 'masterclass',
   // Legacy products (existing customers)
   masterclass: 'masterclass',
   'inner-circle-monthly': 'inner-circle',
@@ -21,9 +26,11 @@ const TIER_MAP: Record<string, UserTier> = {
 };
 
 /** Tier priority (highest first) */
-const TIER_PRIORITY: UserTier[] = ['lifetime-vip', 'inner-circle', 'masterclass', 'playbook'];
+const TIER_PRIORITY: UserTier[] = ['lifetime-vip', 'inner-circle', 'masterclass'];
 
 export function getTierFromProductKey(productKey: string): UserTier | null {
+  // Runtime fallback for any cached 'playbook' values
+  if (productKey === 'playbook') return 'masterclass';
   return TIER_MAP[productKey] ?? null;
 }
 
@@ -36,25 +43,21 @@ export function getHighestTier(productKeys: string[]): UserTier | null {
 
 /** All valid product keys that grant course access */
 export const ALL_ENTITLEMENT_KEYS = [
-  // v2 funnel
+  // Active
   'session-playbook',
-  'session-toolkit',
-  'full-masterclass',
   'inner-circle-monthly-v2',
   'inner-circle-annual-v2',
-  // Legacy
+  // Deprecated (still valid for existing customers)
+  'session-toolkit',
+  'full-masterclass',
   'masterclass',
   'inner-circle-monthly',
   'inner-circle-yearly',
   'lifetime-vip',
 ] as const;
 
-export function hasPlaybookAccess(tier: UserTier): boolean {
-  return true; // All tiers include playbook content
-}
-
 export function hasMasterclassAccess(tier: UserTier): boolean {
-  return tier === 'masterclass' || tier === 'inner-circle' || tier === 'lifetime-vip';
+  return true; // All tiers include masterclass
 }
 
 export function hasInnerCircleAccess(tier: UserTier): boolean {
@@ -66,7 +69,6 @@ export function hasVipAccess(tier: UserTier): boolean {
 }
 
 export const TIER_LABELS: Record<UserTier, string> = {
-  playbook: 'Session Playbook',
   masterclass: 'Masterclass',
   'inner-circle': 'Inner Circle',
   'lifetime-vip': 'Lifetime VIP',

@@ -1,9 +1,8 @@
 ---
 /**
- * Session Playbook Success Page (Thank You + OTO Upsell)
+ * Masterclass Success Page (Thank You)
  *
- * Shows purchase confirmation and presents the Full Masterclass
- * as a one-time upgrade offer ($79, regular $149).
+ * Shows purchase confirmation with course access link.
  */
 
 export const prerender = false;
@@ -13,7 +12,7 @@ import Header from '../../components/Header.astro';
 import Footer from '../../components/Footer.astro';
 import { getStripeServer } from '../../lib/stripe';
 import { getServerClient } from '../../lib/supabase';
-import { sessionPlaybook, fullMasterclass } from '../../config/shop/products';
+import { sessionPlaybook } from '../../config/shop/products';
 
 const sessionId = Astro.url.searchParams.get('session_id');
 
@@ -24,7 +23,6 @@ let metadataUserId = '';
 let isGuestCheckout = false;
 let error: string | null = null;
 let purchaseAmount = sessionPlaybook.price;
-let includedBump = false;
 
 if (!sessionId) {
   error = 'No session ID provided';
@@ -40,7 +38,6 @@ if (!sessionId) {
       customerEmail = session.customer_details?.email || null;
       metadataUserId = session.metadata?.userId || '';
       isGuestCheckout = session.metadata?.isGuestCheckout === 'true' || !metadataUserId;
-      includedBump = session.metadata?.includeBump === 'true';
       purchaseAmount = (session.amount_total || 2700) / 100;
 
       if (customerEmail) {
@@ -58,14 +55,11 @@ if (!sessionId) {
     error = 'Unable to verify payment.';
   }
 }
-
-const otoPrice = fullMasterclass.price;
-const otoCompareAt = fullMasterclass.compareAt || 149;
 ---
 
 <BaseLayout
-  title="Your Session Playbook is Ready! | Mikki Mase"
-  description="Purchase confirmed. Access your Session Playbook."
+  title="Your Masterclass is Ready! | Mikki Mase"
+  description="Purchase confirmed. Access your Masterclass."
   noIndex={true}
   hideMobileNav={true}
   hideBackToTop={true}
@@ -106,7 +100,7 @@ const otoCompareAt = fullMasterclass.compareAt || 149;
               </svg>
             </div>
 
-            <h1 class="text-3xl font-bold text-white mb-2">Your Session Playbook is ready!</h1>
+            <h1 class="text-3xl font-bold text-white mb-2">Your Masterclass is ready!</h1>
             <p class="text-lg mb-4" style="color: #CFB53B;">Purchase confirmed</p>
 
             {isGuestCheckout ? (
@@ -119,7 +113,7 @@ const otoCompareAt = fullMasterclass.compareAt || 149;
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                   </svg>
                   <div>
-                    <p class="text-white font-bold text-sm mb-1">Check your email to access the Playbook</p>
+                    <p class="text-white font-bold text-sm mb-1">Check your email to access the Masterclass</p>
                     <p class="text-xs" style="color: #BEBEBE;">
                       We sent a <strong class="text-white">one-click login link</strong> to <strong class="text-white">{maskedEmail || 'your email'}</strong>.
                     </p>
@@ -132,7 +126,7 @@ const otoCompareAt = fullMasterclass.compareAt || 149;
                 class="inline-flex items-center justify-center gap-2 font-bold text-black min-h-[48px] rounded-xl px-8 transition-all hover:brightness-110 active:scale-[0.98] mb-6"
                 style="background-color: #CFB53B;"
               >
-                Access Your Playbook
+                Access Your Masterclass
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
                 </svg>
@@ -140,102 +134,13 @@ const otoCompareAt = fullMasterclass.compareAt || 149;
             )}
           </div>
 
-          <!-- OTO: Full Masterclass Upsell -->
-          <div
-            class="rounded-2xl p-6 md:p-8 mb-8"
-            style="background: #111; border: 1px solid rgba(207, 181, 59, 0.3);"
-          >
-            <div class="text-center mb-6">
-              <span class="inline-block text-xs font-bold uppercase tracking-widest px-3 py-1 rounded-full mb-4" style="background: rgba(207, 181, 59, 0.12); color: #CFB53B;">
-                One-Time Upgrade Offer
-              </span>
-              <h2 class="text-2xl md:text-3xl font-black text-white mb-2">
-                Unlock the Full Masterclass
-              </h2>
-              <p class="text-sm" style="color: #BEBEBE; max-width: 48ch; margin: 0 auto;">
-                You have the Playbook. Now get the complete 10-module system with interactive scenarios, quizzes, and all bonus materials.
-              </p>
-            </div>
-
-            <!-- What's included -->
-            <div class="space-y-3 mb-6">
-              <div class="flex items-start gap-3">
-                <svg class="w-5 h-5 mt-0.5 flex-shrink-0" style="color: #CFB53B;" fill="currentColor" viewBox="0 0 20 20">
-                  <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
-                </svg>
-                <span class="text-sm text-white">10 Complete Modules of Casino Strategy</span>
-              </div>
-              <div class="flex items-start gap-3">
-                <svg class="w-5 h-5 mt-0.5 flex-shrink-0" style="color: #CFB53B;" fill="currentColor" viewBox="0 0 20 20">
-                  <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
-                </svg>
-                <span class="text-sm text-white">30+ In-Depth Lessons (~8 hours)</span>
-              </div>
-              <div class="flex items-start gap-3">
-                <svg class="w-5 h-5 mt-0.5 flex-shrink-0" style="color: #CFB53B;" fill="currentColor" viewBox="0 0 20 20">
-                  <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
-                </svg>
-                <span class="text-sm text-white">Interactive Scenarios & Quizzes</span>
-              </div>
-              <div class="flex items-start gap-3">
-                <svg class="w-5 h-5 mt-0.5 flex-shrink-0" style="color: #CFB53B;" fill="currentColor" viewBox="0 0 20 20">
-                  <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
-                </svg>
-                <span class="text-sm text-white">MMC Cheatsheet Bundle (Bonus)</span>
-              </div>
-              <div class="flex items-start gap-3">
-                <svg class="w-5 h-5 mt-0.5 flex-shrink-0" style="color: #CFB53B;" fill="currentColor" viewBox="0 0 20 20">
-                  <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
-                </svg>
-                <span class="text-sm text-white">Beat the Casino Ebook — 98 pages (Bonus)</span>
-              </div>
-              <div class="flex items-start gap-3">
-                <svg class="w-5 h-5 mt-0.5 flex-shrink-0" style="color: #CFB53B;" fill="currentColor" viewBox="0 0 20 20">
-                  <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
-                </svg>
-                <span class="text-sm text-white">Lifetime Access + All Future Updates</span>
-              </div>
-            </div>
-
-            <!-- Pricing -->
-            <div class="text-center mb-6 py-4" style="border-top: 1px solid #2D2D2D; border-bottom: 1px solid #2D2D2D;">
-              <div class="flex items-center justify-center gap-3">
-                <span class="text-lg line-through" style="color: #6B6B6B;">${otoCompareAt}</span>
-                <span class="text-4xl font-black text-white">${otoPrice}</span>
-              </div>
-              <p class="text-xs mt-2" style="color: #9A9A9A;">One-time payment &middot; Lifetime access</p>
-            </div>
-
-            <!-- Upgrade CTA -->
-            <button
-              id="upsell-btn"
-              type="button"
-              class="w-full inline-flex items-center justify-center gap-2 font-bold text-black min-h-[52px] rounded-xl px-8 transition-all hover:brightness-110 active:scale-[0.98] mb-4"
-              style="background-color: #CFB53B;"
-            >
-              Upgrade Now — ${otoPrice}
-            </button>
-
-            <!-- Loading state -->
-            <div id="upsell-loading" class="hidden w-full flex items-center justify-center gap-2 min-h-[52px] mb-4">
-              <svg class="w-5 h-5 animate-spin" style="color: #CFB53B;" fill="none" viewBox="0 0 24 24">
-                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-              </svg>
-              <span class="text-white font-medium text-sm">Redirecting to checkout...</span>
-            </div>
-
-            <!-- Error message -->
-            <div id="upsell-error" class="hidden mb-4 rounded-lg px-4 py-3 text-sm" style="background: rgba(220, 38, 38, 0.1); border: 1px solid rgba(220, 38, 38, 0.3); color: #FCA5A5;">
-            </div>
-
-            <!-- Skip link -->
-            <a
-              href="/masterclass/course"
-              class="block text-center text-sm transition-colors hover:text-white"
-              style="color: #6B6B6B;"
-            >
-              No thanks, take me to my Playbook
+          <!-- Inner Circle mention -->
+          <div style="margin-top: 2rem; padding: 1.5rem; background: #111; border: 1px solid #1A1A1A; border-radius: 12px;">
+            <p style="color: #BEBEBE; font-size: 14px; margin: 0;">
+              Want unlimited calculator tools, AI strategy advisor, and community access?
+            </p>
+            <a href="/masterclass/course" style="color: #CFB53B; font-size: 14px; font-weight: 600; text-decoration: none;">
+              Explore the Inner Circle →
             </a>
           </div>
 
@@ -293,56 +198,6 @@ const otoCompareAt = fullMasterclass.compareAt || 149;
       });
 
       sessionStorage.setItem(trackedKey, 'true');
-    });
-  </script>
-)}
-
-<!-- OTO upsell checkout redirect -->
-{verified && (
-  <script is:inline define:vars={{ originalSessionId: sessionId || '' }}>
-    document.addEventListener('astro:page-load', function() {
-      var upsellBtn = document.getElementById('upsell-btn');
-      var loadingEl = document.getElementById('upsell-loading');
-      var errorEl = document.getElementById('upsell-error');
-
-      if (!upsellBtn) return;
-
-      upsellBtn.addEventListener('click', async function() {
-        upsellBtn.style.display = 'none';
-        if (loadingEl) loadingEl.classList.remove('hidden');
-        if (errorEl) errorEl.classList.add('hidden');
-
-        try {
-          var res = await fetch('/api/checkout/create', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            credentials: 'same-origin',
-            body: JSON.stringify({
-              productKey: 'full-masterclass',
-              originalSessionId: originalSessionId,
-            }),
-          });
-
-          var data = await res.json();
-
-          if (!res.ok) {
-            throw new Error(data.error || 'Checkout failed');
-          }
-
-          if (data.url) {
-            window.location.href = data.url;
-          } else {
-            throw new Error('No checkout URL returned');
-          }
-        } catch (err) {
-          upsellBtn.style.display = 'inline-flex';
-          if (loadingEl) loadingEl.classList.add('hidden');
-          if (errorEl) {
-            errorEl.textContent = err.message || 'Something went wrong. Please try again.';
-            errorEl.classList.remove('hidden');
-          }
-        }
-      });
     });
   </script>
 )}

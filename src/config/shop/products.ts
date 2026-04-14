@@ -6,7 +6,7 @@
  * Their Stripe IDs remain active so existing customers keep access.
  */
 
-import type { Product, OrderBumpConfig, UpsellConfig } from './types';
+import type { Product } from './types';
 
 // ============================================
 // DEPRECATED PRODUCTS (legacy — kept for existing customers)
@@ -427,11 +427,11 @@ export const lifetimeVip: Product = {
 export const sessionPlaybook: Product = {
   id: 'session-playbook',
   slug: 'session-playbook',
-  type: 'quickstart',
+  type: 'course',
   fulfillment: 'digital',
 
-  name: 'Session Playbook',
-  tagline: 'The Decision Framework',
+  name: 'The Mikki Mase Masterclass',
+  tagline: 'Casino Strategy Course',
   description:
     'Bankroll discipline, game selection, and risk management. The quickstart framework behind Mikki Mase\'s approach to every casino session.',
   cover: '/images/shop/session-playbook-cover.jpg',
@@ -528,6 +528,8 @@ export const sessionToolkit: Product = {
 
   downloadFile: 'session-toolkit.zip',
 
+  deprecated: true,
+
   featured: false,
   category: 'bundles',
   relatedProducts: ['session-playbook'],
@@ -576,6 +578,8 @@ export const fullMasterclass: Product = {
 
   stripePriceId: import.meta.env.STRIPE_FULL_MASTERCLASS_PRICE_ID || 'price_masterclass_placeholder',
   stripeProductId: import.meta.env.STRIPE_FULL_MASTERCLASS_PRODUCT_ID || 'prod_masterclass_placeholder',
+
+  deprecated: true,
 
   featured: true,
   category: 'courses',
@@ -742,39 +746,6 @@ export const innerCircleAnnualV2: Product = {
 };
 
 // ============================================
-// ORDER BUMP CONFIG (checkout page add-on)
-// ============================================
-
-export const orderBumpConfig: OrderBumpConfig = {
-  productId: 'session-toolkit',
-  label: 'Add: Session Toolkit',
-  description: 'Bankroll calculator, session planner, and printable decision trees for your next visit.',
-  price: 9,
-  compareAt: 29,
-  stripePriceId: import.meta.env.STRIPE_TOOLKIT_PRICE_ID || 'price_toolkit_placeholder',
-};
-
-// ============================================
-// UPSELL CONFIG (post-purchase OTO)
-// ============================================
-
-export const masterclassUpsellConfig: UpsellConfig = {
-  productId: 'full-masterclass',
-  headline: 'Upgrade: The Full Masterclass',
-  description: "You've got the framework. Now go deep.",
-  price: 79,
-  compareAt: 149,
-  stripePriceId: import.meta.env.STRIPE_FULL_MASTERCLASS_PRICE_ID || 'price_masterclass_placeholder',
-  features: [
-    '10 modules, 30+ in-depth lessons',
-    'Advanced strategy breakdowns per game',
-    'Interactive scenarios & quizzes',
-    'Beat the Casino Ebook (98 pages)',
-    'Everything in Session Playbook + much more',
-  ],
-};
-
-// ============================================
 // PRODUCT KEY → STRIPE PRICE MAPPING
 // Used by checkout to derive price server-side
 // ============================================
@@ -823,8 +794,8 @@ export interface PricingTier {
 export const pricingTiers: PricingTier[] = [
   {
     id: 'session-playbook',
-    name: 'Session Playbook',
-    tagline: 'The Decision Framework',
+    name: 'The Masterclass',
+    tagline: 'Everything You Need',
     price: 27,
     billingLabel: 'one-time',
     features: [
@@ -832,14 +803,14 @@ export const pricingTiers: PricingTier[] = [
       '7-day money-back guarantee',
     ],
     valueStack: [
-      { name: 'Session Playbook (quickstart program)', value: 97 },
-      { name: 'Bankroll Management Framework', value: 49 },
-      { name: 'Cheatsheet Bundle (3 games)', value: 57 },
-      { name: 'Pre-Session Checklist & Decision Rules', value: 29 },
+      { name: '10-Module Casino Strategy Course', value: 197 },
+      { name: 'Cheatsheet Bundle (Baccarat, Poker, Roulette)', value: 57 },
+      { name: 'Beat the Casino Ebook (98 pages)', value: 67 },
+      { name: 'Interactive Scenarios & Quizzes', value: 29 },
     ],
-    totalValue: 232,
+    totalValue: 350,
     highlighted: true,
-    ctaText: 'Get the Playbook — $27',
+    ctaText: 'Get the Masterclass — $27',
     ctaHref: '/checkout/playbook',
   },
 ];

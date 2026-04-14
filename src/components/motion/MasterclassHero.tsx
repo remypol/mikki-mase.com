@@ -75,7 +75,7 @@ export default function MasterclassHero({ totalLessons, accessDenied = false }: 
             letterSpacing: '-0.01em',
           }}
         >
-          THE SESSION <span style={{ color: 'var(--color-gold)' }}>PLAYBOOK</span>
+          THE MIKKI MASE <span style={{ color: 'var(--color-gold)' }}>MASTERCLASS</span>
         </motion.h1>
 
         <motion.p
@@ -134,7 +134,7 @@ export default function MasterclassHero({ totalLessons, accessDenied = false }: 
             className="inline-flex items-center justify-center font-bold text-black min-h-[52px] rounded-xl text-lg px-8 py-4 transition-all hover:brightness-110 active:scale-[0.98]"
             style={{ backgroundColor: '#CFB53B' }}
           >
-            Get the Playbook — $27
+            Get the Masterclass — $27
             <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
             </svg>

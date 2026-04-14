@@ -72,12 +72,12 @@ export default function MasterclassBuyButton({ variant = 'hero', className = '' 
     <div className="flex flex-col items-center gap-2">
       <a
         href="/checkout/playbook"
-        onClick={() => fetch('/api/notify', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ event: 'cta_click', detail: `Get Playbook (${purchaseStatus.authenticated ? 'checkout' : 'guest'})` }) }).catch(() => {})}
+        onClick={() => fetch('/api/notify', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ event: 'cta_click', detail: `Get Masterclass (${purchaseStatus.authenticated ? 'checkout' : 'guest'})` }) }).catch(() => {})}
         className={`inline-flex items-center justify-center font-bold text-black min-h-[52px] rounded-xl px-8 transition-all hover:brightness-110 active:scale-[0.98] ${className}`}
         style={{ backgroundColor: '#CFB53B' }}
       >
-        <span className="sm:hidden">Get Playbook — $27</span>
-        <span className="hidden sm:inline">Get the Playbook — $27</span>
+        <span className="sm:hidden">Masterclass — $27</span>
+        <span className="hidden sm:inline">Get the Masterclass — $27</span>
         <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
         </svg>

@@ -1,8 +1,7 @@
 ---
 /**
- * Session Playbook Checkout Page ($27)
+ * Masterclass Checkout Page ($27)
  *
- * Simplified checkout with order bump (Session Toolkit +$9).
  * Redirects to Stripe hosted checkout on submit.
  * Supports both logged-in and guest checkout.
  */
@@ -13,7 +12,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import Header from '../../components/Header.astro';
 import Footer from '../../components/Footer.astro';
 import { getServerClient, getServiceClient } from '../../lib/supabase';
-import { sessionPlaybook, orderBumpConfig } from '../../config/shop/products';
+import { sessionPlaybook } from '../../config/shop/products';
 
 // Auth is optional (guest checkout supported)
 const supabase = getServerClient(Astro.cookies, Astro.request);
@@ -34,14 +33,11 @@ if (user) {
 }
 
 if (alreadyPurchased) return Astro.redirect('/masterclass/course');
-
-const basePrice = sessionPlaybook.price;
-const bumpPrice = orderBumpConfig.price;
 ---
 
 <BaseLayout
-  title="Checkout | The Session Playbook"
-  description="Complete your purchase of The Session Playbook."
+  title="Checkout | The Mikki Mase Masterclass"
+  description="Complete your purchase of The Mikki Mase Masterclass."
   noIndex={true}
   hideMobileNav={true}
   hideBackToTop={true}
@@ -90,12 +86,12 @@ const bumpPrice = orderBumpConfig.price;
                 </svg>
               </div>
               <div>
-                <h3 class="text-white font-bold text-sm">The Session Playbook</h3>
+                <h3 class="text-white font-bold text-sm">The Mikki Mase Masterclass</h3>
                 <p class="text-xs mt-1" style="color: #9A9A9A;">
                   One-time payment &middot; Lifetime access
                 </p>
               </div>
-              <span class="ml-auto text-white font-bold text-sm">${basePrice}</span>
+              <span class="ml-auto text-white font-bold text-sm">$27</span>
             </div>
 
             <!-- Feature list -->
@@ -132,40 +128,13 @@ const bumpPrice = orderBumpConfig.price;
               </div>
             </div>
 
-            <!-- Order Bump -->
-            <div
-              id="order-bump"
-              class="rounded-xl p-4 mb-6 cursor-pointer transition-all"
-              style="background: rgba(207, 181, 59, 0.04); border: 2px dashed rgba(207, 181, 59, 0.3);"
-            >
-              <label class="flex items-start gap-3 cursor-pointer">
-                <input
-                  type="checkbox"
-                  id="bump-checkbox"
-                  class="mt-1 flex-shrink-0 w-4 h-4 rounded accent-[#CFB53B]"
-                />
-                <div class="flex-1">
-                  <div class="flex items-center gap-2 mb-1">
-                    <span class="text-sm font-bold text-white">Add: Session Toolkit</span>
-                    <span class="text-sm font-bold" style="color: #CFB53B;">+${bumpPrice}</span>
-                  </div>
-                  <p class="text-xs" style="color: #9A9A9A;">
-                    Printable cheatsheets, bankroll tracker, and session log templates. Normally <span class="line-through">${orderBumpConfig.compareAt}</span>.
-                  </p>
-                </div>
-              </label>
-            </div>
-
-            <!-- Dynamic total -->
+            <!-- Total -->
             <div
               class="flex items-center justify-between py-4"
               style="border-top: 1px solid #2D2D2D;"
             >
               <span class="text-white font-semibold text-sm">Total</span>
-              <div class="flex items-center gap-2">
-                <span id="compare-price" class="text-base line-through" style="color: #6B6B6B;">$67</span>
-                <span id="checkout-total" class="text-2xl font-black text-white">${basePrice}</span>
-              </div>
+              <span class="text-2xl font-black text-white">$27</span>
             </div>
 
             <!-- Price reframe -->
@@ -226,10 +195,10 @@ const bumpPrice = orderBumpConfig.price;
             <!-- Summary line -->
             <div class="flex items-center justify-between mb-6 pb-4" style="border-bottom: 1px solid #2D2D2D;">
               <div>
-                <p class="text-white font-bold">The Session Playbook</p>
-                <p id="bump-status" class="text-xs mt-1" style="color: #6B6B6B;">One-time payment</p>
+                <p class="text-white font-bold">The Mikki Mase Masterclass</p>
+                <p class="text-xs mt-1" style="color: #6B6B6B;">One-time payment</p>
               </div>
-              <p id="checkout-amount" class="text-2xl font-black text-white">${basePrice}</p>
+              <p class="text-2xl font-black text-white">$27</p>
             </div>
 
             <!-- CTA Button -->
@@ -242,7 +211,7 @@ const bumpPrice = orderBumpConfig.price;
               <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
               </svg>
-              <span id="btn-text">Pay $<span id="btn-price">{basePrice}</span> — Secure Checkout</span>
+              <span>Get Instant Access — $27</span>
             </button>
 
             <!-- Loading state (hidden by default) -->
@@ -319,52 +288,15 @@ const bumpPrice = orderBumpConfig.price;
   <Footer />
 </BaseLayout>
 
-<!-- Client-side: bump toggle + checkout redirect -->
-<script define:vars={{ basePrice, bumpPrice }}>
+<!-- Client-side: checkout redirect -->
+<script>
   document.addEventListener('astro:page-load', () => {
-    const checkbox = document.getElementById('bump-checkbox');
-    const totalEl = document.getElementById('checkout-total');
-    const amountEl = document.getElementById('checkout-amount');
-    const btnPriceEl = document.getElementById('btn-price');
-    const bumpStatusEl = document.getElementById('bump-status');
-    const comparePriceEl = document.getElementById('compare-price');
     const checkoutBtn = document.getElementById('checkout-btn');
     const loadingEl = document.getElementById('checkout-loading');
     const errorEl = document.getElementById('checkout-error');
-    const bumpCard = document.getElementById('order-bump');
 
-    if (!checkbox || !totalEl || !checkoutBtn) return;
+    if (!checkoutBtn) return;
 
-    function updateTotal() {
-      const includeBump = checkbox.checked;
-      const total = includeBump ? basePrice + bumpPrice : basePrice;
-      const compareTotal = includeBump ? 67 + 29 : 67;
-
-      totalEl.textContent = '$' + total;
-      if (amountEl) amountEl.textContent = '$' + total;
-      if (btnPriceEl) btnPriceEl.textContent = total;
-      if (comparePriceEl) comparePriceEl.textContent = '$' + compareTotal;
-      if (bumpStatusEl) {
-        bumpStatusEl.textContent = includeBump
-          ? 'Playbook + Session Toolkit'
-          : 'One-time payment';
-      }
-
-      // Visual feedback on bump card
-      if (bumpCard) {
-        if (includeBump) {
-          bumpCard.style.borderColor = 'rgba(207, 181, 59, 0.6)';
-          bumpCard.style.background = 'rgba(207, 181, 59, 0.08)';
-        } else {
-          bumpCard.style.borderColor = 'rgba(207, 181, 59, 0.3)';
-          bumpCard.style.background = 'rgba(207, 181, 59, 0.04)';
-        }
-      }
-    }
-
-    checkbox.addEventListener('change', updateTotal);
-
-    // Checkout redirect
     checkoutBtn.addEventListener('click', async () => {
       checkoutBtn.style.display = 'none';
       if (loadingEl) loadingEl.classList.remove('hidden');
@@ -377,7 +309,6 @@ const bumpPrice = orderBumpConfig.price;
           credentials: 'same-origin',
           body: JSON.stringify({
             productKey: 'session-playbook',
-            includeBump: checkbox.checked,
           }),
         });
 
