@@ -140,6 +140,12 @@ async function handleCheckoutComplete(session: Stripe.Checkout.Session) {
 
   const v2ProductKeys = ['session-playbook', 'session-toolkit', 'full-masterclass'];
   if (productKey && v2ProductKeys.includes(productKey)) {
+    // Verify payment was actually completed (defense in depth — async methods like Klarna/PayPal)
+    if (session.payment_status !== 'paid') {
+      console.warn(`V2: Ignoring unpaid session ${session.id} (status: ${session.payment_status})`);
+      return;
+    }
+
     const supabase = getServiceClient();
     let resolvedUserId = userId;
     let isGuest = isGuestCheckout === 'true';
@@ -177,8 +183,16 @@ async function handleCheckoutComplete(session: Stripe.Checkout.Session) {
       }
 
       if (resolvedUserId && customerEmail) {
+        // Product-specific redirect after magic link login
+        const redirectMap: Record<string, string> = {
+          'session-playbook': 'https://www.mikki-mase.com/masterclass/course',
+          'session-toolkit': 'https://www.mikki-mase.com/masterclass/course',
+          'full-masterclass': 'https://www.mikki-mase.com/masterclass/course',
+        };
+        const redirectTo = redirectMap[productKey || ''] || 'https://www.mikki-mase.com/masterclass/course';
+
         try {
-          const { data: linkData } = await supabase.auth.admin.generateLink({ type: 'magiclink', email: customerEmail, options: { redirectTo: 'https://www.mikki-mase.com/masterclass/course' } });
+          const { data: linkData } = await supabase.auth.admin.generateLink({ type: 'magiclink', email: customerEmail, options: { redirectTo } });
           if (linkData?.properties?.action_link) magicLoginLink = linkData.properties.action_link;
         } catch (e) { console.warn('Magic link error:', e); }
       }
@@ -209,12 +223,17 @@ async function handleCheckoutComplete(session: Stripe.Checkout.Session) {
         status: 'completed',
       }, { onConflict: 'stripe_session_id' });
 
-      // Grant entitlement
-      await supabase.from('entitlements').upsert({
+      // Grant entitlement (critical — do not swallow errors)
+      const { error: entitlementError } = await supabase.from('entitlements').upsert({
         customer_id: resolvedUserId,
         product_type: itemProductKey,
         source_order_id: null,
-      }, { onConflict: 'customer_id,product_type' }).then(() => {}).catch(() => {});
+      }, { onConflict: 'customer_id,product_type' });
+
+      if (entitlementError && entitlementError.code !== '23505') {
+        console.error(`Entitlement grant failed for ${itemProductKey}:`, entitlementError.message);
+        // Don't throw — purchase was already recorded. Log for manual resolution.
+      }
     }
 
     // If no line items expanded, record the main product
