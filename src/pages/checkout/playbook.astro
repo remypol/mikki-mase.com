@@ -11,6 +11,7 @@ export const prerender = false;
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Header from '../../components/Header.astro';
 import Footer from '../../components/Footer.astro';
+import CustomMasterclassCheckout from '../../components/CustomMasterclassCheckout';
 import { getServerClient, getServiceClient } from '../../lib/supabase';
 import { sessionPlaybook } from '../../config/shop/products';
 
@@ -180,61 +181,19 @@ if (alreadyPurchased) return Astro.redirect('/masterclass/course');
           </div>
         </div>
 
-        <!-- RIGHT: Checkout form -->
+        <!-- RIGHT: Embedded Stripe Checkout -->
         <div class="lg:col-span-3 order-2 lg:order-2">
           <h1 class="text-white text-xl font-bold mb-2">Complete your purchase</h1>
           <p class="text-sm mb-8" style="color: #9A9A9A;">
-            You'll be redirected to our secure Stripe checkout to complete payment.
+            Secure payment — your card details never touch our servers.
           </p>
 
-          <!-- Checkout card -->
-          <div
-            class="rounded-2xl p-6 md:p-8"
-            style="background: #111; border: 1px solid #2D2D2D;"
-          >
-            <!-- Summary line -->
-            <div class="flex items-center justify-between mb-6 pb-4" style="border-bottom: 1px solid #2D2D2D;">
-              <div>
-                <p class="text-white font-bold">The Mikki Mase Masterclass</p>
-                <p class="text-xs mt-1" style="color: #6B6B6B;">One-time payment</p>
-              </div>
-              <p class="text-2xl font-black text-white">$27</p>
-            </div>
-
-            <!-- CTA Button -->
-            <button
-              id="checkout-btn"
-              type="button"
-              class="w-full inline-flex items-center justify-center gap-2 font-bold text-black min-h-[52px] rounded-xl px-8 transition-all hover:brightness-110 active:scale-[0.98]"
-              style="background-color: #CFB53B;"
-            >
-              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-              </svg>
-              <span>Get Instant Access — $27</span>
-            </button>
-
-            <!-- Loading state (hidden by default) -->
-            <div id="checkout-loading" class="hidden w-full flex items-center justify-center gap-2 min-h-[52px]">
-              <svg class="w-5 h-5 animate-spin" style="color: #CFB53B;" fill="none" viewBox="0 0 24 24">
-                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-              </svg>
-              <span class="text-white font-medium text-sm">Redirecting to checkout...</span>
-            </div>
-
-            <!-- Error message -->
-            <div id="checkout-error" class="hidden mt-4 rounded-lg px-4 py-3 text-sm" style="background: rgba(220, 38, 38, 0.1); border: 1px solid rgba(220, 38, 38, 0.3); color: #FCA5A5;">
-            </div>
-
-            <!-- Payment methods -->
-            <div class="flex items-center justify-center gap-4 mt-6">
-              <span class="text-[10px] uppercase tracking-wider" style="color: #6B6B6B;">Powered by</span>
-              <span class="text-xs font-bold" style="color: #9A9A9A;">Stripe</span>
-              <span class="text-[10px]" style="color: #4A4A4A;">|</span>
-              <span class="text-[10px]" style="color: #6B6B6B;">Card, Apple Pay, Google Pay</span>
-            </div>
-          </div>
+          <!-- Embedded Stripe Payment Element -->
+          <CustomMasterclassCheckout
+            client:load
+            tier="session-playbook"
+            price={27}
+          />
 
           <!-- Social proof reviews -->
           <div class="mt-8 space-y-4">
@@ -288,59 +247,4 @@ if (alreadyPurchased) return Astro.redirect('/masterclass/course');
   <Footer />
 </BaseLayout>
 
-<!-- Client-side: checkout redirect -->
-<script>
-  document.addEventListener('astro:page-load', () => {
-    const checkoutBtn = document.getElementById('checkout-btn');
-    const loadingEl = document.getElementById('checkout-loading');
-    const errorEl = document.getElementById('checkout-error');
-
-    if (!checkoutBtn) return;
-
-    checkoutBtn.addEventListener('click', async () => {
-      checkoutBtn.style.display = 'none';
-      if (loadingEl) loadingEl.classList.remove('hidden');
-      if (errorEl) errorEl.classList.add('hidden');
-
-      try {
-        const res = await fetch('/api/checkout/create', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          credentials: 'same-origin',
-          body: JSON.stringify({
-            productKey: 'session-playbook',
-          }),
-        });
-
-        const data = await res.json();
-
-        if (!res.ok) {
-          throw new Error(data.error || 'Checkout failed');
-        }
-
-        if (data.url) {
-          window.location.href = data.url;
-        } else {
-          throw new Error('No checkout URL returned');
-        }
-      } catch (err) {
-        checkoutBtn.style.display = 'inline-flex';
-        if (loadingEl) loadingEl.classList.add('hidden');
-        if (errorEl) {
-          errorEl.textContent = err.message || 'Something went wrong. Please try again.';
-          errorEl.classList.remove('hidden');
-        }
-      }
-    });
-  });
-</script>
-
-<style>
-  @keyframes spin {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
-  }
-  .animate-spin {
-    animation: spin 1s linear infinite;
-  }
-</style>
+<!-- No client-side script needed — CustomMasterclassCheckout handles everything -->
