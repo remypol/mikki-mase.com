@@ -417,7 +417,7 @@ async function handleCheckoutComplete(session: Stripe.Checkout.Session) {
         ? session.payment_intent
         : (session.payment_intent as any)?.id || null,
       product_key: 'masterclass',
-      amount_cents: session.amount_total ?? 6700, // ?? not || (preserve $0 promo codes)
+      amount_cents: session.amount_total ?? 2700, // ?? not || (preserve $0 promo codes)
       status: 'completed',
     });
 
@@ -475,7 +475,7 @@ async function handleCheckoutComplete(session: Stripe.Checkout.Session) {
         customerEmail,
         customerName: session.customer_details?.name || undefined,
         productName: `Mikki Mase Masterclass${isGuest ? ' (Guest Checkout)' : ''}`,
-        amountCents: session.amount_total ?? 6700,
+        amountCents: session.amount_total ?? 2700,
         currency: session.currency || 'usd',
         stripeSessionId: session.id,
       });
@@ -562,15 +562,18 @@ async function handleCheckoutComplete(session: Stripe.Checkout.Session) {
 async function handlePaymentIntentSucceeded(paymentIntent: Stripe.PaymentIntent) {
   const { userId, userEmail, productKey, isGuestCheckout } = paymentIntent.metadata || {};
 
-  // Handle all masterclass tier purchases from the custom payment element flow
-  const masterclassTiers = ['masterclass', 'inner-circle-yearly', 'lifetime-vip'];
-  if (!productKey || !masterclassTiers.includes(productKey)) return;
+  // Handle all tier purchases from the custom payment element flow
+  const allTiers = ['session-playbook', 'masterclass', 'inner-circle-yearly', 'lifetime-vip', 'inner-circle-monthly-v2', 'inner-circle-annual-v2'];
+  if (!productKey || !allTiers.includes(productKey)) return;
 
   // Verify payment amount matches expected tier price (defense in depth)
   const EXPECTED_AMOUNTS: Record<string, number> = {
-    masterclass: 6700,
-    'inner-circle-yearly': 9999,
-    'lifetime-vip': 24900,
+    'session-playbook': 2700,
+    masterclass: 6700, // legacy
+    'inner-circle-yearly': 9999, // legacy
+    'lifetime-vip': 24900, // legacy
+    'inner-circle-monthly-v2': 2900,
+    'inner-circle-annual-v2': 24900,
   };
   const expectedAmount = EXPECTED_AMOUNTS[productKey];
   if (expectedAmount && paymentIntent.amount !== expectedAmount) {
@@ -676,7 +679,7 @@ async function handlePaymentIntentSucceeded(paymentIntent: Stripe.PaymentIntent)
     stripe_session_id: `pi_${paymentIntent.id}`,
     stripe_payment_intent_id: paymentIntent.id,
     product_key: productKey,
-    amount_cents: paymentIntent.amount ?? 6700,
+    amount_cents: paymentIntent.amount ?? 2700,
     status: 'completed',
   });
 
@@ -742,7 +745,7 @@ async function handlePaymentIntentSucceeded(paymentIntent: Stripe.PaymentIntent)
     await sendPaymentNotification({
       customerEmail,
       productName: `Mikki Mase ${tierLabels[productKey] || 'Masterclass'}${isGuest ? ' (Guest)' : ''}`,
-      amountCents: paymentIntent.amount ?? 6700,
+      amountCents: paymentIntent.amount ?? 2700,
       currency: paymentIntent.currency || 'usd',
       stripeSessionId: paymentIntent.id,
     });

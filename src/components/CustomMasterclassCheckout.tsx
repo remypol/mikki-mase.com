@@ -242,28 +242,32 @@ function CheckoutForm({ returnUrl, isGuest, price, tier }: { returnUrl: string; 
 }
 
 /** Main component — always branded, works for guests and authenticated users */
-export default function CustomMasterclassCheckout() {
+export default function CustomMasterclassCheckout({ tier: tierProp, price: priceProp }: { tier?: string; price?: number } = {}) {
   const [clientSecret, setClientSecret] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [isGuest, setIsGuest] = useState(false);
-  const [price, setPrice] = useState(67);
-  const [tier, setTier] = useState('masterclass');
+  const [price, setPrice] = useState(priceProp || 27);
+  const [tier, setTier] = useState(tierProp || 'session-playbook');
 
+  // Route to the correct success page based on tier
+  const successPath = (tierProp === 'session-playbook' || (!tierProp && typeof window !== 'undefined' && !window.location.search.includes('tier=')))
+    ? '/checkout/playbook-success'
+    : '/checkout/success';
   const returnUrl = typeof window !== 'undefined'
-    ? `${window.location.origin}/checkout/success`
-    : 'https://mikki-mase.com/checkout/success';
+    ? `${window.location.origin}${successPath}`
+    : `https://mikki-mase.com${successPath}`;
 
   useEffect(() => {
-    // Read tier from URL query param (set by pricing section links)
+    // Use prop tier, fall back to URL param, then default
     const params = new URLSearchParams(window.location.search);
-    const tier = params.get('tier') || 'masterclass';
+    const resolvedTier = tierProp || params.get('tier') || 'session-playbook';
 
     // Server determines price — client sends tier selection only
     fetch('/api/checkout/create-intent', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ productKey: 'masterclass', tier }),
+      body: JSON.stringify({ productKey: resolvedTier, tier: resolvedTier }),
     })
       .then(async (res) => {
         const data = await res.json();
