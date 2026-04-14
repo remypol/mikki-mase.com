@@ -117,7 +117,7 @@ export const POST: APIRoute = async ({ request, cookies }) => {
 
       if (user) {
         metadata.userId = user.id;
-        metadata.userEmail = user.email || '';
+        // userEmail omitted from metadata (PII minimization — use Stripe customer_details instead)
       } else {
         metadata.isGuestCheckout = 'true';
       }
@@ -254,7 +254,7 @@ export const POST: APIRoute = async ({ request, cookies }) => {
 
       if (user) {
         metadata.userId = user.id;
-        metadata.userEmail = user.email || '';
+        // userEmail omitted from metadata (PII minimization — use Stripe customer_details instead)
       } else {
         metadata.isGuestCheckout = 'true';
       }
@@ -365,7 +365,7 @@ export const POST: APIRoute = async ({ request, cookies }) => {
 
       if (user) {
         metadata.userId = user.id;
-        metadata.userEmail = user.email || '';
+        // userEmail omitted from metadata (PII minimization — use Stripe customer_details instead)
       } else {
         metadata.isGuestCheckout = 'true';
       }

@@ -144,7 +144,8 @@ async function handleCheckoutComplete(session: Stripe.Checkout.Session) {
     let resolvedUserId = userId;
     let isGuest = isGuestCheckout === 'true';
     let magicLoginLink: string | undefined;
-    const customerEmail = userEmail || session.customer_details?.email;
+    const rawEmail = userEmail || session.customer_details?.email;
+    const customerEmail = rawEmail?.trim().toLowerCase() || null;
 
     // Resolve user (same logic as masterclass — guest or authenticated)
     if (!resolvedUserId && customerEmail) {
@@ -189,9 +190,15 @@ async function handleCheckoutComplete(session: Stripe.Checkout.Session) {
     const lineItems = session.line_items?.data || [];
     for (const item of lineItems) {
       const priceId = typeof item.price === 'string' ? item.price : item.price?.id;
-      const itemProductKey = Object.entries(
-        (await import('../../../config/shop/products')).productKeyToPriceId
-      ).find(([_, pid]) => pid === priceId)?.[0] || productKey;
+      // Strict price → product mapping (never fall back to metadata)
+      const { productKeyToPriceId } = await import('../../../config/shop/products');
+      const itemProductKey = Object.entries(productKeyToPriceId)
+        .find(([_, pid]) => pid === priceId)?.[0];
+
+      if (!itemProductKey) {
+        console.error(`Unknown price ID in line item: ${priceId} — skipping entitlement`);
+        continue;
+      }
 
       await supabase.from('purchases').upsert({
         user_id: resolvedUserId,
@@ -205,7 +212,7 @@ async function handleCheckoutComplete(session: Stripe.Checkout.Session) {
       // Grant entitlement
       await supabase.from('entitlements').upsert({
         customer_id: resolvedUserId,
-        product_type: itemProductKey || 'session-playbook',
+        product_type: itemProductKey,
         source_order_id: null,
       }, { onConflict: 'customer_id,product_type' }).then(() => {}).catch(() => {});
     }
@@ -278,7 +285,8 @@ async function handleCheckoutComplete(session: Stripe.Checkout.Session) {
     let resolvedUserId = userId;
     let isGuest = isGuestCheckout === 'true';
     let magicLoginLink: string | undefined;
-    const customerEmail = userEmail || session.customer_details?.email;
+    const legacyRawEmail = userEmail || session.customer_details?.email;
+    const customerEmail = legacyRawEmail?.trim().toLowerCase() || null;
 
     // ---- GUEST CHECKOUT: auto-create or find user ----
     if (!resolvedUserId && customerEmail) {
