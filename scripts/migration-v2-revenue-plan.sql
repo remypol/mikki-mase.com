@@ -154,8 +154,9 @@ CREATE INDEX IF NOT EXISTS idx_order_items_product    ON public.order_items(prod
 -- Entitlements (fast "does user have access?" check)
 CREATE INDEX IF NOT EXISTS idx_entitlements_customer  ON public.entitlements(customer_id);
 CREATE INDEX IF NOT EXISTS idx_entitlements_product   ON public.entitlements(product_type);
+-- Note: partial index cannot use NOW() (not immutable). Use a simple filter instead.
 CREATE INDEX IF NOT EXISTS idx_entitlements_active    ON public.entitlements(customer_id, product_type)
-  WHERE revoked_at IS NULL AND (expires_at IS NULL OR expires_at > NOW());
+  WHERE revoked_at IS NULL;
 
 -- Email flow state
 CREATE INDEX IF NOT EXISTS idx_email_flow_customer    ON public.email_flow_state(customer_id);
