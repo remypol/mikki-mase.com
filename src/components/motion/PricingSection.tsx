@@ -74,13 +74,13 @@ export default function PricingSection() {
           className="text-center mb-12"
         >
           <span className="text-xs font-bold uppercase tracking-widest" style={{ color: '#CFB53B' }}>
-            Choose Your Level
+            Get Started
           </span>
           <h2 className="text-2xl md:text-3xl font-black text-white mt-3">
-            One Bad Session Costs More Than Any of These
+            The Casino Decision Framework
           </h2>
           <p className="text-sm mt-3 mx-auto" style={{ color: '#BEBEBE', maxWidth: '48ch' }}>
-            The average casino visitor loses $500+ per trip. One framework saves you thousands.
+            Bankroll discipline, game selection, and risk management — for serious players.
           </p>
         </motion.div>
 
@@ -90,7 +90,7 @@ export default function PricingSection() {
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, amount: 0.2 }}
-          className="grid grid-cols-1 md:grid-cols-3 gap-5 md:gap-4 items-start"
+          className="grid grid-cols-1 max-w-lg mx-auto gap-5 items-start"
         >
           {pricingTiers.map((tier) => (
             <motion.div

@@ -63,7 +63,7 @@ export default function MasterclassHero({ totalLessons, accessDenied = false }: 
           variants={item}
           className="eyebrow inline-block mb-4"
         >
-          From the man banned from 150+ casinos
+          Casino Decision Framework
         </motion.span>
 
         <motion.h1
@@ -75,7 +75,7 @@ export default function MasterclassHero({ totalLessons, accessDenied = false }: 
             letterSpacing: '-0.01em',
           }}
         >
-          THE MIKKI MASE <span style={{ color: 'var(--color-gold)' }}>MASTERCLASS</span>
+          THE SESSION <span style={{ color: 'var(--color-gold)' }}>PLAYBOOK</span>
         </motion.h1>
 
         <motion.p
@@ -83,8 +83,8 @@ export default function MasterclassHero({ totalLessons, accessDenied = false }: 
           className="text-base md:text-lg mx-auto mb-6"
           style={{ color: 'var(--color-gray-400)', maxWidth: '48ch', lineHeight: 1.6 }}
         >
-          The discipline, strategy, and decision-making behind $32M+ in winnings — now
-          available as an instant-access masterclass.
+          Bankroll discipline, game selection, and risk management for serious players.
+          Educational content from Mikki Mase.
         </motion.p>
 
         {/* Price anchor */}
@@ -92,8 +92,8 @@ export default function MasterclassHero({ totalLessons, accessDenied = false }: 
           variants={item}
           className="flex items-center justify-center gap-3 mb-3"
         >
-          <span className="text-3xl md:text-4xl font-black text-white">From $67</span>
-          <span className="text-lg line-through" style={{ color: 'var(--color-gray-600)' }}>$197</span>
+          <span className="text-3xl md:text-4xl font-black text-white">$27</span>
+          <span className="text-lg line-through" style={{ color: 'var(--color-gray-600)' }}>$97</span>
           <span
             className="text-xs font-bold uppercase px-2 py-1 rounded"
             style={{ background: 'rgba(207, 181, 59, 0.15)', color: 'var(--color-gold)' }}
@@ -106,7 +106,7 @@ export default function MasterclassHero({ totalLessons, accessDenied = false }: 
           className="text-xs mb-6"
           style={{ color: 'var(--color-gray-600)' }}
         >
-          Or $8.33/mo with the Inner Circle &middot; <a href="#pricing" style={{ color: 'var(--color-gold)' }}>See all plans</a>
+          One-time payment &middot; Lifetime access &middot; 7-day money-back guarantee
         </motion.p>
 
         {/* Access denied banner */}
@@ -129,7 +129,16 @@ export default function MasterclassHero({ totalLessons, accessDenied = false }: 
           variants={item}
           className="flex flex-col sm:flex-row items-center justify-center gap-3 mb-6"
         >
-          <MasterclassBuyButton variant="hero" className="text-lg px-8 py-4" />
+          <a
+            href="/checkout/playbook"
+            className="inline-flex items-center justify-center font-bold text-black min-h-[52px] rounded-xl text-lg px-8 py-4 transition-all hover:brightness-110 active:scale-[0.98]"
+            style={{ backgroundColor: '#CFB53B' }}
+          >
+            Get the Playbook — $27
+            <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+            </svg>
+          </a>
           <a
             href="/masterclass/course/mindset-disclaimer/assessment"
             className="btn btn-tertiary text-lg px-8 py-4"

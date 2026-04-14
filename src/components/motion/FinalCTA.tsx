@@ -42,7 +42,7 @@ export default function FinalCTA() {
           variants={item}
           className="text-2xl md:text-3xl font-black text-white mb-3"
         >
-          Stop Playing Blind. Start Thinking Like Mikki.
+          Think Before You Bet. Learn the Framework.
         </motion.h2>
 
         <motion.p
@@ -50,7 +50,7 @@ export default function FinalCTA() {
           className="text-sm mb-8 mx-auto"
           style={{ color: 'var(--color-gray-400)', maxWidth: '40ch' }}
         >
-          One bad session costs more than $67. One good framework saves you thousands.
+          One bad session costs more than $27. A decision framework changes everything.
         </motion.p>
 
         <motion.div
