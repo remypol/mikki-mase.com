@@ -26,7 +26,7 @@ export const lesson2: Lesson = {
     'Every dollar you put into a bad side bet is a dollar taken away from your base blackjack game where you actually have a fighting chance.',
   ],
   proTip:
-    'Here is a simple test for any side bet: ask yourself, "Can I find the house edge for this bet?" If the casino does not openly publish it, it is because the number is embarrassingly bad. Any side bet with a house edge above 3% is a hard no. Most of the ones I am about to list are above 5%, and some exceed 20%.',
+    'Here is a simple test for any side bet: ask yourself, "Can I find the house edge for this bet?" If the casino does not openly publish it, it is because the number is embarrassingly bad. Every side bet in this lesson runs above 5% edge, and some exceed 20%. The one exception we cover in the previous lesson (21+3 at a posted flat 9:1 payout) sits in the 3-4% range — by side-bet standards that\'s as good as it gets, but it is still worse than the base game. Never let a side bet crowd out base-game bankroll.',
   content: `
     <h3>The Graveyard of Bad Bets</h3>
 
@@ -46,7 +46,7 @@ export const lesson2: Lesson = {
 
     <p>Insurance is offered when the dealer shows an Ace. You can bet up to half your original bet that the dealer has blackjack. It pays 2:1.</p>
 
-    <p>The house edge on insurance is <strong>7.7%</strong>. Here's why:</p>
+    <p>The house edge on insurance is roughly <strong>7.4%</strong> on a standard 6-deck shoe (drifts to ~7.5% on 8-deck, ~5.9% on single deck). Here's why:</p>
 
     <ul>
       <li>In a standard deck, there are 16 ten-value cards out of 52 total cards</li>

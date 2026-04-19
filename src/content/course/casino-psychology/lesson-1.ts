@@ -50,11 +50,11 @@ export const lesson1: Lesson = {
 
     <p>When you lose track of time, you play longer. When you play longer, the house edge grinds you down. <strong>Every extra minute you spend on that floor costs you money.</strong></p>
 
-    <h3>Oxygen Pumping & The "Comforting" Smell</h3>
+    <h3>The Scent Weapon (and the Oxygen Myth)</h3>
 
-    <p>This one blows people's minds. Casinos pump <strong>extra oxygen</strong> through their ventilation systems. Higher oxygen = more alert, more awake, more energised. You don't get tired. You don't yawn and think "maybe I should go to bed." You stay at the table.</p>
+    <p>Quick insider debunk first: amateurs will tell you casinos pump <strong>extra oxygen</strong> through the vents to keep you alert. That's a myth. Pumping oxygen into a crowded interior building is a fire hazard and illegal under every commercial fire code I know of. It doesn't happen. When you hear it, the person telling you has never been behind the scenes.</p>
 
-    <p>On top of that, they pump <strong>custom scents</strong> through the vents. Each major property has its own signature. The Venetian smells like a Tuscan garden. The Bellagio has a subtle citrus-and-cedar blend. The Wynn pipes in something closer to a high-end spa. Mandalay Bay famously patented their coconut-driven scent years ago. Alan Hirsch's peer-reviewed studies at the Smell &amp; Taste Treatment Foundation found signature scents can lift slot revenue by up to <strong>45%</strong>. That smell you associate with "the casino experience"? It's a weapon.</p>
+    <p>What IS real: casinos pump <strong>custom scents</strong> through the vents, tuned to mood and dwell time. Each major property has its own signature. The Venetian leans Tuscan garden. The Bellagio runs a subtle citrus-and-cedar blend. The Wynn pipes in something closer to a high-end spa. Mandalay Bay famously built its branding around a tropical coconut scent in the early 2000s. One oft-cited study (Alan Hirsch, Smell &amp; Taste Treatment Foundation) reported signature scents lifting slot revenue by up to <strong>45%</strong> — the methodology has been debated, but the practice of engineered casino scents is real and industry-standard. That smell you associate with "the casino experience"? It's a weapon.</p>
 
     <h3>Sound Engineering</h3>
 

@@ -55,23 +55,25 @@ export const lesson6: Lesson = {
     <ul>
       <li><strong>3:2 (good):</strong> $150 payout</li>
       <li><strong>6:5 (bad):</strong> $120 payout</li>
-      <li><strong>1:1 (walk away):</strong> $100 payout — yes, some tables actually do this</li>
+      <li><strong>1:1 (walk away):</strong> $100 payout — rare in Vegas and usually on specialty variants rather than standard blackjack, but if you see it, it's a hard pass.</li>
     </ul>
 
     <p>Moving from 3:2 to 6:5 adds approximately <strong>1.4% to the house edge</strong>. That's more than all the other rule variations combined. A 6:5 table with otherwise perfect rules is still a worse game than a 3:2 table with slightly worse rules.</p>
 
     <p>The rule of thumb: <strong>if it's not 3:2, don't play.</strong> Full stop. No exceptions for "but the minimum is only $15!" or "but there's a good host here." The math doesn't care about the other things.</p>
 
-    <h3>2. Deck Count (Fewer Is Usually Better)</h3>
+    <h3>2. Deck Count (Fewer Is Better — All Else Equal)</h3>
 
-    <p>All else equal, fewer decks means slightly better odds for the player:</p>
+    <p>All else equal, fewer decks means better odds for the player. Approximate reductions in house edge vs. an 8-deck baseline (standard rules otherwise held constant):</p>
 
     <ul>
-      <li>Single deck: ~0.17% advantage vs 8-deck</li>
-      <li>Double deck: ~0.19% advantage vs 8-deck</li>
-      <li>6-deck: ~0.05% advantage vs 8-deck</li>
+      <li>Single deck: roughly <strong>−0.48%</strong> (biggest player improvement)</li>
+      <li>Double deck: roughly <strong>−0.19%</strong></li>
+      <li>6-deck: roughly <strong>−0.02%</strong></li>
       <li>8-deck: baseline</li>
     </ul>
+
+    <p>These deltas are approximate — run the exact ruleset in a simulator like the Wizard of Odds calculator if you want precise numbers for your table.</p>
 
     <p>BUT — and this is the trap most players miss — <strong>the single-deck advantage is often offset by 6:5 payouts</strong>. Casinos figured out that players associate "single deck" with "better game," so they roll out single-deck tables with 6:5 payouts. You think you're getting the good game. You're actually getting the worst game on the floor.</p>
 

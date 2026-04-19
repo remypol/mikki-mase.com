@@ -86,7 +86,7 @@ export const lesson2: Lesson = {
       <li><strong>Pai Gow Poker:</strong> ~1.5% house edge, but with the right strategy, comps and bonuses can flip this.</li>
     </ul>
 
-    <p>Here's the part most players miss: that edge is <strong>per hand</strong>, and it compounds over a session. At a $500-a-hand blackjack table playing 70 hands an hour for four hours, you're putting $140,000 of action through the table. At 0.5% that's $700 expected loss. At 1.9% (the same game dealt 6:5) it's $2,660. Same seat. Same skill. Four times the bleed.</p>
+    <p>Here's the part most players miss: that edge is <strong>per hand</strong>, and it compounds over a session. At a $500-a-hand blackjack table playing 70 hands an hour for four hours, you're putting <strong>$140,000 of action</strong> through the table. At 0.5% that's <strong>$700 expected loss</strong>. At 1.9% (the same game dealt 6:5) it's <strong>$2,660 expected loss</strong>. Same seat. Same skill. Almost four times the bleed.</p>
 
     <p>This is why I play fast, bet big, and get out. I'm minimising my exposure to the clock.</p>
 

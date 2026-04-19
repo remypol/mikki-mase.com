@@ -25,9 +25,9 @@ export const lesson4: Lesson = {
   estimatedMinutes: 10,
   keyTakeaways: [
     'All US gambling winnings are taxable income — whether or not the casino issues paperwork.',
-    'A W-2G form is issued on slot wins ≥ $1,200, keno ≥ $1,500, and table game wins ≥ $5,000 at ≥300:1 odds. Most blackjack and pai gow wins do NOT generate a W-2G.',
-    'Gambling losses are deductible ONLY up to the amount of winnings AND only if you itemize. Casual players who take the standard deduction cannot write off losses.',
-    'Professional gambler status changes the math substantially — losses offset winnings directly on Schedule C, but you pay self-employment tax on net winnings.',
+    'W-2G thresholds vary by game: slot/bingo $1,200, keno $1,500, poker tournaments $5,000 net, other wagers at $600+ AND at least 300× the stake. Most blackjack and pai gow wins do NOT generate a W-2G.',
+    'Gambling losses are deductible ONLY up to the amount of winnings AND only if you itemize. Casual players who take the standard deduction cannot write off losses at all.',
+    'Professional gambler status can change the math substantially — but self-employment tax and deduction rules are contested and time-sensitive. This is a CPA-only decision.',
     'A contemporaneous session log (date, location, game, buy-in, cash-out, witness if any) is your single best audit defense.',
   ],
   proTip:
@@ -49,14 +49,13 @@ export const lesson4: Lesson = {
 
     <p>The casino doesn't automatically tell the IRS about every hand you play. But it IS required to file paperwork on certain wins. The form is called a <strong>W-2G</strong>.</p>
 
-    <p>A W-2G is triggered when:</p>
+    <p>A W-2G is triggered when (as of tax year 2025/2026 — thresholds change, check current guidance):</p>
 
     <ul>
-      <li><strong>Slot machines:</strong> any win of $1,200 or more on a single spin</li>
+      <li><strong>Slot machines &amp; bingo:</strong> any win of $1,200 or more on a single event</li>
       <li><strong>Keno:</strong> any win of $1,500 or more (net of wager)</li>
-      <li><strong>Poker tournaments:</strong> any win of $5,000 or more (net of buy-in)</li>
-      <li><strong>Bingo:</strong> any win of $1,200 or more</li>
-      <li><strong>Other games (table games with ≥300:1 odds):</strong> any win of $600 or more, or 300× the wager</li>
+      <li><strong>Poker tournaments:</strong> any net win of $5,000 or more</li>
+      <li><strong>"Other wagers"</strong> (most long-shot side bets, progressive jackpots, certain table-game propositions): gross payout of $600 or more AND at least 300× the amount wagered</li>
     </ul>
 
     <p>Notice what's NOT on this list: regular blackjack wins, pai gow wins, baccarat wins, craps wins, and most table games. <strong>The casino does not issue a W-2G on these</strong> — even if you win $50,000 on one blackjack hand. The casino knows because every chip in and out of your front money account is logged, but they are not required to send the IRS a form.</p>
@@ -91,17 +90,16 @@ export const lesson4: Lesson = {
 
     <h3>Professional Gambler Status</h3>
 
-    <p>If you gamble for a living and meet the IRS's "trade or business" test, you can file as a professional gambler. This changes the math dramatically:</p>
+    <p>If you gamble for a living and can meet the IRS's "trade or business" standard (regular, continuous, profit-motivated activity), you can file as a professional gambler on Schedule C instead of as an amateur. This is a materially different tax regime — and also a materially more complicated one. A few things to know, all of which are time-sensitive and require a specialist:</p>
 
     <ul>
-      <li>You file on Schedule C (business income).</li>
-      <li>Losses offset winnings directly — you pay tax on net winnings, not gross.</li>
-      <li>You can deduct travel, lodging, cage fees, research materials, subscription services (yes, this course would qualify), and other ordinary business expenses.</li>
-      <li>You pay self-employment tax (15.3%) on net winnings in addition to income tax.</li>
-      <li>The IRS scrutiny is much higher. You have to show it's your primary livelihood, conducted regularly, with profit motive and recordkeeping.</li>
+      <li>You file on Schedule C as self-employed.</li>
+      <li>Whether gambling winnings are subject to self-employment tax for pros has been contested in IRS memoranda and Tax Court cases cutting both ways. Don't assume SE tax applies automatically — ask your CPA how they file similar clients.</li>
+      <li>Under the Tax Cuts and Jobs Act (tax years 2018–2025), professional gamblers could deduct ordinary business expenses (travel, lodging, research materials, subscriptions) but the <em>total</em> of gambling losses plus expenses was capped at gambling winnings — meaning a pro gambler could not generate a net gambling loss for the year. Whether that specific limitation continues past 2025 is uncertain as of this writing and depends on current law. Get current-year guidance.</li>
+      <li>The IRS scrutiny is much higher for pros. You have to demonstrate it's your primary livelihood, conducted regularly, with profit motive and rigorous recordkeeping.</li>
     </ul>
 
-    <p>Being a pro gambler is not a tax dodge — it's a different tax regime with its own tradeoffs. For players netting six or seven figures a year, it's almost always the right structure. For players netting less than that, the self-employment tax can make amateur status with itemized deductions the cheaper path. This is 100% a "talk to a CPA" question.</p>
+    <p>Being a pro gambler is not a tax dodge — it's a different tax regime with its own tradeoffs. For players netting six or seven figures a year it's often worth exploring. For smaller-net players the amateur-with-itemized-deductions route can be cheaper. This is 100% a CPA decision, not a DIY one.</p>
 
     <h3>The Session Log You Need</h3>
 
@@ -124,22 +122,22 @@ export const lesson4: Lesson = {
 
     <h3>State Taxes Matter</h3>
 
-    <p>Federal is only half the story. States treat gambling winnings very differently:</p>
+    <p>Federal is only half the story. States treat gambling winnings very differently, and the rules <strong>change frequently</strong> — do not assume what was true in one year is true the next. General shape:</p>
 
     <ul>
       <li><strong>No state income tax at all:</strong> Nevada, Florida, Texas, Washington, Wyoming, South Dakota, Alaska, Tennessee, New Hampshire.</li>
-      <li><strong>State tax, full loss deduction allowed if you itemize:</strong> most states.</li>
-      <li><strong>State tax, NO loss deduction allowed:</strong> Illinois, Indiana, Massachusetts, Michigan, Ohio, West Virginia, Wisconsin, others. This is brutal — your state treats every win as income and refuses to acknowledge offsetting losses.</li>
+      <li><strong>State tax, loss deduction allowed if you itemize federally:</strong> most states conform to federal treatment.</li>
+      <li><strong>State tax, no loss deduction allowed (or severely limited):</strong> a handful of states — Illinois, Connecticut, Wisconsin have historically been notorious here, but specific states change status as they pass reform legislation (Michigan and Ohio, for example, liberalised their treatment in recent years). Do not rely on a static list — check your state's current rules for the tax year you're filing.</li>
       <li><strong>Source-state withholding:</strong> you may owe taxes in the state where you gambled, regardless of where you live. Your home state usually offers a credit for out-of-state taxes paid.</li>
     </ul>
 
-    <p>If you live in a no-loss-deduction state and play professionally, the state tax bill alone can be crushing. This is why a lot of professional players establish Nevada or Florida residency.</p>
+    <p>If you live in a state that disallows loss deductions and play professionally, the state tax bill alone can be crushing. This is why a lot of professional players establish Nevada or Florida residency.</p>
 
     <h3>Comps and Taxes</h3>
 
-    <p>Here's a frequently-missed area: <strong>comp value is technically taxable income.</strong> That $2,000 steakhouse comp, that $800 show, that $400 spa day — technically the IRS considers it income at fair market value. In practice, the IRS rarely pursues comp value for amateur players because it's not reported anywhere. For pro gamblers, comp value can matter — it's often offset by the business-expense deduction for the same meal/stay.</p>
+    <p>Comp treatment is one of the murkier areas in gambling tax. Many practitioners treat comps (hotel, food, show tickets) as non-taxable promotional rebates rather than income — essentially a price discount on something you wouldn't have bought at retail anyway. Others treat significant comps (large cash-equivalent rewards, airfare, tournament entries) as FMV-reportable. There is no bright-line rule that applies to every comp in every situation. Track the fair market value of your comps in your session log and let your CPA decide what, if anything, gets reported.</p>
 
-    <p>Wins credited to your front money account are treated as received the moment they hit the account, not when you wire the money home. This matters for year-end timing.</p>
+    <p>Timing-wise, wins credited to your front money account are often treated as constructively received when available to you (not when you wire them home), but "constructive receipt" is nuanced — talk to your CPA about year-end timing if you're sitting on a significant front-money balance at December 31.</p>
 
     <h3>The Practical Playbook</h3>
 
