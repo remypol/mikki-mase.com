@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import type { CourseProgress } from '../config/course/types';
 import { createDefaultProgress } from '../config/course/types';
 import { isModuleComplete, QUIZ_PASSING_SCORE } from '../lib/courseEngine';
@@ -6,6 +6,12 @@ import { courseManifest } from '../config/course/manifest';
 
 const STORAGE_KEY = 'mikki_course_progress';
 const PROGRESS_EVENT = 'course-progress-update';
+
+// Cross-device sync via /api/progress/me (fail-open — localStorage is primary).
+// Gemini 3.1 Pro MEDIUM: localStorage-only was unacceptable long-term for a
+// premium product ("start on phone, switch to desktop" == 0% shown).
+const SYNC_URL = '/api/progress/me';
+const SYNC_DEBOUNCE_MS = 2000;
 
 function loadProgress(): CourseProgress {
   const defaults = createDefaultProgress();
@@ -40,9 +46,39 @@ function saveProgress(progress: CourseProgress): void {
   }
 }
 
+function mergeProgress(local: CourseProgress, remote: CourseProgress): CourseProgress {
+  // Remote is newer only if its lastActiveAt is strictly newer. Otherwise local wins
+  // (user may have been editing offline). Collections (completedLessons, badges,
+  // scenariosCompleted) are merged — we never remove items during sync reconciliation.
+  const localTs = Date.parse(local.lastActiveAt || '') || 0;
+  const remoteTs = Date.parse(remote.lastActiveAt || '') || 0;
+  const newer = remoteTs > localTs ? remote : local;
+
+  const merged: CourseProgress = {
+    ...newer,
+    completedLessons: Array.from(
+      new Set([...(local.completedLessons || []), ...(remote.completedLessons || [])]),
+    ),
+    badges: Array.from(new Set([...(local.badges || []), ...(remote.badges || [])])),
+    scenariosCompleted: Array.from(
+      new Set([
+        ...(local.scenariosCompleted || []),
+        ...(remote.scenariosCompleted || []),
+      ]),
+    ),
+    quizScores: { ...(remote.quizScores || {}), ...(local.quizScores || {}) },
+    points: Math.max(local.points || 0, remote.points || 0),
+    weeklyActivity: newer.weeklyActivity,
+  };
+
+  return merged;
+}
+
 export function useCourseProgress() {
   // Lazy init from localStorage to avoid hydration flicker (#10)
   const [progress, setProgress] = useState<CourseProgress>(loadProgress);
+  const syncTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const skipNextPushRef = useRef(false); // avoid loop when we just pulled from server
 
   // Sync from other React islands (same tab) + other browser tabs
   useEffect(() => {
@@ -57,6 +93,55 @@ export function useCourseProgress() {
       window.removeEventListener('storage', handleStorage);
     };
   }, []);
+
+  // Pull remote progress on mount + merge with local. Fail-open: if server
+  // has no row or the sync table doesn't exist yet, localStorage stays authoritative.
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      try {
+        const res = await fetch(SYNC_URL, { credentials: 'same-origin', cache: 'no-store' });
+        if (!res.ok) return;
+        const payload = await res.json();
+        if (cancelled || !payload?.progress) return;
+        const remote = payload.progress as CourseProgress;
+        setProgress((prev) => {
+          const merged = mergeProgress(prev, remote);
+          if (JSON.stringify(merged) === JSON.stringify(prev)) return prev;
+          saveProgress(merged);
+          skipNextPushRef.current = true; // don't immediately echo the merge back
+          return merged;
+        });
+      } catch {
+        // Offline / unauthenticated / table missing — stay on localStorage.
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  // Debounced push to server whenever progress changes (skip first-after-pull).
+  useEffect(() => {
+    if (skipNextPushRef.current) {
+      skipNextPushRef.current = false;
+      return;
+    }
+    if (syncTimerRef.current) clearTimeout(syncTimerRef.current);
+    syncTimerRef.current = setTimeout(() => {
+      fetch(SYNC_URL, {
+        method: 'PUT',
+        credentials: 'same-origin',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ progress }),
+      }).catch(() => {
+        // Offline / unauthenticated / table missing — ignore. localStorage already saved.
+      });
+    }, SYNC_DEBOUNCE_MS);
+    return () => {
+      if (syncTimerRef.current) clearTimeout(syncTimerRef.current);
+    };
+  }, [progress]);
 
   // Immutable state updater — no direct mutation (#4)
   const update = useCallback((updater: (prev: CourseProgress) => CourseProgress) => {
