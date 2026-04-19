@@ -26,7 +26,7 @@ const ariaCurrent = (href: string) => isActive(href) ? "page" : undefined;
 <header class="fixed top-0 left-0 right-0 z-50 bg-black border-b border-gray-800" role="banner">
   <nav class="max-w-7xl mx-auto px-4 md:px-8 py-4 flex items-center justify-between" aria-label="Main navigation">
     <!-- Logo - Brand Treatment -->
-    <a href="/" class="text-xl md:text-2xl font-black uppercase text-white hover:text-gold transition-colors tracking-widest" aria-label="Mikki Mase - Home">
+    <a href="/" class="text-xl md:text-2xl font-black uppercase text-white hover:text-gold transition-colors tracking-widest whitespace-nowrap" aria-label="Mikki Mase - Home">
       Mikki Mase
     </a>
 
@@ -135,6 +135,7 @@ const ariaCurrent = (href: string) => isActive(href) ? "page" : undefined;
       <a href="/net-worth" class={`${navLinkClass('/net-worth')} py-2`}>Net Worth</a>
       <a href="/tools" class={`${navLinkClass('/tools')} py-2`}>Tools</a>
       <a href="/faq" class={`${navLinkClass('/faq')} py-2`}>FAQ</a>
+      <a href="/auth/login" class={`${navLinkClass('/auth/login')} py-2`}>Sign in</a>
       <a href="/masterclass" class="w-full text-center inline-flex items-center justify-center gap-2 font-bold text-black min-h-[44px] rounded-lg px-5 text-sm transition-all hover:brightness-110 active:scale-[0.98]" style="background-color: #CFB53B;">
         Get the Masterclass — $67
       </a>

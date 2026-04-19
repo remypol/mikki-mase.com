@@ -18,6 +18,10 @@ interface Props {
   backgroundImage?: string;
   variant?: 'full' | 'medium';
   showSocialProof?: boolean;
+  /** Editorial mixed-case Fraunces display (default) vs legacy uppercase Inter */
+  displayStyle?: 'editorial' | 'legacy';
+  /** Whether to render the signature red editorial dot after the title */
+  withDot?: boolean;
 }
 
 const {
@@ -28,13 +32,15 @@ const {
   secondaryCTA,
   backgroundImage,
   variant = 'full',
-  showSocialProof = true
+  showSocialProof = true,
+  displayStyle = 'editorial',
+  withDot = false,
 } = Astro.props;
 
 const heightClass = variant === 'full' ? 'min-h-screen' : 'h-[360px] sm:h-[480px] md:h-[640px]';
 ---
 
-<section class={`relative ${heightClass} ${variant === 'medium' ? 'overflow-hidden' : 'flex items-start md:items-center justify-center'} bg-black`}>
+<section class={`relative ${heightClass} ${variant === 'medium' ? 'overflow-hidden' : 'flex items-start md:items-center justify-center'} bg-page`}>
   <!-- Background Image - LCP optimized with AVIF + WebP -->
   {backgroundImage && (
     <div class="relative z-0 w-full">
@@ -84,10 +90,16 @@ const heightClass = variant === 'full' ? 'min-h-screen' : 'h-[360px] sm:h-[480px
           />
         </picture>
       )}
-      <!-- Overlay for readability + bottom fade on mobile -->
-      <div class="absolute inset-0 bg-black/60"></div>
+      <!-- Overlay for readability: warm multiply (editorial) + radial chip-red glow on top -->
+      <div class="absolute inset-0 bg-black/55"></div>
+      <div class="absolute inset-0 hero-gradient opacity-70 pointer-events-none"></div>
       <div class="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-black/80 to-transparent md:hidden"></div>
     </div>
+  )}
+
+  {/* Pure typographic hero (no backgroundImage) — apply hero-gradient to full section */}
+  {!backgroundImage && (
+    <div class="absolute inset-0 hero-gradient pointer-events-none"></div>
   )}
 
   <!-- Content -->
@@ -109,12 +121,18 @@ const heightClass = variant === 'full' ? 'min-h-screen' : 'h-[360px] sm:h-[480px
           </p>
         )}
 
-        <h1 class={`hero-title text-white animate-[fadeIn_0.6s_ease-out_0.2s_both] uppercase ${variant === 'full' ? 'mb-6 md:mb-10' : 'mb-0 md:mb-4'} relative inline-block`}>
-          <span class="relative">
-            {title}
-            <span class="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-gold via-yellow-400 to-gold animate-[shimmer_2s_ease-in-out_infinite]"></span>
-          </span>
-        </h1>
+        {displayStyle === 'editorial' ? (
+          <h1 class={`display-h1 article-heading mx-auto animate-[fadeIn_0.6s_ease-out_0.2s_both] ${variant === 'full' ? 'mb-6 md:mb-10' : 'mb-0 md:mb-4'}`}>
+            {title}{withDot && <span class="accent-red">.</span>}
+          </h1>
+        ) : (
+          <h1 class={`hero-title text-white animate-[fadeIn_0.6s_ease-out_0.2s_both] uppercase ${variant === 'full' ? 'mb-6 md:mb-10' : 'mb-0 md:mb-4'} relative inline-block`}>
+            <span class="relative">
+              {title}
+              <span class="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-gold via-yellow-400 to-gold animate-[shimmer_2s_ease-in-out_infinite]"></span>
+            </span>
+          </h1>
+        )}
 
         {subtitle && variant === 'full' && (
           <p class="hero-subtitle text-gray-200 animate-[fadeIn_0.6s_ease-out_0.4s_both] mb-4 md:mb-12">
