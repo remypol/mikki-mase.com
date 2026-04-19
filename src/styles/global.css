@@ -421,6 +421,9 @@
     /* Accessibility: minimum 44px touch target */
     min-height: 44px;
     min-width: 44px;
+    /* Keep label on one line — fixes "Read his / story" vertical wrap on mobile
+       where hero CTAs sit in a flex-col column at small widths. */
+    white-space: nowrap;
   }
 
   /* Button Primary (Red) */
