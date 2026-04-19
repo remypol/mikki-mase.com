@@ -426,13 +426,27 @@ const bannedSchema = {
 
   <!-- Leaflet JS + Map Initialization -->
   <script is:inline define:vars={{ casinoBans }}>
-    // Wait for Leaflet to load
-    document.addEventListener('DOMContentLoaded', function() {
-      // Load Leaflet dynamically
-      const leafletScript = document.createElement('script');
-      leafletScript.src = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js';
-      leafletScript.onload = initMap;
-      document.head.appendChild(leafletScript);
+    // Astro ClientRouter / View Transitions swaps the document without firing a
+    // fresh DOMContentLoaded — listening to that alone meant the map stayed
+    // empty whenever a visitor navigated here via an internal link (reproduced
+    // as empty Leaflet container with only the Legend overlay visible).
+    // Listen to both DOMContentLoaded (first paint) AND astro:page-load
+    // (subsequent client-side navigations). Guard with a flag so we init once
+    // per map container.
+    function bootBanMap() {
+      const container = document.getElementById('ban-map');
+      if (!container || container.dataset.mapReady === 'true') return;
+      container.dataset.mapReady = 'true';
+
+      if (typeof L === 'undefined') {
+        const leafletScript = document.createElement('script');
+        leafletScript.src = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js';
+        leafletScript.onload = initMap;
+        leafletScript.onerror = () => { container.dataset.mapReady = 'false'; };
+        document.head.appendChild(leafletScript);
+      } else {
+        initMap();
+      }
 
       function initMap() {
         // Initialize map centered on US
@@ -523,6 +537,11 @@ const bannedSchema = {
         `;
         document.head.appendChild(style);
       }
-    });
+    }
+
+    // Fire on both: initial paint AND every client-side Astro navigation.
+    // bootBanMap() is idempotent via the dataset.mapReady flag.
+    document.addEventListener('DOMContentLoaded', bootBanMap);
+    document.addEventListener('astro:page-load', bootBanMap);
   </script>
 </BaseLayout>
