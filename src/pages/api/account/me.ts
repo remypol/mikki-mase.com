@@ -68,8 +68,41 @@ export const GET: APIRoute = async ({ cookies, request }) => {
       .filter((p) => p.status === 'completed')
       .map((p) => p.product_key);
 
+    // Mirror middleware.ts: tier entitlement can come from `purchases` OR from
+    // an active `subscriptions` row (Inner Circle monthly/yearly, Lifetime VIP).
+    // Without this lookup, a user whose only entitlement is a subscription
+    // saw "No active plan" on /account even though they're paid — item 12
+    // of the post-deploy QA audit.
+    let subscriptionPlanLabel: string | null = null;
+    try {
+      const { data: subscription } = await supabase
+        .from('subscriptions')
+        .select('plan, status')
+        .eq('user_id', user.id)
+        .eq('status', 'active')
+        .limit(1)
+        .maybeSingle();
+
+      if (subscription) {
+        if (subscription.plan === 'monthly') {
+          completedKeys.push('inner-circle-monthly');
+          subscriptionPlanLabel = 'Inner Circle — Monthly';
+        } else if (subscription.plan === 'yearly') {
+          completedKeys.push('inner-circle-yearly');
+          subscriptionPlanLabel = 'Inner Circle — Annual';
+        } else if (subscription.plan === 'lifetime') {
+          completedKeys.push('lifetime-vip');
+          subscriptionPlanLabel = 'Lifetime VIP';
+        }
+      }
+    } catch {
+      // `subscriptions` table may not exist in all envs — fail open, keep purchases only.
+    }
+
     const tier: UserTier | null = getHighestTier(completedKeys);
-    const tierLabel = tier ? TIER_LABELS[tier] : null;
+    // Prefer the explicit subscription label (includes billing cadence) when present;
+    // fall back to the tier family label for one-time purchasers.
+    const tierLabel = subscriptionPlanLabel ?? (tier ? TIER_LABELS[tier] : null);
 
     return new Response(
       JSON.stringify({

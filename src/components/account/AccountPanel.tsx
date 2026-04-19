@@ -24,6 +24,7 @@ interface AccountPayload {
   tierLabel: string | null;
   purchases: Purchase[];
   email: string | null;
+  // Note: subscription-only users will have tier !== null but empty purchases.
 }
 
 const SUPPORT_EMAIL = 'support@mikki-mase.com';
@@ -106,7 +107,10 @@ export default function AccountPanel() {
   const email = data?.email || user?.email || '';
   const tierLabel = data?.tierLabel || 'No active plan';
   const purchases = data?.purchases || [];
-  const hasAnyPaid = purchases.some((p) => p.status === 'completed');
+  const hasCompletedPurchase = purchases.some((p) => p.status === 'completed');
+  // Subscription-only users have a tier but no purchase row — still count as paid.
+  const hasAnyPaid = hasCompletedPurchase || !!data?.tier;
+  const hasSubscription = !!data?.tier && !hasCompletedPurchase;
 
   const cancelMailto =
     `mailto:${SUPPORT_EMAIL}?subject=${encodeURIComponent('Please cancel my subscription')}` +
@@ -152,7 +156,9 @@ export default function AccountPanel() {
             <h2 id="plan-heading" className="display-h3 mb-1">{tierLabel}</h2>
             {hasAnyPaid ? (
               <p className="text-secondary text-sm">
-                One-time purchase · Lifetime access
+                {hasSubscription
+                  ? 'Active subscription · Billed automatically'
+                  : 'One-time purchase · Lifetime access'}
               </p>
             ) : (
               <p className="text-secondary text-sm">
