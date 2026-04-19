@@ -8,6 +8,16 @@ export const lesson1: Lesson = {
   id: 'mod8-lesson1-understanding-loss-rebates',
   slug: 'understanding-loss-rebates',
   title: 'Understanding Loss Rebates',
+  subtitle: 'Plug your numbers into the calculator. See your rebate flip the math before you ever sit down.',
+  drillId: 'rebate-calculator',
+  fieldNote:
+    'Next time a host offers you a number, run it through this calculator at the rail before you agree. If the effective edge doesn\'t beat the game\'s base edge by at least half, counter with a higher rebate or a higher threshold.',
+  difficulty: 'intermediate',
+  promise: [
+    'Translate any rebate offer into an effective house edge in seconds',
+    'Spot when a rebate percentage flips a negative-EV game into a profitable one',
+    'Enter the negotiation with hard numbers, not hope',
+  ],
   estimatedMinutes: 12,
   keyTakeaways: [
     'Loss rebates give you back a percentage of your losses -- this single tool can flip the entire house edge equation in your favor.',

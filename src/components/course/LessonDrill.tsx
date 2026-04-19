@@ -10,9 +10,8 @@
 import { lazy, Suspense } from 'react';
 
 const BlackjackDrill = lazy(() => import('./drills/BlackjackDrill'));
-// Future drills get lazy-imported here:
-// const SessionTimerDrill = lazy(() => import('./drills/SessionTimerDrill'));
-// const RebateCalculator = lazy(() => import('./drills/RebateCalculator'));
+const SessionTimer = lazy(() => import('./drills/SessionTimer'));
+const RebateCalculator = lazy(() => import('./drills/RebateCalculator'));
 
 interface Props {
   drillId: string;
@@ -36,8 +35,18 @@ export default function LessonDrill({ drillId }: Props) {
           <BlackjackDrill />
         </Suspense>
       );
-    // case 'session-timer': …
-    // case 'rebate-calculator': …
+    case 'session-timer':
+      return (
+        <Suspense fallback={fallback}>
+          <SessionTimer />
+        </Suspense>
+      );
+    case 'rebate-calculator':
+      return (
+        <Suspense fallback={fallback}>
+          <RebateCalculator />
+        </Suspense>
+      );
     default:
       // Unknown drill id — render nothing rather than crashing the lesson.
       if (typeof console !== 'undefined') {

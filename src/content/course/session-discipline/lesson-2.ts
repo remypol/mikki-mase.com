@@ -8,6 +8,16 @@ export const lesson2: Lesson = {
   id: 'mod10-lesson2-the-30-45-minute-rule',
   slug: 'the-30-45-minute-rule',
   title: 'The 30-45 Minute Rule',
+  subtitle: 'Short, aggressive sessions beat long grinds. Set the timer, hit the limit, walk away.',
+  drillId: 'session-timer',
+  fieldNote:
+    'Before your next session, pick a bankroll, a stop-loss, and a win-limit. Set the timer. When it fires, you leave — even if you\'re in a hot shoe. Log the result in your notes app. Repeat for a weekend and review which sessions left you up.',
+  difficulty: 'foundation',
+  promise: [
+    'Understand why 30-45 minutes is the mathematically optimal session length',
+    'Build the muscle memory to stand up and walk away when the timer fires',
+    'Use pre-set stop-loss and win-limit rules instead of in-session emotional decisions',
+  ],
   estimatedMinutes: 7,
   keyTakeaways: [
     'Play for 30-45 minutes MAX per session -- this minimizes your exposure to the house edge.',
