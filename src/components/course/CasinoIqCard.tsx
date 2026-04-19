@@ -25,7 +25,7 @@ interface Stored {
 }
 
 const STORAGE_KEY = 'mikki:assessment:v1';
-const ASSESSMENT_HREF = '/casino-iq-assessment';
+const ASSESSMENT_HREF = '/masterclass/course/mindset-disclaimer/assessment';
 
 function daysAgo(iso: string): string {
   try {
