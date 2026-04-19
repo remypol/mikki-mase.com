@@ -9,6 +9,7 @@ import BaseLayout from '../../../layouts/BaseLayout.astro';
 import Header from '../../../components/Header.astro';
 import Footer from '../../../components/Footer.astro';
 import PasswordGate from '../../../components/PasswordGate.astro';
+import DashboardHero from '../../../components/course/DashboardHero.tsx';
 import { courseManifest } from '../../../config/course/manifest';
 import { generateDownloadToken } from '../../../lib/downloads';
 import { hasInnerCircleAccess, hasVipAccess, TIER_LABELS, type UserTier } from '../../../lib/tiers';
@@ -19,6 +20,12 @@ const userEmail = user?.email || '';
 const tier: UserTier = Astro.locals.tier || 'masterclass';
 const isInnerCircle = hasInnerCircleAccess(tier);
 const isVip = hasVipAccess(tier);
+const tierLabel = TIER_LABELS[tier];
+const displayName =
+  user?.user_metadata?.full_name ||
+  user?.user_metadata?.name ||
+  userEmail?.split('@')[0] ||
+  'Player';
 
 // Check for upgrade prompt (redirected from daily-drops)
 const upgradePrompt = Astro.url.searchParams.get('upgrade');
@@ -47,24 +54,17 @@ Astro.response.headers.set('Cache-Control', 'private, no-store, max-age=0');
   <Header />
   <!-- PasswordGate stays for dev; middleware handles real auth -->
 
-  <main id="main-content" class="min-h-screen bg-black pt-20 pb-16">
+  <main id="main-content" class="min-h-screen bg-page pt-20 pb-16">
     <div class="max-w-4xl mx-auto px-4 sm:px-6">
-      <!-- Header -->
-      <div class="mb-10 text-center">
-        <span class="text-xs font-bold uppercase tracking-widest" style="color: #CFB53B;">
-          The Mikki Mase Masterclass
-        </span>
-        <h1 class="text-4xl md:text-5xl font-black text-white mt-3 mb-3">Course Dashboard</h1>
-        <p class="text-sm" style="color: #9A9A9A;">
-          {courseManifest.modules.length} modules &middot; {courseManifest.estimatedHours} hours &middot; Interactive scenarios
-        </p>
-      </div>
 
-      <!-- Tier badge -->
+      <!-- Dashboard hero: welcome / resume where you left off -->
+      <DashboardHero displayName={displayName} tierLabel={tierLabel} client:load />
+
+      <!-- VIP badge (only for Lifetime VIP) -->
       {isVip && (
-        <div class="flex items-center justify-center gap-2 mb-6 px-4 py-2 rounded-full mx-auto w-fit" style="background: rgba(207, 181, 59, 0.1); border: 1px solid rgba(207, 181, 59, 0.25);">
-          <span style="font-size: 16px;">&#x1F451;</span>
-          <span class="text-xs font-bold uppercase tracking-wider" style="color: #CFB53B;">Founding Member — Lifetime VIP</span>
+        <div class="flex items-center gap-2 mb-6 px-3 py-1.5 rounded-full w-fit" style="background: rgba(207, 181, 59, 0.08); border: 1px solid rgba(207, 181, 59, 0.2);">
+          <span style="font-size: 14px;">&#x1F451;</span>
+          <span class="text-[11px] font-bold uppercase tracking-wider" style="color: #CFB53B;">Founding Member — Lifetime VIP</span>
         </div>
       )}
 
@@ -79,129 +79,14 @@ Astro.response.headers.set('Cache-Control', 'private, no-store, max-age=0');
         </div>
       )}
 
-      <!-- The Inner Circle section — different for each tier -->
-      {isInnerCircle ? (
-        <!-- Inner Circle / VIP: link to daily drops -->
-        <a
-          href="/masterclass/course/daily-drops"
-          class="block p-5 rounded-xl border transition-all duration-200 hover:border-[#CFB53B]/50 group mb-8"
-          style="background: linear-gradient(135deg, rgba(207, 181, 59, 0.06) 0%, #1A1A1A 100%); border-color: rgba(207, 181, 59, 0.3);"
-        >
-          <div class="flex items-center gap-4">
-            <div class="w-12 h-12 rounded-full overflow-hidden flex-shrink-0 ring-2 ring-[#CFB53B]/30">
-              <img src="/images/mikki-avatar.jpg" alt="Mikki Mase" class="w-full h-full object-cover" />
-            </div>
-            <div class="flex-1 min-w-0">
-              <div class="flex items-center gap-2 mb-0.5">
-                <h2 class="text-lg font-bold text-white group-hover:text-[#CFB53B] transition-colors">
-                  The Inner Circle
-                </h2>
-                <span class="text-[9px] font-bold uppercase tracking-wider px-1.5 py-0.5 rounded" style="background-color: rgba(207, 181, 59, 0.15); color: #CFB53B;">
-                  LIVE
-                </span>
-              </div>
-              <p class="text-sm" style="color: #BEBEBE;">
-                Exclusive strategy breakdowns, updates & real talk from Mikki's team. Join the conversation.
-              </p>
-            </div>
-            <svg class="w-5 h-5 flex-shrink-0 text-[#CFB53B] group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-            </svg>
-          </div>
-        </a>
-      ) : (
-        <!-- Masterclass only: upsell to Inner Circle -->
-        <div
-          class="p-5 rounded-xl border mb-8 relative overflow-hidden"
-          style="background: #1A1A1A; border-color: #2D2D2D;"
-        >
-          <div class="flex items-center gap-4">
-            <div class="w-12 h-12 rounded-full overflow-hidden flex-shrink-0 opacity-50">
-              <img src="/images/mikki-avatar.jpg" alt="Mikki Mase" class="w-full h-full object-cover" />
-            </div>
-            <div class="flex-1 min-w-0">
-              <div class="flex items-center gap-2 mb-0.5">
-                <h2 class="text-lg font-bold" style="color: #6B6B6B;">
-                  The Inner Circle
-                </h2>
-                <span class="text-[9px] font-bold uppercase tracking-wider px-1.5 py-0.5 rounded" style="background-color: rgba(255,255,255,0.05); color: #6B6B6B;">
-                  LOCKED
-                </span>
-              </div>
-              <p class="text-sm" style="color: #6B6B6B;">
-                Daily strategy drops, community feed, AI advisor & more.
-              </p>
-              <a
-                href="/masterclass#pricing"
-                class="inline-flex items-center gap-1.5 text-xs font-bold mt-2 transition-colors hover:brightness-110"
-                style="color: #CFB53B;"
-              >
-                Upgrade to Inner Circle
-                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
-                </svg>
-              </a>
-            </div>
-          </div>
-        </div>
-      )}
+      <!--
+        Per post-paywall audit #5: locked upsells were ABOVE the owned content for
+        brand-new buyers, killing the post-purchase honeymoon.
+        We now render modules first, Inner Circle + AI Advisor cards at the bottom.
+        Section jump label for existing users who want to find the upsell:
+      -->
 
-      <!-- AI Casino Strategy Advisor -->
-      {isInnerCircle ? (
-        <div
-          class="p-5 rounded-xl border mb-8 transition-all duration-200 hover:border-[#CFB53B]/50"
-          style="background: #1A1A1A; border-color: rgba(207, 181, 59, 0.2);"
-        >
-          <div class="flex items-center gap-3 mb-2">
-            <div class="w-10 h-10 rounded-lg flex items-center justify-center" style="background: rgba(207, 181, 59, 0.1);">
-              <span style="font-size: 18px;">&#x1F916;</span>
-            </div>
-            <div>
-              <h3 class="text-sm font-bold text-white">AI Casino Strategy Advisor</h3>
-              <p class="text-xs" style="color: #9A9A9A;">
-                {isVip ? 'Unlimited questions — Priority' : '20 questions per day'}
-              </p>
-            </div>
-          </div>
-          <p class="text-xs mb-3" style="color: #BEBEBE;">
-            Ask anything about casino strategy. Get answers based on Mikki's proven system.
-          </p>
-          <a
-            href="/masterclass/course/ai-advisor"
-            class="inline-flex items-center gap-1.5 text-xs font-bold transition-colors hover:brightness-110"
-            style="color: #CFB53B;"
-          >
-            Open AI Advisor
-            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
-            </svg>
-          </a>
-        </div>
-      ) : (
-        <div
-          class="p-5 rounded-xl border mb-8"
-          style="background: #1A1A1A; border-color: #2D2D2D;"
-        >
-          <div class="flex items-center gap-3 mb-2">
-            <div class="w-10 h-10 rounded-lg flex items-center justify-center opacity-50" style="background: rgba(255,255,255,0.05);">
-              <span style="font-size: 18px;">&#x1F916;</span>
-            </div>
-            <div>
-              <h3 class="text-sm font-bold" style="color: #6B6B6B;">AI Casino Strategy Advisor</h3>
-              <span class="text-[9px] font-bold uppercase tracking-wider px-1.5 py-0.5 rounded" style="background-color: rgba(255,255,255,0.05); color: #6B6B6B;">LOCKED</span>
-            </div>
-          </div>
-          <p class="text-xs mb-2" style="color: #6B6B6B;">
-            Get instant answers to any casino strategy question, powered by AI.
-          </p>
-          <a href="/masterclass#pricing" class="inline-flex items-center gap-1.5 text-xs font-bold" style="color: #CFB53B;">
-            Upgrade to unlock
-            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
-            </svg>
-          </a>
-        </div>
-      )}
+      <h2 class="display-h3 mt-4 mb-4">Your modules</h2>
 
       <!-- Module Grid -->
       <div class="space-y-4">
@@ -293,6 +178,102 @@ Astro.response.headers.set('Cache-Control', 'private, no-store, max-age=0');
           </div>
         </div>
       )}
+
+      <!--
+        Upsells (demoted): Inner Circle + AI Advisor cards.
+        For Inner Circle / VIP members these are LIVE access links.
+        For Masterclass-only buyers these are upsell cards. They sit at the
+        bottom of the dashboard so the post-purchase first screen shows
+        owned content, not locked features.
+      -->
+      <section id="inner-circle-section" class="mt-16 pt-10 border-t border-subtle">
+        <h2 class="display-h3 mb-2">More inside the Inner Circle</h2>
+        <p class="text-secondary mb-6 text-sm max-w-2xl">
+          Daily strategy drops, AI casino advisor, community discussion.
+          {isInnerCircle
+            ? 'You have access — open them below.'
+            : 'Available as an upgrade whenever you\'re ready.'}
+        </p>
+        <div class="grid md:grid-cols-2 gap-4">
+          <!-- Inner Circle -->
+          {isInnerCircle ? (
+            <a
+              href="/masterclass/course/daily-drops"
+              class="stake-card block group no-underline"
+            >
+              <div class="flex items-center gap-4">
+                <div class="w-12 h-12 rounded-full overflow-hidden flex-shrink-0 ring-2 ring-[#CFB53B]/30">
+                  <img src="/images/mikki-avatar.jpg" alt="Mikki Mase" class="w-full h-full object-cover" />
+                </div>
+                <div class="flex-1 min-w-0">
+                  <div class="flex items-center gap-2 mb-0.5">
+                    <h3 class="text-base font-bold text-primary group-hover:text-[#CFB53B] transition-colors">The Inner Circle</h3>
+                    <span class="text-[9px] font-bold uppercase tracking-wider px-1.5 py-0.5 rounded" style="background-color: rgba(207, 181, 59, 0.15); color: #CFB53B;">LIVE</span>
+                  </div>
+                  <p class="text-sm text-secondary">Exclusive strategy breakdowns, updates & real talk.</p>
+                </div>
+                <svg class="w-5 h-5 flex-shrink-0 accent-gold group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" /></svg>
+              </div>
+            </a>
+          ) : (
+            <div class="insight-box">
+              <div class="flex items-center gap-4">
+                <div class="w-12 h-12 rounded-full overflow-hidden flex-shrink-0 opacity-50">
+                  <img src="/images/mikki-avatar.jpg" alt="Mikki Mase" class="w-full h-full object-cover" />
+                </div>
+                <div class="flex-1 min-w-0">
+                  <div class="flex items-center gap-2 mb-0.5">
+                    <h3 class="text-base font-bold text-tertiary">The Inner Circle</h3>
+                    <span class="text-[9px] font-bold uppercase tracking-wider px-1.5 py-0.5 rounded bg-white/5 text-tertiary">LOCKED</span>
+                  </div>
+                  <p class="text-sm text-tertiary">Daily strategy drops, community feed, AI advisor.</p>
+                  <a href="/masterclass#pricing" class="inline-flex items-center gap-1.5 text-xs font-bold mt-2 accent-gold hover:brightness-110">
+                    Upgrade to Inner Circle
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>
+                  </a>
+                </div>
+              </div>
+            </div>
+          )}
+
+          <!-- AI Advisor -->
+          {isInnerCircle ? (
+            <a href="/masterclass/course/ai-advisor" class="stake-card block group no-underline">
+              <div class="flex items-center gap-3 mb-2">
+                <div class="w-10 h-10 rounded-lg flex items-center justify-center" style="background: rgba(207, 181, 59, 0.1);">
+                  <span style="font-size: 18px;">&#x1F916;</span>
+                </div>
+                <div>
+                  <h3 class="text-sm font-bold text-primary">AI Casino Strategy Advisor</h3>
+                  <p class="text-xs text-secondary">{isVip ? 'Unlimited questions — Priority' : '20 questions per day'}</p>
+                </div>
+              </div>
+              <p class="text-xs text-secondary mb-3">Ask anything about casino strategy. Get answers based on Mikki's proven system.</p>
+              <span class="inline-flex items-center gap-1.5 text-xs font-bold accent-gold">
+                Open AI Advisor
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>
+              </span>
+            </a>
+          ) : (
+            <div class="insight-box">
+              <div class="flex items-center gap-3 mb-2">
+                <div class="w-10 h-10 rounded-lg flex items-center justify-center opacity-50 bg-white/5">
+                  <span style="font-size: 18px;">&#x1F916;</span>
+                </div>
+                <div>
+                  <h3 class="text-sm font-bold text-tertiary">AI Casino Strategy Advisor</h3>
+                  <span class="text-[9px] font-bold uppercase tracking-wider px-1.5 py-0.5 rounded bg-white/5 text-tertiary">LOCKED</span>
+                </div>
+              </div>
+              <p class="text-xs text-tertiary mb-2">Get instant answers to any casino strategy question.</p>
+              <a href="/masterclass#pricing" class="inline-flex items-center gap-1.5 text-xs font-bold accent-gold">
+                Upgrade to unlock
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>
+              </a>
+            </div>
+          )}
+        </div>
+      </section>
     </div>
   </main>
 

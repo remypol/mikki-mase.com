@@ -2,65 +2,71 @@
 // Footer component - minimal, clean
 ---
 
-<footer class="bg-black text-white py-16 border-t border-gray-800" role="contentinfo">
+<footer class="bg-page text-primary py-16 border-t border-subtle" role="contentinfo">
   <div class="container">
-    <div class="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12 mb-12">
+    <div class="grid grid-cols-2 md:grid-cols-5 gap-8 md:gap-12 mb-12">
       <!-- Brand -->
-      <div class="col-span-2 md:col-span-1">
-        <h3 class="text-2xl font-black uppercase mb-4">Mikki Mase</h3>
-        <p class="text-gray-400">
-          From prison to $32M. The most controversial gambler in history.
+      <div class="col-span-2 md:col-span-2">
+        <h3 class="display-h3 mb-3">Mikki Mase<span class="accent-red">.</span></h3>
+        <p class="text-secondary max-w-sm">
+          From juvenile detention to $10M+ verified at The Venetian. The most controversial gambler in history — documented, verified, and claimed.
         </p>
       </div>
 
-      <!-- Links -->
+      <!-- Explore -->
       <div>
-        <h4 class="text-sm uppercase tracking-wider text-gray-400 mb-4">Explore</h4>
-        <div class="flex flex-col gap-2">
-          <a href="/story" class="text-white hover:text-gold transition-colors">Story</a>
-          <a href="/the-system" class="text-white hover:text-gold transition-colors">The System</a>
-          <a href="/wins" class="text-white hover:text-gold transition-colors">Wins</a>
-          <a href="/banned" class="text-white hover:text-gold transition-colors">Banned</a>
-          <a href="/faq" class="text-white hover:text-gold transition-colors">FAQ</a>
+        <h4 class="text-xs uppercase tracking-widest text-tertiary font-semibold mb-4">Explore</h4>
+        <div class="flex flex-col gap-3">
+          <a href="/story" class="text-secondary hover:text-primary transition-colors">Story</a>
+          <a href="/timeline" class="text-secondary hover:text-primary transition-colors">Timeline</a>
+          <a href="/wins" class="text-secondary hover:text-primary transition-colors">Wins &amp; losses</a>
+          <a href="/banned" class="text-secondary hover:text-primary transition-colors">Banned</a>
+          <a href="/net-worth" class="text-secondary hover:text-primary transition-colors">Net worth</a>
+          <a href="/faq" class="text-secondary hover:text-primary transition-colors">FAQ</a>
         </div>
       </div>
 
       <!-- Learn -->
       <div>
-        <h4 class="text-sm uppercase tracking-wider text-gray-400 mb-4">Learn</h4>
-        <div class="flex flex-col gap-2">
-          <a href="/baccarat-guide" class="text-white hover:text-gold transition-colors">Baccarat Guide</a>
-          <a href="/tools" class="text-white hover:text-gold transition-colors">Tools</a>
+        <h4 class="text-xs uppercase tracking-widest text-tertiary font-semibold mb-4">Learn</h4>
+        <div class="flex flex-col gap-3">
+          <a href="/the-system" class="text-secondary hover:text-primary transition-colors">The system</a>
+          <a href="/baccarat-guide" class="text-secondary hover:text-primary transition-colors">Baccarat guide</a>
+          <a href="/gambling-psychology" class="text-secondary hover:text-primary transition-colors">Psychology</a>
+          <a href="/casino-advantage-play" class="text-secondary hover:text-primary transition-colors">Advantage play</a>
+          <a href="/tools" class="text-secondary hover:text-primary transition-colors">Tools</a>
+          <a href="/glossary" class="text-secondary hover:text-primary transition-colors">Glossary</a>
         </div>
       </div>
 
-      <!-- Connect -->
+      <!-- Connect & Account -->
       <div>
-        <h4 class="text-sm uppercase tracking-wider text-gray-400 mb-4">Connect</h4>
-        <div class="flex flex-col gap-2">
-          <a href="/join" class="text-white hover:text-gold transition-colors">Join Community</a>
-          <a href="/support" class="text-white hover:text-gold transition-colors">Support</a>
-          <a href="/media" class="text-white hover:text-gold transition-colors">Media</a>
-          <a href="/net-worth" class="text-white hover:text-gold transition-colors">Net Worth</a>
-          <a href="https://www.youtube.com/@Mikki_Mase" target="_blank" rel="noopener noreferrer" class="text-white hover:text-gold transition-colors">YouTube</a>
+        <h4 class="text-xs uppercase tracking-widest text-tertiary font-semibold mb-4">Connect</h4>
+        <div class="flex flex-col gap-3">
+          <a href="/join" class="text-secondary hover:text-primary transition-colors">Telegram community</a>
+          <a href="/masterclass" class="text-secondary hover:text-primary transition-colors">The Masterclass</a>
+          <a href="/media" class="text-secondary hover:text-primary transition-colors">Media &amp; press</a>
+          <a href="/account" class="text-secondary hover:text-primary transition-colors">Your account</a>
+          <a href="/support" class="text-secondary hover:text-primary transition-colors">Support</a>
+          <a href="https://www.youtube.com/@Mikki_Mase" target="_blank" rel="noopener noreferrer" class="text-secondary hover:text-primary transition-colors">YouTube ↗</a>
         </div>
       </div>
     </div>
 
     <!-- Bottom -->
-    <div class="pt-8 border-t border-gray-800 flex flex-col md:flex-row justify-between items-center gap-4">
-      <p class="text-gray-400 text-sm">
+    <div class="pt-8 border-t border-subtle flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4">
+      <p class="text-tertiary text-sm">
         &copy; {new Date().getFullYear()} Mikki Mase. All rights reserved.
       </p>
-      <div class="flex items-center gap-4 text-sm">
-        <a href="/privacy-policy" class="text-gray-400 hover:text-gold transition-colors">Privacy Policy</a>
-        <span class="text-gray-600">|</span>
-        <a href="/terms" class="text-gray-400 hover:text-gold transition-colors">Terms of Service</a>
-        <span class="text-gray-600">|</span>
-        <a href="/responsible-gambling" class="text-gray-400 hover:text-gold transition-colors">Responsible Gambling</a>
+      <div class="flex items-center gap-4 text-sm flex-wrap">
+        <a href="/privacy-policy" class="text-tertiary hover:text-primary transition-colors">Privacy</a>
+        <span class="text-tertiary/50">·</span>
+        <a href="/terms" class="text-tertiary hover:text-primary transition-colors">Terms</a>
+        <span class="text-tertiary/50">·</span>
+        <a href="/responsible-gambling" class="text-tertiary hover:text-primary transition-colors">Responsible gambling</a>
       </div>
-      <p class="text-gray-400 text-sm">
-        For educational purposes only. No guarantee of winnings. Gambling involves risk. 18+
+      <p class="text-tertiary text-xs max-w-sm lg:text-right">
+        For educational purposes only. Gambling involves risk. 18+.
       </p>
     </div>
   </div>
