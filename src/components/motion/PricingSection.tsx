@@ -77,10 +77,10 @@ export default function PricingSection() {
             Get Started
           </span>
           <h2 className="text-2xl md:text-3xl font-black text-white mt-3">
-            The Casino Decision Framework
+            Negotiation. Discount System. Session Discipline.
           </h2>
-          <p className="text-sm mt-3 mx-auto" style={{ color: '#BEBEBE', maxWidth: '48ch' }}>
-            Bankroll discipline, game selection, and risk management — for serious players.
+          <p className="text-sm mt-3 mx-auto" style={{ color: '#BEBEBE', maxWidth: '52ch' }}>
+            The field manual behind $32M in wins — for players who are done paying retail at the casino.
           </p>
         </motion.div>
 
