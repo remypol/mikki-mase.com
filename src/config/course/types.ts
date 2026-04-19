@@ -39,6 +39,25 @@ export interface Lesson {
   keyTakeaways: string[];
   proTip?: string;
   estimatedMinutes: number;
+
+  // v2 template additions (all optional — backwards compatible with v1 lessons):
+
+  /** Single-sentence thesis rendered under the H1 as subtitle. */
+  subtitle?: string;
+
+  /** "By the end you'll know…" — 3-5 checkmark bullets above the body. */
+  promise?: string[];
+
+  /** Optional interactive drill id — references a widget mapped in
+   *  `src/components/course/drills/index.ts`. Example: `'basic-strategy'`. */
+  drillId?: string;
+
+  /** "This week, try this at a table" — one-sentence prompt rendered at
+   *  lesson end, feeds into the user's field-note journal. */
+  fieldNote?: string;
+
+  /** Difficulty tag shown next to read time. */
+  difficulty?: 'foundation' | 'intermediate' | 'advanced';
 }
 
 // ============================================

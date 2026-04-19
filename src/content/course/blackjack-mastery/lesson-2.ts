@@ -8,6 +8,16 @@ export const lesson2: Lesson = {
   id: 'mod3-lesson2-basic-strategy-decoded',
   slug: 'basic-strategy-decoded',
   title: 'Basic Strategy Decoded',
+  subtitle: 'The chart that runs blackjack. Memorise it then drill it until it fires before you think.',
+  difficulty: 'intermediate',
+  promise: [
+    'Know why the chart exists and what it actually optimises for',
+    'Recognise the three rows where amateurs bleed the most money',
+    'Drill enough hands that the right play fires before you hesitate',
+  ],
+  drillId: 'basic-strategy',
+  fieldNote:
+    'At your next session, pick one hand that would have been a gut call and play basic strategy instead. Note the outcome — your gut will lose more often than the chart.',
   estimatedMinutes: 15,
   keyTakeaways: [
     'Basic strategy is the mathematically optimal play for every possible hand combination -- deviating from it costs you real money.',

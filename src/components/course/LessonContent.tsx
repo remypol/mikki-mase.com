@@ -1,5 +1,6 @@
 import type { Lesson } from '../../config/course/types';
 import ModuleIcon from './ModuleIcon';
+import LessonDrill from './LessonDrill';
 
 interface Props {
   lesson: Lesson;
@@ -57,15 +58,47 @@ export default function LessonContent({ lesson, moduleTitle, moduleIcon, moduleS
         </a>
       </div>
 
-      {/* Lesson title */}
-      <h1 className="text-3xl sm:text-4xl md:text-5xl font-black text-white leading-tight mb-2">
+      {/* Lesson title — editorial Fraunces display */}
+      <h1 className="display-h1 article-heading-wide mb-3">
         {lesson.title}
       </h1>
 
-      {/* Reading time */}
-      <p className="text-sm mb-10" style={{ color: '#9A9A9A' }}>
-        {lesson.estimatedMinutes} min read
+      {/* Subtitle — optional v2 thesis line */}
+      {lesson.subtitle && (
+        <p className="text-secondary text-base md:text-lg mb-4 max-w-2xl">
+          {lesson.subtitle}
+        </p>
+      )}
+
+      {/* Meta row */}
+      <p className="text-sm mb-8 flex items-center gap-3 flex-wrap" style={{ color: '#9A9A9A' }}>
+        <span>{lesson.estimatedMinutes} min read</span>
+        {lesson.difficulty && (
+          <>
+            <span className="opacity-40">·</span>
+            <span className="capitalize">{lesson.difficulty}</span>
+          </>
+        )}
       </p>
+
+      {/* Promise card — "By the end you'll know…" */}
+      {lesson.promise && lesson.promise.length > 0 && (
+        <div className="stake-card mb-10">
+          <p className="text-xs uppercase tracking-widest text-tertiary font-semibold mb-3">
+            By the end of this lesson you will
+          </p>
+          <ul className="space-y-2">
+            {lesson.promise.map((p, i) => (
+              <li key={i} className="flex items-start gap-3 text-secondary">
+                <svg className="w-5 h-5 flex-shrink-0 mt-0.5 accent-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                </svg>
+                <span>{p}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
 
       {/* Lesson body */}
       <div
@@ -130,6 +163,33 @@ export default function LessonContent({ lesson, moduleTitle, moduleIcon, moduleS
             </h3>
           </div>
           <p className="text-[#BEBEBE] text-sm leading-relaxed">{lesson.proTip}</p>
+        </div>
+      )}
+
+      {/* Interactive drill — v2 template slot.
+          Rendered when lesson.drillId maps to a registered drill. */}
+      {lesson.drillId && (
+        <div className="mt-10">
+          <LessonDrill drillId={lesson.drillId} />
+        </div>
+      )}
+
+      {/* Field Note — "this week, try this at a table" */}
+      {lesson.fieldNote && (
+        <div
+          className="mt-8 rounded-xl p-6 md:p-8 border"
+          style={{
+            borderColor: 'rgb(var(--border-subtle))',
+            background: 'linear-gradient(135deg, rgba(212, 24, 61, 0.05) 0%, rgba(20, 22, 32, 1) 100%)',
+          }}
+        >
+          <p className="text-xs uppercase tracking-widest font-semibold mb-2 accent-red">
+            Field note
+          </p>
+          <p className="text-secondary text-base leading-relaxed">{lesson.fieldNote}</p>
+          <p className="text-tertiary text-xs mt-3">
+            Log this in your journal after your next session.
+          </p>
         </div>
       )}
 
