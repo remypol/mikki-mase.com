@@ -673,6 +673,95 @@ async function handlePaymentIntentSucceeded(paymentIntent: Stripe.PaymentIntent)
     return;
   }
 
+  // ---- DUPLICATE-ENTITLEMENT GUARD ----
+  // Closes the "guest-checkout bypass" Gemini 3.1 Pro flagged as CRITICAL:
+  // a paid user who was logged OUT could still submit a second payment on
+  // /checkout/masterclass. The UI entitlement guard only applies to logged-in
+  // visitors; now we also defend at webhook time.
+  //
+  // Rule: if this resolved user already owns the same or higher tier, auto-refund
+  // the new PaymentIntent and bail before granting duplicate access. The user
+  // (or Stripe) will see a refund in 5-10 business days and we log for ops.
+  const TIER_WEIGHTS: Record<string, number> = {
+    masterclass: 1,
+    'session-playbook': 1,
+    'session-toolkit': 1,
+    'full-masterclass': 1,
+    'inner-circle-monthly': 2,
+    'inner-circle-monthly-v2': 2,
+    'inner-circle-yearly': 2,
+    'inner-circle-annual-v2': 2,
+    'lifetime-vip': 3,
+  };
+  const targetWeight = TIER_WEIGHTS[productKey] ?? 0;
+
+  try {
+    const { data: ownedPurchases } = await supabase
+      .from('purchases')
+      .select('product_key, created_at')
+      .eq('user_id', resolvedUserId)
+      .eq('status', 'completed')
+      .neq('stripe_payment_intent_id', paymentIntent.id);
+
+    let highestOwned = 0;
+    for (const p of ownedPurchases ?? []) {
+      const w = TIER_WEIGHTS[p.product_key as string] ?? 0;
+      if (w > highestOwned) highestOwned = w;
+    }
+
+    // Also check active subscriptions (Inner Circle / Lifetime VIP via subs)
+    try {
+      const { data: sub } = await supabase
+        .from('subscriptions')
+        .select('plan, status')
+        .eq('user_id', resolvedUserId)
+        .eq('status', 'active')
+        .limit(1)
+        .maybeSingle();
+      if (sub) {
+        if (sub.plan === 'lifetime') highestOwned = Math.max(highestOwned, 3);
+        else highestOwned = Math.max(highestOwned, 2);
+      }
+    } catch { /* subscriptions table may not exist — skip */ }
+
+    if (highestOwned > 0 && targetWeight > 0 && targetWeight <= highestOwned) {
+      console.warn(
+        `[duplicate-entitlement] Auto-refunding PI ${paymentIntent.id}: user ${resolvedUserId} already owns weight ${highestOwned}, target is ${targetWeight} (${productKey})`,
+      );
+      try {
+        const stripe = await getStripeServer();
+        await stripe.refunds.create({
+          payment_intent: paymentIntent.id,
+          reason: 'duplicate',
+          metadata: {
+            reason_detail: 'duplicate-entitlement-guard',
+            user_id: resolvedUserId,
+            owned_weight: String(highestOwned),
+            attempted_product_key: productKey,
+          },
+        });
+
+        // Record the attempt so ops can reconcile (non-fatal if insert fails).
+        await supabase.from('purchases').insert({
+          user_id: resolvedUserId,
+          stripe_session_id: `pi_${paymentIntent.id}`,
+          stripe_payment_intent_id: paymentIntent.id,
+          product_key: productKey,
+          amount_cents: paymentIntent.amount ?? 0,
+          status: 'refunded_duplicate',
+        });
+      } catch (refundErr) {
+        console.error('[duplicate-entitlement] refund failed — manual review required:', refundErr);
+        // Fall through: we do NOT grant a new entitlement even if refund failed.
+        // Ops will see the unrefunded charge + resolved user's existing access.
+      }
+      return; // bail before granting access a second time
+    }
+  } catch (guardErr) {
+    console.error('[duplicate-entitlement] guard query failed, proceeding cautiously:', guardErr);
+    // Fall through — better to grant access than to lock out a legit customer.
+  }
+
   // Insert purchase record
   const { error: purchaseError } = await supabase.from('purchases').insert({
     user_id: resolvedUserId,

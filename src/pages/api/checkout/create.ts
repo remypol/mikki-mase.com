@@ -144,6 +144,10 @@ export const POST: APIRoute = async ({ request, cookies }) => {
         line_items: [{ price: priceId, quantity: 1 }],
         metadata,
         allow_promotion_codes: true,
+        // Force English — our Stripe account is on a Dutch entity (SFM Studios BV)
+        // and EU visitors otherwise see localized strings on the Embedded UI.
+        // Post-paywall audit fix #7 server-side complement.
+        locale: 'en',
       };
 
       if (user) {
@@ -267,6 +271,8 @@ export const POST: APIRoute = async ({ request, cookies }) => {
         line_items: [{ price: priceId, quantity: 1 }],
         metadata,
         allow_promotion_codes: true,
+        // Force English on Stripe-rendered UI (Dutch entity default leaks).
+        locale: 'en',
         success_url: `${siteUrl}/checkout/playbook-success?session_id={CHECKOUT_SESSION_ID}`,
         cancel_url: `${siteUrl}/masterclass`,
         consent_collection: {
@@ -375,6 +381,8 @@ export const POST: APIRoute = async ({ request, cookies }) => {
       allow_promotion_codes: true,
       // Billing address collection
       billing_address_collection: 'auto',
+      // Force English — Dutch entity default leaks on Stripe-rendered UI.
+      locale: 'en',
     };
 
     // Physical products need shipping
