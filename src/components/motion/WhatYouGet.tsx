@@ -11,12 +11,12 @@ interface Props {
 }
 
 const features = [
-  { icon: '\u2261', titleFn: (p: Props) => `${p.moduleCount} Full Modules`, desc: 'From casino psychology to bankroll management — the complete system.' },
-  { icon: '\u2699', titleFn: (p: Props) => `${p.scenarioCount} Interactive Scenarios`, desc: 'Practice real casino decisions with hands-on simulations.' },
-  { icon: '\u2713', titleFn: () => 'Quizzes After Every Module', desc: 'Test your knowledge and track progress with scored assessments.' },
-  { icon: '\uD83C\uDFC6', titleFn: () => 'Casino IQ Assessment', desc: 'Find your strengths and leaks with a 4-station skill assessment.' },
-  { icon: '\uD83D\uDE80', titleFn: () => 'Lifetime Access', desc: 'One payment. No subscriptions. All future updates included.' },
-  { icon: '\uD83D\uDCAA', titleFn: () => 'Blackjack Practice Trainer', desc: 'Unlimited adaptive drills to master basic strategy decisions.' },
+  { icon: '\uD83C\uDFA9', titleFn: () => 'Casino Negotiation Playbook', desc: 'Exact scripts for finding a host, booking a rebate, and leveraging competing properties. The highest-authenticity module in the course.' },
+  { icon: '\uD83D\uDCB0', titleFn: () => 'The Discount System', desc: 'Loss rebates 5-25%. When a rebate flips house edge into YOUR edge — with a live calculator at the rail.' },
+  { icon: '\u23F1', titleFn: () => 'Session Timer PWA', desc: 'Install it on your phone home screen. Pre-set stop-loss and win-limit. The 30-45 minute rule, wired.' },
+  { icon: '\u2261', titleFn: (p: Props) => `${p.moduleCount} Modules · 32 Lessons`, desc: 'From session discipline to comp maximisation. Every lesson with promise block, drill, and field note.' },
+  { icon: '\uD83C\uDFC6', titleFn: () => 'Casino IQ Assessment', desc: 'Four-station skill diagnostic you can retake after every module to track the delta.' },
+  { icon: '\uD83D\uDE80', titleFn: () => 'Lifetime Access', desc: 'One payment. No subscriptions. Every new lesson and widget included, forever.' },
 ];
 
 export default function WhatYouGet(props: Props) {

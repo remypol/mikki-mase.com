@@ -23,6 +23,7 @@ import { lesson2 as mod3Lesson2 } from './blackjack-mastery/lesson-2';
 import { lesson3 as mod3Lesson3 } from './blackjack-mastery/lesson-3';
 import { lesson4 as mod3Lesson4 } from './blackjack-mastery/lesson-4';
 import { lesson5 as mod3Lesson5 } from './blackjack-mastery/lesson-5';
+import { lesson6 as mod3Lesson6 } from './blackjack-mastery/lesson-6';
 import { quiz as mod3Quiz } from './blackjack-mastery/quiz';
 
 // Module 4: Side Bets That Actually Work
@@ -57,12 +58,14 @@ import { quiz as mod8Quiz } from './discount-system/quiz';
 import { lesson1 as mod9Lesson1 } from './comps-perks/lesson-1';
 import { lesson2 as mod9Lesson2 } from './comps-perks/lesson-2';
 import { lesson3 as mod9Lesson3 } from './comps-perks/lesson-3';
+import { lesson4 as mod9Lesson4 } from './comps-perks/lesson-4';
 import { quiz as mod9Quiz } from './comps-perks/quiz';
 
 // Module 10: Session Discipline & Bankroll Management
 import { lesson1 as mod10Lesson1 } from './session-discipline/lesson-1';
 import { lesson2 as mod10Lesson2 } from './session-discipline/lesson-2';
 import { lesson3 as mod10Lesson3 } from './session-discipline/lesson-3';
+import { lesson4 as mod10Lesson4 } from './session-discipline/lesson-4';
 import { quiz as mod10Quiz } from './session-discipline/quiz';
 
 // ============================================
@@ -98,6 +101,7 @@ export const courseContent: Record<string, ModuleContent> = {
       'soft-hands-and-splitting': mod3Lesson3,
       'high-limit-vs-low-limit': mod3Lesson4,
       'avoiding-continuous-shuffle': mod3Lesson5,
+      'property-rule-matrix': mod3Lesson6,
     },
     quiz: mod3Quiz,
   },
@@ -144,6 +148,7 @@ export const courseContent: Record<string, ModuleContent> = {
       'comp-slips-vs-room-charges': mod9Lesson1,
       'front-money-vs-credit-lines': mod9Lesson2,
       'maximizing-every-dollar': mod9Lesson3,
+      'taxes-on-winnings': mod9Lesson4,
     },
     quiz: mod9Quiz,
   },
@@ -152,6 +157,7 @@ export const courseContent: Record<string, ModuleContent> = {
       'win-loss-limits': mod10Lesson1,
       'the-30-45-minute-rule': mod10Lesson2,
       'play-big-and-fast': mod10Lesson3,
+      'kelly-and-risk-of-ruin': mod10Lesson4,
     },
     quiz: mod10Quiz,
   },

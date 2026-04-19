@@ -67,7 +67,7 @@ export default function MasterclassHero({ totalLessons, accessDenied = false, is
           variants={item}
           className="eyebrow inline-block mb-4"
         >
-          Casino Decision Framework
+          Negotiation · Discount System · Session Discipline
         </motion.span>
 
         <motion.h1
@@ -85,10 +85,11 @@ export default function MasterclassHero({ totalLessons, accessDenied = false, is
         <motion.p
           variants={item}
           className="text-base md:text-lg mx-auto mb-6"
-          style={{ color: 'var(--color-gray-400)', maxWidth: '48ch', lineHeight: 1.6 }}
+          style={{ color: 'var(--color-gray-400)', maxWidth: '52ch', lineHeight: 1.6 }}
         >
-          Bankroll discipline, game selection, and risk management for serious players.
-          Educational content from Mikki Mase.
+          Most courses teach you how to play. This one teaches you how to negotiate, how to
+          extract the discount system, and how to walk out with the edge. The same field
+          manual behind $32M in wins.
         </motion.p>
 
         {/* Price anchor + access-denied banner — non-owners only */}

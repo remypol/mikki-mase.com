@@ -45,7 +45,7 @@ export const courseManifest = {
   id: 'mikki-masterclass',
   title: 'The Mikki Mase Masterclass',
   subtitle: 'Manage sessions. Negotiate with casinos. Leave with the edge.',
-  description: '10 modules. 29 lessons. Interactive drills and calculators. Mikki Mase\'s field manual for session discipline, casino negotiation, and the discount system behind $32M in winnings.',
+  description: '10 modules. 32 lessons. Interactive drills and calculators. Mikki Mase\'s field manual for session discipline, casino negotiation, and the discount system behind $32M in winnings.',
   estimatedHours: 8,
   modules: [
     {
@@ -76,6 +76,7 @@ export const courseManifest = {
         { slug: 'win-loss-limits', title: 'Win/Loss Limits', estimatedMinutes: 8 },
         { slug: 'the-30-45-minute-rule', title: 'The 30-45 Minute Rule', estimatedMinutes: 7 },
         { slug: 'play-big-and-fast', title: 'Play Big and Fast', estimatedMinutes: 8 },
+        { slug: 'kelly-and-risk-of-ruin', title: 'Kelly, Variance & Risk of Ruin', estimatedMinutes: 12 },
       ],
     },
     {
@@ -107,6 +108,7 @@ export const courseManifest = {
         { slug: 'soft-hands-and-splitting', title: 'Soft Hands & Splitting', estimatedMinutes: 12 },
         { slug: 'high-limit-vs-low-limit', title: 'High Limit vs Low Limit', estimatedMinutes: 8 },
         { slug: 'avoiding-continuous-shuffle', title: 'Avoiding Continuous Shuffle Machines', estimatedMinutes: 6 },
+        { slug: 'property-rule-matrix', title: 'The Property Rule Matrix', estimatedMinutes: 12 },
       ],
     },
     {
@@ -190,6 +192,7 @@ export const courseManifest = {
         { slug: 'comp-slips-vs-room-charges', title: 'Comp Slips vs Room Charges', estimatedMinutes: 10 },
         { slug: 'front-money-vs-credit-lines', title: 'Front Money vs Credit Lines', estimatedMinutes: 8 },
         { slug: 'maximizing-every-dollar', title: 'Maximizing Every Dollar', estimatedMinutes: 8 },
+        { slug: 'taxes-on-winnings', title: 'Taxes on Gambling Winnings', estimatedMinutes: 10 },
       ],
     },
   ] satisfies ModuleMeta[],

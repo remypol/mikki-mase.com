@@ -8,6 +8,15 @@ export const lesson2: Lesson = {
   id: 'mod4-lesson2-side-bets-to-avoid',
   slug: 'side-bets-to-avoid',
   title: 'Side Bets to Avoid',
+  subtitle: 'Every side bet on the felt is there because someone did the math and the casino won. The flashier the marketing, the worse the edge.',
+  difficulty: 'intermediate',
+  fieldNote:
+    'Walk past three blackjack pits at your next trip and count the side bet circles on the felt. Photograph the promo cards at the table. That\'s your catalogue of what to never touch. The more square inches a bet takes up, the more profitable it is for the casino.',
+  promise: [
+    'Know the house edge on every common blackjack side bet',
+    'Recognise the specific marketing patterns that signal a trap',
+    'Protect base-game bankroll from slow bleed into sucker circles',
+  ],
   estimatedMinutes: 8,
   keyTakeaways: [
     'Insurance is a side bet with a 7.7% house edge disguised as a protective measure -- never take it under any circumstances.',
@@ -22,6 +31,8 @@ export const lesson2: Lesson = {
     <h3>The Graveyard of Bad Bets</h3>
 
     <p>In the last lesson, I showed you the one side bet that can be worth your time. Now let me show you <strong>every other side bet that's designed to rob you.</strong></p>
+
+    <p>Walk past any blackjack pit at the Cosmopolitan, Aria, or the Venetian on a Saturday night and count the side bet circles on a single felt. Insurance line. Perfect Pairs. 21+3. Sometimes a progressive bubble. Sometimes a Lucky Ladies sticker. That's not feature creep — that's a profit map. Every extra circle added between 2010 and now added basis points to table revenue. The base game is almost a loss leader.</p>
 
     <p>Casinos love side bets because the house edge on them is <strong>astronomical</strong> compared to the base game. While blackjack with basic strategy has a 0.5% house edge, most side bets run between 5% and 25%. Some are even worse. They're the most profitable square footage on the entire casino floor.</p>
 
@@ -110,10 +121,14 @@ export const lesson2: Lesson = {
     <p>Here is your complete guide to side bets:</p>
 
     <ul>
-      <li><strong>21+3 (flat 9:1):</strong> The only side bet worth considering. Bet at 10% of your main bet.</li>
+      <li><strong>21+3 (flat 9:1):</strong> The only side bet worth considering. Bet at 10% of your main bet, only when the flat-9 payout is posted. If the table says tiered (5:1/10:1/15:1/…), skip it.</li>
       <li><strong>Everything else:</strong> Do not play. Not insurance. Not Perfect Pairs. Not Lucky Ladies. Not Dealer Bust. Not the progressive. Not anything with a flashy sign.</li>
     </ul>
 
-    <p>Every dollar you put into a bad side bet is a dollar <strong>stolen from your base game</strong> -- the game where you actually have the tools and knowledge to compete. Protect your bankroll. Play the base game right. And let the tourists fund the casino's electricity bill with their side bet dollars.</p>
+    <blockquote>
+      "I've played seven-figure sessions at the Wynn and the Bellagio. I've never once placed a Lucky Ladies bet, a Perfect Pairs bet, or a progressive. Not one chip. That's not discipline — that's math. The numbers are public, and they say no."
+    </blockquote>
+
+    <p>Every dollar you put into a bad side bet is a dollar <strong>stolen from your base game</strong> — the game where you actually have the tools and knowledge to compete. Protect your bankroll. Play the base game right. And let the tourists fund the casino's electricity bill with their side bet dollars.</p>
   `,
 };

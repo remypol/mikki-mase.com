@@ -8,6 +8,15 @@ export const lesson1: Lesson = {
   id: 'mod2-lesson1-how-casinos-manipulate-you',
   slug: 'how-casinos-manipulate-you',
   title: 'How Casinos Manipulate You',
+  subtitle: 'The floor is a weapon. Layout, oxygen, scent, sound, chip colour — every detail is tuned to keep you seated. Once you see the strings, you stop dancing.',
+  difficulty: 'foundation',
+  fieldNote:
+    'On your next trip, spend 5 minutes before your first session just walking the casino floor with your phone\'s notes app open. Time how long it takes to find the main exit from the middle of the pit. Count the clocks. Note the scent — does it remind you of anything? You\'ll see the manipulation in a way you never did before.',
+  promise: [
+    'Recognise eight specific manipulation tactics on every floor you walk',
+    'Know how chip psychology and near-miss engineering rewire your decisions',
+    'Have a five-step counter-playbook to neutralise the floor',
+  ],
   estimatedMinutes: 10,
   keyTakeaways: [
     'Every element of a casino -- from the carpet pattern to the air temperature -- is scientifically engineered to keep you playing longer and betting more.',
@@ -27,7 +36,7 @@ export const lesson1: Lesson = {
       "A casino is not a building. It's a psychological weapon with a hotel attached."
     </blockquote>
 
-    <p>I've spent thousands of hours inside these places. I've talked to floor designers, pit bosses, surveillance teams. I've read the internal playbooks. And what I'm about to tell you is not speculation -- it's exactly how the machine works.</p>
+    <p>I've spent thousands of hours inside these places. I've talked to floor designers, pit bosses, surveillance teams. I've sat with a former Bellagio ops director over dinner at Carbone and watched him diagram the pit on a napkin. I've read the internal playbooks. What I'm about to tell you is not speculation — it's exactly how the machine works.</p>
 
     <h3>The Maze Layout</h3>
 
@@ -43,9 +52,9 @@ export const lesson1: Lesson = {
 
     <h3>Oxygen Pumping & The "Comforting" Smell</h3>
 
-    <p>This one blows people's minds. Casinos pump <strong>extra oxygen</strong> through their ventilation systems. Why? Because higher oxygen levels make you feel more alert, more awake, more energized. You don't get tired. You don't yawn and think "maybe I should go to bed." You stay at the table.</p>
+    <p>This one blows people's minds. Casinos pump <strong>extra oxygen</strong> through their ventilation systems. Higher oxygen = more alert, more awake, more energised. You don't get tired. You don't yawn and think "maybe I should go to bed." You stay at the table.</p>
 
-    <p>On top of that, they pump <strong>custom scents</strong> through the vents. Each major casino has its own signature smell -- pleasant, subtle, comforting. Studies have shown that certain scents can increase gambling spend by up to <strong>45%</strong>. That smell you associate with "the casino experience"? It's a weapon.</p>
+    <p>On top of that, they pump <strong>custom scents</strong> through the vents. Each major property has its own signature. The Venetian smells like a Tuscan garden. The Bellagio has a subtle citrus-and-cedar blend. The Wynn pipes in something closer to a high-end spa. Mandalay Bay famously patented their coconut-driven scent years ago. Alan Hirsch's peer-reviewed studies at the Smell &amp; Taste Treatment Foundation found signature scents can lift slot revenue by up to <strong>45%</strong>. That smell you associate with "the casino experience"? It's a weapon.</p>
 
     <h3>Sound Engineering</h3>
 
@@ -59,9 +68,11 @@ export const lesson1: Lesson = {
 
     <p>This is one of the most brilliant manipulations in the entire casino playbook. You don't bet with <strong>money</strong>. You bet with <strong>chips</strong>.</p>
 
-    <p>Think about it -- pushing five colorful discs across the felt doesn't feel the same as handing over five $100 bills. It's not supposed to. The psychological distance between you and your actual cash is maximized on purpose. Chips don't <strong>feel</strong> like real money, so you bet more freely.</p>
+    <p>Pushing five colourful discs across the felt doesn't feel the same as handing over five $100 bills. It's not supposed to. The psychological distance between you and your actual cash is maximised on purpose. Chips don't <strong>feel</strong> like real money, so you bet more freely.</p>
 
-    <p>This is the same reason why people spend more with credit cards than cash. <strong>Abstraction makes you spend more.</strong> The casino figured this out decades ago.</p>
+    <p>I've seen players who would never pull out a wrinkled $20 to buy a coffee slide $5,000 in yellow chips into the pot at Aria without blinking. Same player. Same net worth. Completely different relationship with the two piles of paper. That's not them being careless — that's the design working.</p>
+
+    <p>It's the same reason people spend more with credit cards than cash. <strong>Abstraction makes you spend more.</strong> The casino figured this out decades ago.</p>
 
     <h3>Near-Miss Engineering</h3>
 
@@ -83,7 +94,7 @@ export const lesson1: Lesson = {
 
     <p>Alcohol lowers your inhibitions, impairs your judgment, and makes you feel invincible. After two drinks, that voice in your head saying "maybe I should stop" goes quiet. After four drinks, you're doubling your bets because you "feel lucky."</p>
 
-    <p>The cocktail waitress making $8 an hour generates millions in additional revenue for the casino. That "free" rum and coke costs you more than a bottle of Cristal.</p>
+    <p>The cocktail waitress making $8 an hour generates millions in additional revenue for the casino. That "free" rum and coke costs you more than a bottle of Cristal. I haven't had a drink while playing in years — and my bankroll improved measurably the month I stopped.</p>
 
     <h3>Celebrity Appearances</h3>
 
