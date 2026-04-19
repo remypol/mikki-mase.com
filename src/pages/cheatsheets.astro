@@ -106,7 +106,7 @@ const combinedSchema = [productSchema, faqSchema, breadcrumbSchema];
   <Header />
 
   <!-- SECTION 01: HERO -->
-  <SalesHero product={product} />
+  <SalesHero product={product} ctaLabel="SEND ME THE CHEAT SHEETS" />
 
   <!-- SECTION 02: URGENCY BANNER -->
   <UrgencyBanner
@@ -482,7 +482,11 @@ const combinedSchema = [productSchema, faqSchema, breadcrumbSchema];
   </section>
 
   <!-- SECTION 15: GUARANTEE -->
-  <GuaranteeSeal days={30} />
+  <GuaranteeSeal
+    title={product.salesPage!.guarantee.title}
+    description={product.salesPage!.guarantee.description}
+    days={product.salesPage!.guarantee.days}
+  />
 
   <!-- SECTION 16: FAQ -->
   <FAQAccordion client:visible faqs={product.salesPage!.faqs} />

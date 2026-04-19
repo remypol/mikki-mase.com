@@ -53,7 +53,7 @@ const bannedSchema = {
 
 <BaseLayout
   title="Mikki Mase Banned From 150+ Casinos — Interactive Map (2026)"
-  description={`Interactive map of all ${stats.total} casinos that banned Mikki Mase. Vegas, Atlantic City, and worldwide locations with ban reasons and legal details.`}
+  description={`Interactive map of ${stats.total} documented casino bans — Mikki claims 150+ total. Vegas, Atlantic City, and worldwide locations with ban reasons and legal details.`}
   ogType="article"
   schema={bannedSchema}
 >
@@ -83,8 +83,8 @@ const bannedSchema = {
           question="Why is Mikki Mase banned from casinos?"
           answer="Mikki Mase is banned from 150+ casinos worldwide because he won too much money. Casinos legally have the right to refuse service to anyone for any reason (except protected classes). They use facial recognition and industry databases to track and ban advantage players. The interactive map below shows all confirmed casino ban locations."
           facts={[
-            { label: "Total Bans", value: `${stats.total}+` },
-            { label: "Vegas Bans", value: `${stats.vegas}` },
+            { label: "Claimed Total", value: "150+" },
+            { label: "Documented", value: `${stats.total}` },
             { label: "Verified", value: `${stats.verified}` },
             { label: "Countries", value: `${stats.countries}` }
           ]}
@@ -106,23 +106,27 @@ const bannedSchema = {
           </p>
         </div>
 
-        <!-- Stats Bar Above Map -->
+        <!-- Stats Bar Above Map - split CLAIMED vs DOCUMENTED so numbers don't contradict -->
         <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
           <div class="bg-gradient-to-br from-red-900/30 to-black border border-red-500/30 rounded-xl p-4 text-center">
-            <p class="text-red-400 text-3xl font-black">{stats.total}</p>
-            <p class="text-gray-500 text-sm uppercase tracking-wider mt-1">Total Bans</p>
+            <p class="text-red-400 text-3xl font-black">150+</p>
+            <p class="text-gray-500 text-sm uppercase tracking-wider mt-1">Claimed Total</p>
+            <p class="text-gray-600 text-[11px] mt-0.5">Self-reported</p>
           </div>
           <div class="bg-gradient-to-br from-gold/20 to-black border border-gold/30 rounded-xl p-4 text-center">
-            <p class="text-gold text-3xl font-black">{stats.vegas}</p>
-            <p class="text-gray-500 text-sm uppercase tracking-wider mt-1">Las Vegas</p>
+            <p class="text-gold text-3xl font-black">{stats.total}</p>
+            <p class="text-gray-500 text-sm uppercase tracking-wider mt-1">Documented</p>
+            <p class="text-gray-600 text-[11px] mt-0.5">Mapped below</p>
           </div>
           <div class="bg-gradient-to-br from-green-900/20 to-black border border-green-500/30 rounded-xl p-4 text-center">
             <p class="text-green-400 text-3xl font-black">{stats.verified}</p>
             <p class="text-gray-500 text-sm uppercase tracking-wider mt-1">Verified</p>
+            <p class="text-gray-600 text-[11px] mt-0.5">Independent sources</p>
           </div>
           <div class="bg-gradient-to-br from-blue-900/20 to-black border border-blue-500/30 rounded-xl p-4 text-center">
             <p class="text-blue-400 text-3xl font-black">{stats.countries}</p>
             <p class="text-gray-500 text-sm uppercase tracking-wider mt-1">Countries</p>
+            <p class="text-gray-600 text-[11px] mt-0.5">{stats.vegas} in Las Vegas</p>
           </div>
         </div>
 

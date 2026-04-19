@@ -82,7 +82,7 @@ const pageSchema = {
   <Header />
 
   <!-- Section 1: Hero -->
-  <SalesHero product={product} />
+  <SalesHero product={product} ctaLabel="SEND ME THE BOOK" />
 
   <!-- Section 2: Urgency Banner -->
   <UrgencyBanner type="price" originalPrice={product.compareAt} salePrice={product.price} />
@@ -383,7 +383,11 @@ const pageSchema = {
   </section>
 
   <!-- Section 15: Guarantee Seal -->
-  <GuaranteeSeal days={30} />
+  <GuaranteeSeal
+    title={product.salesPage!.guarantee.title}
+    description={product.salesPage!.guarantee.description}
+    days={product.salesPage!.guarantee.days}
+  />
 
   <!-- Section 16: FAQ -->
   <FAQAccordion client:visible faqs={product.salesPage!.faqs} />
