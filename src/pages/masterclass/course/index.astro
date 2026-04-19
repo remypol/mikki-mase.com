@@ -10,6 +10,7 @@ import Header from '../../../components/Header.astro';
 import Footer from '../../../components/Footer.astro';
 import PasswordGate from '../../../components/PasswordGate.astro';
 import DashboardHero from '../../../components/course/DashboardHero.tsx';
+import CasinoIqCard from '../../../components/course/CasinoIqCard.tsx';
 import { courseManifest } from '../../../config/course/manifest';
 import { generateDownloadToken } from '../../../lib/downloads';
 import { hasInnerCircleAccess, hasVipAccess, TIER_LABELS, type UserTier } from '../../../lib/tiers';
@@ -85,6 +86,9 @@ Astro.response.headers.set('Cache-Control', 'private, no-store, max-age=0');
         We now render modules first, Inner Circle + AI Advisor cards at the bottom.
         Section jump label for existing users who want to find the upsell:
       -->
+
+      <!-- Casino IQ baseline / retake (soft-wired per V3 — never gates progression) -->
+      <CasinoIqCard client:load />
 
       <h2 class="display-h3 mt-4 mb-4">Your modules</h2>
 
