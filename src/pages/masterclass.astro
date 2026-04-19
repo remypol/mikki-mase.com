@@ -1,9 +1,17 @@
 ---
+// SSR: Hugo flagged that a logged-in Masterclass owner still saw "Get the
+// Masterclass — $27" on this sales page. Now we detect entitlement server-side
+// and render an "owned" banner above the pricing section so paid users get a
+// "Continue your masterclass" CTA instead of being sold to again.
+export const prerender = false;
+
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import PasswordGate from '../components/PasswordGate.astro';
 import { courseManifest } from '../config/course/manifest';
+import { getServerClient } from '../lib/supabase';
+import { ALL_ENTITLEMENT_KEYS, getHighestTier, TIER_LABELS } from '../lib/tiers';
 
 // Framer Motion components
 import MasterclassHero from '../components/motion/MasterclassHero';
@@ -18,6 +26,39 @@ import { sessionPlaybook } from '../config/shop/products';
 
 // Check for access=denied query param (redirect from middleware)
 const accessDenied = Astro.url.searchParams.get('access') === 'denied';
+
+// Resolve entitlement (best-effort; unauthenticated users fall through to sales page)
+let ownedTier: ReturnType<typeof getHighestTier> | null = null;
+let ownedTierLabel: string | null = null;
+try {
+  const supabase = getServerClient(Astro.cookies, Astro.request);
+  const { data: { user } } = await supabase.auth.getUser();
+  if (user) {
+    const { data: purchases } = await supabase
+      .from('purchases')
+      .select('product_key')
+      .eq('user_id', user.id)
+      .eq('status', 'completed')
+      .in('product_key', [...ALL_ENTITLEMENT_KEYS]);
+    const keys = (purchases ?? []).map((p: any) => p.product_key as string);
+    try {
+      const { data: sub } = await supabase
+        .from('subscriptions')
+        .select('plan')
+        .eq('user_id', user.id)
+        .eq('status', 'active')
+        .maybeSingle();
+      if (sub?.plan === 'monthly') keys.push('inner-circle-monthly');
+      if (sub?.plan === 'yearly') keys.push('inner-circle-yearly');
+      if (sub?.plan === 'lifetime') keys.push('lifetime-vip');
+    } catch { /* subscriptions table optional */ }
+    ownedTier = getHighestTier(keys);
+    ownedTierLabel = ownedTier ? TIER_LABELS[ownedTier] : null;
+  }
+} catch {
+  // Fail open — entitlement check is an enhancement, not a gate.
+}
+const isOwner = !!ownedTier;
 
 const totalLessons = courseManifest.modules.reduce((sum, m) => sum + m.lessons.length, 0);
 const totalMinutes = courseManifest.modules.reduce(
@@ -38,11 +79,38 @@ const modulesWithScenarios = courseManifest.modules.filter((m) => m.scenarios &&
   <Header />
 
   <main id="main-content">
+    <!-- Owned-state banner: paid users land here via bookmark / email link and
+         used to see a sales CTA. Now we acknowledge ownership and point them
+         at their dashboard. Shown above the hero so it's the first thing they see. -->
+    {isOwner && (
+      <aside class="bg-page pt-24 pb-4" role="status" aria-live="polite">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6">
+          <div class="stake-card flex items-center justify-between gap-4 flex-wrap">
+            <div class="min-w-0">
+              <p class="text-xs uppercase tracking-widest text-tertiary mb-1">You own this</p>
+              <p class="display-h3 mb-0.5">Welcome back to the Masterclass<span class="accent-red">.</span></p>
+              <p class="text-secondary text-sm">
+                Active plan: <span class="accent-gold font-semibold">{ownedTierLabel}</span>. Your modules are ready when you are.
+              </p>
+            </div>
+            <a
+              href="/masterclass/course"
+              class="inline-flex items-center gap-2 bg-accent-red text-white px-5 py-3 rounded-full font-semibold text-sm hover:brightness-110 transition whitespace-nowrap"
+            >
+              Go to your dashboard
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>
+            </a>
+          </div>
+        </div>
+      </aside>
+    )}
+
     <!-- HERO — client:load for instant stagger animation on page load -->
     <MasterclassHero
       client:load
       totalLessons={totalLessons}
       accessDenied={accessDenied}
+      isOwner={isOwner}
     />
 
     <!-- CREDIBILITY STRIP — client:visible for scroll-triggered counter animation -->
@@ -177,28 +245,57 @@ const modulesWithScenarios = courseManifest.modules.filter((m) => m.scenarios &&
     <!-- STUDENT REVIEWS — social proof before pricing -->
     <StudentReviews client:visible />
 
-    <!-- PRICING + GUARANTEE — client:visible for premium card entrance -->
-    <PricingSection client:visible />
+    {/* Owners don't need the pricing / final "buy" sections — replace with a
+        compact "Back to your dashboard" outro. Unauth visitors still see the
+        full sales funnel. */}
+    {!isOwner && (
+      <>
+        <!-- PRICING + GUARANTEE — client:visible for premium card entrance -->
+        <PricingSection client:visible />
 
-    <!-- FINAL CTA — client:visible for staggered reveal -->
-    <FinalCTA client:visible />
+        <!-- FINAL CTA — client:visible for staggered reveal -->
+        <FinalCTA client:visible />
+      </>
+    )}
+
+    {isOwner && (
+      <section class="py-24 bg-page text-center">
+        <div class="max-w-2xl mx-auto px-4 sm:px-6">
+          <p class="eyebrow mb-3">You're in</p>
+          <h2 class="display-h2 mb-4">Ready to pick up where you left off<span class="accent-red">?</span></h2>
+          <p class="text-secondary mb-8">
+            Your {ownedTierLabel} plan is active. Jump back into the modules whenever you're ready.
+          </p>
+          <a
+            href="/masterclass/course"
+            class="inline-flex items-center gap-2 bg-accent-red text-white px-6 py-4 rounded-full font-semibold hover:brightness-110 transition"
+          >
+            Open your dashboard
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>
+          </a>
+        </div>
+      </section>
+    )}
   </main>
 
-  <!-- Sticky mobile buy bar (appears after scrolling past hero) -->
-  <div id="mobile-sticky-cta" class="mobile-sticky-cta md:hidden">
-    <div class="mobile-sticky-inner">
-      <div class="mobile-sticky-price">
-        <span class="mobile-sticky-amount">$27</span>
-        <span class="mobile-sticky-label">one-time</span>
+  {/* Sticky mobile buy bar — only for non-owners. Owners get no sticky CTA
+      (they already own it; clutter-free). */}
+  {!isOwner && (
+    <div id="mobile-sticky-cta" class="mobile-sticky-cta md:hidden">
+      <div class="mobile-sticky-inner">
+        <div class="mobile-sticky-price">
+          <span class="mobile-sticky-amount">$27</span>
+          <span class="mobile-sticky-label">one-time</span>
+        </div>
+        <a href="/checkout/playbook" class="mobile-sticky-btn">
+          Get Masterclass — $27
+          <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+          </svg>
+        </a>
       </div>
-      <a href="/checkout/playbook" class="mobile-sticky-btn">
-        Get Masterclass — $27
-        <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-        </svg>
-      </a>
     </div>
-  </div>
+  )}
 
   <Footer />
   </PasswordGate>

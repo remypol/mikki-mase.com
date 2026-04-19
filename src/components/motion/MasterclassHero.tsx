@@ -9,6 +9,10 @@ import MasterclassBuyButton from '../MasterclassBuyButton';
 interface Props {
   totalLessons: number;
   accessDenied?: boolean;
+  /** True when the viewing user already owns a masterclass-family entitlement.
+   *  Swaps the price anchor + "Get the Masterclass" buy CTA for a welcome-back
+   *  message and a "Continue" link. */
+  isOwner?: boolean;
 }
 
 const container = {
@@ -39,7 +43,7 @@ const headline = {
   },
 };
 
-export default function MasterclassHero({ totalLessons, accessDenied = false }: Props) {
+export default function MasterclassHero({ totalLessons, accessDenied = false, isOwner = false }: Props) {
   return (
     <section
       className="relative flex items-center justify-center overflow-hidden"
@@ -87,64 +91,82 @@ export default function MasterclassHero({ totalLessons, accessDenied = false }: 
           Educational content from Mikki Mase.
         </motion.p>
 
-        {/* Price anchor */}
-        <motion.div
-          variants={item}
-          className="flex items-center justify-center gap-3 mb-3"
-        >
-          <span className="text-3xl md:text-4xl font-black text-white">$27</span>
-          <span className="text-lg line-through" style={{ color: 'var(--color-gray-600)' }}>$97</span>
-          <span
-            className="text-xs font-bold uppercase px-2 py-1 rounded"
-            style={{ background: 'rgba(207, 181, 59, 0.15)', color: 'var(--color-gold)' }}
-          >
-            Launch Price
-          </span>
-        </motion.div>
-        <motion.p
-          variants={item}
-          className="text-xs mb-6"
-          style={{ color: 'var(--color-gray-600)' }}
-        >
-          One-time payment &middot; Lifetime access &middot; 7-day money-back guarantee
-        </motion.p>
+        {/* Price anchor + access-denied banner — non-owners only */}
+        {!isOwner && (
+          <>
+            <motion.div
+              variants={item}
+              className="flex items-center justify-center gap-3 mb-3"
+            >
+              <span className="text-3xl md:text-4xl font-black text-white">$27</span>
+              <span className="text-lg line-through" style={{ color: 'var(--color-gray-600)' }}>$97</span>
+              <span
+                className="text-xs font-bold uppercase px-2 py-1 rounded"
+                style={{ background: 'rgba(207, 181, 59, 0.15)', color: 'var(--color-gold)' }}
+              >
+                Launch Price
+              </span>
+            </motion.div>
+            <motion.p
+              variants={item}
+              className="text-xs mb-6"
+              style={{ color: 'var(--color-gray-600)' }}
+            >
+              One-time payment &middot; Lifetime access &middot; 7-day money-back guarantee
+            </motion.p>
 
-        {/* Access denied banner */}
-        {accessDenied && (
-          <motion.div
-            variants={item}
-            className="mb-6 px-4 py-3 rounded-xl text-sm text-center"
-            style={{
-              background: 'rgba(168, 0, 30, 0.15)',
-              border: '1px solid rgba(168, 0, 30, 0.3)',
-              color: '#ff8a8a',
-            }}
-          >
-            You're signed in but don't have access yet. Purchase below to unlock the
-            masterclass.
-          </motion.div>
+            {accessDenied && (
+              <motion.div
+                variants={item}
+                className="mb-6 px-4 py-3 rounded-xl text-sm text-center"
+                style={{
+                  background: 'rgba(168, 0, 30, 0.15)',
+                  border: '1px solid rgba(168, 0, 30, 0.3)',
+                  color: '#ff8a8a',
+                }}
+              >
+                You're signed in but don't have access yet. Purchase below to unlock the
+                masterclass.
+              </motion.div>
+            )}
+          </>
         )}
 
         <motion.div
           variants={item}
           className="flex flex-col sm:flex-row items-center justify-center gap-3 mb-6"
         >
-          <a
-            href="/checkout/playbook"
-            className="inline-flex items-center justify-center font-bold text-black min-h-[52px] rounded-xl text-lg px-8 py-4 transition-all hover:brightness-110 active:scale-[0.98]"
-            style={{ backgroundColor: '#CFB53B' }}
-          >
-            Get the Masterclass — $27
-            <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-            </svg>
-          </a>
-          <a
-            href="/masterclass/course/mindset-disclaimer/assessment"
-            className="btn btn-tertiary text-lg px-8 py-4"
-          >
-            Try Free Assessment
-          </a>
+          {isOwner ? (
+            <a
+              href="/masterclass/course"
+              className="inline-flex items-center justify-center font-bold text-white min-h-[52px] rounded-xl text-lg px-8 py-4 transition-all hover:brightness-110 active:scale-[0.98]"
+              style={{ backgroundColor: 'rgb(var(--accent-red))' }}
+            >
+              Continue your masterclass
+              <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+              </svg>
+            </a>
+          ) : (
+            <>
+              <a
+                href="/checkout/playbook"
+                className="inline-flex items-center justify-center font-bold text-black min-h-[52px] rounded-xl text-lg px-8 py-4 transition-all hover:brightness-110 active:scale-[0.98]"
+                style={{ backgroundColor: '#CFB53B' }}
+              >
+                Get the Masterclass — $27
+                <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                </svg>
+              </a>
+              <a
+                href="/masterclass/course/mindset-disclaimer/assessment"
+                className="btn btn-tertiary text-lg px-8 py-4"
+              >
+                Try Free Assessment
+              </a>
+            </>
+          )}
         </motion.div>
 
         {/* Mini proof */}
