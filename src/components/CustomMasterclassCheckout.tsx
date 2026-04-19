@@ -329,6 +329,10 @@ export default function CustomMasterclassCheckout({ tier: tierProp, price: price
       options={{
         clientSecret,
         appearance,
+        // Force English strings — our Stripe account is on a Dutch entity (SFM Studios BV)
+        // which caused localized strings like "Deze betaalkaart gebruiken" to leak into
+        // the English checkout for EU visitors. Post-paywall audit fix #7.
+        locale: 'en',
       }}
     >
       <CheckoutForm returnUrl={returnUrl} isGuest={isGuest} price={price} tier={tier} />

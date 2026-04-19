@@ -28,7 +28,7 @@ const toolSchema = {
   <Header />
   <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "Tools", href: "/tools" }, { label: "Blackjack Calculator" }]} />
 
-  <main id="main-content" class="min-h-screen bg-gradient-to-b from-emerald-950 via-emerald-900 to-black">
+  <main id="main-content" class="min-h-screen bg-gradient-to-b from-gray-950 via-gray-900 to-black">
     <div id="tool-container" class="container mx-auto px-4 py-8 md:py-12"
          data-full-access={toolAccess.hasFullAccess ? 'true' : 'false'}
          data-remaining={toolAccess.remainingFree}>
@@ -40,7 +40,7 @@ const toolSchema = {
           <span class="text-gold text-xl font-black">MASE</span>
         </a>
         <h1 class="text-3xl md:text-5xl font-black text-white mb-3">Blackjack Strategy Calculator</h1>
-        <p class="text-emerald-300/80 text-lg">Get optimal play with real-time probability visualization</p>
+        <p class="text-gold/80 text-lg">Get optimal play with real-time probability visualization</p>
       </div>
 
       <div class="max-w-7xl mx-auto grid lg:grid-cols-2 gap-8">
@@ -51,7 +51,7 @@ const toolSchema = {
 
             <!-- Dealer's Card -->
             <div class="mb-8">
-              <label id="dealer-label" class="block text-emerald-400 text-sm font-semibold mb-3 uppercase tracking-wide">
+              <label id="dealer-label" class="block text-gold text-sm font-semibold mb-3 uppercase tracking-wide">
                 Dealer Shows
               </label>
               <div class="grid grid-cols-5 gap-2" id="dealer-cards" role="group" aria-labelledby="dealer-label">
@@ -70,7 +70,7 @@ const toolSchema = {
 
             <!-- Your First Card -->
             <div class="mb-8">
-              <label id="player1-label" class="block text-emerald-400 text-sm font-semibold mb-3 uppercase tracking-wide">
+              <label id="player1-label" class="block text-gold text-sm font-semibold mb-3 uppercase tracking-wide">
                 Your First Card
               </label>
               <div class="grid grid-cols-5 gap-2" id="player1-cards" role="group" aria-labelledby="player1-label">
@@ -89,7 +89,7 @@ const toolSchema = {
 
             <!-- Your Second Card -->
             <div class="mb-8">
-              <label id="player2-label" class="block text-emerald-400 text-sm font-semibold mb-3 uppercase tracking-wide">
+              <label id="player2-label" class="block text-gold text-sm font-semibold mb-3 uppercase tracking-wide">
                 Your Second Card
               </label>
               <div class="grid grid-cols-5 gap-2" id="player2-cards" role="group" aria-labelledby="player2-label">
@@ -107,8 +107,8 @@ const toolSchema = {
             </div>
 
             <!-- Your Hand Summary -->
-            <div id="hand-summary" class="hidden text-center py-4 border-t border-emerald-800/50 mb-6">
-              <span class="text-emerald-400 text-sm">Your hand: </span>
+            <div id="hand-summary" class="hidden text-center py-4 border-t border-gray-800/50 mb-6">
+              <span class="text-gold text-sm">Your hand: </span>
               <span id="hand-total" class="text-white font-bold text-xl"></span>
             </div>
 
@@ -130,13 +130,13 @@ const toolSchema = {
 
               <!-- Expected Value -->
               <div id="ev-display" class="inline-flex items-center gap-2 px-4 py-2 bg-black/30 rounded-lg group relative">
-                <span class="text-emerald-400 text-sm font-semibold">Expected Value:</span>
+                <span class="text-gold text-sm font-semibold">Expected Value:</span>
                 <span id="ev-value" class="text-white text-lg font-bold">-</span>
-                <svg class="w-4 h-4 text-emerald-400/50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg class="w-4 h-4 text-gold/50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                 </svg>
                 <!-- Tooltip -->
-                <div class="hidden group-hover:block absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-64 px-4 py-3 bg-gray-900 border border-emerald-700/30 rounded-lg text-xs text-white z-10">
+                <div class="hidden group-hover:block absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-64 px-4 py-3 bg-gray-900 border border-gold/30 rounded-lg text-xs text-white z-10">
                   <strong>Expected Value (EV)</strong><br/>
                   Average $ returned per $1 bet over infinite plays.<br/>
                   +0.50 = win 50¢ per $1 bet<br/>
@@ -151,20 +151,20 @@ const toolSchema = {
               <div class="relative" style="height: 280px;">
                 <canvas id="probability-chart"></canvas>
               </div>
-              <p class="text-emerald-400/60 text-xs text-center mt-4">
+              <p class="text-gold/60 text-xs text-center mt-4">
                 Based on 10,000 Monte Carlo simulations
               </p>
             </div>
 
             <!-- Strategy Insight -->
-            <div id="strategy-insight" class="bg-gradient-to-br from-emerald-900/30 to-emerald-900/10 backdrop-blur-xl border border-emerald-700/30 rounded-2xl p-6 mb-6">
-              <h3 class="text-emerald-400 text-sm font-bold uppercase tracking-wide mb-3">💡 Strategy Insight</h3>
+            <div id="strategy-insight" class="bg-gradient-to-br from-gray-900/30 to-gray-900/10 backdrop-blur-xl border border-gold/30 rounded-2xl p-6 mb-6">
+              <h3 class="text-gold text-sm font-bold uppercase tracking-wide mb-3">💡 Strategy Insight</h3>
               <p id="insight-text" class="text-white/90 leading-relaxed"></p>
             </div>
 
             <!-- Draw another card (for HIT scenarios) -->
             <div id="draw-section" class="hidden bg-gradient-to-br from-white/5 to-white/[0.02] backdrop-blur-xl border border-white/10 rounded-2xl p-6 mb-6">
-              <label class="block text-emerald-400 text-sm font-semibold mb-3 uppercase tracking-wide">
+              <label class="block text-gold text-sm font-semibold mb-3 uppercase tracking-wide">
                 You drew...
               </label>
               <div class="grid grid-cols-5 gap-2" id="draw-cards">
@@ -183,8 +183,8 @@ const toolSchema = {
 
             <!-- Outcome tracking -->
             <div id="outcome-section" class="hidden bg-gradient-to-br from-white/5 to-white/[0.02] backdrop-blur-xl border border-white/10 rounded-2xl p-6">
-              <p class="text-emerald-300 text-sm font-semibold mb-2 text-center">Did you win the hand?</p>
-              <p class="text-emerald-300/60 text-xs text-center mb-4">Help us track which plays work best</p>
+              <p class="text-gold text-sm font-semibold mb-2 text-center">Did you win the hand?</p>
+              <p class="text-gold/60 text-xs text-center mb-4">Help us track which plays work best</p>
               <div class="grid grid-cols-3 gap-3">
                 <button id="outcome-win" class="py-3 bg-green-600/30 hover:bg-green-600/50 border border-green-500/50 text-green-400 font-bold rounded-xl transition-all hover:scale-105">
                   Won
@@ -198,8 +198,8 @@ const toolSchema = {
               </div>
 
               <!-- Community stats display -->
-              <div id="community-stats" class="hidden mt-4 pt-4 border-t border-emerald-700/30">
-                <p class="text-emerald-400/70 text-xs uppercase tracking-wide mb-3 text-center">Community Results</p>
+              <div id="community-stats" class="hidden mt-4 pt-4 border-t border-gold/30">
+                <p class="text-gold/70 text-xs uppercase tracking-wide mb-3 text-center">Community Results</p>
                 <div class="flex items-center justify-center gap-6">
                   <div class="text-center">
                     <span id="stat-win-pct" class="block text-green-400 text-2xl font-bold">-</span>
@@ -217,11 +217,11 @@ const toolSchema = {
 
           <!-- Initial state placeholder -->
           <div id="initial-placeholder" class="bg-gradient-to-br from-white/5 to-white/[0.02] backdrop-blur-xl border border-white/10 rounded-2xl p-12 text-center">
-            <svg class="w-20 h-20 mx-auto mb-6 text-emerald-400/30" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg class="w-20 h-20 mx-auto mb-6 text-gold/30" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
             </svg>
             <h3 class="text-white text-xl font-bold mb-3">Real-Time Strategy Analysis</h3>
-            <p class="text-emerald-400/60 leading-relaxed">
+            <p class="text-gold/60 leading-relaxed">
               Select your cards and the dealer's upcard to see optimal strategy with probability visualization
             </p>
           </div>
@@ -248,21 +248,21 @@ const toolSchema = {
               <span class="text-green-400 text-2xl font-bold">H</span>
             </div>
             <h3 class="text-white font-bold mb-2">HIT</h3>
-            <p class="text-emerald-400/60 text-sm">Take another card to improve your hand</p>
+            <p class="text-gold/60 text-sm">Take another card to improve your hand</p>
           </div>
           <div class="text-center">
             <div class="w-12 h-12 rounded-xl bg-gold/20 border-2 border-gold flex items-center justify-center mx-auto mb-4">
               <span class="text-gold text-2xl font-bold">S</span>
             </div>
             <h3 class="text-white font-bold mb-2">STAND</h3>
-            <p class="text-emerald-400/60 text-sm">Keep your hand and end your turn</p>
+            <p class="text-gold/60 text-sm">Keep your hand and end your turn</p>
           </div>
           <div class="text-center">
             <div class="w-12 h-12 rounded-xl bg-purple-500/20 border-2 border-purple-500 flex items-center justify-center mx-auto mb-4">
               <span class="text-purple-400 text-2xl font-bold">D</span>
             </div>
             <h3 class="text-white font-bold mb-2">DOUBLE</h3>
-            <p class="text-emerald-400/60 text-sm">Double bet, take one card, then stand</p>
+            <p class="text-gold/60 text-sm">Double bet, take one card, then stand</p>
           </div>
         </div>
       </div>

@@ -14,7 +14,8 @@ import Header from '../../components/Header.astro';
 import Footer from '../../components/Footer.astro';
 import CustomMasterclassCheckout from '../../components/CustomMasterclassCheckout';
 import UrgencyTimer from '../../components/UrgencyTimer';
-import { getServerClient, getServiceClient } from '../../lib/supabase';
+import { getServerClient } from '../../lib/supabase';
+import { ALL_ENTITLEMENT_KEYS, getHighestTier } from '../../lib/tiers';
 
 // Auth is OPTIONAL — supports both logged-in and guest checkout
 const supabase = getServerClient(Astro.cookies, Astro.request);
@@ -71,25 +72,64 @@ const TIER_INFO: Record<string, { price: number; compareAt: number; label: strin
 const tierInfo = TIER_INFO[tier] || TIER_INFO.masterclass;
 const displayPrice = tierInfo.price;
 
-// If logged in, check if already purchased → redirect to course
+// Entitlement guard — tier-weight logic (v2 after Gemini + GPT review).
+//
+// Two competing risks this guard balances:
+//   1. Accidental re-charge: the saved-card one-click "Pay" button must not
+//      re-charge a user who already owns the same or a lower tier.
+//   2. Upgrade path MUST stay open: a Masterclass owner buying Inner Circle,
+//      or an Inner Circle owner buying Lifetime VIP, is legitimate.
+//
+// Rule: redirect iff (target tier rank) <= (owned tier rank).
+// Allow if target rank is strictly higher (real upgrade).
+//
+// We use the RLS-aware server client (not the service client) per GPT 5.4
+// HIGH: "my own purchases" should run through normal RLS like other
+// authenticated queries.
+//
+// KNOWN GAP (tracked, not fixed here): a paid user who is NOT logged in
+// could still reach this page. Stripe-side duplicate prevention (same-email
+// detection, customer_update) is the next iteration — Gemini CRITICAL #3.
+const TIER_RANK: Record<string, number> = {
+  masterclass: 1,
+  'inner-circle': 2,
+  'lifetime-vip': 3,
+};
+function tierRank(t: string | null | undefined): number {
+  if (!t) return 0;
+  return TIER_RANK[t] ?? 0;
+}
+
 if (user) {
-  const serviceClient = getServiceClient();
-  const { data: existingPurchase, error: purchaseError } = await serviceClient
+  const { data: existingPurchase, error: purchaseError } = await supabase
     .from('purchases')
-    .select('id')
+    .select('id, product_key')
     .eq('user_id', user.id)
-    .in('product_key', ['masterclass', 'inner-circle-yearly', 'lifetime-vip'])
+    .in('product_key', ALL_ENTITLEMENT_KEYS as any)
     .eq('status', 'completed');
 
   if (purchaseError) {
     console.error('Purchase check error:', purchaseError);
   }
 
-  // If they have lifetime VIP, always redirect
-  const hasLifetime = existingPurchase?.some((p: any) => p.product_key === 'lifetime-vip');
-  const hasSameTier = existingPurchase?.some((p: any) => p.product_key === tier);
-  if (hasLifetime || hasSameTier) {
+  const ownedKeys = existingPurchase?.map((p: any) => p.product_key as string) ?? [];
+  const ownedTier = getHighestTier(ownedKeys);
+
+  // Normalise both the yearly + monthly inner-circle skus back to 'inner-circle'
+  const targetTier =
+    tier === 'inner-circle-yearly' || tier === 'inner-circle-monthly'
+      ? 'inner-circle'
+      : tier;
+
+  // Lifetime owners already own everything — never a reason to reach checkout.
+  if (ownedTier === 'lifetime-vip') {
     return Astro.redirect('/masterclass/course');
+  }
+
+  // Redirect only if target tier is equal-or-lower than what they own.
+  // Strictly higher tier passes through (legit upgrade).
+  if (ownedTier && tierRank(targetTier) <= tierRank(ownedTier)) {
+    return Astro.redirect('/masterclass/course?returning=1');
   }
 }
 ---

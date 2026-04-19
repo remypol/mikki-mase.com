@@ -126,7 +126,9 @@ export default function LessonPage({
 
   if (lessonContent) {
     return (
-      <div>
+      // pb-28 reserves room for the sticky LessonControls bar on mobile so the last
+      // paragraph isn't overlapped (~40px clip was flagged by the post-paywall audit).
+      <div className="pb-28 md:pb-24">
         <LessonContent
           lesson={lessonContent}
           moduleTitle={moduleTitle}

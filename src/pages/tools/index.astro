@@ -1,9 +1,22 @@
 ---
+export const prerender = false;
+
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Header from '../../components/Header.astro';
 import Footer from '../../components/Footer.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import EmailCapture from '../../components/EmailCapture.tsx';
+import { getToolAccess } from '../../lib/tool-access';
+
+// Determine tier — lets us hide "3 free/day" scarcity from paid users
+// (post-paywall audit fix #9: tools were showing free-tier scarcity to masterclass buyers).
+const access = await getToolAccess(Astro.cookies, Astro.request);
+const paidTier = access.hasFullAccess ? 'inner-circle' : (access.tier === 'masterclass' ? 'masterclass' : null);
+const scarcityCopy = paidTier === 'inner-circle'
+  ? 'Unlimited access — included with Inner Circle.'
+  : paidTier === 'masterclass'
+    ? '25 calculations per day — included with your Masterclass.'
+    : '3 free calculations daily. No signup. No bullshit.';
 
 const toolsSchema = {
   "@type": "CollectionPage",
@@ -108,7 +121,7 @@ const tools = [
 
           <p class="text-gray-300 text-xl md:text-2xl mb-8 fade-in-up leading-relaxed" style="animation-delay: 0.2s;">
             Professional-grade tools used by serious players.<br class="hidden md:block"/>
-            <span class="text-gold">3 free calculations daily. No bullshit.</span>
+            <span class="text-gold">{scarcityCopy}</span>
           </p>
 
           <!-- Stats Row -->
@@ -118,8 +131,12 @@ const tools = [
               <p class="text-gray-400 text-xs md:text-sm uppercase tracking-wide">Free Tools</p>
             </div>
             <div class="bg-gradient-to-br from-white/5 to-white/[0.02] backdrop-blur-xl border border-white/10 rounded-xl p-4 md:p-6">
-              <p class="text-gold text-2xl md:text-4xl font-black mb-1">3/day</p>
-              <p class="text-gray-400 text-xs md:text-sm uppercase tracking-wide">Free Preview</p>
+              <p class="text-gold text-2xl md:text-4xl font-black mb-1">
+                {paidTier === 'inner-circle' ? '∞' : paidTier === 'masterclass' ? '25/day' : '3/day'}
+              </p>
+              <p class="text-gray-400 text-xs md:text-sm uppercase tracking-wide">
+                {paidTier === 'inner-circle' ? 'Unlimited' : paidTier === 'masterclass' ? 'Included' : 'Free Preview'}
+              </p>
             </div>
             <div class="bg-gradient-to-br from-white/5 to-white/[0.02] backdrop-blur-xl border border-white/10 rounded-xl p-4 md:p-6">
               <p class="text-gold text-2xl md:text-4xl font-black mb-1">0</p>
@@ -211,12 +228,18 @@ const tools = [
                 {tool.status === 'live' && (
                   <div class="flex items-center justify-between">
                     <div class="flex items-center gap-2 text-gold font-bold group-hover:gap-3 transition-all">
-                      <span>Try it free</span>
+                      <span>{paidTier ? 'Open' : 'Try it free'}</span>
                       <svg class="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
                       </svg>
                     </div>
-                    <span class="text-xs text-gray-500 bg-white/5 border border-white/10 rounded-full px-3 py-1">3 free/day &middot; Unlimited with Inner Circle</span>
+                    <span class="text-xs text-gray-500 bg-white/5 border border-white/10 rounded-full px-3 py-1">
+                      {paidTier === 'inner-circle'
+                        ? 'Unlimited — included'
+                        : paidTier === 'masterclass'
+                          ? '25/day — included with Masterclass'
+                          : '3 free/day · Unlimited with Inner Circle'}
+                    </span>
                   </div>
                 )}
               </a>

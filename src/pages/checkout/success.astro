@@ -177,8 +177,8 @@ if (sessionId) {
 ---
 
 <BaseLayout
-  title="Purchase Complete | Mikki Mase"
-  description="Your purchase was successful. Access your download link below. Thank you for your order from Mikki Mase."
+  title={error ? 'Confirming your order… | Mikki Mase' : 'Purchase Complete | Mikki Mase'}
+  description={error ? 'We are confirming your purchase.' : 'Your purchase was successful. Access your download link below. Thank you for your order from Mikki Mase.'}
   noIndex={true}
 >
   <Header />
@@ -187,21 +187,40 @@ if (sessionId) {
     <div class="max-w-md w-full">
 
       {error ? (
-        <!-- Error State -->
+        <!--
+          "Error" here doesn't necessarily mean the payment failed — most often it
+          means the user landed without a session_id (e.g. refresh, back button,
+          opened an old email link). Show a reassuring state with a recovery path,
+          not "Something went wrong".
+        -->
         <div class="text-center">
-          <div class="w-16 h-16 mx-auto mb-6 bg-red-500/20 rounded-full flex items-center justify-center">
-            <svg class="w-8 h-8 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          <div class="w-16 h-16 mx-auto mb-6 rounded-full flex items-center justify-center" style="background: rgba(207, 181, 59, 0.12);">
+            <svg class="w-8 h-8" style="color: #CFB53B;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
             </svg>
           </div>
-          <h1 class="text-2xl font-bold text-white mb-4">Something went wrong</h1>
-          <p class="text-gray-400 mb-8">{error}</p>
-          <a
-            href="/"
-            class="inline-block bg-mikki-red text-white font-semibold px-6 py-3 rounded-lg hover:bg-red-700 transition-colors"
-          >
-            Return to Home
-          </a>
+          <h1 class="text-2xl font-bold text-white mb-3">We're still confirming your order</h1>
+          <p class="text-gray-400 mb-2">
+            If you just paid, your receipt and access link are on their way to your inbox — this usually takes under a minute.
+          </p>
+          <p class="text-gray-500 text-sm mb-8">
+            No charge will appear if the payment didn't complete. Details: {error}.
+          </p>
+          <div class="flex flex-col sm:flex-row items-stretch justify-center gap-3">
+            <a
+              href="/masterclass/course"
+              class="inline-flex items-center justify-center gap-2 font-bold text-black min-h-[48px] rounded-lg px-6 transition-all hover:brightness-110"
+              style="background-color: #CFB53B;"
+            >
+              Go to your dashboard
+            </a>
+            <a
+              href="mailto:support@mikki-mase.com?subject=Order%20confirmation"
+              class="inline-flex items-center justify-center gap-2 font-medium text-white border border-gray-700 min-h-[48px] rounded-lg px-6 transition-colors hover:bg-white/5"
+            >
+              Email support
+            </a>
+          </div>
         </div>
 
       ) : isMasterclass ? (
