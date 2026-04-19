@@ -49,8 +49,13 @@ export interface Lesson {
   promise?: string[];
 
   /** Optional interactive drill id — references a widget mapped in
-   *  `src/components/course/drills/index.ts`. Example: `'basic-strategy'`. */
+   *  `src/components/course/LessonDrill.tsx`. Example: `'basic-strategy'`. */
   drillId?: string;
+
+  /** Optional visual slot id — references a static visual (chart/table/diagram)
+   *  rendered via `LessonVisual.tsx`. Example: `'basic-strategy-chart'`.
+   *  Rendered ABOVE the lesson body so the visual precedes the prose. */
+  visualSlotId?: string;
 
   /** "This week, try this at a table" — one-sentence prompt rendered at
    *  lesson end, feeds into the user's field-note journal. */

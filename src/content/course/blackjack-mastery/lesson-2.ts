@@ -16,6 +16,7 @@ export const lesson2: Lesson = {
     'Drill enough hands that the right play fires before you hesitate',
   ],
   drillId: 'basic-strategy',
+  visualSlotId: 'basic-strategy-chart',
   fieldNote:
     'At your next session, pick one hand that would have been a gut call and play basic strategy instead. Note the outcome — your gut will lose more often than the chart.',
   estimatedMinutes: 15,

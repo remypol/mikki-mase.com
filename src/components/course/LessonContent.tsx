@@ -1,6 +1,7 @@
 import type { Lesson } from '../../config/course/types';
 import ModuleIcon from './ModuleIcon';
 import LessonDrill from './LessonDrill';
+import LessonVisual from './LessonVisual';
 
 interface Props {
   lesson: Lesson;
@@ -97,6 +98,15 @@ export default function LessonContent({ lesson, moduleTitle, moduleIcon, moduleS
               </li>
             ))}
           </ul>
+        </div>
+      )}
+
+      {/* Visual slot — chart / diagram / table rendered above the body.
+          Single biggest v2 upgrade: the audit found ZERO tables/diagrams across
+          30 lessons. This slot is how we fix that per lesson. */}
+      {lesson.visualSlotId && (
+        <div className="mb-10">
+          <LessonVisual visualSlotId={lesson.visualSlotId} />
         </div>
       )}
 

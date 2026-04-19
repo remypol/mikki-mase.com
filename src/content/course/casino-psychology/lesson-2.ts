@@ -8,6 +8,10 @@ export const lesson2: Lesson = {
   id: 'mod2-lesson2-the-rewards-trap',
   slug: 'the-rewards-trap',
   title: 'The Rewards Trap',
+  subtitle: 'Every comp you\'ve ever been given was calculated. Learn the formula and you know what the casino thinks you\'re worth.',
+  visualSlotId: 'theoretical-loss-formula',
+  fieldNote:
+    'Next session, calculate your own theoretical loss before you sit down. Bet × hands/hour × house edge × hours. Compare it to whatever the host offers you.',
   estimatedMinutes: 8,
   keyTakeaways: [
     'Casino loyalty programs return only 10-30% of your losses as comps -- they are mathematically designed to keep you losing.',

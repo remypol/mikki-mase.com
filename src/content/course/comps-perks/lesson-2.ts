@@ -8,6 +8,10 @@ export const lesson2: Lesson = {
   id: 'mod9-lesson2-front-money-vs-credit-lines',
   slug: 'front-money-vs-credit-lines',
   title: 'Front Money vs Credit Lines',
+  subtitle: 'Two different instruments. Different comps. Different risks. Pick the one that matches how often you play the property.',
+  visualSlotId: 'front-vs-credit-table',
+  fieldNote:
+    'Before your next trip, call the cage at your home property and ask what a $10K front-money deposit versus a $10K credit line unlocks in comps. Write both numbers down — the gap is usually bigger than you expect.',
   estimatedMinutes: 8,
   keyTakeaways: [
     'Front money is cash you deposit with the casino cage -- it\'s YOUR money, held for your convenience.',

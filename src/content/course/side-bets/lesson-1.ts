@@ -8,6 +8,10 @@ export const lesson1: Lesson = {
   id: 'mod4-lesson1-the-21-plus-3-side-bet',
   slug: 'the-21-plus-3-side-bet',
   title: 'The 21+3 Side Bet',
+  subtitle: 'The only side bet Mikki actually plays — and only under specific conditions.',
+  visualSlotId: 'side-bet-payout-table',
+  fieldNote:
+    'Before you touch 21+3 again, watch three full shoes at a live table. Count the suited face cards. If you see fewer than four suited face cards in a shoe, skip the side bet entirely next hand.',
   estimatedMinutes: 10,
   keyTakeaways: [
     'The 21+3 side bet combines your two cards plus the dealer upcard to form a three-card poker hand -- paying 9:1 on any qualifying combination.',
