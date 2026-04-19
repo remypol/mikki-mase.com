@@ -8,6 +8,15 @@ export const lesson1: Lesson = {
   id: 'mod9-lesson1-comp-slips-vs-room-charges',
   slug: 'comp-slips-vs-room-charges',
   title: 'Comp Slips vs Room Charges',
+  subtitle: 'Paper beats promises. Walk in with the slip in your pocket or walk out with the bill.',
+  fieldNote:
+    'Before your next trip, text your host a list of every meal and every guest count — Friday dinner 4 at SW Steakhouse, Saturday breakfast 2 at the lounge, and so on. Ask for the slips waiting at the VIP desk on arrival. Photograph each one before you hand it over.',
+  difficulty: 'foundation',
+  promise: [
+    'Know why a comp slip and a room charge are not the same promise',
+    'Have a repeatable pre-trip script for requesting slips in advance',
+    'Stop relying on a host returning a voicemail at checkout',
+  ],
   estimatedMinutes: 10,
   keyTakeaways: [
     'Comp slips are truly free -- the host writes a slip and your meal is completely covered with no strings attached.',
@@ -72,9 +81,13 @@ export const lesson1: Lesson = {
 
     <h3>What Happens When Room Charges Don't Get Comped</h3>
 
-    <p>Let me tell you what happens to people who rely on room charges instead of comp slips:</p>
+    <p>Let me tell you what happens to people who rely on room charges instead of comp slips. I watched this play out in real time at the Bellagio one Sunday morning. Guy at the desk next to me, cashing out, $2,400 on his folio from SW Steakhouse and two days at the sportsbook bar. He assumed his host would wave it all off.</p>
 
-    <p>You check out on Sunday morning. You look at your bill. There's $1,800 in restaurant charges. You call your host. Voicemail. You text them. No response. You're standing at the front desk with a line behind you and a bill in your face.</p>
+    <p>His host? On PTO. Backup host? Didn't know him. Front desk manager? Polite, but not authorised to comp $2,400 on a walk-up. He ended up paying the bill in full and chasing reimbursement over email for two weeks. He got about half of it back.</p>
+
+    <p>That's what happens when you assume. Now play the same trip with comp slips in hand — slips pre-approved Friday morning before he ever sat down. Same meals. Same total dollars. Zero on the folio at checkout. Same level of play.</p>
+
+    <p>Now imagine YOU standing at that desk: you check out on Sunday morning. You look at your bill. There's $1,800 in restaurant charges. You call your host. Voicemail. You text them. No response. You're standing at the front desk with a line behind you and a bill in your face.</p>
 
     <p>Now you have two options:</p>
 

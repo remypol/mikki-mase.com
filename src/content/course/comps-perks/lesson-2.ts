@@ -77,6 +77,8 @@ export const lesson2: Lesson = {
 
     <h3>How to Set Up Front Money</h3>
 
+    <p>First time I wired front money it was $50K to the Cosmopolitan cage on a Tuesday, a full three days before I landed. When I walked up on Friday, they already had my account flagged, the pit boss knew my name, and my host had a table held. That's the difference between showing up with a roll of cash and showing up as a deposited player.</p>
+
     <p>Here's the process:</p>
 
     <ul>
