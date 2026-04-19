@@ -82,6 +82,12 @@ export interface QuizQuestion {
   options: string[];
   correctIndex: number;
   explanation: string;
+
+  /** Optional back-reference to the lesson section that teaches the answer.
+   *  Populated on-demand so existing questions remain valid — when set, the
+   *  QuizResult "review these" list surfaces a deep-link. Format: lesson slug
+   *  inside the same module (e.g. `'basic-strategy-decoded'`). */
+  sourceLessonSlug?: string;
 }
 
 // ============================================

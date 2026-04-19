@@ -1,3 +1,8 @@
+interface ReviewLink {
+  slug: string;
+  question: string;
+}
+
 interface Props {
   score: number;
   totalQuestions: number;
@@ -5,11 +10,25 @@ interface Props {
   passingScore: number;
   bestScore: number | null;
   onRetry: () => void;
+  /** Module slug for building lesson review deep-links, e.g. `'blackjack-mastery'`. */
+  moduleSlug?: string;
+  /** Missed questions with their source lesson slugs (de-duped). */
+  missedReview?: ReviewLink[];
 }
 
-export default function QuizResult({ score, totalQuestions, correctCount, passingScore, bestScore, onRetry }: Props) {
+export default function QuizResult({
+  score,
+  totalQuestions,
+  correctCount,
+  passingScore,
+  bestScore,
+  onRetry,
+  moduleSlug,
+  missedReview = [],
+}: Props) {
   const passed = score >= passingScore;
   const isPerfect = score === 100;
+  const hasReview = Boolean(moduleSlug) && missedReview.length > 0;
 
   return (
     <div className="max-w-lg mx-auto text-center py-8">
@@ -33,14 +52,11 @@ export default function QuizResult({ score, totalQuestions, correctCount, passin
           ? 'Perfect Score!'
           : passed
             ? 'Quiz Passed!'
-            : 'Not Quite — Try Again'}
+            : 'Not Quite — Review and Retake'}
       </h3>
 
       <p className="mb-6" style={{ color: '#BEBEBE' }}>
-        {correctCount} of {totalQuestions} questions correct
-        {passed
-          ? '. Complete all lessons and the quiz to earn the module badge!'
-          : `. You need ${passingScore}% to pass.`}
+        {correctCount} of {totalQuestions} correct · Pass threshold: {passingScore}%
       </p>
 
       {/* Points earned */}
@@ -65,28 +81,65 @@ export default function QuizResult({ score, totalQuestions, correctCount, passin
         </p>
       )}
 
-      {/* Actions */}
-      <div className="flex flex-col gap-3">
-        {!passed && (
-          <button
-            onClick={onRetry}
-            className="w-full py-4 rounded-xl font-bold text-lg transition-all duration-200 min-h-[44px]"
-            style={{ backgroundColor: '#A8001E', color: '#FFFFFF' }}
-          >
-            Try Again
-          </button>
-        )}
-        <button
-          onClick={onRetry}
-          className="w-full py-4 rounded-xl font-bold text-lg transition-all duration-200 border-2 min-h-[44px]"
+      {/* Review these lessons before retaking */}
+      {hasReview && (
+        <div
+          className="text-left mb-6 rounded-xl p-4"
           style={{
-            borderColor: passed ? '#CFB53B' : '#3A3A3A',
-            color: passed ? '#CFB53B' : '#BEBEBE',
-            backgroundColor: 'transparent',
+            border: '1px solid rgba(207, 181, 59, 0.25)',
+            backgroundColor: 'rgba(207, 181, 59, 0.04)',
           }}
         >
-          {passed ? 'Retake for a Better Score' : 'Review & Try Again'}
+          <p
+            className="text-[10px] font-semibold uppercase tracking-widest mb-3"
+            style={{ color: '#CFB53B' }}
+          >
+            Review these lessons before retaking
+          </p>
+          <ul className="space-y-2">
+            {missedReview.map((r) => (
+              <li key={r.slug}>
+                <a
+                  href={`/masterclass/${moduleSlug}/${r.slug}`}
+                  className="text-sm underline decoration-dotted underline-offset-4 hover:decoration-solid transition-all capitalize"
+                  style={{ color: '#E8E8E8' }}
+                >
+                  {r.slug.replace(/-/g, ' ')}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+
+      {/* Actions — retake always available */}
+      <div className="flex flex-col gap-3">
+        <button
+          onClick={onRetry}
+          className="w-full py-4 rounded-xl font-bold text-lg transition-all duration-200 min-h-[44px]"
+          style={{
+            backgroundColor: passed ? 'transparent' : '#A8001E',
+            borderWidth: passed ? 2 : 0,
+            borderStyle: 'solid',
+            borderColor: passed ? '#CFB53B' : 'transparent',
+            color: passed ? '#CFB53B' : '#FFFFFF',
+          }}
+        >
+          {passed ? 'Retake for a Better Score' : 'Try Again'}
         </button>
+        {!passed && hasReview && (
+          <a
+            href={`/masterclass/${moduleSlug}/${missedReview[0].slug}`}
+            className="w-full py-4 rounded-xl font-bold text-lg transition-all duration-200 border-2 min-h-[44px] flex items-center justify-center"
+            style={{
+              borderColor: '#3A3A3A',
+              color: '#BEBEBE',
+              backgroundColor: 'transparent',
+            }}
+          >
+            Review First Missed Lesson
+          </a>
+        )}
       </div>
     </div>
   );

@@ -115,6 +115,7 @@ export default function LessonPage({
           <Quiz
             quiz={quizContent}
             moduleTitle={moduleTitle}
+            moduleSlug={moduleSlug}
             onComplete={handleQuizComplete}
             bestScore={getQuizScore(moduleSlug)}
           />

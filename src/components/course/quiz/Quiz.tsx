@@ -6,6 +6,7 @@ import QuizResult from './QuizResult';
 interface Props {
   quiz: QuizType;
   moduleTitle: string;
+  moduleSlug?: string;
   onComplete: (score: number) => void;
   bestScore: number | null;
 }
@@ -26,7 +27,7 @@ function ArrowLeftIcon() {
   );
 }
 
-export default function Quiz({ quiz, moduleTitle, onComplete, bestScore }: Props) {
+export default function Quiz({ quiz, moduleTitle, moduleSlug, onComplete, bestScore }: Props) {
   if (quiz.questions.length === 0) {
     return (
       <div className="text-center py-10">
@@ -80,6 +81,18 @@ export default function Quiz({ quiz, moduleTitle, onComplete, bestScore }: Props
 
   if (isFinished) {
     const score = Math.round((correctCount / quiz.questions.length) * 100);
+    // Collect source-lesson review links for questions the user got wrong.
+    const missedReview: Array<{ slug: string; question: string }> = [];
+    answers.forEach((correct, idx) => {
+      if (correct) return;
+      const q = quiz.questions[idx];
+      if (q?.sourceLessonSlug) {
+        // De-dupe so we don't link the same lesson five times.
+        if (!missedReview.some((r) => r.slug === q.sourceLessonSlug)) {
+          missedReview.push({ slug: q.sourceLessonSlug, question: q.question });
+        }
+      }
+    });
     return (
       <QuizResult
         score={score}
@@ -88,6 +101,8 @@ export default function Quiz({ quiz, moduleTitle, onComplete, bestScore }: Props
         passingScore={quiz.passingScore}
         bestScore={bestScore}
         onRetry={handleRetry}
+        moduleSlug={moduleSlug}
+        missedReview={missedReview}
       />
     );
   }
@@ -98,9 +113,22 @@ export default function Quiz({ quiz, moduleTitle, onComplete, bestScore }: Props
     <div className="max-w-2xl mx-auto">
       {/* Quiz header */}
       <div className="mb-8">
-        <span className="text-xs font-semibold uppercase tracking-widest" style={{ color: '#CFB53B' }}>
-          {moduleTitle}
-        </span>
+        <div className="flex items-center justify-between gap-3 flex-wrap">
+          <span className="text-xs font-semibold uppercase tracking-widest" style={{ color: '#CFB53B' }}>
+            {moduleTitle}
+          </span>
+          <span
+            className="text-[10px] font-semibold uppercase tracking-widest rounded-full px-2.5 py-1"
+            style={{
+              color: '#CFB53B',
+              backgroundColor: 'rgba(207, 181, 59, 0.12)',
+              border: '1px solid rgba(207, 181, 59, 0.3)',
+            }}
+            title="Minimum score required to pass. You can retake as many times as you want."
+          >
+            Pass: {quiz.passingScore}% · Unlimited retakes
+          </span>
+        </div>
         <h2 className="text-2xl font-black text-white mt-2">Knowledge Check</h2>
 
         {/* Progress dots */}
