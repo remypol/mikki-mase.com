@@ -160,7 +160,7 @@ export default function AICasinoAdvisor({ isVip }: Props) {
               {error}
               {limitReached && !isVip && (
                 <a href="/join" className="block mt-2 text-xs font-bold" style={{ color: '#CFB53B' }}>
-                  Join the free community
+                  Join the Mikki Mase Fan Community
                 </a>
               )}
             </div>

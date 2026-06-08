@@ -523,11 +523,11 @@ function ResultsScreen({
       {/* CTA */}
       <div className="text-center space-y-3">
         <a
-          href="/masterclass"
+          href="/join"
           className="block w-full py-4 rounded-xl font-bold text-lg text-white text-center transition-all duration-200 hover:brightness-110 active:scale-[0.98]"
           style={{ backgroundColor: '#A8001E' }}
         >
-          Fix These Leaks — Get the Masterclass
+          Join the Mikki Mase Fan Community
         </a>
         <button
           onClick={onRetake}

@@ -17,7 +17,7 @@ export default function SupportChat() {
   const [messages, setMessages] = useState<Message[]>([
     {
       role: 'assistant',
-      content: "Hey! This is an unofficial Mikki Mase fan page. I can answer questions about the page or Mikki's free community. Note: Mikki does not sell any courses or masterclasses.",
+      content: "Hey! This is an unofficial Mikki Mase fan page. I can answer questions about the page or the Mikki Mase Fan Community (a free community for fans). Note: Mikki does not sell any courses or masterclasses.",
     },
   ]);
   const [input, setInput] = useState('');
@@ -221,7 +221,7 @@ export default function SupportChat() {
               {[
                 'Is this Mikki\'s official site?',
                 'Does Mikki sell a course?',
-                'How do I join the free community?',
+                'How do I join the Mikki Mase Fan Community?',
                 'Where can I watch Mikki?',
               ].map((q) => (
                 <button
