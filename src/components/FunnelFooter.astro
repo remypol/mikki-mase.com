@@ -1,0 +1,30 @@
+---
+/**
+ * Minimal funnel footer: compliance + legal/trust links only, no site nav.
+ * Drops the 5-column mega-footer so /funnel/* pages keep no escape routes.
+ * Legal links open in a new tab so the funnel is never lost on a click.
+ */
+const year = new Date().getFullYear();
+---
+
+<footer class="bg-page text-primary py-10 border-t border-subtle" role="contentinfo">
+  <div class="container">
+    <div class="flex flex-col items-center gap-4 text-center">
+      <p class="text-tertiary text-xs max-w-xl leading-relaxed">
+        For educational purposes only. No guarantee of winnings. 18+ (21+ in some jurisdictions). Gambling problem? Call 1-800-522-4700.
+      </p>
+      <div class="flex items-center gap-4 text-sm flex-wrap justify-center">
+        <a href="/privacy-policy" target="_blank" rel="noopener" class="text-tertiary hover:text-primary transition-colors">Privacy</a>
+        <span class="text-tertiary/50">·</span>
+        <a href="/terms" target="_blank" rel="noopener" class="text-tertiary hover:text-primary transition-colors">Terms</a>
+        <span class="text-tertiary/50">·</span>
+        <a href="/responsible-gambling" target="_blank" rel="noopener" class="text-tertiary hover:text-primary transition-colors">Responsible gambling</a>
+        <span class="text-tertiary/50">·</span>
+        <a href="mailto:support@mikki-mase.com" class="text-tertiary hover:text-primary transition-colors">Support</a>
+      </div>
+      <p class="text-tertiary text-sm">
+        &copy; {year} Mikki Mase. All rights reserved.
+      </p>
+    </div>
+  </div>
+</footer>

@@ -15,7 +15,7 @@ import Footer from '../../components/Footer.astro';
 ---
 
 <BaseLayout
-  title="Email Verified | Mikki Mase Masterclass"
+  title="Email Verified | Mikki Mase"
   description="Your email has been verified."
   noIndex={true}
 >
@@ -34,7 +34,7 @@ import Footer from '../../components/Footer.astro';
 
       <h1 class="text-3xl font-bold text-white mb-3" id="status-title">Verifying your email...</h1>
       <p class="text-[#BEBEBE] mb-6" id="status-message">
-        One moment — we're logging you in automatically.
+        One moment, we're logging you in automatically.
       </p>
 
       <div id="spinner" class="flex justify-center mb-6">
@@ -70,9 +70,9 @@ import Footer from '../../components/Footer.astro';
 
       if (data.session) {
         title.textContent = 'Email verified!';
-        message.textContent = 'Redirecting you to the masterclass...';
+        message.textContent = 'Redirecting you...';
         setTimeout(() => {
-          window.location.href = '/masterclass';
+          window.location.href = '/';
         }, 1000);
         return;
       }
@@ -82,9 +82,9 @@ import Footer from '../../components/Footer.astro';
         if (event === 'SIGNED_IN' && session) {
           subscription.unsubscribe();
           title.textContent = 'Email verified!';
-          message.textContent = 'Redirecting you to the masterclass...';
+          message.textContent = 'Redirecting you...';
           setTimeout(() => {
-            window.location.href = '/masterclass';
+            window.location.href = '/';
           }, 1000);
         }
       });

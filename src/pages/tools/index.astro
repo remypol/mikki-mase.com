@@ -15,7 +15,7 @@ const paidTier = access.hasFullAccess ? 'inner-circle' : (access.tier === 'maste
 const scarcityCopy = paidTier === 'inner-circle'
   ? 'Unlimited access — included with Inner Circle.'
   : paidTier === 'masterclass'
-    ? '25 calculations per day — included with your Masterclass.'
+    ? '25 calculations per day with your account.'
     : '3 free calculations daily. No signup. No bullshit.';
 
 const toolsSchema = {
@@ -237,7 +237,7 @@ const tools = [
                       {paidTier === 'inner-circle'
                         ? 'Unlimited — included'
                         : paidTier === 'masterclass'
-                          ? '25/day — included with Masterclass'
+                          ? '25/day — included with your account'
                           : '3 free/day · Unlimited with Inner Circle'}
                     </span>
                   </div>
@@ -246,14 +246,14 @@ const tools = [
             ))}
           </div>
 
-          <!-- Unlock Section -->
+          <!-- Free Community Section -->
           <section style="margin-top: 3rem; padding: 2rem; background: #111; border: 1px solid rgba(207, 181, 59, 0.2); border-radius: 1rem; text-align: center;">
-            <h3 style="color: white; font-size: 1.25rem; font-weight: 700; margin: 0 0 0.5rem;">Unlock Unlimited Access</h3>
+            <h3 style="color: white; font-size: 1.25rem; font-weight: 700; margin: 0 0 0.5rem;">Get the Free Tools & Guides</h3>
             <p style="color: #BEBEBE; font-size: 0.875rem; margin: 0 0 1rem;">
-              Inner Circle members get unlimited calculator access, AI Casino Advisor, community feed, and monthly strategy updates.
+              These calculators are free to use. Join the free Telegram community for pattern recognition cheatsheets, strategy guides, and behind-the-scenes stories. Mikki does not sell any courses or masterclasses.
             </p>
-            <a href="/masterclass" style="display: inline-block; background: #CFB53B; color: #000; font-weight: 700; padding: 0.75rem 1.5rem; border-radius: 0.75rem; text-decoration: none;">
-              Learn More
+            <a href="/join" style="display: inline-block; background: #CFB53B; color: #000; font-weight: 700; padding: 0.75rem 1.5rem; border-radius: 0.75rem; text-decoration: none;">
+              Join Free on Telegram
             </a>
           </section>
 

@@ -6,7 +6,8 @@ import MobileNav from '../components/MobileNav.astro';
 import ReadingProgress from '../components/ReadingProgress.astro';
 import BackToTop from '../components/BackToTop.astro';
 import ExitIntentEmailCapture from '../components/ExitIntentEmailCapture.tsx';
-import AgeGate from '../components/compliance/AgeGate.tsx';
+// AgeGate removed per Hugo (2026-06-05)
+// import AgeGate from '../components/compliance/AgeGate.tsx';
 import Disclaimers from '../components/compliance/Disclaimers.tsx';
 
 interface Props {
@@ -20,11 +21,14 @@ interface Props {
   hideMobileNav?: boolean;
   hideBackToTop?: boolean;
   publishedDate?: string;
+  /** Distraction-free funnel pages: suppress the exit-intent email bar +
+   * reading-progress bar. Set true on /funnel/* sales + checkout pages. */
+  bareChrome?: boolean;
 }
 
 const {
   title,
-  description = "Mikki Mase - From Prison to $32M Baccarat Legend",
+  description = "Unofficial Mikki Mase fan page - the story, wins, and casino bans of the $32M baccarat legend. Fan-made, not affiliated with Mikki Mase.",
   canonicalURL,
   ogType = "website",
   ogImage,
@@ -33,6 +37,7 @@ const {
   hideMobileNav = false,
   hideBackToTop = false,
   publishedDate,
+  bareChrome = false,
 } = Astro.props;
 
 // Default OG image, can be overridden per-page
@@ -52,8 +57,8 @@ const globalSchema = {
       "@type": "WebSite",
       "@id": `${siteURL}/#website`,
       "url": siteURL,
-      "name": "Mikki Mase",
-      "description": "Official site of Mikki Mase - Professional baccarat player who won $32M+ and got banned from 150+ casinos",
+      "name": "Mikki Mase Fan Page (Unofficial)",
+      "description": "Unofficial fan page about Mikki Mase - the professional baccarat player who won $32M+ and got banned from 150+ casinos. Fan-made, not affiliated with or endorsed by Mikki Mase.",
       "inLanguage": "en-US"
     },
     {
@@ -93,17 +98,13 @@ const globalSchema = {
     {
       "@type": "Organization",
       "@id": `${siteURL}/#organization`,
-      "name": "Mikki Mase",
+      "name": "Mikki Mase Fan Page (Unofficial)",
       "url": siteURL,
       "logo": {
         "@type": "ImageObject",
         "url": `${siteURL}/favicon.svg`
       },
-      "description": "Professional gambling brand known for winning $32M+ from casinos and teaching baccarat strategy",
-      "foundingDate": "2018",
-      "founder": {
-        "@id": `${siteURL}/#person`
-      },
+      "description": "An unofficial, fan-run page about professional gambler Mikki Mase. Not affiliated with or endorsed by Mikki Mase. All content is fan-made from his publicly available podcast and interviews.",
       "sameAs": [
         "https://www.youtube.com/@Mikki_Mase",
         "https://www.instagram.com/mikki_mase_community",
@@ -156,9 +157,8 @@ const finalSchema = schema ? {
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
 
     <!-- Author & E-E-A-T Signals (2026 SEO) -->
-    <meta name="author" content="Mikki Mase (Michael David Meiterman)" />
-    <link rel="author" href="https://www.youtube.com/@Mikki_Mase" />
-    <meta name="creator" content="Mikki Mase" />
+    <meta name="author" content="Mikki Mase Fan Page (unofficial, fan-run)" />
+    <meta name="creator" content="Mikki Mase Fan Page (unofficial)" />
 
     <!-- Theme Color -->
     <meta name="theme-color" content="#000000" />
@@ -169,7 +169,7 @@ const finalSchema = schema ? {
     <meta property="og:url" content={currentURL} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
-    <meta property="og:site_name" content="Mikki Mase" />
+    <meta property="og:site_name" content="Mikki Mase Fan Page (Unofficial)" />
     <meta property="og:locale" content="en_US" />
     <meta property="og:image" content={`${siteURL}${socialImage}`} />
     <meta property="og:image:width" content="1200" />
@@ -354,14 +354,13 @@ const finalSchema = schema ? {
     <ClientRouter />
   </head>
   <body class="bg-black text-white">
-    <!-- Age Verification Gate (18+) -->
-    <AgeGate client:load />
+    <!-- Age gate removed per Hugo (2026-06-05) -->
 
     <!-- Reading Progress Bar -->
-    <ReadingProgress />
+    {!bareChrome && <ReadingProgress />}
 
-    <!-- Exit Intent Email Capture Bar -->
-    <ExitIntentEmailCapture client:load />
+    <!-- Exit Intent Email Capture Bar (suppressed on distraction-free funnel pages) -->
+    {!bareChrome && <ExitIntentEmailCapture client:load />}
 
     <!-- Skip to main content (accessibility) -->
     <a href="#main-content" class="skip-link">Skip to main content</a>
@@ -395,7 +394,7 @@ const finalSchema = schema ? {
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
 
-      // CTA Click Tracking — use astro:page-load for View Transitions compat
+      // CTA Click Tracking - use astro:page-load for View Transitions compat
       document.addEventListener('astro:page-load', function() {
         // Track "Join Community" button clicks - custom event for better GA4 tracking
         document.querySelectorAll('a[href="/join"], a[href*="bit.ly/MikkiCommunity"], a[href*="t.me"], a[href*="telegram"]').forEach(function(btn) {

@@ -118,6 +118,18 @@ export function getDownloadPath(productId: string): string {
     'blackjack-cheatsheet': 'https://pub-5da1fec1f5ee477585a0dcc3b9e811d0.r2.dev/blackjack-cheat-sheet-MMC.pdf',
     // v2 funnel — toolkit download (TODO: upload session-toolkit.zip to R2)
     'session-toolkit': 'https://pub-5da1fec1f5ee477585a0dcc3b9e811d0.r2.dev/session-toolkit.zip',
+    // ============================================
+    // High-roller all-PDF funnel (June 2026)
+    // PDFs are served from /public/downloads (same pattern as beat-the-casino).
+    // cheat-sheet-pack PDF and blackjack-bundle zip are being rendered
+    // separately; the paths below are where they will land.
+    // ============================================
+    'bf-beat-the-casino': `${SITE_URL}/downloads/beat-the-casino-v2.pdf`,
+    'bf-cheat-sheet-pack': `${SITE_URL}/downloads/the-casino-cheat-sheet-pack.pdf`,
+    'bf-advantage-vault': `${SITE_URL}/downloads/the-advantage-vault.pdf`,
+    'bf-advantage-vault-ds': `${SITE_URL}/downloads/the-advantage-vault.pdf`,
+    'bf-blackjack-bundle': `${SITE_URL}/downloads/the-blackjack-bundle.zip`,
+    'bf-blackjack-edge-ds': `${SITE_URL}/downloads/the-blackjack-edge.pdf`,
   };
 
   return paths[productId] || '';

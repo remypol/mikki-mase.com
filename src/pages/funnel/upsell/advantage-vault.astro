@@ -1,0 +1,127 @@
+---
+/**
+ * FUNNEL OTO 1, The Advantage Player's Vault
+ *
+ * Default: full OTO at $47 (bf-advantage-vault).
+ * ?downsell=1: last-chance downsell at $27 (bf-advantage-vault-ds), same PDF.
+ *
+ * Accept (either price) → pays via embedded Payment Element → Stripe returns
+ * to OTO 2 (/funnel/upsell/blackjack-bundle).
+ * Skip the OTO → ?downsell=1. Skip the downsell → OTO 2.
+ *
+ * NON-DESTRUCTIVE: brand-new route. Mirrors the existing /checkout/upsell
+ * one-time-offer pattern, restyled to the high-roller gold theme.
+ */
+
+export const prerender = false;
+
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import FunnelHeader from '../../../components/FunnelHeader.astro';
+import FunnelCheckout from '../../../components/funnel/FunnelCheckout.tsx';
+import { bfAdvantageVault, bfAdvantageVaultDs } from '../../../config/shop/products';
+
+const GOLD = '#D4AF37';
+const isDownsell = Astro.url.searchParams.get('downsell') === '1';
+const product = isDownsell ? bfAdvantageVaultDs : bfAdvantageVault;
+const sp = bfAdvantageVault.salesPage!; // copy lives on the full product
+
+// Next step in the funnel after this offer (accept or skip).
+const nextStep = '/funnel/upsell/blackjack-bundle';
+// Skipping the full OTO drops to the downsell; skipping the downsell advances.
+const skipHref = isDownsell ? nextStep : '/funnel/upsell/advantage-vault?downsell=1';
+const skipLabel = isDownsell ? 'No thanks, continue' : 'No thanks';
+---
+
+<BaseLayout
+  title="One-Time Offer | The Advantage Player's Vault"
+  description="A one-time offer for buyers only."
+  noIndex={true}
+  hideMobileNav={true}
+  hideBackToTop={true}
+  bareChrome={true}
+>
+  <FunnelHeader />
+
+  <main id="main-content" class="min-h-screen" style="background-image: linear-gradient(rgba(10,10,10,0.86), rgba(10,10,10,0.96)), url('/images/funnel/oto-advantage-vault.png'); background-size: cover; background-position: center; background-attachment: fixed;">
+    <div class="max-w-2xl w-full mx-auto px-4 sm:px-6 py-10 md:py-14">
+
+      <!-- Confirmation strip -->
+      <div class="text-center mb-8">
+        <div class="w-12 h-12 mx-auto mb-3 rounded-full flex items-center justify-center" style="background: rgba(34,197,94,0.15);">
+          <svg class="w-6 h-6" style="color: #22c55e;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+          </svg>
+        </div>
+        <p class="text-sm font-medium" style="color: #22c55e;">Order confirmed, check your email for your download</p>
+        <p class="text-xs mt-1" style="color: #6B6B6B;">Wait, before you go, add this to your order in one click.</p>
+      </div>
+
+      <!-- Offer card -->
+      <div class="rounded-2xl p-6 md:p-8" style={`background: #111; border: 1px solid rgba(212,175,55,0.3); box-shadow: 0 0 60px rgba(212,175,55,0.08);`}>
+
+        <div class="text-center mb-6">
+          <span
+            class="inline-block px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-wider mb-4"
+            style="background: rgba(168,0,30,0.2); color: #ff6b6b; border: 1px solid rgba(168,0,30,0.3);"
+          >
+            {isDownsell ? 'Last Chance, Reduced Price' : 'One-Time Offer · Only Shown Once'}
+          </span>
+          <h1 class="text-2xl md:text-3xl font-black text-white mb-2">
+            {isDownsell ? 'Okay, How About This?' : sp.headline}
+          </h1>
+          <p class="text-sm" style="color: #BEBEBE;">{sp.subheadline}</p>
+        </div>
+
+        <!-- What's inside -->
+        <div class="space-y-3 mb-6">
+          {sp.chapters.map((ch) => (
+            <div class="flex items-start gap-3">
+              <svg class="w-4 h-4 flex-shrink-0 mt-0.5" style={`color: ${GOLD};`} fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+              </svg>
+              <div>
+                <span class="text-sm text-white font-semibold">{ch.title},</span>
+                <span class="text-sm" style="color: #9A9A9A;">{ch.description}</span>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <!-- Price -->
+        <div class="rounded-xl p-4 mb-6 text-center" style="background: rgba(212,175,55,0.06); border: 1px solid rgba(212,175,55,0.15);">
+          <div class="flex items-center justify-center gap-3">
+            <span class="text-lg line-through" style="color: #6B6B6B;">${product.compareAt}</span>
+            <span class="text-4xl font-black text-white">${product.price}</span>
+            {isDownsell && (
+              <span class="text-xs font-bold px-2 py-1 rounded" style="background: rgba(34,197,94,0.15); color: #22c55e;">
+                SAVE ${(bfAdvantageVault.price - product.price)}
+              </span>
+            )}
+          </div>
+          <p class="text-xs mt-1" style="color: #6B6B6B;">One-time payment · Instant PDF download</p>
+        </div>
+
+        <!-- Embedded payment -->
+        <FunnelCheckout
+          client:load
+          tier={product.id}
+          price={product.price}
+          successPath={nextStep}
+          ctaLabel={`Yes, Add It for $${product.price}`}
+        />
+
+        <!-- Skip -->
+        <div class="text-center mt-4">
+          <a href={skipHref} class="text-sm font-medium transition-colors hover:text-white" style="color: #6B6B6B;">
+            {skipLabel}
+          </a>
+        </div>
+      </div>
+
+      <p class="text-center text-[11px] mt-6" style="color: #4A4A4A;">
+        Educational purposes only · No guarantee of winnings · 18+ · Gamble responsibly (1-800-522-4700)
+      </p>
+
+    </div>
+  </main>
+</BaseLayout>

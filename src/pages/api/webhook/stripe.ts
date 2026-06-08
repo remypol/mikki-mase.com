@@ -560,7 +560,28 @@ async function handleCheckoutComplete(session: Stripe.Checkout.Session) {
 // ============================================
 
 async function handlePaymentIntentSucceeded(paymentIntent: Stripe.PaymentIntent) {
-  const { userId, userEmail, productKey, isGuestCheckout } = paymentIntent.metadata || {};
+  const { userId, userEmail, productKey, isGuestCheckout, fulfillmentType, bundledKeys } = paymentIntent.metadata || {};
+
+  // ============================================
+  // HIGH-ROLLER ALL-PDF FUNNEL (June 2026)
+  // Simple digital delivery: generate a download token per purchased product
+  // and email each via sendPurchaseConfirmation. No Supabase account / magic
+  // link (these are guest-friendly impulse PDFs). Self-contained — returns
+  // before any of the masterclass/course logic below.
+  // ============================================
+  const PDF_FUNNEL_EXPECTED: Record<string, number> = {
+    'bf-beat-the-casino': 2700,
+    'bf-cheat-sheet-pack': 1700,
+    'bf-advantage-vault': 4700,
+    'bf-advantage-vault-ds': 2700,
+    'bf-blackjack-bundle': 3700,
+    'bf-blackjack-edge-ds': 1900,
+  };
+
+  if (fulfillmentType === 'digital-pdf' && productKey && PDF_FUNNEL_EXPECTED[productKey]) {
+    await handlePdfFunnelPurchase(paymentIntent, productKey, bundledKeys, PDF_FUNNEL_EXPECTED);
+    return;
+  }
 
   // Handle all tier purchases from the custom payment element flow
   const allTiers = ['session-playbook', 'masterclass', 'inner-circle-yearly', 'lifetime-vip', 'inner-circle-monthly-v2', 'inner-circle-annual-v2'];
@@ -838,6 +859,109 @@ async function handlePaymentIntentSucceeded(paymentIntent: Stripe.PaymentIntent)
       currency: paymentIntent.currency || 'usd',
       stripeSessionId: paymentIntent.id,
     });
+  }
+}
+
+// ============================================
+// HIGH-ROLLER ALL-PDF FUNNEL DELIVERY (June 2026)
+// ============================================
+
+/**
+ * Fulfill a digital-PDF funnel PaymentIntent.
+ * Reuses the existing 'digital' fulfillment primitives (download tokens +
+ * sendPurchaseConfirmation). Delivers every product listed in `bundledKeys`
+ * (front product + any order-bump product), so a single charge can ship
+ * multiple downloads. Records the purchase(s) in `purchases` if the table is
+ * reachable, but never blocks email delivery on the DB.
+ */
+async function handlePdfFunnelPurchase(
+  paymentIntent: Stripe.PaymentIntent,
+  productKey: string,
+  bundledKeysRaw: string | undefined,
+  expectedAmounts: Record<string, number>,
+) {
+  // Defense in depth: validate amount against expected (front, or front+bump).
+  const keys = (bundledKeysRaw || productKey)
+    .split(',')
+    .map((k) => k.trim())
+    .filter((k) => k && expectedAmounts[k]);
+
+  if (keys.length === 0) {
+    console.error(`PDF funnel: no valid bundled keys for ${productKey} (raw: ${bundledKeysRaw})`);
+    return;
+  }
+
+  const expectedTotal = keys.reduce((sum, k) => sum + (expectedAmounts[k] || 0), 0);
+  if (expectedTotal && paymentIntent.amount < expectedTotal * 0.5) {
+    throw new Error(
+      `PDF funnel suspicious amount for ${keys.join('+')}: ${paymentIntent.amount} (expected ${expectedTotal})`,
+    );
+  }
+  if (expectedTotal && paymentIntent.amount !== expectedTotal) {
+    // Allow small promo discounts; just log the mismatch.
+    console.warn(
+      `PDF funnel amount mismatch for ${keys.join('+')}: expected ${expectedTotal}, got ${paymentIntent.amount}`,
+    );
+  }
+
+  const customerEmail = paymentIntent.receipt_email || paymentIntent.metadata?.userEmail;
+  if (!customerEmail) {
+    console.error('PDF funnel: no customer email on PaymentIntent', paymentIntent.id);
+    return;
+  }
+
+  // Best-effort purchase record (one row per delivered product). Non-fatal.
+  try {
+    const supabase = getServiceClient();
+    for (const key of keys) {
+      await supabase.from('purchases').upsert(
+        {
+          user_id: null,
+          stripe_session_id: `pi_${paymentIntent.id}_${key}`,
+          stripe_payment_intent_id: paymentIntent.id,
+          product_key: key,
+          amount_cents: expectedAmounts[key] ?? 0,
+          status: 'completed',
+        },
+        { onConflict: 'stripe_session_id' },
+      );
+    }
+  } catch (dbErr) {
+    console.warn('PDF funnel: purchase record failed (non-fatal):', dbErr);
+  }
+
+  // Deliver every purchased product via the existing digital fulfillment path.
+  const { getProductById } = await import('../../../config/shop/products');
+  for (const key of keys) {
+    const product = getProductById(key);
+    const productName = product?.name || key;
+    try {
+      const token = generateDownloadToken(key, customerEmail, paymentIntent.id);
+      const downloadLink = getDownloadUrl(token);
+      await sendPurchaseConfirmation({
+        customerEmail,
+        productName,
+        orderNumber: paymentIntent.id.slice(-8).toUpperCase(),
+        downloadLink,
+      });
+      console.log(`PDF funnel: delivered ${key} to ${customerEmail}`);
+    } catch (emailErr) {
+      console.error(`PDF funnel: failed to deliver ${key}:`, emailErr);
+    }
+  }
+
+  // Telegram notification (non-critical).
+  try {
+    const names = keys.map((k) => getProductById(k)?.name || k).join(' + ');
+    await sendPaymentNotification({
+      customerEmail,
+      productName: `${names} (PDF Funnel)`,
+      amountCents: paymentIntent.amount ?? expectedTotal,
+      currency: paymentIntent.currency || 'usd',
+      stripeSessionId: paymentIntent.id,
+    });
+  } catch (notifyErr) {
+    console.warn('PDF funnel: Telegram notify failed (non-fatal):', notifyErr);
   }
 }
 

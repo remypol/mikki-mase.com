@@ -24,7 +24,32 @@ const TIER_PRICING: Record<string, { amount: number; label: string }> = {
   'full-masterclass': { amount: 7900, label: 'Full Masterclass' },
   'inner-circle-monthly-v2': { amount: 2900, label: 'Inner Circle Monthly' },
   'inner-circle-annual-v2': { amount: 24900, label: 'Inner Circle Annual' },
+  // High-roller all-PDF funnel (June 2026) — digital PDFs
+  'bf-beat-the-casino': { amount: 2700, label: 'Beat the Casino' },
+  'bf-cheat-sheet-pack': { amount: 1700, label: 'The Casino Cheat Sheet Pack' },
+  'bf-advantage-vault': { amount: 4700, label: "The Advantage Player's Vault" },
+  'bf-advantage-vault-ds': { amount: 2700, label: "The Advantage Player's Vault" },
+  'bf-blackjack-bundle': { amount: 3700, label: 'The Blackjack Bundle' },
+  'bf-blackjack-edge-ds': { amount: 1900, label: 'The Blackjack Edge' },
 };
+
+// Order-bump pairings for the all-PDF funnel: when `bump` is true on the
+// front offer, the bump product is added to the same PaymentIntent and both
+// downloads are delivered. Keyed by base productKey → bump productKey.
+const BUMP_PAIRINGS: Record<string, string> = {
+  'bf-beat-the-casino': 'bf-cheat-sheet-pack',
+};
+
+// Set of all digital-PDF funnel keys (delivered via download-token + email,
+// NOT the course/magic-link flow). Used to tag fulfillment for the webhook.
+const PDF_FUNNEL_KEYS = new Set([
+  'bf-beat-the-casino',
+  'bf-cheat-sheet-pack',
+  'bf-advantage-vault',
+  'bf-advantage-vault-ds',
+  'bf-blackjack-bundle',
+  'bf-blackjack-edge-ds',
+]);
 
 export const POST: APIRoute = async ({ request, cookies }) => {
   const headers = { 'Content-Type': 'application/json' };
@@ -66,7 +91,7 @@ export const POST: APIRoute = async ({ request, cookies }) => {
       );
     }
 
-    const { productKey, tier } = body;
+    const { productKey, tier, bump } = body;
 
     // Resolve which tier to charge
     const resolvedTier = tier || productKey || 'masterclass';
@@ -78,7 +103,22 @@ export const POST: APIRoute = async ({ request, cookies }) => {
       );
     }
 
-    const { amount, label } = TIER_PRICING[resolvedTier];
+    let { amount, label } = TIER_PRICING[resolvedTier];
+
+    // ---- All-PDF funnel: digital fulfillment + optional order bump ----
+    const isPdfFunnel = PDF_FUNNEL_KEYS.has(resolvedTier);
+    // The set of product keys whose downloads should be delivered for this
+    // PaymentIntent. Defaults to just the resolved tier; the order bump adds
+    // its paired product and its price.
+    const bundledKeys: string[] = [resolvedTier];
+    if (isPdfFunnel && bump === true) {
+      const bumpKey = BUMP_PAIRINGS[resolvedTier];
+      if (bumpKey && TIER_PRICING[bumpKey]) {
+        bundledKeys.push(bumpKey);
+        amount += TIER_PRICING[bumpKey].amount;
+        label = `${label} + ${TIER_PRICING[bumpKey].label}`;
+      }
+    }
 
     // Auth is OPTIONAL — supports both logged-in and guest checkout
     const supabase = getServerClient(cookies, request);
@@ -145,9 +185,17 @@ export const POST: APIRoute = async ({ request, cookies }) => {
     const metadata: Record<string, string> = {
       productKey: resolvedTier,
       productId: resolvedTier,
-      fulfillmentType: 'digital',
+      // All-PDF funnel products use the simple download-token + email delivery
+      // path ('digital-pdf'); everything else keeps the existing 'digital' tag.
+      fulfillmentType: isPdfFunnel ? 'digital-pdf' : 'digital',
       tier: resolvedTier,
     };
+
+    // For the PDF funnel, record exactly which downloads to deliver
+    // (front product, plus the order-bump product when selected).
+    if (isPdfFunnel) {
+      metadata.bundledKeys = bundledKeys.join(',');
+    }
 
     if (user) {
       metadata.userId = user.id;

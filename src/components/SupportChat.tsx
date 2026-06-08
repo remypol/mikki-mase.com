@@ -17,7 +17,7 @@ export default function SupportChat() {
   const [messages, setMessages] = useState<Message[]>([
     {
       role: 'assistant',
-      content: 'Hey! How can I help you today? I can answer questions about the Masterclass, your account, or anything else.',
+      content: "Hey! This is an unofficial Mikki Mase fan page. I can answer questions about the page or Mikki's free community. Note: Mikki does not sell any courses or masterclasses.",
     },
   ]);
   const [input, setInput] = useState('');
@@ -219,10 +219,10 @@ export default function SupportChat() {
           {messages.length <= 1 && !loading && (
             <div style={{ padding: '0 20px 12px', display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
               {[
-                'How do I access the Masterclass?',
-                "I paid but can't log in",
-                'Can I get a refund?',
-                'What plans are available?',
+                'Is this Mikki\'s official site?',
+                'Does Mikki sell a course?',
+                'How do I join the free community?',
+                'Where can I watch Mikki?',
               ].map((q) => (
                 <button
                   key={q}

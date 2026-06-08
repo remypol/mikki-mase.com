@@ -17,7 +17,7 @@ function sanitizeRedirect(url?: string): string {
   if (!url) return '/masterclass/course';
   // Must start with / and NOT start with // (protocol-relative URL)
   if (url.startsWith('/') && !url.startsWith('//')) return url;
-  return '/masterclass/course';
+  return '/';
 }
 
 /** Map raw Supabase error messages to user-friendly copy */
@@ -293,7 +293,7 @@ export default function AuthForm({ redirectTo }: Props) {
         </h1>
         <p className="text-[#BEBEBE] text-sm">
           {tab === 'signin'
-            ? 'Sign in to access your masterclass'
+            ? 'Sign in to your account'
             : 'Sign up to get started'
           }
         </p>

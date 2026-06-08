@@ -1,0 +1,204 @@
+---
+/**
+ * FUNNEL SUCCESS / THANK-YOU
+ *
+ * End of the all-PDF funnel. Reads the `payment_intent` returned by the
+ * embedded Payment Element, verifies it succeeded, and reassures the buyer.
+ * When possible, also surfaces direct download links for every product
+ * delivered on the FRONT purchase (front + any order bump), generated with the
+ * same token helper the confirmation email uses.
+ *
+ * NON-DESTRUCTIVE: brand-new route under /funnel/*.
+ */
+
+export const prerender = false;
+
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import FunnelHeader from '../../components/FunnelHeader.astro';
+import FunnelFooter from '../../components/FunnelFooter.astro';
+import { getStripeServer } from '../../lib/stripe';
+import { generateDownloadToken, getDownloadUrl } from '../../lib/downloads';
+import { getProductById } from '../../config/shop/products';
+
+const GOLD = '#D4AF37';
+
+// Partner-preview only: when DEMO_MODE is on, the funnel is walked without Stripe,
+// so there is no payment_intent. Render a clean confirmed state with working
+// example download links instead of the "still processing" fallback.
+const DEMO = import.meta.env.PUBLIC_DEMO_MODE === 'true';
+
+const paymentIntentId = Astro.url.searchParams.get('payment_intent');
+
+let verified = false;
+let maskedEmail = '';
+let downloads: { name: string; url: string }[] = [];
+let error: string | null = null;
+
+if (paymentIntentId) {
+  try {
+    const stripe = await getStripeServer();
+    const pi = await stripe.paymentIntents.retrieve(paymentIntentId);
+
+    if (pi.status === 'succeeded') {
+      verified = true;
+      const email = pi.receipt_email || pi.metadata?.userEmail || '';
+
+      if (email) {
+        const [local, domain] = email.split('@');
+        if (local && domain) {
+          const visible = local.length <= 2 ? local[0] : local.slice(0, 2);
+          maskedEmail = `${visible}${'*'.repeat(Math.max(local.length - 2, 1))}@${domain}`;
+        }
+
+        // Build direct download links for everything delivered on this PI.
+        const keysRaw: string = pi.metadata?.bundledKeys || pi.metadata?.productKey || '';
+        const keys = keysRaw
+          .split(',')
+          .map((k: string) => k.trim())
+          .filter(Boolean);
+        for (const key of keys) {
+          const product = getProductById(key);
+          if (!product) continue;
+          try {
+            const token = generateDownloadToken(key, email, paymentIntentId);
+            downloads.push({ name: product.name, url: getDownloadUrl(token) });
+          } catch {
+            /* download-token secret not configured locally, email still ships */
+          }
+        }
+      }
+    } else {
+      error = 'Payment is still processing.';
+    }
+  } catch (e) {
+    console.error('Funnel success: PI retrieve failed', e);
+    error = 'Unable to verify payment right now.';
+  }
+} else if (DEMO) {
+  // Partner preview, no Stripe: show a clean confirmed state + example downloads.
+  verified = true;
+  maskedEmail = 'yo**@example.com';
+  for (const key of ['bf-beat-the-casino', 'bf-cheat-sheet-pack']) {
+    const product = getProductById(key);
+    if (!product) continue;
+    try {
+      const token = generateDownloadToken(key, 'preview@mikki-mase.com', 'demo');
+      downloads.push({ name: product.name, url: getDownloadUrl(token) });
+    } catch {
+      /* token secret not configured, links simply omitted */
+    }
+  }
+} else {
+  error = 'No payment reference provided.';
+}
+---
+
+<BaseLayout
+  title="You're In! | Mikki Mase"
+  description="Your order is confirmed. Check your email for your PDFs."
+  noIndex={true}
+  hideMobileNav={true}
+  hideBackToTop={true}
+  bareChrome={true}
+>
+  <FunnelHeader />
+
+  <main id="main-content" class="min-h-screen" style="background: #0A0A0A;">
+    <div class="max-w-2xl mx-auto px-4 sm:px-6 py-12 md:py-20">
+
+      <!-- Celebration -->
+      <div class="text-center mb-10">
+        <div class="w-20 h-20 mx-auto mb-6 rounded-full flex items-center justify-center" style="background: rgba(212,175,55,0.2);">
+          <svg class="w-10 h-10" style={`color: ${GOLD};`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+          </svg>
+        </div>
+        <h1 class="text-3xl md:text-4xl font-black text-white mb-3">You're In!</h1>
+        <p class="text-base" style="color: #BEBEBE;">
+          Your order is confirmed.
+          {maskedEmail ? (
+            <>Your PDFs are on the way to <strong class="text-white">{maskedEmail}</strong>.</>
+          ) : (
+            <>Check your email for your PDF download links.</>
+          )}
+        </p>
+      </div>
+
+      <!-- Check your email card -->
+      <div class="rounded-2xl p-6 mb-8" style="background: rgba(212,175,55,0.06); border: 1px solid rgba(212,175,55,0.25);">
+        <div class="flex items-start gap-3">
+          <svg class="w-6 h-6 flex-shrink-0 mt-0.5" style={`color: ${GOLD};`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+          </svg>
+          <div>
+            <p class="text-white font-bold text-sm mb-1">Check your email for your PDFs</p>
+            <p class="text-xs leading-relaxed" style="color: #BEBEBE;">
+              We've emailed a secure download link for everything you purchased. Links last 7 days. Don't see it? Check spam,
+              or email <a href="mailto:support@mikki-mase.com" style={`color: ${GOLD};`}>support@mikki-mase.com</a>.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Instant download links (front purchase) -->
+      {downloads.length > 0 && (
+        <div class="rounded-2xl p-6 mb-8" style="background: #111; border: 1px solid #2D2D2D;">
+          <h2 class="text-sm font-bold uppercase tracking-wider mb-4" style={`color: ${GOLD};`}>Download Now</h2>
+          <div class="space-y-3">
+            {downloads.map((d) => (
+              <a
+                href={d.url}
+                class="flex items-center gap-3 p-3 rounded-lg transition-colors hover:bg-white/5"
+                style="border: 1px solid #2D2D2D;"
+              >
+                <div class="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0" style="background: rgba(212,175,55,0.1);">
+                  <svg class="w-5 h-5" style={`color: ${GOLD};`} fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                  </svg>
+                </div>
+                <div class="flex-1 min-w-0">
+                  <p class="text-white text-sm font-semibold">{d.name}</p>
+                  <p class="text-xs" style="color: #6B6B6B;">PDF · yours to keep</p>
+                </div>
+                <span class="text-xs font-bold" style={`color: ${GOLD};`}>Download</span>
+              </a>
+            ))}
+          </div>
+          <p class="text-xs mt-3" style="color: #6B6B6B;">
+            Any upsells you added are delivered in their own email.
+          </p>
+        </div>
+      )}
+
+      <!-- Still processing fallback -->
+      {!verified && (
+        <div class="rounded-2xl p-6 mb-8" style="background: #111; border: 1px solid #2D2D2D;">
+          <p class="text-white font-semibold text-sm mb-1">We're confirming your order</p>
+          <p class="text-xs" style="color: #9A9A9A;">
+            If you just paid, your download email is on its way, usually under a minute. No charge appears if a payment
+            didn't complete.{error ? ` (${error})` : ''}
+          </p>
+        </div>
+      )}
+
+      <!-- Footer trust -->
+      <div class="text-center space-y-3">
+        <div class="flex items-center justify-center gap-4 text-xs" style="color: #6B6B6B;">
+          <span>Secure checkout via Stripe</span>
+          <span>|</span>
+          <span>7-day money-back guarantee</span>
+        </div>
+        <p class="text-xs" style="color: #6B6B6B;">
+          Questions? <a href="mailto:support@mikki-mase.com" style={`color: ${GOLD};`}>support@mikki-mase.com</a>
+        </p>
+        <p class="text-[11px] leading-relaxed max-w-md mx-auto" style="color: #4A4A4A;">
+          For educational and entertainment purposes only. Gambling involves risk and you may lose money. No guarantee of
+          winnings. 18+ (21+ in most US jurisdictions). Gamble responsibly, 1-800-522-4700.
+        </p>
+      </div>
+
+    </div>
+  </main>
+
+  <FunnelFooter />
+</BaseLayout>

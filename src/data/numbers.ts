@@ -36,11 +36,6 @@ export const NUMBERS = {
   // Community
   telegramMembers: 7_000,
 
-  // Products
-  masterclassPrice: 67,
-  beatTheCasinoPrice: 29,
-  cheatsheetsPrice: 19.99,
-
   // Career
   careerStartYear: 2018,
 } as const;

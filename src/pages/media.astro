@@ -14,8 +14,8 @@ const mediaSchema = {
       "@type": "CollectionPage",
       "@id": "https://www.mikki-mase.com/media#page",
       "url": "https://www.mikki-mase.com/media",
-      "name": "Mikki Mase Media - Interviews, Masterclass & Behind the Scenes",
-      "description": "Watch Mikki Mase's complete interviews, baccarat masterclass, and behind-the-scenes footage from high-stakes tables. Soft White Underbelly, VladTV, YouTube masterclass, and more.",
+      "name": "Mikki Mase Media - Interviews, Strategy Breakdowns & Behind the Scenes",
+      "description": "Watch Mikki Mase's complete interviews, free baccarat strategy breakdowns, and behind-the-scenes footage from high-stakes tables. Soft White Underbelly, VladTV, free YouTube breakdowns, and more.",
       "isPartOf": {
         "@id": "https://www.mikki-mase.com/#website"
       },
@@ -166,10 +166,10 @@ const otherInterviews = [
 // Masterclass/Educational content
 const educationalContent = [
   {
-    title: "Baccarat Masterclass - How I Beat Casinos",
+    title: "Baccarat Strategy Breakdown - How I Beat Casinos",
     videoId: "dwmJs_11dCU",
     duration: "45:00",
-    description: "Mikki's own YouTube masterclass breaking down his baccarat approach. Pattern recognition, bankroll management, and the strategies that got him banned from 150+ casinos.",
+    description: "Mikki's free YouTube strategy breakdown of his baccarat approach. Pattern recognition, bankroll management, and the strategies that got him banned from 150+ casinos.",
     timestamps: [
       { time: "0:00", label: "Introduction to the system" },
       { time: "5:30", label: "Understanding the shoe" },
@@ -232,8 +232,8 @@ const relatedPages = [
 ---
 
 <BaseLayout
-  title="Mikki Mase Media - Interviews, Masterclass & Behind the Scenes"
-  description="Watch Mikki Mase's interviews, baccarat masterclass, and behind-the-scenes footage. Soft White Underbelly (20M views), Bert Kreischer, NELK Boys and more."
+  title="Mikki Mase Media - Interviews, Strategy Breakdowns & Behind the Scenes"
+  description="Watch Mikki Mase's interviews, free baccarat strategy breakdowns, and behind-the-scenes footage. Soft White Underbelly (20M views), Bert Kreischer, NELK Boys and more."
   schema={mediaSchema}
 >
   <Header />
@@ -242,7 +242,7 @@ const relatedPages = [
   <!-- HERO SECTION -->
   <Hero
     eyebrow="Interviews & Videos"
-    title="Media & Masterclass"
+    title="Media & Breakdowns"
     subtitle="Watch the full story, system breakdowns, and behind-the-scenes at high-stakes tables."
     backgroundImage="/images/mikki-main-1.webp"
     variant="medium"
@@ -272,7 +272,7 @@ const relatedPages = [
           <div>
             <p class="text-gold text-sm font-bold uppercase mb-2">Educational</p>
             <ul class="space-y-1">
-              <li><a href="#masterclass" class="hover:text-gold transition-colors">→ Baccarat Masterclass</a></li>
+              <li><a href="#masterclass" class="hover:text-gold transition-colors">→ Baccarat Strategy Breakdown</a></li>
               <li><a href="#educational" class="hover:text-gold transition-colors">→ System Breakdowns</a></li>
               <li><a href="#social" class="hover:text-gold transition-colors">→ Social Media</a></li>
             </ul>
@@ -445,7 +445,7 @@ const relatedPages = [
                 <!-- Info & Timestamps -->
                 <div class="md:w-1/2 p-6 md:p-8">
                   <div class="flex items-center gap-2 mb-2">
-                    <span class="bg-gold/20 text-gold text-xs font-bold px-2 py-1 rounded">MASTERCLASS</span>
+                    <span class="bg-gold/20 text-gold text-xs font-bold px-2 py-1 rounded">FREE ON YOUTUBE</span>
                     <span class="text-gray-500 text-sm">{content.duration}</span>
                   </div>
                   <h3 class="text-white text-xl font-bold mb-3">{content.title}</h3>

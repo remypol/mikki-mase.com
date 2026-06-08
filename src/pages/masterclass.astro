@@ -5,6 +5,10 @@
 // "Continue your masterclass" CTA instead of being sold to again.
 export const prerender = false;
 
+// Pivot to the PDF ebook funnel (Hugo 2026-06-05): the old Masterclass sales page
+// now routes to the new funnel front. Course access stays at /masterclass/course/*.
+return Astro.redirect('/funnel/beat-the-casino', 302);
+
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';

@@ -16,8 +16,8 @@ const hasError = Astro.url.searchParams.get('error');
 ---
 
 <BaseLayout
-  title="Sign In | Mikki Mase Masterclass"
-  description="Sign in to access The Mikki Mase Masterclass. 10 modules, 30+ lessons on casino strategy."
+  title="Sign In | Mikki Mase"
+  description="Sign in to your Mikki Mase account."
   noIndex={true}
 >
   <PasswordGate>
@@ -34,8 +34,8 @@ const hasError = Astro.url.searchParams.get('error');
         <AuthForm client:load redirectTo={redirectTo} />
 
         <div class="text-center mt-8">
-          <a href="/masterclass" class="text-sm transition-colors hover:text-white" style="color: #6B6B6B;">
-            &larr; Back to Masterclass
+          <a href="/" class="text-sm transition-colors hover:text-white" style="color: #6B6B6B;">
+            &larr; Back to Home
           </a>
         </div>
       </div>
