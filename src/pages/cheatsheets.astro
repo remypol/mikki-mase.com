@@ -1,71 +1,16 @@
 ---
 /**
- * MMC Cheatsheet Bundle Sales Page
- * Long-form sales page for the MMC Cheatsheet Bundle ($19.99)
- * Optimized for conversion with social proof, urgency, and transformation sections
+ * Cheat Sheets reference page (unofficial fan page)
+ * Neutral, fan-made overview of common baccarat, poker, and roulette
+ * reference concepts. Sells nothing. No purchase, no pricing, no affiliation.
  */
 
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
-
-// Shop components
-import SalesHero from '../components/shop/sales/SalesHero.astro';
-import UrgencyBanner from '../components/shop/sales/UrgencyBanner.astro';
-import Testimonials from '../components/shop/sales/Testimonials.astro';
-import WhoIsThisFor from '../components/shop/sales/WhoIsThisFor.astro';
-import TransformationSection from '../components/shop/sales/TransformationSection.astro';
-import ChapterList from '../components/shop/sales/ChapterList.tsx';
-import PricingCard from '../components/shop/sales/PricingCard.astro';
-import PriceJustification from '../components/shop/sales/PriceJustification.astro';
-import GuaranteeSeal from '../components/shop/sales/GuaranteeSeal.astro';
-import FAQAccordion from '../components/shop/sales/FAQAccordion.tsx';
-import StickyBuyBar from '../components/shop/sales/StickyBuyBar.tsx';
-import BuyButton from '../components/shop/core/BuyButton.tsx';
-
-// Data
-import { mmcCheatsheetBundle } from '../config/shop/products';
-
-const product = mmcCheatsheetBundle;
-
-// Schema.org Product markup
-const productSchema = {
-  "@context": "https://schema.org",
-  "@type": "Product",
-  "name": "MMC Cheatsheet Bundle",
-  "description": "Baccarat, Poker, and Roulette strategy cheat sheets. The exact cards used by the Mikki Mase Casino Community. Print-friendly, wallet-sized format.",
-  "image": "https://www.mikki-mase.com/images/shop/cheatsheet-bundle-cover.webp",
-  "brand": {
-    "@type": "Brand",
-    "name": "Mikki Mase"
-  },
-  "offers": {
-    "@type": "Offer",
-    "price": "19.99",
-    "priceCurrency": "USD",
-    "availability": "https://schema.org/InStock",
-    "priceValidUntil": "2027-12-31"
-  },
-  "aggregateRating": {
-    "@type": "AggregateRating",
-    "ratingValue": "4.9",
-    "reviewCount": "89"
-  }
-};
-
-// FAQ Schema markup for Google rich snippets
-const faqSchema = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": product.salesPage!.faqs.map(faq => ({
-    "@type": "Question",
-    "name": faq.question,
-    "acceptedAnswer": {
-      "@type": "Answer",
-      "text": faq.answer
-    }
-  }))
-};
+import Hero from '../components/Hero.astro';
+import Button from '../components/Button.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
 
 // BreadcrumbList schema
 const breadcrumbSchema = {
@@ -81,273 +26,136 @@ const breadcrumbSchema = {
     {
       "@type": "ListItem",
       "position": 2,
-      "name": "Shop",
-      "item": "https://www.mikki-mase.com/shop"
-    },
-    {
-      "@type": "ListItem",
-      "position": 3,
-      "name": "MMC Cheatsheet Bundle",
+      "name": "Cheat Sheets",
       "item": "https://www.mikki-mase.com/cheatsheets"
     }
   ]
 };
-
-// Combined schema
-const combinedSchema = [productSchema, faqSchema, breadcrumbSchema];
 ---
 
 <BaseLayout
-  title={product.seo.title}
-  description={product.seo.description}
-  schema={combinedSchema}
-  ogImage={product.seo.image}
+  title="Casino Cheat Sheets: Baccarat, Poker & Roulette Basics | Mikki Mase Fan Page"
+  description="A plain-language fan reference for baccarat, poker, and roulette basics. Unofficial fan page, not affiliated with or endorsed by Mikki Mase. Sells nothing."
+  schema={breadcrumbSchema}
 >
   <Header />
 
-  <!-- SECTION 01: HERO -->
-  <SalesHero product={product} ctaLabel="SEND ME THE CHEAT SHEETS" />
-
-  <!-- SECTION 02: URGENCY BANNER -->
-  <UrgencyBanner
-    type="price"
-    originalPrice={product.compareAt}
-    salePrice={product.price}
+  <Hero
+    eyebrow="Reference"
+    title="Casino Cheat Sheets"
+    subtitle="A fan-made plain-language reference for baccarat, poker, and roulette basics"
+    backgroundImage="/images/mikki-main-2.webp"
+    variant="medium"
   />
 
-  <!-- SECTION 03: THE HOOK -->
+  <div class="bg-black border-b border-gray-800">
+    <Breadcrumbs items={[
+      { label: "Home", href: "/" },
+      { label: "Cheat Sheets" }
+    ]} />
+  </div>
+
+  <!-- INTRO -->
   <section class="py-16 md:py-24 bg-black">
     <div class="max-w-3xl mx-auto px-4 text-center">
       <p class="text-xl md:text-2xl text-gray-300 leading-relaxed">
-        You sit at the table, the dealer slides cards, and
-        <span class="text-[#CFB53B] font-semibold"> everyone else knows exactly what to do.</span>
+        Sitting at a table without knowing the optimal move usually
+        <span class="text-[#CFB53B] font-semibold"> costs money over time.</span>
       </p>
       <p class="text-xl md:text-2xl text-gray-300 leading-relaxed mt-6">
-        You're guessing.
-        <span class="text-[#CFB53B] font-semibold"> They have a system.</span>
+        This is a fan-made reference that summarizes the basic math behind three common casino games.
       </p>
-      <p class="text-2xl md:text-3xl text-white font-bold mt-8">
-        These 3 cheat sheets are the system.
+      <p class="text-base text-gray-500 leading-relaxed mt-8">
+        This is an unofficial fan page. It is not affiliated with, run by, or endorsed by Mikki Mase, and it sells nothing.
       </p>
     </div>
   </section>
 
-  <!-- SECTION 04: PAIN POINTS -->
+  <!-- WHO THIS IS FOR -->
   <section class="py-16 md:py-24 bg-gray-900">
     <div class="max-w-3xl mx-auto px-4">
-      <h2 class="font-serif text-3xl md:text-4xl font-bold text-white text-center mb-4">
-        Sound Familiar?
+      <h2 class="font-serif text-3xl md:text-4xl font-bold text-white text-center mb-10">
+        Who This Reference Is For
       </h2>
 
-      <p class="text-xl text-gray-300 text-center mb-8">
-        You've been guessing at the table.
-        <span class="text-[#CFB53B] font-semibold"> It's costing you money.</span>
-      </p>
-
-      <ul class="space-y-4 max-w-lg mx-auto mb-8">
-        <li class="flex items-start gap-3 text-lg text-gray-300">
-          <svg class="w-6 h-6 text-red-500 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
-            <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
-          </svg>
-          You've lost money making "gut feel" bets
-        </li>
-        <li class="flex items-start gap-3 text-lg text-gray-300">
-          <svg class="w-6 h-6 text-red-500 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
-            <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
-          </svg>
-          You've searched for strategy and found confusing academic papers
-        </li>
-        <li class="flex items-start gap-3 text-lg text-gray-300">
-          <svg class="w-6 h-6 text-red-500 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
-            <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
-          </svg>
-          You know the house has an edge but don't know how to minimize it
-        </li>
-        <li class="flex items-start gap-3 text-lg text-gray-300">
-          <svg class="w-6 h-6 text-red-500 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
-            <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
-          </svg>
-          You've watched other players win and wondered what they know
-        </li>
-      </ul>
-
-      <div class="text-center text-gray-300 space-y-4 text-lg">
-        <p class="text-gray-400">It's not your fault. No one handed you the cheat codes.</p>
-        <p class="text-white font-semibold text-2xl">
-          Until now.
-        </p>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div>
+          <h3 class="text-[#CFB53B] font-bold mb-4">It may help if</h3>
+          <ul class="space-y-3 text-gray-300">
+            <li>You play baccarat, poker, or roulette casually</li>
+            <li>You want a quick mental reference at the table</li>
+            <li>You're tired of guessing the optimal move</li>
+            <li>You want to understand the house edge</li>
+          </ul>
+        </div>
+        <div>
+          <h3 class="text-gray-400 font-bold mb-4">It will not help if</h3>
+          <ul class="space-y-3 text-gray-300">
+            <li>You think gambling is guaranteed income</li>
+            <li>You're looking for a magic system</li>
+            <li>You're not willing to follow a disciplined approach</li>
+          </ul>
+        </div>
       </div>
     </div>
   </section>
 
-  <!-- SECTION 05: WHO IS THIS FOR -->
-  <WhoIsThisFor
-    forYou={[
-      'You play baccarat, poker, or roulette',
-      'You want a quick reference at the table',
-      "You're tired of guessing the optimal move",
-      'You want to minimize the house edge',
-    ]}
-    notForYou={[
-      'You think gambling is guaranteed income',
-      "You're looking for a magic system",
-      "You're not willing to follow a disciplined strategy",
-    ]}
-  />
-
-  <!-- SECTION 06: BENEFITS / THE PROMISE -->
-  <section class="py-16 md:py-24 bg-black">
-    <div class="max-w-3xl mx-auto px-4">
-      <h2 class="font-serif text-3xl md:text-5xl font-bold text-white text-center mb-4">
-        What You'll Get
-      </h2>
-      <p class="text-xl text-gray-400 text-center mb-12">
-        Three strategy cards that fit in your wallet and change how you play.
-      </p>
-
-      <ul class="space-y-4 max-w-xl mx-auto mb-12">
-        <li class="flex items-start gap-3 text-lg text-gray-200">
-          <svg class="w-6 h-6 text-[#CFB53B] flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
-            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
-          </svg>
-          The optimal play for every baccarat hand
-        </li>
-        <li class="flex items-start gap-3 text-lg text-gray-200">
-          <svg class="w-6 h-6 text-[#CFB53B] flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
-            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
-          </svg>
-          Poker pot odds and position strategy at a glance
-        </li>
-        <li class="flex items-start gap-3 text-lg text-gray-200">
-          <svg class="w-6 h-6 text-[#CFB53B] flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
-            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
-          </svg>
-          6 roulette betting systems with exact probabilities
-        </li>
-        <li class="flex items-start gap-3 text-lg text-gray-200">
-          <svg class="w-6 h-6 text-[#CFB53B] flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
-            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
-          </svg>
-          Print-friendly format that fits in your wallet
-        </li>
-      </ul>
-
-      <p class="text-xl text-gray-300 text-center">
-        Stop guessing. Start playing with
-        <span class="text-white font-bold"> the math on your side.</span>
-      </p>
-    </div>
-  </section>
-
-  <!-- SECTION 07: TRANSFORMATION -->
-  <TransformationSection transformations={[
-    'You sit at the baccarat table knowing the exact edge on every bet',
-    'You fold or raise in poker without second-guessing',
-    'You pick roulette bets based on math, not superstition',
-    'Other players notice you\'re playing differently',
-    'You walk away from sessions in control, not chasing losses',
-  ]} />
-
-  <!-- SECTION 08: WHAT'S INSIDE - Product Cards -->
+  <!-- WHAT THE BASICS COVER -->
   <section class="py-16 md:py-24 bg-black">
     <div class="max-w-5xl mx-auto px-4">
       <h2 class="font-serif text-3xl md:text-5xl font-bold text-white text-center mb-4">
-        What's Inside the Bundle
+        The Three Games at a Glance
       </h2>
       <p class="text-xl text-gray-400 text-center mb-12">
-        3 strategy cheat sheets. 27 pages of pure signal, zero fluff.
+        Plain-language summaries. No purchase, no sign-up required.
       </p>
 
       <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
         <!-- Card 1: Baccarat -->
         <div class="relative bg-gray-900 border border-[#CFB53B]/30 rounded-xl p-6 border-t-4 border-t-[#CFB53B]">
-          <span class="absolute top-4 right-4 bg-[#CFB53B] text-black text-xs font-bold px-2 py-1 rounded">16 pages</span>
           <div class="mb-4">
             <svg class="w-10 h-10 text-[#CFB53B]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 10h18M3 14h18m-9-4v8m-7 0h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
             </svg>
           </div>
-          <h3 class="text-white text-xl font-bold mb-2">Baccarat Strategy Guide</h3>
-          <p class="text-gray-400 text-sm leading-relaxed">The complete baccarat strategy system. Pattern recognition, bankroll management, betting progressions.</p>
+          <h3 class="text-white text-xl font-bold mb-2">Baccarat</h3>
+          <p class="text-gray-400 text-sm leading-relaxed mb-4">The Banker bet carries the lowest house edge (1.06%), the Player bet is close behind (1.24%), and the Tie bet is a sucker bet (14.36%).</p>
+          <a href="/baccarat-guide" class="text-[#CFB53B] hover:text-[#E5CA50] text-sm font-semibold">Read the full baccarat guide &rarr;</a>
         </div>
 
         <!-- Card 2: Poker -->
         <div class="relative bg-gray-900 border border-[#CFB53B]/30 rounded-xl p-6 border-t-4 border-t-[#CFB53B]">
-          <span class="absolute top-4 right-4 bg-[#CFB53B] text-black text-xs font-bold px-2 py-1 rounded">9 pages</span>
           <div class="mb-4">
             <svg class="w-10 h-10 text-[#CFB53B]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
             </svg>
           </div>
-          <h3 class="text-white text-xl font-bold mb-2">Poker Cheatsheet</h3>
-          <p class="text-gray-400 text-sm leading-relaxed">Hand rankings, position strategy, pot odds calculator, pre-flop decision matrix.</p>
+          <h3 class="text-white text-xl font-bold mb-2">Poker</h3>
+          <p class="text-gray-400 text-sm leading-relaxed">The fundamentals come down to hand rankings, position, and pot odds. Acting later in a hand gives you more information than acting first.</p>
         </div>
 
         <!-- Card 3: Roulette -->
         <div class="relative bg-gray-900 border border-[#CFB53B]/30 rounded-xl p-6 border-t-4 border-t-[#CFB53B]">
-          <span class="absolute top-4 right-4 bg-[#CFB53B] text-black text-xs font-bold px-2 py-1 rounded">2 pages</span>
           <div class="mb-4">
             <svg class="w-10 h-10 text-[#CFB53B]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
           </div>
-          <h3 class="text-white text-xl font-bold mb-2">Roulette Cheatsheet</h3>
-          <p class="text-gray-400 text-sm leading-relaxed">European vs American odds, Martingale, Labouchere, D'Alembert, and the 007 bet.</p>
+          <h3 class="text-white text-xl font-bold mb-2">Roulette</h3>
+          <p class="text-gray-400 text-sm leading-relaxed">European single-zero wheels (2.70% house edge) are better for players than American double-zero wheels (5.26%). Betting systems do not change the underlying edge.</p>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- SECTION 09: TESTIMONIALS -->
-  <Testimonials testimonials={product.salesPage!.testimonials.map((t) => ({
-    quote: t.text,
-    author: t.name,
-    location: t.location,
-  }))} />
-
-  <!-- SECTION 10: WHY THIS IS DIFFERENT -->
-  <section class="py-16 md:py-24 bg-gray-900">
-    <div class="max-w-3xl mx-auto px-4">
-      <h2 class="font-serif text-3xl md:text-4xl font-bold text-white text-center mb-8">
-        This isn't some random strategy guide from the internet.
-      </h2>
-
-      <p class="text-xl text-gray-300 text-center mb-8">
-        This is <span class="text-[#CFB53B] font-semibold">built and tested</span> by the Mikki Mase Casino Community.
-      </p>
-
-      <div class="bg-gray-800/50 rounded-xl p-6 md:p-8 border border-gray-700 mb-8">
-        <p class="text-gray-300 text-lg leading-relaxed mb-4">
-          These aren't theoretical strategies pulled from a textbook. They're the exact reference cards used by real players in the MMC community.
-        </p>
-        <p class="text-gray-300 text-lg leading-relaxed mb-4">
-          Every number, every probability, every decision matrix has been
-          <span class="text-[#CFB53B]"> verified at the table</span> by players who put real money on the line.
-        </p>
-        <p class="text-gray-300 text-lg leading-relaxed">
-          The baccarat guide alone took months to refine into a format you can actually use mid-game.
-        </p>
-      </div>
-
-      <p class="text-xl text-white text-center font-semibold mb-6">
-        The difference between guessing and knowing is a $19.99 cheat sheet.
-      </p>
-
-      <p class="text-lg text-gray-400 text-center">
-        Tested strategies. Real math. No superstition. No fluff.
-      </p>
-    </div>
-  </section>
-
-  <!-- SECTION 11: AUTHORITY SECTION -->
+  <!-- ABOUT MIKKI (fan, third-person) -->
   <section class="py-20 md:py-24 bg-black">
     <div class="max-w-4xl mx-auto px-4">
       <h2 class="font-serif text-2xl md:text-3xl font-bold text-white text-center mb-10 md:mb-12">
-        The Man Behind the Method
+        About Mikki Mase
       </h2>
 
       <div class="flex flex-col md:grid md:grid-cols-2 gap-10 md:gap-8 items-center">
-        <!-- Image first on mobile -->
         <div class="flex justify-center order-1 md:order-2">
           <img
             src="/images/mikki-main-2.webp"
@@ -357,17 +165,18 @@ const combinedSchema = [productSchema, faqSchema, breadcrumbSchema];
           />
         </div>
 
-        <!-- Stats second on mobile -->
         <div class="text-center md:text-left order-2 md:order-1">
-          <!-- Stats grid - stacked on mobile -->
+          <p class="text-gray-300 leading-relaxed mb-6">
+            Mikki Mase is a public figure who says he won more than $32M at baccarat and was banned from 150+ casinos. The notes on this page are a fan summary based on his public podcasts and interviews.
+          </p>
           <div class="grid grid-cols-1 gap-4 md:space-y-4 md:block mb-8">
             <div class="flex flex-col md:flex-row items-center md:items-center gap-1 md:gap-3 py-3 md:py-0 border-b border-gray-800 md:border-0">
               <span class="text-[#CFB53B] font-bold text-2xl md:text-lg">$32M+</span>
-              <span class="text-gray-300 text-base md:text-lg">in verified winnings</span>
+              <span class="text-gray-300 text-base md:text-lg">in winnings he describes</span>
             </div>
             <div class="flex flex-col md:flex-row items-center md:items-center gap-1 md:gap-3 py-3 md:py-0 border-b border-gray-800 md:border-0">
               <span class="text-[#CFB53B] font-bold text-2xl md:text-lg">150+</span>
-              <span class="text-gray-300 text-base md:text-lg">casino bans worldwide</span>
+              <span class="text-gray-300 text-base md:text-lg">casino bans he describes</span>
             </div>
             <div class="flex flex-col md:flex-row items-center md:items-center gap-1 md:gap-3 py-3 md:py-0">
               <span class="text-[#CFB53B] font-bold text-sm md:text-lg uppercase tracking-wide">Featured in</span>
@@ -388,220 +197,33 @@ const combinedSchema = [productSchema, faqSchema, breadcrumbSchema];
     </div>
   </section>
 
-  <!-- SECTION 12: PRICE JUSTIFICATION (Custom inline) -->
-  <section class="py-16 md:py-24 bg-gray-900">
-    <div class="max-w-3xl mx-auto px-4">
-      <h2 class="font-serif text-3xl md:text-4xl font-bold text-white text-center mb-4">
-        The Real Cost of Guessing
-      </h2>
-      <p class="text-xl text-gray-400 text-center mb-12">
-        What's it costing you to play without a system?
-      </p>
-
-      <div class="space-y-4 mb-12">
-        <!-- Cost item 1 -->
-        <div class="flex items-center justify-between bg-gray-800/50 rounded-xl p-5 border border-gray-700">
-          <span class="text-gray-300 text-lg">One bad bet at the baccarat table</span>
-          <span class="text-red-400 line-through text-xl font-semibold">$200</span>
-        </div>
-
-        <!-- Cost item 2 -->
-        <div class="flex items-center justify-between bg-gray-800/50 rounded-xl p-5 border border-gray-700">
-          <span class="text-gray-300 text-lg">One poker session playing on gut feel</span>
-          <span class="text-red-400 line-through text-xl font-semibold">$150</span>
-        </div>
-
-        <!-- Cost item 3 -->
-        <div class="flex items-center justify-between bg-gray-800/50 rounded-xl p-5 border border-gray-700">
-          <span class="text-gray-300 text-lg">One night at roulette without a system</span>
-          <span class="text-red-400 line-through text-xl font-semibold">$100</span>
-        </div>
-
-        <!-- Total -->
-        <div class="flex items-center justify-between bg-gray-800 rounded-xl p-5 border border-gray-600">
-          <span class="text-white text-lg font-semibold">Total cost of guessing</span>
-          <span class="text-red-400 line-through text-xl font-bold">$450+</span>
-        </div>
-      </div>
-
-      <!-- Reveal -->
-      <div class="text-center bg-gradient-to-b from-gray-800/50 to-gray-900 rounded-2xl p-8 border border-[#CFB53B]/30">
-        <p class="text-gray-400 text-lg mb-2">Get all 3 strategy cheat sheets for</p>
-        <div class="flex items-baseline justify-center gap-3 mb-4">
-          <span class="text-gray-500 line-through text-2xl">${product.compareAt}</span>
-          <span class="text-[#CFB53B] font-bold text-5xl md:text-6xl">${product.price}</span>
-        </div>
-        <p class="text-[#CFB53B] text-sm font-medium">
-          That's less than a single bad bet.
-        </p>
-      </div>
-    </div>
-  </section>
-
-  <!-- SECTION 13: PRICING CARD -->
-  <PricingCard product={product} features={[
-    'Baccarat Strategy Guide (16 pages)',
-    'Poker Cheatsheet (9 pages)',
-    'Roulette Cheatsheet with 6 betting systems (2 pages)',
-    'Instant PDF download',
-    'Print-friendly, wallet-sized format',
-    'Free updates when we release new versions',
-  ]} />
-
-  <!-- SECTION 14: NOT SURE YET - Preview Link -->
-  <section class="py-12 md:py-16 bg-gray-950">
-    <div class="max-w-xl mx-auto px-4 text-center">
-      <!-- Separator -->
-      <div class="flex items-center gap-4 mb-8">
-        <div class="flex-1 h-px bg-gray-800"></div>
-        <span class="text-gray-600 text-sm uppercase tracking-wider">or</span>
-        <div class="flex-1 h-px bg-gray-800"></div>
-      </div>
-
-      <!-- Preview CTA -->
-      <h3 class="text-white text-xl md:text-2xl font-semibold mb-3">
-        Not sure yet?
-      </h3>
-      <p class="text-gray-400 mb-6">
-        Download the free Blackjack Cheat Sheet first and see the quality for yourself.
-      </p>
-      <a
-        href="/#email-capture"
-        class="inline-flex items-center gap-2 text-[#CFB53B] hover:text-[#E5CA50] font-semibold text-lg transition-colors group"
-        data-preview-link="not_sure_section"
-      >
-        Get Your Free Cheat Sheet
-        <svg class="w-5 h-5 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-        </svg>
-      </a>
-      <p class="text-gray-600 text-sm mt-4">
-        Free download — just enter your email on the homepage.
-      </p>
-    </div>
-  </section>
-
-  <!-- SECTION 15: GUARANTEE -->
-  <GuaranteeSeal
-    title={product.salesPage!.guarantee.title}
-    description={product.salesPage!.guarantee.description}
-    days={product.salesPage!.guarantee.days}
-  />
-
-  <!-- SECTION 16: FAQ -->
-  <FAQAccordion client:visible faqs={product.salesPage!.faqs} />
-
-  <!-- SECTION 17: FINAL CTA -->
+  <!-- FREE COMMUNITY CTA (no sale) -->
   <section class="py-16 md:py-24 bg-gradient-to-b from-gray-900 to-black">
     <div class="max-w-3xl mx-auto px-4 text-center">
       <h2 class="font-serif text-3xl md:text-5xl font-bold text-white mb-6">
-        Every Session Without a Strategy Is Money Left on the Table
+        Keep Learning the Math
       </h2>
 
       <p class="text-xl text-gray-300 mb-8">
-        The math doesn't lie. The house has an edge — unless you know exactly how to minimize it.
+        The house has an edge. Understanding it is the first step to playing smarter.
       </p>
 
-      <p class="text-2xl text-white font-semibold mb-8">
-        Stop guessing. Start winning smarter.
+      <p class="text-gray-400 mb-8">
+        Join the free fan community for discussion and free guides. No purchase, no special access.
       </p>
 
-      <BuyButton
-        client:load
-        productId={product.id}
-        productName={product.name}
-        price={product.price}
-        label="GET ALL 3 CHEAT SHEETS — $19.99"
-        size="large"
-      />
-
-      <!-- Trust badges -->
-      <div class="flex flex-wrap justify-center gap-6 mt-8 text-gray-500 text-sm">
-        <span class="flex items-center gap-2">
-          <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-            <path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd" />
-          </svg>
-          Secure checkout
-        </span>
-        <span class="flex items-center gap-2">
-          <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd" />
-          </svg>
-          Instant access
-        </span>
-        <span class="flex items-center gap-2">
-          <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-            <path fill-rule="evenodd" d="M2.166 4.999A11.954 11.954 0 0010 1.944 11.954 11.954 0 0017.834 5c.11.65.166 1.32.166 2.001 0 5.225-3.34 9.67-8 11.317C5.34 16.67 2 12.225 2 7c0-.682.057-1.35.166-2.001zm11.541 3.708a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
-          </svg>
-          30-day guarantee
-        </span>
-      </div>
+      <Button variant="primary" href="/join">
+        Join the Free Fan Community
+      </Button>
     </div>
   </section>
 
-  <!-- SECTION 18: STICKY BUY BAR -->
-  <StickyBuyBar
-    client:load
-    productId={product.id}
-    productName={product.name}
-    price={product.price}
-    compareAt={product.compareAt}
-  />
-
   <Footer />
-
-  <!-- GA4 Ecommerce: view_item Event -->
-  <script is:inline define:vars={{ productId: product.id, productName: product.name, productPrice: product.price }}>
-    document.addEventListener('astro:page-load', function() {
-      // Ensure dataLayer and gtag exist
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-
-      // Fire view_item immediately - dataLayer queues until GA loads
-      gtag('event', 'view_item', {
-        currency: 'USD',
-        value: productPrice,
-        items: [{
-          item_id: productId,
-          item_name: productName,
-          price: productPrice,
-          quantity: 1
-        }]
-      });
-      console.log('[GA4] view_item fired:', productId, productPrice);
-    });
-  </script>
-
-  <!-- GA4: Track preview link clicks from sales page -->
-  <script is:inline>
-    document.addEventListener('astro:page-load', function() {
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-
-      // Track all preview link clicks
-      document.querySelectorAll('[data-preview-link]').forEach(function(link) {
-        link.addEventListener('click', function() {
-          var location = this.getAttribute('data-preview-link');
-          gtag('event', 'sales_to_preview', {
-            link_location: location,
-            page: 'cheatsheets'
-          });
-          console.log('[GA4] sales_to_preview:', location);
-        });
-      });
-    });
-  </script>
 </BaseLayout>
 
 <style>
-  /* Mobile-specific improvements for sales page */
+  /* Mobile-specific improvements */
   @media (max-width: 767px) {
-    :global(body) {
-      /* Extra padding for sticky buy bar */
-      padding-bottom: calc(80px + env(safe-area-inset-bottom, 0px)) !important;
-    }
-
-    /* Increase line-height for better readability on mobile */
     :global(.text-lg),
     :global(.text-xl) {
       line-height: 1.75 !important;
@@ -612,7 +234,6 @@ const combinedSchema = [productSchema, faqSchema, breadcrumbSchema];
       line-height: 1.7;
     }
 
-    /* Increase vertical spacing between sections on mobile */
     :global(section.py-16) {
       padding-top: 5rem;
       padding-bottom: 5rem;

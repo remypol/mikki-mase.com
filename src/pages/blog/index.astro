@@ -11,7 +11,7 @@ const posts = [
   {
     slug: "do-casinos-cheat-the-truth",
     title: "Do Casinos Cheat? The Truth About What Happens Behind the Scenes",
-    excerpt: "Mikki exposes what really happens in casino backend systems. Plus, why Kirgo was the only online casino to give him full transparency and access to their systems.",
+    excerpt: "A fan breakdown of what Mikki Mase has said publicly about casino backend systems, the house edge, and transparency in the gambling industry.",
     date: "2025-01-22",
     readTime: "9 min read",
     category: "Industry",
@@ -49,13 +49,12 @@ const posts = [
 const blogSchema = {
   "@type": "Blog",
   "@id": "https://www.mikki-mase.com/blog#blog",
-  "name": "Mikki Mase Blog - Gambling Strategy & Casino Insights",
-  "description": "Expert gambling insights, baccarat strategy, and behind-the-scenes stories from Mikki Mase - the man who won $32M and got banned from 150+ casinos.",
+  "name": "Mikki Mase Fan Blog - Gambling Strategy & Casino Insights",
+  "description": "Unofficial fan blog covering baccarat strategy and casino insights, based on the public podcasts and interviews of Mikki Mase, the man who says he won $32M and got banned from 150+ casinos.",
   "url": "https://www.mikki-mase.com/blog",
   "author": {
-    "@type": "Person",
-    "name": "Mikki Mase",
-    "@id": "https://www.mikki-mase.com/#person"
+    "@type": "Organization",
+    "name": "Mikki Mase Fan Page (unofficial)"
   },
   "blogPost": posts.map(post => ({
     "@type": "BlogPosting",
@@ -68,8 +67,8 @@ const blogSchema = {
 ---
 
 <BaseLayout
-  title="Blog - Gambling Strategy & Casino Insights | Mikki Mase"
-  description="Expert gambling insights, baccarat strategy, and behind-the-scenes stories from Mikki Mase. Learn from the man who won $32M and got banned from 150+ casinos."
+  title="Blog - Gambling Strategy & Casino Insights | Mikki Mase Fan Page"
+  description="Unofficial fan blog with baccarat strategy and casino insights drawn from the public podcasts and interviews of Mikki Mase, who says he won $32M and got banned from 150+ casinos."
   schema={blogSchema}
 >
   <Header />
@@ -78,7 +77,7 @@ const blogSchema = {
   <Hero
     eyebrow="Insights & Strategy"
     title="The Blog"
-    subtitle="Gambling strategy, casino insights, and lessons from $32M in wins"
+    subtitle="Fan notes on gambling strategy and casino insights from Mikki Mase's public interviews"
     backgroundImage="/images/mikki-main-1.webp"
     variant="medium"
   />
@@ -97,8 +96,8 @@ const blogSchema = {
       <!-- Intro -->
       <div class="max-w-3xl mx-auto text-center mb-16">
         <p class="text-gray-300 text-lg md:text-xl leading-relaxed">
-          Insights from the tables, strategies that work, and the truth about casino gambling.
-          No fluff, no get-rich-quick promises—just real knowledge from someone who's been there.
+          Fan-written notes on baccarat strategy, casino insights, and the gambling stories Mikki Mase has shared in his public podcasts and interviews.
+          No fluff, no get-rich-quick promises, just plain-language explainers from people who follow his public appearances.
         </p>
       </div>
 
@@ -157,7 +156,7 @@ const blogSchema = {
           Get Strategy Updates
         </h3>
         <p class="text-gray-400 mb-6">
-          Join the free Telegram community for exclusive content, cheatsheets, and real-time updates.
+          Join the free fan community for discussion and free guides.
         </p>
         <Button variant="primary" href="/join">
           Join Free Community

@@ -190,9 +190,9 @@ export function DailyDropsFeed() {
             <img src="/images/mikki-avatar.jpg" alt="Mikki Mase" className="w-full h-full object-cover" />
           </div>
           <div>
-            <h1 className="text-2xl font-black text-white">The Inner Circle</h1>
+            <h1 className="text-2xl font-black text-white">The Fan Feed</h1>
             <p className="text-xs" style={{ color: '#9A9A9A' }}>
-              Exclusive updates from Mikki's team
+              Strategy notes and stories from fans
             </p>
           </div>
         </div>

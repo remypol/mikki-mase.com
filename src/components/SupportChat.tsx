@@ -60,7 +60,7 @@ export default function SupportChat() {
       } else {
         setMessages((prev) => [
           ...prev,
-          { role: 'assistant', content: "Sorry, I'm having trouble right now. Please use the email form to reach our team." },
+          { role: 'assistant', content: "Sorry, I'm having trouble right now. Please use the email form to reach us." },
         ]);
       }
     } catch {

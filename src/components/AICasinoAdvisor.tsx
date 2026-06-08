@@ -1,6 +1,5 @@
 /**
  * AICasinoAdvisor — Chat UI for the AI Casino Strategy Advisor
- * Inner Circle: 20 questions/day | VIP: unlimited
  */
 
 import { useState, useRef, useEffect } from 'react';
@@ -88,11 +87,9 @@ export default function AICasinoAdvisor({ isVip }: Props) {
         </div>
         <p className="text-xs" style={{ color: '#9A9A9A' }}>
           {isVip ? (
-            <span>
-              <span style={{ color: '#CFB53B' }}>&#x1F451; VIP</span> — Unlimited questions
-            </span>
+            <span>Unlimited questions</span>
           ) : (
-            'Inner Circle — 20 questions per day'
+            'Ask about casino strategy'
           )}
         </p>
       </div>
@@ -107,7 +104,7 @@ export default function AICasinoAdvisor({ isVip }: Props) {
           {messages.length === 0 && (
             <div className="text-center py-12">
               <p className="text-sm mb-4" style={{ color: '#6B6B6B' }}>
-                Ask anything about casino strategy. I know Mikki's system inside-out.
+                Ask anything about casino strategy and the math behind the games.
               </p>
               <div className="flex flex-wrap justify-center gap-2">
                 {quickQuestions.map((q) => (
@@ -162,8 +159,8 @@ export default function AICasinoAdvisor({ isVip }: Props) {
             >
               {error}
               {limitReached && !isVip && (
-                <a href="/masterclass#pricing" className="block mt-2 text-xs font-bold" style={{ color: '#CFB53B' }}>
-                  Upgrade to Lifetime VIP for unlimited access
+                <a href="/join" className="block mt-2 text-xs font-bold" style={{ color: '#CFB53B' }}>
+                  Join the free community
                 </a>
               )}
             </div>
