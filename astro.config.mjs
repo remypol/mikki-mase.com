@@ -30,7 +30,9 @@ export default defineConfig({
         return !page.includes('/bedroom-boss') &&
                !page.includes('/checkout/') &&
                !page.includes('/join-old') &&
-               !page.includes('/bankroll-calculator-old');
+               !page.includes('/bankroll-calculator-old') &&
+               !page.includes('/funnel') &&
+               !page.includes('/kirgo');
       },
       serialize(item) {
         // Homepage = highest priority

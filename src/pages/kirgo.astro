@@ -1,0 +1,868 @@
+---
+/**
+ * ORPHANED LANDING PAGE — /bonus
+ *
+ * Kirgo-funnel one-pager voor Instagram/Facebook traffic → Telegram sales bot.
+ * - Volledig standalone: GEEN BaseLayout, GEEN Header/Footer/MobileNav, geen
+ *   interne links naar de rest van mikki-mase.com (bewust orphaned).
+ * - noindex + uitgesloten van de sitemap (zie astro.config.mjs filter).
+ * - Alle animaties zijn pure CSS; prefers-reduced-motion wordt gerespecteerd.
+ *
+ * TODO(remy/hugo): vervang TELEGRAM_BOT_URL door de echte sales-bot link
+ * zodra de bot live is. Staat nu op de bestaande community-landing als fallback.
+ *
+ * VIDEO: zet een ZELF-GEËXPORTEERDE reel (eigen content of met schriftelijke
+ * licentie!) op public/videos/kirgo-reel.mp4 en de hero krijgt automatisch een
+ * muted loop-achtergrond. Geen bestand = geen video-element (geen 404's).
+ */
+import { existsSync } from 'node:fs';
+
+const TELEGRAM_BOT_URL = 'https://bit.ly/MMC_Tricks';
+const HAS_VIDEO = existsSync('public/videos/kirgo-reel.mp4');
+
+const PAGE_TITLE = '300% Deposit Bonus + 50 Free Spins — MMC × Kirgo';
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{PAGE_TITLE}</title>
+  <meta name="description" content="Community exclusive: 300% match on your first deposit up to $100, plus 50 free spins. Claim your code via Telegram." />
+  <!-- Orphan page: never index, never follow -->
+  <meta name="robots" content="noindex, nofollow" />
+  <meta name="theme-color" content="#000000" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+  <!-- Open Graph (voor link previews in DM's/stories) -->
+  <meta property="og:title" content="300% Deposit Bonus + 50 Free Spins" />
+  <meta property="og:description" content="Community exclusive Kirgo deal. Tap to claim via Telegram." />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="https://www.mikki-mase.com/images/kirgo/mikki-kirgo-og.jpg" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://www.mikki-mase.com/images/kirgo/mikki-kirgo-og.jpg" />
+
+  <!-- Self-hosted Inter (zelfde files als de hoofdsite) -->
+  <link rel="preload" href="/fonts/inter-700.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="preload" href="/fonts/inter-900.woff2" as="font" type="font/woff2" crossorigin />
+
+  <style>
+    @font-face {
+      font-family: 'Inter';
+      font-style: normal;
+      font-weight: 700;
+      font-display: swap;
+      src: url('/fonts/inter-700.woff2') format('woff2');
+    }
+    @font-face {
+      font-family: 'Inter';
+      font-style: normal;
+      font-weight: 900;
+      font-display: swap;
+      src: url('/fonts/inter-900.woff2') format('woff2');
+    }
+
+    :root {
+      --mint: #7BF2DA;
+      --mint-light: #A9F6E5;
+      --mint-dark: #57AC9B;
+      --red: #A8001E;
+      --black: #0A0F0F;
+      --ink: #0A0F0F;
+      --gray: #9A9A9A;
+      --gray-dark: #6B6B6B;
+      --white: #FFFFFF;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html { -webkit-font-smoothing: antialiased; scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      background: var(--black);
+      color: var(--white);
+      overflow-x: hidden;
+      min-height: 100vh;
+    }
+
+    /* ===== TABLE SPOTLIGHT BACKDROP ===== */
+    .stage {
+      position: relative;
+      min-height: 100svh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 48px 20px 64px;
+      background:
+        radial-gradient(ellipse 120% 70% at 50% -10%, rgba(123, 242, 218, 0.16) 0%, rgba(123, 242, 218, 0.05) 40%, transparent 70%),
+        radial-gradient(ellipse 80% 50% at 50% 110%, rgba(123, 45, 250, 0.10) 0%, transparent 60%),
+        var(--black);
+      overflow: hidden;
+    }
+
+    /* ===== HERO FOTO: Mikki in Kirgo-merch ===== */
+    .stage-photo {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+    }
+    .stage-photo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: 38% 22%; /* gezicht + KIRGO-logo in beeld houden */
+      opacity: 0.9;
+    }
+    .stage-photo::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(rgba(14, 48, 42, 0.30), rgba(14, 48, 42, 0.30)),
+        radial-gradient(ellipse 130% 90% at 50% 110%, rgba(0, 0, 0, 0.55) 0%, transparent 55%),
+        radial-gradient(ellipse 90% 40% at 85% -5%, rgba(0, 0, 0, 0.75) 0%, transparent 60%),
+        linear-gradient(180deg, rgba(0, 0, 0, 0.42) 0%, rgba(0, 0, 0, 0.66) 42%, rgba(10, 15, 15, 0.92) 72%, #0A0F0F 96%);
+    }
+
+    /* ===== MIKKI REEL (social proof, geladen met consent) ===== */
+    .reel-section {
+      max-width: 560px;
+      margin: 0 auto;
+      padding: 56px 24px 8px;
+      text-align: center;
+    }
+    .reel-section .eyebrow { margin-bottom: 18px; }
+    .reel-frame {
+      position: relative;
+      width: min(300px, 78vw);
+      margin: 0 auto;
+      aspect-ratio: 9 / 16;
+      border-radius: 24px;
+      overflow: hidden;
+      border: 1px solid rgba(123, 242, 218, 0.4);
+      box-shadow: 0 0 44px rgba(123, 242, 218, 0.16), 0 24px 48px rgba(0, 0, 0, 0.6);
+      background: #0a0a0a;
+    }
+    .reel-frame video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    /* CapCut-stijl captions */
+    .reel-caps {
+      position: absolute;
+      left: 10px;
+      right: 10px;
+      bottom: 74px;
+      text-align: center;
+      font-size: 16px;
+      line-height: 1.35;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.01em;
+      color: var(--white);
+      text-shadow:
+        0 2px 10px rgba(0, 0, 0, 0.9),
+        0 0 3px rgba(0, 0, 0, 0.95),
+        0 0 24px rgba(0, 0, 0, 0.6);
+      pointer-events: none;
+    }
+    .reel-caps .cap {
+      display: inline-block;
+      animation: cap-pop 0.28s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+    }
+    .reel-caps .hl { color: var(--mint); }
+    @keyframes cap-pop {
+      from { opacity: 0; transform: scale(0.72) translateY(10px); }
+      to   { opacity: 1; transform: scale(1) translateY(0); }
+    }
+
+    .reel-sound {
+      position: absolute;
+      bottom: 14px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 18px;
+      min-height: 44px;
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      border-radius: 999px;
+      background: rgba(0, 0, 0, 0.55);
+      backdrop-filter: blur(6px);
+      color: var(--white);
+      font-family: inherit;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .reel-sound:focus-visible { outline: 3px solid var(--mint); outline-offset: 2px; }
+    .reel-quote {
+      margin: 22px auto 0;
+      max-width: 38ch;
+      font-size: 15px;
+      line-height: 1.6;
+      color: var(--gray);
+    }
+    .reel-quote strong { color: var(--mint-light); }
+
+    /* ===== ZWEVENDE DICE & KAARTSYMBOLEN ===== */
+    .dice {
+      position: absolute;
+      width: clamp(44px, 9vw, 72px);
+      height: clamp(44px, 9vw, 72px);
+      opacity: 0.5;
+      filter: drop-shadow(0 0 14px rgba(123, 242, 218, 0.25));
+      pointer-events: none;
+    }
+    .dice-l { top: 12%; left: 6%; transform: rotate(-14deg); animation: dice-float 6.5s ease-in-out infinite; }
+    .dice-r { top: 8%; right: 7%; transform: rotate(11deg); animation: dice-float 7.5s ease-in-out 1.2s infinite; }
+    @keyframes dice-float {
+      0%, 100% { translate: 0 0; rotate: 0deg; }
+      50%      { translate: 0 -14px; rotate: 6deg; }
+    }
+
+    .suits { position: absolute; inset: 0; pointer-events: none; }
+    .suit {
+      position: absolute;
+      font-size: 28px;
+      color: rgba(123, 242, 218, 0.14);
+      animation: suit-drift 11s ease-in-out infinite;
+    }
+    .s1 { top: 30%; left: 8%; }
+    .s2 { top: 22%; right: 12%; font-size: 22px; animation-delay: 2.5s; }
+    .s3 { bottom: 26%; left: 12%; font-size: 24px; animation-delay: 5s; }
+    .s4 { bottom: 32%; right: 8%; font-size: 30px; animation-delay: 7.5s; }
+    @keyframes suit-drift {
+      0%, 100% { transform: translateY(0) rotate(-6deg); }
+      50%      { transform: translateY(-18px) rotate(8deg); }
+    }
+
+    /* ===== GOLD DUST PARTICLES ===== */
+    .particles { position: absolute; inset: 0; pointer-events: none; }
+    .particles span {
+      position: absolute;
+      bottom: -12px;
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: radial-gradient(circle, var(--mint-light) 0%, rgba(123,242,218,0.35) 60%, transparent 100%);
+      opacity: 0;
+      animation: rise 9s linear infinite;
+      filter: blur(0.4px);
+    }
+    .particles span:nth-child(1)  { left: 6%;  animation-delay: 0s;    transform: scale(0.7); }
+    .particles span:nth-child(2)  { left: 14%; animation-delay: 2.2s;  transform: scale(1.1); }
+    .particles span:nth-child(3)  { left: 23%; animation-delay: 4.8s;  transform: scale(0.5); }
+    .particles span:nth-child(4)  { left: 31%; animation-delay: 1.4s;  transform: scale(0.9); }
+    .particles span:nth-child(5)  { left: 42%; animation-delay: 6.1s;  transform: scale(0.6); }
+    .particles span:nth-child(6)  { left: 51%; animation-delay: 3.3s;  transform: scale(1.2); }
+    .particles span:nth-child(7)  { left: 60%; animation-delay: 7.5s;  transform: scale(0.8); }
+    .particles span:nth-child(8)  { left: 68%; animation-delay: 0.9s;  transform: scale(0.5); }
+    .particles span:nth-child(9)  { left: 77%; animation-delay: 5.2s;  transform: scale(1.0); }
+    .particles span:nth-child(10) { left: 85%; animation-delay: 2.8s;  transform: scale(0.7); }
+    .particles span:nth-child(11) { left: 93%; animation-delay: 6.8s;  transform: scale(0.9); }
+    .particles span:nth-child(12) { left: 38%; animation-delay: 8.4s;  transform: scale(0.6); }
+
+    @keyframes rise {
+      0%   { opacity: 0; transform: translateY(0); }
+      8%   { opacity: 0.9; }
+      70%  { opacity: 0.5; }
+      100% { opacity: 0; transform: translateY(-92vh); }
+    }
+
+    /* ===== LOAD-IN SEQUENCE ===== */
+    .fade-step {
+      opacity: 0;
+      transform: translateY(18px);
+      animation: fadeUp 0.65s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    }
+    .d1 { animation-delay: 0.1s; }
+    .d2 { animation-delay: 0.35s; }
+    .d3 { animation-delay: 1.5s; }
+    .d4 { animation-delay: 1.75s; }
+    .d5 { animation-delay: 2.0s; }
+
+    @keyframes fadeUp {
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ===== EYEBROW ===== */
+    .eyebrow {
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--mint);
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .eyebrow::before, .eyebrow::after {
+      content: '';
+      width: 28px;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--mint-dark));
+    }
+    .eyebrow::after { background: linear-gradient(90deg, var(--mint-dark), transparent); }
+
+    /* ===== SLOT REEL "300" ===== */
+    .bonus-line {
+      display: flex;
+      align-items: baseline;
+      justify-content: center;
+      gap: 4px;
+      margin: 20px 0 4px;
+    }
+    .reel {
+      height: clamp(84px, 22vw, 150px);
+      overflow: hidden;
+      border-radius: 12px;
+      background: linear-gradient(180deg, #0E1917 0%, #142420 50%, #0E1917 100%);
+      border: 1px solid rgba(123, 242, 218, 0.35);
+      box-shadow: inset 0 8px 18px rgba(0,0,0,0.8), inset 0 -8px 18px rgba(0,0,0,0.8), 0 0 32px rgba(123,242,218,0.12);
+      padding: 0 clamp(6px, 1.6vw, 14px);
+    }
+    .reel-strip {
+      display: flex;
+      flex-direction: column;
+      animation: spin-reel 1.3s cubic-bezier(0.15, 0.85, 0.25, 1.02) forwards;
+    }
+    .reel:nth-child(1) .reel-strip { animation-delay: 0.15s; }
+    .reel:nth-child(2) .reel-strip { animation-delay: 0.32s; }
+    .reel:nth-child(3) .reel-strip { animation-delay: 0.5s; }
+    .reel-strip b {
+      font-weight: 900;
+      font-size: clamp(64px, 17vw, 118px);
+      line-height: clamp(84px, 22vw, 150px);
+      background: linear-gradient(180deg, #D8FFF4 0%, var(--mint) 45%, var(--mint-dark) 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      letter-spacing: -0.02em;
+    }
+    /* Strip = 6 digits, eindigt op het target-cijfer (laatste child) */
+    @keyframes spin-reel {
+      from { transform: translateY(0); }
+      to   { transform: translateY(calc(-100% + clamp(84px, 22vw, 150px))); }
+    }
+    .pct {
+      font-weight: 900;
+      font-size: clamp(40px, 10vw, 72px);
+      color: var(--mint);
+      margin-left: 6px;
+      text-shadow: 0 0 24px rgba(123, 242, 218, 0.45);
+    }
+
+    .bonus-label {
+      font-weight: 900;
+      font-size: clamp(22px, 6vw, 40px);
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--white);
+    }
+    .bonus-sub {
+      margin-top: 10px;
+      font-size: clamp(15px, 4vw, 18px);
+      color: var(--gray);
+      font-weight: 400;
+      max-width: 34ch;
+      margin-left: auto;
+      margin-right: auto;
+      line-height: 1.55;
+    }
+    .bonus-sub strong { color: var(--mint-light); font-weight: 700; }
+
+    /* ===== SPINNING COIN — 50 FREE SPINS ===== */
+    .coin-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+      margin: 26px 0 6px;
+    }
+    .coin {
+      width: 54px;
+      height: 54px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      font-weight: 900;
+      font-size: 20px;
+      color: #06231D;
+      background: radial-gradient(circle at 32% 30%, #D8FFF4, var(--mint) 55%, var(--mint-dark));
+      border: 2px solid #D8FFF4;
+      box-shadow: 0 0 26px rgba(123, 242, 218, 0.4);
+      animation: coin-spin 3.2s ease-in-out infinite;
+    }
+    @keyframes coin-spin {
+      0%, 100% { transform: rotateY(0deg); }
+      50%      { transform: rotateY(360deg); }
+    }
+    .coin-text {
+      text-align: left;
+      line-height: 1.15;
+    }
+    .coin-text b {
+      display: block;
+      font-size: 22px;
+      font-weight: 900;
+      letter-spacing: 0.06em;
+      color: var(--mint-light);
+      text-transform: uppercase;
+    }
+    .coin-text span { font-size: 13px; color: var(--gray); }
+
+    /* ===== CTA ===== */
+    .cta {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      margin-top: 30px;
+      padding: 20px 44px;
+      min-height: 60px;
+      border-radius: 16px;
+      background: linear-gradient(135deg, var(--mint) 0%, var(--mint-light) 50%, var(--mint) 100%);
+      color: #05201A;
+      font-weight: 900;
+      font-size: 18px;
+      letter-spacing: 0.02em;
+      text-decoration: none;
+      text-transform: uppercase;
+      overflow: hidden;
+      animation: cta-pulse 2.4s ease-in-out infinite;
+      transition: transform 0.15s ease;
+    }
+    .cta:active { transform: scale(0.96); }
+    .cta:hover { transform: scale(1.04); }
+    .cta:focus-visible { outline: 3px solid var(--white); outline-offset: 3px; }
+    .cta svg { flex-shrink: 0; }
+    /* shimmer sweep */
+    .cta::after {
+      content: '';
+      position: absolute;
+      top: 0; bottom: 0;
+      width: 40%;
+      left: -60%;
+      background: linear-gradient(105deg, transparent 0%, rgba(255,255,255,0.55) 50%, transparent 100%);
+      animation: shimmer 3s ease-in-out infinite;
+    }
+    @keyframes shimmer {
+      0%, 55% { left: -60%; }
+      85%, 100% { left: 130%; }
+    }
+    @keyframes cta-pulse {
+      0%, 100% { box-shadow: 0 0 24px rgba(123, 242, 218, 0.35); }
+      50%      { box-shadow: 0 0 52px rgba(123, 242, 218, 0.65); }
+    }
+    .cta-note {
+      margin-top: 14px;
+      font-size: 13px;
+      color: var(--gray-dark);
+    }
+
+    /* ===== SCROLL HINT ===== */
+    .scroll-hint {
+      position: absolute;
+      bottom: 18px;
+      left: 50%;
+      transform: translateX(-50%);
+      color: var(--gray-dark);
+      animation: bob 2s ease-in-out infinite;
+    }
+    @keyframes bob {
+      0%, 100% { transform: translate(-50%, 0); }
+      50%      { transform: translate(-50%, 7px); }
+    }
+
+    /* ===== HOW IT WORKS ===== */
+    .steps {
+      max-width: 560px;
+      margin: 0 auto;
+      padding: 72px 24px 8px;
+    }
+    .steps h2 {
+      font-size: clamp(22px, 5.5vw, 30px);
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      text-align: center;
+      margin-bottom: 40px;
+    }
+    .steps h2 em { color: var(--mint); font-style: normal; }
+    .step {
+      display: flex;
+      gap: 18px;
+      align-items: flex-start;
+      padding: 20px 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+      opacity: 0;
+      transform: translateY(16px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .step.visible { opacity: 1; transform: translateY(0); }
+    .step:last-child { border-bottom: none; }
+    .step-num {
+      flex-shrink: 0;
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      display: grid;
+      place-items: center;
+      font-weight: 900;
+      font-size: 17px;
+      color: var(--mint);
+      background: rgba(123, 242, 218, 0.1);
+      border: 1px solid rgba(123, 242, 218, 0.3);
+    }
+    .step h3 { font-size: 17px; font-weight: 700; margin-bottom: 4px; }
+    .step p { font-size: 15px; color: var(--gray); line-height: 1.55; }
+    .step p strong { color: var(--mint-light); font-weight: 700; }
+
+    /* ===== PERKS STRIP ===== */
+    .perks {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+      padding: 40px 20px 8px;
+    }
+    .perk {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--gray);
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 999px;
+      padding: 10px 18px;
+    }
+    .perk svg { color: var(--mint); flex-shrink: 0; }
+
+    /* ===== FINAL CTA ===== */
+    .final {
+      text-align: center;
+      padding: 56px 24px 40px;
+    }
+    .final .bonus-label { font-size: clamp(18px, 5vw, 26px); }
+    .final .highlight { color: var(--mint); }
+
+    /* ===== SMALL PRINT ===== */
+    .legal {
+      max-width: 620px;
+      margin: 0 auto;
+      padding: 24px 24px 48px;
+      text-align: center;
+      font-size: 11px;
+      line-height: 1.7;
+      color: #555;
+    }
+    .legal a { color: #777; }
+
+    /* ===== REDUCED MOTION ===== */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-delay: 0s !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+      .fade-step { opacity: 1; transform: none; }
+      .step { opacity: 1; transform: none; }
+      .reel-strip { transform: translateY(calc(-100% + clamp(84px, 22vw, 150px))); animation: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ============ HERO / STAGE ============ -->
+  <main class="stage">
+    <!-- Mikki in Kirgo-merch (officiële Kirgo marketing-asset) -->
+    <div class="stage-photo" aria-hidden="true">
+      <img
+        src="/images/kirgo/mikki-kirgo-1400.webp"
+        srcset="/images/kirgo/mikki-kirgo-800.webp 800w, /images/kirgo/mikki-kirgo-1400.webp 1400w"
+        sizes="100vw"
+        alt=""
+        fetchpriority="high"
+        decoding="async"
+      />
+    </div>
+
+    <div class="particles" aria-hidden="true">
+      <span></span><span></span><span></span><span></span><span></span><span></span>
+      <span></span><span></span><span></span><span></span><span></span><span></span>
+    </div>
+
+    <!-- Zwevende dice (eigen SVG-artwork, Kirgo streetwear-vibe) -->
+    <svg class="dice dice-l" viewBox="0 0 64 64" aria-hidden="true">
+      <rect x="4" y="4" width="56" height="56" rx="12" fill="#0E1917" stroke="#7BF2DA" stroke-opacity="0.55" stroke-width="2"/>
+      <circle cx="20" cy="20" r="5" fill="#7BF2DA"/>
+      <circle cx="44" cy="20" r="5" fill="#7BF2DA"/>
+      <circle cx="32" cy="32" r="5" fill="#7BF2DA"/>
+      <circle cx="20" cy="44" r="5" fill="#7BF2DA"/>
+      <circle cx="44" cy="44" r="5" fill="#7BF2DA"/>
+    </svg>
+    <svg class="dice dice-r" viewBox="0 0 64 64" aria-hidden="true">
+      <rect x="4" y="4" width="56" height="56" rx="12" fill="#0E1917" stroke="#7BF2DA" stroke-opacity="0.55" stroke-width="2"/>
+      <circle cx="20" cy="20" r="5" fill="#7BF2DA"/>
+      <circle cx="44" cy="44" r="5" fill="#7BF2DA"/>
+    </svg>
+
+    <!-- Drijvende kaartsymbolen -->
+    <div class="suits" aria-hidden="true">
+      <span class="suit s1">♠</span>
+      <span class="suit s2">♦</span>
+      <span class="suit s3">♣</span>
+      <span class="suit s4">♥</span>
+    </div>
+
+    <p class="eyebrow fade-step d1">MMC &times; Kirgo Exclusive</p>
+
+    <!-- Slot reel: 300% -->
+    <div class="bonus-line fade-step d2" role="img" aria-label="300% deposit bonus">
+      <div class="reel" aria-hidden="true">
+        <div class="reel-strip"><b>7</b><b>1</b><b>9</b><b>4</b><b>8</b><b>3</b></div>
+      </div>
+      <div class="reel" aria-hidden="true">
+        <div class="reel-strip"><b>2</b><b>8</b><b>5</b><b>1</b><b>6</b><b>0</b></div>
+      </div>
+      <div class="reel" aria-hidden="true">
+        <div class="reel-strip"><b>9</b><b>3</b><b>7</b><b>2</b><b>5</b><b>0</b></div>
+      </div>
+      <span class="pct" aria-hidden="true">%</span>
+    </div>
+
+    <h1 class="bonus-label fade-step d3">Deposit Bonus</h1>
+    <p class="bonus-sub fade-step d3">
+      Triple your first deposit up to <strong>$100</strong> — turn $100 into <strong>$400 to play with</strong>.
+    </p>
+
+    <!-- 50 free spins coin -->
+    <div class="coin-row fade-step d4">
+      <div class="coin" aria-hidden="true">50</div>
+      <div class="coin-text">
+        <b>+50 Free Spins</b>
+        <span>on top of your bonus</span>
+      </div>
+    </div>
+
+    <!-- CTA -->
+    <div class="fade-step d5">
+      <a class="cta" id="cta-hero" href={TELEGRAM_BOT_URL} rel="nofollow sponsored noopener">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
+        Claim via Telegram
+      </a>
+      <p class="cta-note">Free to claim &middot; takes ~30 seconds</p>
+    </div>
+
+    <svg class="scroll-hint" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+  </main>
+
+  <!-- ============ HOW IT WORKS ============ -->
+  <section class="steps">
+    <h2>Claim it in <em>3 steps</em></h2>
+
+    <div class="step">
+      <div class="step-num">1</div>
+      <div>
+        <h3>Tap the button</h3>
+        <p>It opens our Telegram bot — no signup, no email, no spam.</p>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">2</div>
+      <div>
+        <h3>Get your personal link</h3>
+        <p>The bot sends your Kirgo link with code <strong>MMC</strong> already applied.</p>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">3</div>
+      <div>
+        <h3>Deposit &amp; play</h3>
+        <p>Your first deposit (up to $100) gets a <strong>300% match</strong> — plus <strong>50 free spins</strong> land in your account.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ MIKKI REEL (met toestemming van Mikki gebruikt) ============ -->
+  {HAS_VIDEO && (
+    <section class="reel-section">
+      <p class="eyebrow">Straight From Mikki</p>
+      <div class="reel-frame">
+        <video
+          id="mikki-reel"
+          src="/videos/kirgo-reel.mp4"
+          poster="/videos/kirgo-reel-poster.jpg"
+          autoplay
+          muted
+          loop
+          playsinline
+          preload="none"
+        ></video>
+        <div class="reel-caps" id="reel-caps" aria-hidden="true"></div>
+        <button class="reel-sound" id="reel-sound" type="button" aria-pressed="false">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M13.5 4.06c0-1.336-1.616-2.005-2.56-1.06l-4.5 4.5H4.508c-1.141 0-2.318.664-2.66 1.905A9.76 9.76 0 001.5 12c0 .898.121 1.768.35 2.595.341 1.24 1.518 1.905 2.659 1.905h1.93l4.5 4.5c.945.945 2.561.276 2.561-1.06V4.06z"/></svg>
+          Tap for sound
+        </button>
+      </div>
+      <p class="reel-quote">
+        "Kirgo.com does NOT pay me… I need a casino that won't ban me for just playing good." — <strong>Mikki Mase</strong> (@dirtygothboi)
+      </p>
+    </section>
+  )}
+
+  <!-- ============ PERKS ============ -->
+  <section class="perks" aria-label="Why players like Kirgo">
+    {['Code MMC auto-applied', '8,500+ games & live tables', 'Crypto friendly', 'Fast payouts'].map((perk) => (
+      <span class="perk">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M19.916 4.626a.75.75 0 01.208 1.04l-9 13.5a.75.75 0 01-1.154.114l-6-6a.75.75 0 011.06-1.06l5.353 5.353 8.493-12.739a.75.75 0 011.04-.208z" clip-rule="evenodd"/></svg>
+        {perk}
+      </span>
+    ))}
+  </section>
+
+  <!-- ============ FINAL CTA ============ -->
+  <section class="final">
+    <p class="bonus-label"><span class="highlight">$400 to play</span> for a $100 deposit.</p>
+    <a class="cta" id="cta-final" href={TELEGRAM_BOT_URL} rel="nofollow sponsored noopener">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
+      Claim your bonus
+    </a>
+  </section>
+
+  <!-- ============ SMALL PRINT ============ -->
+  <footer class="legal">
+    <p>
+      18+ only. Gambling involves risk — never play with money you can't afford to lose.
+      If gambling stops being fun, visit <a href="https://www.begambleaware.org" rel="nofollow noopener" target="_blank">BeGambleAware.org</a> or call 1-800-522-4700.
+      Bonus and free spins are subject to Kirgo's terms, wagering requirements and availability; new players only; not available in all jurisdictions.
+      We may earn a commission when you sign up through our links.
+      This page is operated by the Mikki Mase Community, an independent fan community — not affiliated with or endorsed by Mikki Mase.
+    </p>
+  </footer>
+
+  <!-- ============ ANALYTICS + SCROLL REVEAL ============ -->
+  <script is:inline>
+    // GA4 (zelfde property als hoofdsite) — alleen voor funnel-metrics
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-MMKPYY3FB5');
+    (function () {
+      var s = document.createElement('script');
+      s.src = 'https://www.googletagmanager.com/gtag/js?id=G-MMKPYY3FB5';
+      s.async = true;
+      document.head.appendChild(s);
+    })();
+
+    // CTA click tracking
+    ['cta-hero', 'cta-final'].forEach(function (id) {
+      var el = document.getElementById(id);
+      if (el) el.addEventListener('click', function () {
+        gtag('event', 'kirgo_bonus_cta', { placement: id });
+      });
+    });
+
+    // Reel: gestylede captions (whisper-transcript, handmatig opgeschoond;
+    // *woord* wordt mint gehighlight)
+    var CUES = [
+      [0.0,  4.6,  'All online casinos *cheat*.'],
+      [4.6,  6.7,  "If you don't let me check out the back — what's the point?"],
+      [6.7,  11.4, "I'm not doing it, bro. They won't let me check out the back."],
+      [11.7, 15.0, "I don't care how much money it is — if I can't post it, we don't have a *deal*."],
+      [15.0, 18.3, '*No deal.*'],
+      [18.5, 21.2, 'This is *Kirgo.com*.'],
+      [21.2, 25.4, "I've had this same conversation a million times with the owners of every casino."],
+      [25.4, 29.6, "We can't make a deal if you won't let me take an honest look."],
+      [29.6, 31.7, "If you've got nothing to hide — what do you even care?"],
+      [31.7, 35.6, "If I don't think it's good for somebody, I don't want to post it."],
+      [35.6, 38.9, "I'm way less concerned with *me making money* than *my fans losing money*."],
+      [38.9, 42.2, "We're gonna do a deep dive. If everything checks out, we can talk again."],
+      [42.4, 46.5, 'You played a thousand hands of blackjack?'],
+      [46.5, 50.5, "What was the win rate? — *54%*, and I'm actually happy with it."],
+      [50.6, 54.3, 'When you withdrew the money, how long did it take?'],
+      [54.3, 57.5, '*Immediately.* Immediately.'],
+      [62.4, 64.6, "It's not money — it's *confidence*."],
+      [64.7, 67.8, 'I took a look, and everything seemed okay.'],
+      [67.8, 70.5, "If we're gonna do this: full communication, *full transparency*."],
+      [70.5, 75.4, 'If or when I find anything out of line, I am going to post about it.'],
+      [75.4, 78.5, 'I expect you to post about it, sir.'],
+      [81.5, 88.0, "At least now you know: if you play on Kirgo, *you won't get cheated*."]
+    ];
+
+    // Caption-engine: rAF-loop synct cues op currentTime
+    var reel = document.getElementById('mikki-reel');
+    var capsEl = document.getElementById('reel-caps');
+    if (reel && capsEl) {
+      var activeCue = -1;
+      function esc(s) {
+        return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+      }
+      function renderCue(i) {
+        if (i === activeCue) return;
+        activeCue = i;
+        if (i < 0) { capsEl.innerHTML = ''; return; }
+        var html = esc(CUES[i][2]).replace(/\*([^*]+)\*/g, '<span class="hl">$1</span>');
+        capsEl.innerHTML = '<span class="cap">' + html + '</span>';
+      }
+      function tick() {
+        var t = reel.currentTime;
+        var found = -1;
+        for (var i = 0; i < CUES.length; i++) {
+          if (t >= CUES[i][0] && t < CUES[i][1]) { found = i; break; }
+        }
+        renderCue(found);
+        requestAnimationFrame(tick);
+      }
+      requestAnimationFrame(tick);
+    }
+
+    // Reel: geluid aan/uit
+    var soundBtn = document.getElementById('reel-sound');
+    if (reel && soundBtn) {
+      soundBtn.addEventListener('click', function () {
+        reel.muted = !reel.muted;
+        if (!reel.muted) { reel.currentTime = 0; reel.play(); }
+        soundBtn.setAttribute('aria-pressed', String(!reel.muted));
+        soundBtn.innerHTML = reel.muted
+          ? soundBtn.innerHTML.replace('Sound on', 'Tap for sound')
+          : soundBtn.innerHTML.replace('Tap for sound', 'Sound on');
+        gtag('event', 'reel_sound_toggle', { muted: reel.muted });
+      });
+    }
+
+    // Scroll-reveal voor de stappen
+    var steps = document.querySelectorAll('.step');
+    if ('IntersectionObserver' in window) {
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e, i) {
+          if (e.isIntersecting) {
+            e.target.classList.add('visible');
+            io.unobserve(e.target);
+          }
+        });
+      }, { threshold: 0.3 });
+      steps.forEach(function (s, i) {
+        s.style.transitionDelay = (i * 120) + 'ms';
+        io.observe(s);
+      });
+    } else {
+      steps.forEach(function (s) { s.classList.add('visible'); });
+    }
+  </script>
+</body>
+</html>
