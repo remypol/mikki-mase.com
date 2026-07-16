@@ -168,10 +168,10 @@ export default function AccountPanel() {
           </div>
           {!hasAnyPaid && (
             <a
-              href="/masterclass"
+              href="/join"
               className="inline-flex items-center gap-2 bg-accent-red text-white px-5 py-3 rounded-full font-semibold text-sm hover:brightness-110 transition"
             >
-              View the Masterclass
+              Join the Fan Community
             </a>
           )}
         </div>

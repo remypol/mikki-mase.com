@@ -1,4 +1,7 @@
 ---
+// Funnel killed (2026-07-16): fan page sells nothing — redirect to /join.
+return Astro.redirect('/join', 301);
+
 /**
  * FUNNEL FRONT SALES PAGE, Beat the Casino (High-Roller Edition) $27
  *
@@ -40,6 +43,7 @@ const pageSchema = {
   description={product.seo.description}
   ogImage={product.seo.image}
   schema={pageSchema}
+  noIndex={true}
   hideMobileNav={true}
   hideBackToTop={true}
   bareChrome={true}
