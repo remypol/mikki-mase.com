@@ -39,8 +39,8 @@ button[class*="primary"]:hover,
 a[class*="primary"]:hover {
   transform: translateY(-2px);
   box-shadow:
-    0 10px 25px -5px rgba(212, 160, 23, 0.4),
-    0 8px 10px -6px rgba(212, 160, 23, 0.3);
+    0 10px 25px -5px rgba(207, 181, 59, 0.4),
+    0 8px 10px -6px rgba(207, 181, 59, 0.3);
 }
 
 .button-primary:active,
@@ -48,7 +48,7 @@ button[class*="primary"]:active,
 a[class*="primary"]:active {
   transform: translateY(0);
   box-shadow:
-    0 4px 12px -2px rgba(212, 160, 23, 0.3);
+    0 4px 12px -2px rgba(207, 181, 59, 0.3);
 }
 
 /* Button Ripple Effect */
@@ -80,8 +80,8 @@ a[class*="primary"]:active::after {
 button[class*="secondary"]:hover,
 a[class*="secondary"]:hover {
   transform: translateY(-1px);
-  border-color: rgba(212, 160, 23, 0.8);
-  background: rgba(212, 160, 23, 0.05);
+  border-color: rgba(207, 181, 59, 0.8);
+  background: rgba(207, 181, 59, 0.05);
 }
 
 /* ==========================================
@@ -204,7 +204,7 @@ a.hover\:text-gold-light:hover:not([class*="button"]) {
 
 /* Modern focus ring */
 *:focus-visible {
-  outline: 2px solid rgba(212, 160, 23, 0.8);
+  outline: 2px solid rgba(207, 181, 59, 0.8);
   outline-offset: 3px;
   border-radius: 4px;
   transition: outline-offset 0.2s ease;
@@ -282,8 +282,8 @@ a:focus-visible {
 
 .hover-glow-gold:hover {
   box-shadow:
-    0 0 20px rgba(212, 160, 23, 0.3),
-    0 0 40px rgba(212, 160, 23, 0.15);
+    0 0 20px rgba(207, 181, 59, 0.3),
+    0 0 40px rgba(207, 181, 59, 0.15);
 }
 
 .hover-glow-green {
@@ -459,7 +459,7 @@ details summary {
 }
 
 details summary:hover {
-  color: rgba(212, 160, 23, 1);
+  color: rgba(207, 181, 59, 1);
 }
 
 details[open] summary {

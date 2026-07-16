@@ -68,7 +68,7 @@ const ariaCurrent = (href: string) => isActive(href) ? "page" : undefined;
                 <span class="mega-menu-link-desc">34 life events mapped</span>
               </a>
               <a href="/faq" class="mega-menu-link">
-                <span class="mega-menu-link-title">FAQ (40+ Questions)</span>
+                <span class="mega-menu-link-title">FAQ (45+ Questions)</span>
                 <span class="mega-menu-link-desc">Is he legit? Real name?</span>
               </a>
               <a href="/the-system" class="mega-menu-link">
@@ -179,7 +179,7 @@ const ariaCurrent = (href: string) => isActive(href) ? "page" : undefined;
     transform: translateX(-50%);
     min-width: 560px;
     background: #1a1a1a;
-    border: 1px solid rgba(212, 160, 23, 0.3);
+    border: 1px solid rgba(207, 181, 59, 0.3);
     border-radius: 12px;
     padding: 24px;
     opacity: 0;
@@ -227,13 +227,13 @@ const ariaCurrent = (href: string) => isActive(href) ? "page" : undefined;
   }
 
   .mega-menu-link:hover {
-    background: rgba(212, 160, 23, 0.1);
+    background: rgba(207, 181, 59, 0.1);
   }
 
   .mega-menu-link-title {
     font-family: var(--font-serif);
     font-variation-settings: 'opsz' 32, 'SOFT' 30, 'wght' 500;
-    font-size: 17px;
+    font-size: var(--font-size-base); /* 16px — gelijk aan top-level nav links */
     font-weight: 500;
     letter-spacing: -0.005em;
     color: rgb(var(--text-primary));
@@ -248,7 +248,7 @@ const ariaCurrent = (href: string) => isActive(href) ? "page" : undefined;
 
   /* Active state for current page */
   .mega-menu-link[data-active="true"] {
-    background: rgba(212, 160, 23, 0.15);
+    background: rgba(207, 181, 59, 0.15);
   }
 
   .mega-menu-link[data-active="true"] .mega-menu-link-title {
