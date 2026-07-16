@@ -23,7 +23,7 @@ const navLinkClass = (href: string) => {
 const ariaCurrent = (href: string) => isActive(href) ? "page" : undefined;
 ---
 
-<header class="fixed top-0 left-0 right-0 z-50 bg-black border-b border-gray-800" role="banner">
+<header class="fixed top-0 left-0 right-0 z-50 border-b border-subtle backdrop-blur-md" style="background: rgba(12, 11, 9, 0.88);" role="banner">
   <!-- Unofficial fan page disclaimer strip (Fase 0: één rustige regel, klapt in na scroll) -->
   <div id="fanpage-strip" class="fanpage-strip w-full text-center text-[10px] md:text-[11px] font-semibold uppercase tracking-wider px-3 whitespace-nowrap overflow-hidden">
     <span class="md:hidden">Unofficial fan page &middot; not affiliated</span>
@@ -131,7 +131,7 @@ const ariaCurrent = (href: string) => isActive(href) ? "page" : undefined;
   <!-- Mobile Menu -->
   <div
     id="mobile-menu"
-    class="hidden md:hidden bg-gray-900 border-t border-gray-800"
+    class="hidden md:hidden bg-elevated border-t border-subtle"
   >
     <div class="px-4 py-4 flex flex-col gap-4">
       <a href="/story" class={`${navLinkClass('/story')} py-2`}>Story</a>
@@ -196,7 +196,7 @@ const ariaCurrent = (href: string) => isActive(href) ? "page" : undefined;
     left: 50%;
     transform: translateX(-50%);
     min-width: 560px;
-    background: #1a1a1a;
+    background: rgb(var(--bg-elevated));
     border: 1px solid rgba(207, 181, 59, 0.3);
     border-radius: 12px;
     padding: 24px;

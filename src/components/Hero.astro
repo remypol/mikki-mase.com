@@ -37,13 +37,15 @@ const {
   withDot = false,
 } = Astro.props;
 
-const heightClass = variant === 'full' ? 'min-h-screen' : 'h-[360px] sm:h-[480px] md:h-[640px]';
+const heightClass = variant === 'full' ? 'min-h-[100svh]' : 'h-[360px] sm:h-[480px] md:h-[640px]';
 ---
 
-<section class={`relative ${heightClass} ${variant === 'medium' ? 'overflow-hidden' : 'flex items-start md:items-center justify-center'} bg-page`}>
-  <!-- Background Image - LCP optimized with AVIF + WebP -->
+{/* -mt-28 laat de hero onder de fixed (blurrende) header doorlopen: full-bleed,
+    geen zwarte band. De header-spacer is h-28, dus dit heft hem exact op. */}
+<section class={`hero-stage relative overflow-hidden ${heightClass} bg-page -mt-28`}>
+  <!-- Background Image: full-bleed cover-laag (Fase 1 hero-systeem) -->
   {backgroundImage && (
-    <div class="relative z-0 w-full">
+    <div class="absolute inset-0 z-0">
       {variant === 'medium' ? (
         <picture>
           {/* AVIF source for desktop */}
@@ -56,7 +58,7 @@ const heightClass = variant === 'full' ? 'min-h-screen' : 'h-[360px] sm:h-[480px
           <img
             src={backgroundImage}
             alt="Mikki Mase high stakes baccarat Las Vegas casino luxury gambling table"
-            class="w-full h-auto block photo-duotone"
+            class="w-full h-full object-cover object-[50%_30%] photo-duotone"
             loading="eager"
             fetchpriority="high"
             decoding="async"
@@ -83,17 +85,15 @@ const heightClass = variant === 'full' ? 'min-h-screen' : 'h-[360px] sm:h-[480px
             width="1920"
             height="1283"
             alt="Mikki Mase high stakes baccarat Las Vegas casino luxury gambling table"
-            class={`w-full h-full object-cover object-[50%_35%] md:object-center photo-duotone`}
+            class={`w-full h-full object-cover object-[50%_25%] md:object-center photo-duotone`}
             loading="eager"
             fetchpriority="high"
             decoding="async"
           />
         </picture>
       )}
-      <!-- Overlay for readability: warm multiply (editorial) + radial chip-red glow on top -->
-      <div class="absolute inset-0 bg-black/55"></div>
-      <div class="absolute inset-0 hero-gradient opacity-70 pointer-events-none"></div>
-      <div class="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-black/80 to-transparent md:hidden"></div>
+      <!-- Spotlight-overlay: goudgloed boven, fade naar page-kleur onder -->
+      <div class="absolute inset-0 hero-spotlight pointer-events-none"></div>
     </div>
   )}
 
@@ -102,16 +102,9 @@ const heightClass = variant === 'full' ? 'min-h-screen' : 'h-[360px] sm:h-[480px
     <div class="absolute inset-0 hero-gradient pointer-events-none"></div>
   )}
 
-  <!-- Content -->
-  <div class={`absolute inset-0 z-10 flex items-center justify-center w-full ${variant === 'full' ? 'md:min-h-0' : ''}`}>
-    <div class={`container px-6 text-center ${variant === 'full' ? 'pt-6 pb-4 md:py-32' : 'py-2 md:py-8'} flex flex-col justify-center max-h-[75vh] md:min-h-0`}>
-
-      <!-- As Seen On - Above Fold -->
-      {variant === 'full' && (
-        <div class="mb-6 md:mb-10 animate-[fadeIn_0.6s_ease-out]">
-          <AsSeenOnMini />
-        </div>
-      )}
+  <!-- Content: onderin verankerd op mobiel (titel altijd boven de fold), gecentreerd op desktop -->
+  <div class={`relative z-10 flex w-full ${variant === 'full' ? 'min-h-[100svh] items-end md:items-center' : 'h-full items-center'} justify-center`}>
+    <div class={`container px-6 text-center ${variant === 'full' ? 'pb-10 pt-28 md:py-32' : 'py-2 md:py-8'} flex flex-col justify-end md:justify-center`}>
 
       <!-- Text Block: Cinematic Hierarchy -->
       <div class="flex-shrink-0">
@@ -148,7 +141,7 @@ const heightClass = variant === 'full' ? 'min-h-screen' : 'h-[360px] sm:h-[480px
 
       <!-- CTAs: Now in flow on mobile for guaranteed visibility -->
       {(primaryCTA || secondaryCTA) && (
-        <div class="flex flex-col sm:flex-row gap-3 md:gap-6 justify-center animate-[fadeIn_0.6s_ease-out_0.6s_both] mt-auto md:mt-0">
+        <div class="flex flex-col sm:flex-row gap-3 md:gap-6 justify-center animate-[fadeIn_0.6s_ease-out_0.6s_both]">
           {primaryCTA && (
             <Button variant="primary" href={primaryCTA.href}>
               {primaryCTA.text}
@@ -166,6 +159,13 @@ const heightClass = variant === 'full' ? 'min-h-screen' : 'h-[360px] sm:h-[480px
       {showSocialProof && variant === 'full' && (
         <div class="mt-4 md:mt-6 animate-[fadeIn_0.6s_ease-out_0.8s_both]">
           <SocialProof totalMembers={7000} weeklyJoins={147} liveCount={12} />
+        </div>
+      )}
+
+      <!-- As Seen On: stille logo-regel ónder de content (Fase 1) -->
+      {variant === 'full' && (
+        <div class="mt-8 md:mt-12 opacity-60 animate-[fadeIn_0.6s_ease-out_1s_both]">
+          <AsSeenOnMini />
         </div>
       )}
     </div>

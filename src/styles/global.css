@@ -9,8 +9,8 @@
 @theme {
   /* ===== COLORS ===== */
 
-  /* Primary */
-  --color-black: #000000;
+  /* Primary — warm near-black: alle bg-black usages liften mee (Fase 1) */
+  --color-black: #0C0B09;
   --color-off-white: #FFFBF5;
   --color-white: #FFFFFF;
 
@@ -871,11 +871,12 @@ footer {
    ============================================ */
 
 :root {
-  /* Surfaces — warm near-black stack for editorial feel (vs. pure #000) */
-  --bg-page: 8 9 14;             /* primary page bg */
-  --bg-elevated: 14 16 24;       /* section separator */
-  --bg-card: 20 22 32;           /* cards / panels */
-  --bg-card-hover: 28 30 42;
+  /* Surfaces — warm near-black stack (Fase 1: koele blauwtinten eruit,
+     "high-limit room" warmte erin) */
+  --bg-page: 12 11 9;            /* #0C0B09 primary page bg */
+  --bg-elevated: 20 17 12;       /* #14110C section separator */
+  --bg-card: 27 23 18;           /* #1B1712 cards / panels */
+  --bg-card-hover: 36 31 24;     /* #241F18 */
 
   /* Text */
   --text-primary: 246 244 239;   /* warm off-white (NOT pure #FFF) */
@@ -883,8 +884,8 @@ footer {
   --text-tertiary: 120 118 114;
 
   /* Borders */
-  --border-subtle: 38 40 54;
-  --border-strong: 72 75 95;
+  --border-subtle: 48 42 33;     /* warm i.p.v. navy */
+  --border-strong: 88 78 62;
 
   /* Accents */
   --accent-gold: 207 181 59;     /* trust / verified / wealth */
@@ -903,6 +904,16 @@ footer {
    bestaande overlay-gradients voor het "high-limit spotlight" gevoel. */
 .photo-duotone {
   filter: grayscale(0.85) sepia(0.32) saturate(1.35) contrast(1.08) brightness(0.92);
+}
+
+/* Hero spotlight-overlay (Fase 1): tafel-onder-de-lamp gevoel.
+   Goudgloed van boven, donkere randen, fade naar page-kleur onderin
+   zodat de hero naadloos in de volgende sectie overloopt. */
+.hero-spotlight {
+  background:
+    radial-gradient(ellipse 120% 70% at 50% -10%, rgba(207, 181, 59, 0.14) 0%, rgba(207, 181, 59, 0.04) 40%, transparent 70%),
+    radial-gradient(ellipse 90% 45% at 85% -5%, rgba(0, 0, 0, 0.6) 0%, transparent 60%),
+    linear-gradient(180deg, rgba(12, 11, 9, 0.6) 0%, rgba(12, 11, 9, 0.45) 40%, rgba(12, 11, 9, 0.85) 78%, rgb(var(--bg-page)) 100%);
 }
 
 .hero-gradient {
