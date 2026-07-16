@@ -1,16 +1,11 @@
 ---
-export const prerender = false;
 
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Header from '../../components/Header.astro';
 import Footer from '../../components/Footer.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import EmailCapture from '../../components/EmailCapture.tsx';
-import { getToolAccess } from '../../lib/tool-access';
 
-// Keep the access lookup for internal logic, but present every tier as free.
-const access = await getToolAccess(Astro.cookies, Astro.request);
-const paidTier = access.hasFullAccess ? 'inner-circle' : (access.tier === 'masterclass' ? 'masterclass' : null);
 const scarcityCopy = 'Free to use. No signup, no catch.';
 
 const toolsSchema = {
