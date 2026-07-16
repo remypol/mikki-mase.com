@@ -1,5 +1,39 @@
 # SEO Changelog
 
+## 2026-07-16 — Site Audit: Consistency Cleanup, March-Content Port & Orphan LP
+
+### 1. Ported never-committed March content (was only on a local machine)
+- `/faq` — added 2 Q&As to "2026 Updates" (system vs card counting; net worth 2026), title 40+ → 45+ (also in header mega-menu label)
+- `/the-system` — new section "How Mikki's System Differs From Traditional Advantage Play" + comparison table
+- `/net-worth` — new comparison paragraph with 4 internal links
+- Footer — added `/blog` link to Learn column
+- `dateModified` → 2026-07-16 on all three pages
+
+### 2. Design consistency (audit findings)
+- Global: legacy gold `rgba(212,160,23)` → brand `rgba(207,181,59)` (~70 uses in nav, timeline, tools, animations.css); `#fbbf24`/`#eab308` → gold tokens
+- Header mega-menu link titles 17px → 16px (match top-level nav); editorial (Fraunces) heading rollout finished on story, baccarat-guide, the-system, net-worth, gambling-psychology, wins
+
+### 3. Indexing hygiene
+- `/funnel/beat-the-casino` was indexable (missing `noIndex`) — fixed
+- Sitemap filter now excludes `/funnel/*` and `/bonus`
+- NEW orphan landing page `/bonus` (Kirgo funnel, noindex+nofollow, standalone, no internal links — for IG/FB traffic only)
+
+### 4. Selling fully killed (same day, follow-up)
+- 301 → `/join` on: `/beat-the-casino`, `/funnel/beat-the-casino`, `/funnel/checkout`, `/funnel/upsell/*`, `/checkout/masterclass`, `/checkout/playbook`, `/checkout/upsell`; `/masterclass` redirect repointed from funnel to `/join`
+- Success/thank-you pages kept live for recent buyers; `/masterclass/course/*` stays for existing owners
+- AccountPanel "View the Masterclass" CTA → "Join the Fan Community" (/join)
+- Footer/SupportChat "sells nothing" claim is now actually true
+
+### 5. /kirgo orphan landing page (was /bonus, renamed same day)
+- Route: `/kirgo` (brandable for IG bio), noindex+nofollow, excluded from sitemap, zero internal links
+- CTA (2×) → `bit.ly/MMC_Tricks`
+- Restyled to Kirgo brand palette pulled from kirgo.com: mint `#7BF2DA`/`#A9F6E5`/`#57AC9B`, teal-tinted blacks `#0A0F0F`/`#0E1917`, purple glow `#7B2DFA`
+- Hero photo: official Kirgo marketing asset (Mikki in KIRGO.COM hoodie, from kirgosupply.com CDN), webp 22/74KB + og:image for link previews
+- Mikki's Kirgo reel (own account @dirtygothboi, used with his consent) as social-proof section: 720p/5.3MB, poster, tap-for-sound, GA events `kirgo_bonus_cta` + `reel_sound_toggle`
+
+### 6. Dead code removed
+- `.backup`/`-old` pages, `backups/`, `public/images/backup_phase1/`, `ShopPromo`, `ExitIntentBar`, `seo/Organization` (broken import), `shop/preview/*`, `data/bedroom-boss.ts`; old root reports → `docs/archive/`
+
 ## 2026-03-15 — CTR Optimization: Title & Meta Description Updates
 
 **Context:** Site avg CTR 2.7% at avg position 10.1 (10.8K impressions, 295 clicks over 3 months). Many pages sit at position 8–15 where small title/description improvements can significantly increase clicks.
