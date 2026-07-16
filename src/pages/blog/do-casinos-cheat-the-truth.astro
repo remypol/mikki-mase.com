@@ -38,7 +38,7 @@ const articleSchema = {
   <Header />
   <div class="h-20"></div>
 
-  <div class="bg-black border-b border-gray-800">
+  <div class="bg-black border-b border-subtle">
     <Breadcrumbs items={[
       { label: "Home", href: "/" },
       { label: "Blog", href: "/blog" },
@@ -52,17 +52,17 @@ const articleSchema = {
       <header class="mb-12">
         <div class="flex items-center gap-3 text-sm mb-4">
           <span class="bg-gold/90 text-black font-bold uppercase px-3 py-1 rounded">Industry</span>
-          <span class="text-gray-500">•</span>
-          <time datetime="2025-01-22" class="text-gray-500">January 22, 2025</time>
-          <span class="text-gray-500">•</span>
-          <span class="text-gray-500">9 min read</span>
+          <span class="text-tertiary">•</span>
+          <time datetime="2025-01-22" class="text-tertiary">January 22, 2025</time>
+          <span class="text-tertiary">•</span>
+          <span class="text-tertiary">9 min read</span>
         </div>
 
         <h1 class="text-white text-3xl md:text-5xl font-black mb-6">
           Do Casinos Cheat? The Truth About What Happens Behind the Scenes
         </h1>
 
-        <p class="text-gray-300 text-lg md:text-xl leading-relaxed">
+        <p class="text-secondary text-lg md:text-xl leading-relaxed">
           Mikki Mase, who says he won $32M and was <a href="/banned" class="text-gold hover:text-gold-light underline">banned from 150+ casinos</a>, has talked publicly about how the industry operates. Here is a fan summary of the points he raises about transparency and the house edge.
         </p>
       </header>
@@ -73,55 +73,55 @@ const articleSchema = {
 
       <div class="prose prose-invert prose-lg max-w-none">
 
-        <h2 class="text-white text-2xl md:text-3xl font-bold mt-12 mb-6">The Uncomfortable Truth About Casinos</h2>
+        <h2 class="display-h2 mt-12 mb-6">The Uncomfortable Truth About Casinos</h2>
 
-        <p class="text-gray-300 leading-relaxed mb-6">
+        <p class="text-secondary leading-relaxed mb-6">
           Let me be clear: the <a href="/glossary#house-edge" class="text-gold hover:text-gold-light underline">house edge</a> is real and it's mathematically guaranteed. Casinos don't need to cheat to make money—the math is already in their favor. But that doesn't mean everything is above board.
         </p>
 
-        <p class="text-gray-300 leading-relaxed mb-6">
+        <p class="text-secondary leading-relaxed mb-6">
           Mikki has described playing at the highest levels, with $250K hands and $3M buy-ins, and argues that the issue is usually not outright cheating. It is the lack of transparency. It is what happens in the backend systems that players never see.
         </p>
 
-        <div class="bg-gradient-to-br from-gray-900 to-black border-l-4 border-gold p-6 my-8">
+        <div class="bg-card border border-subtle border-l-4 border-l-gold rounded-xl p-6 my-8">
           <p class="text-white text-lg italic">
             "Every casino I've ever played at operates behind a curtain. They see everything about you—your patterns, your wins, your tells. But you see nothing about how their systems actually work."
           </p>
-          <p class="text-gray-500 text-sm mt-2">— Mikki Mase, in a public interview</p>
+          <p class="text-tertiary text-sm mt-2">— Mikki Mase, in a public interview</p>
         </div>
 
-        <h2 class="text-white text-2xl md:text-3xl font-bold mt-12 mb-6">What Casinos Hide From You</h2>
+        <h2 class="display-h2 mt-12 mb-6">What Casinos Hide From You</h2>
 
         <h3 class="text-white text-xl font-bold mt-8 mb-4">The RNG Black Box</h3>
-        <p class="text-gray-300 leading-relaxed mb-6">
+        <p class="text-secondary leading-relaxed mb-6">
           Online casinos use Random Number Generators (RNGs) to determine outcomes. These are supposed to be independently audited—but do you ever see those audit reports? Do you know who audited them? Can you verify the RNG is actually running during your session?
         </p>
 
-        <p class="text-gray-300 leading-relaxed mb-6">
+        <p class="text-secondary leading-relaxed mb-6">
           The answer is almost always no. You're asked to trust the system without ever seeing proof.
         </p>
 
         <h3 class="text-white text-xl font-bold mt-8 mb-4">Player Tracking and Profiling</h3>
-        <p class="text-gray-300 leading-relaxed mb-6">
+        <p class="text-secondary leading-relaxed mb-6">
           Casinos know everything about you. They track your betting patterns, calculate your theoretical loss, monitor when you win, and flag you the moment you become unprofitable. But this data flow only goes one way—they track you, but you can't track them.
         </p>
 
         <h3 class="text-white text-xl font-bold mt-8 mb-4">The "Comps" Manipulation</h3>
-        <p class="text-gray-300 leading-relaxed mb-6">
+        <p class="text-secondary leading-relaxed mb-6">
           Complimentary drinks, rooms, and dinners aren't gifts. They're calculated investments based on how much they expect to win from you. The system is designed to keep you playing, not to reward you fairly.
         </p>
 
-        <h2 class="text-white text-2xl md:text-3xl font-bold mt-12 mb-6">Why Most Online Casinos Are Worse</h2>
+        <h2 class="display-h2 mt-12 mb-6">Why Most Online Casinos Are Worse</h2>
 
-        <p class="text-gray-300 leading-relaxed mb-6">
+        <p class="text-secondary leading-relaxed mb-6">
           At least in a brick-and-mortar casino, you can see the cards being dealt. You can watch the roulette ball spin. Online? You're trusting pixels on a screen.
         </p>
 
-        <p class="text-gray-300 leading-relaxed mb-6">
+        <p class="text-secondary leading-relaxed mb-6">
           Mikki says he has tested dozens of online platforms, and that most won't tell you:
         </p>
 
-        <ul class="text-gray-300 space-y-2 mb-6">
+        <ul class="text-secondary space-y-2 mb-6">
           <li>• How their RNG actually works</li>
           <li>• Real-time proof that outcomes are fair</li>
           <li>• What data they're collecting about your play</li>
@@ -129,35 +129,35 @@ const articleSchema = {
           <li>• How they calculate their actual <a href="/glossary#house-edge" class="text-gold hover:text-gold-light underline">house edge</a></li>
         </ul>
 
-        <p class="text-gray-300 leading-relaxed mb-6">
+        <p class="text-secondary leading-relaxed mb-6">
           He has said he is not claiming they are all rigged. The point he makes is simpler: if they have nothing to hide, why won't they show you?
         </p>
 
-        <h2 class="text-white text-2xl md:text-3xl font-bold mt-12 mb-6">The Kirgo Example: Full Transparency</h2>
+        <h2 class="display-h2 mt-12 mb-6">The Kirgo Example: Full Transparency</h2>
 
-        <p class="text-gray-300 leading-relaxed mb-6">
-          One platform Mikki has talked about publicly is <a href="https://kirgoplay.com/ddb4ff99f" target="_blank" rel="nofollow sponsored noopener noreferrer" class="text-gold hover:text-gold-light underline">Kirgo</a>. <span class="text-gray-500 text-sm">18+ | Gamble Responsibly</span>
+        <p class="text-secondary leading-relaxed mb-6">
+          One platform Mikki has talked about publicly is <a href="https://kirgoplay.com/ddb4ff99f" target="_blank" rel="nofollow sponsored noopener noreferrer" class="text-gold hover:text-gold-light underline">Kirgo</a>. <span class="text-tertiary text-sm">18+ | Gamble Responsibly</span>
         </p>
 
-        <p class="text-gray-300 leading-relaxed mb-6">
+        <p class="text-secondary leading-relaxed mb-6">
           According to what he has said, he asked to see everything. Not marketing materials. Not PR statements. He wanted to look at the backend systems, see how the RNG worked, and verify the math.
         </p>
 
-        <div class="bg-gradient-to-br from-gray-900 to-black border-l-4 border-gold p-6 my-8">
+        <div class="bg-card border border-subtle border-l-4 border-l-gold rounded-xl p-6 my-8">
           <p class="text-white text-lg italic">
             "Kirgo was the first and only online casino that gave me full access to their backend systems. They showed me everything—the RNG, the audit reports, the real-time data. They had nothing to hide."
           </p>
-          <p class="text-gray-500 text-sm mt-2">— Mikki Mase, in a public interview</p>
+          <p class="text-tertiary text-sm mt-2">— Mikki Mase, in a public interview</p>
         </div>
 
-        <p class="text-gray-300 leading-relaxed mb-6">
+        <p class="text-secondary leading-relaxed mb-6">
           He says most casinos would have laughed him out of the room, or banned him on the spot for asking, and that Kirgo welcomed the scrutiny instead.
         </p>
 
         <h3 class="text-white text-xl font-bold mt-8 mb-4">What He Says He Found</h3>
 
-        <div class="bg-gray-900 border border-gray-800 rounded-xl p-6 my-8">
-          <ul class="text-gray-300 space-y-3">
+        <div class="bg-card border border-subtle rounded-xl p-6 my-8">
+          <ul class="text-secondary space-y-3">
             <li class="flex items-start gap-3">
               <span class="text-gold">✓</span>
               <span><strong class="text-white">Provably fair RNG</strong> - he says outcomes could be verified in real-time</span>
@@ -181,29 +181,29 @@ const articleSchema = {
           </ul>
         </div>
 
-        <p class="text-gray-300 leading-relaxed mb-6">
+        <p class="text-secondary leading-relaxed mb-6">
           The way he tells it, this wasn't marketing but actual access, and they let him look under the hood because they had nothing to hide.
         </p>
 
-        <h2 class="text-white text-2xl md:text-3xl font-bold mt-12 mb-6">Why Transparency Matters</h2>
+        <h2 class="display-h2 mt-12 mb-6">Why Transparency Matters</h2>
 
-        <p class="text-gray-300 leading-relaxed mb-6">
+        <p class="text-secondary leading-relaxed mb-6">
           The house edge means casinos will always profit long-term. That's not the issue. The issue is when players can't verify that the edge is actually what they claim.
         </p>
 
-        <p class="text-gray-300 leading-relaxed mb-6">
+        <p class="text-secondary leading-relaxed mb-6">
           A casino claiming 1% house edge but secretly running 3%? That's not just unethical—it's theft. And without transparency, you'll never know.
         </p>
 
-        <p class="text-gray-300 leading-relaxed mb-6">
+        <p class="text-secondary leading-relaxed mb-6">
           A line he repeats is that he doesn't mind losing to math, but he does mind losing to manipulation. He says that at a transparent platform he knows he is facing honest odds, and that this is all any player can ask for.
         </p>
 
-        <h2 class="text-white text-2xl md:text-3xl font-bold mt-12 mb-6">His Advice to Players</h2>
+        <h2 class="display-h2 mt-12 mb-6">His Advice to Players</h2>
 
-        <div class="bg-gray-900 border border-gray-800 rounded-xl p-6 my-8">
+        <div class="bg-card border border-subtle rounded-xl p-6 my-8">
           <h3 class="text-gold font-bold mb-4">Before You Play Anywhere:</h3>
-          <ol class="text-gray-300 space-y-3 list-decimal list-inside">
+          <ol class="text-secondary space-y-3 list-decimal list-inside">
             <li><strong class="text-white">Ask for proof</strong> - If they can't show you audit reports, walk away</li>
             <li><strong class="text-white">Verify the license</strong> - Check the regulatory body and verify it's legitimate</li>
             <li><strong class="text-white">Test withdrawals</strong> - A casino that makes it hard to withdraw is a red flag</li>
@@ -212,13 +212,13 @@ const articleSchema = {
           </ol>
         </div>
 
-        <p class="text-gray-300 leading-relaxed mb-6">
+        <p class="text-secondary leading-relaxed mb-6">
           The industry needs more transparency. Until then, play where the curtain is open—not where they're hiding behind it.
         </p>
 
-        <div class="bg-red-900/20 border border-red-500/30 rounded-xl p-6 my-8">
-          <h3 class="text-red-400 font-bold mb-3">Gambling Warning</h3>
-          <p class="text-gray-300">
+        <div class="bg-[rgb(var(--accent-red)/0.08)] border border-[rgb(var(--accent-red)/0.3)] rounded-xl p-6 my-8">
+          <h3 class="text-[rgb(var(--accent-red))] font-bold mb-3">Gambling Warning</h3>
+          <p class="text-secondary">
             Even at the most transparent casino, the house always has an edge. Never gamble more than you can afford to lose. If gambling becomes a problem, call 1-800-522-4700.
           </p>
         </div>
@@ -228,9 +228,9 @@ const articleSchema = {
           <EmailCapture client:load variant="compact" source="blog-do-casinos-cheat-the-truth" />
         </div>
 
-        <div class="bg-gray-900 border border-gold/30 rounded-xl p-8 my-12 text-center">
+        <div class="bg-card border border-gold/30 rounded-xl p-8 my-12 text-center">
           <h3 class="text-white text-xl font-bold mb-4">Want More Industry Insights?</h3>
-          <p class="text-gray-400 mb-6">
+          <p class="text-tertiary mb-6">
             Join the Mikki Mase Fan Community (a free community for fans) for discussion and free guides.
           </p>
           <Button variant="primary" href="/join">
@@ -241,24 +241,24 @@ const articleSchema = {
       </div>
 
       <!-- Related Posts -->
-      <div class="mt-16 pt-8 border-t border-gray-800">
+      <div class="mt-16 pt-8 border-t border-subtle">
         <h3 class="text-white text-xl font-bold mb-6">Related Articles</h3>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <a href="/blog/why-casinos-ban-winners" class="bg-gray-900 border border-gray-800 rounded-lg p-6 hover:border-gold/30 transition-colors">
+          <a href="/blog/why-casinos-ban-winners" class="bg-card border border-subtle rounded-xl p-6 hover:border-gold/30 hover:-translate-y-0.5 transition-all">
             <span class="text-gold text-sm font-bold uppercase">Industry</span>
             <h4 class="text-white font-bold mt-2 mb-2">Why Casinos Ban Winners</h4>
-            <p class="text-gray-400 text-sm">The legal reality of casino bans and advantage play.</p>
+            <p class="text-tertiary text-sm">The legal reality of casino bans and advantage play.</p>
           </a>
-          <a href="/blog/bankroll-management-101" class="bg-gray-900 border border-gray-800 rounded-lg p-6 hover:border-gold/30 transition-colors">
+          <a href="/blog/bankroll-management-101" class="bg-card border border-subtle rounded-xl p-6 hover:border-gold/30 hover:-translate-y-0.5 transition-all">
             <span class="text-gold text-sm font-bold uppercase">Strategy</span>
             <h4 class="text-white font-bold mt-2 mb-2">Bankroll Management 101</h4>
-            <p class="text-gray-400 text-sm">How pros protect their money at the tables.</p>
+            <p class="text-tertiary text-sm">How pros protect their money at the tables.</p>
           </a>
         </div>
       </div>
 
       <!-- Author Box -->
-      <div class="mt-16 pt-12 border-t border-gray-800">
+      <div class="mt-16 pt-12 border-t border-subtle">
         <AuthorBox />
       </div>
 

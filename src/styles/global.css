@@ -881,7 +881,7 @@ footer {
   /* Text */
   --text-primary: 246 244 239;   /* warm off-white (NOT pure #FFF) */
   --text-secondary: 170 167 160;
-  --text-tertiary: 120 118 114;
+  --text-tertiary: 138 134 128;  /* Fase 4: bump voor AA-contrast op warm-zwart */
 
   /* Borders */
   --border-subtle: 48 42 33;     /* warm i.p.v. navy */
@@ -909,6 +909,61 @@ footer {
 /* Hero spotlight-overlay (Fase 1): tafel-onder-de-lamp gevoel.
    Goudgloed van boven, donkere randen, fade naar page-kleur onderin
    zodat de hero naadloos in de volgende sectie overloopt. */
+/* ===== CALCULATOR-SHELL (Fase 4): één taal voor alle tools ===== */
+.calc-panel {
+  background: rgb(var(--bg-card));
+  border: 1px solid rgb(var(--border-subtle));
+  border-radius: var(--radius-xl);
+  padding: var(--spacing-6);
+}
+
+.calc-label {
+  display: block;
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
+  text-transform: uppercase;
+  letter-spacing: var(--letter-spacing-wider);
+  color: rgb(var(--text-tertiary));
+  margin-bottom: var(--spacing-2);
+}
+
+.calc-input,
+.calc-select {
+  width: 100%;
+  background: rgb(var(--bg-elevated));
+  border: 1px solid rgb(var(--border-subtle));
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-3) var(--spacing-4);
+  color: rgb(var(--text-primary));
+  font-size: var(--font-size-base);
+  min-height: 48px;
+  transition: border-color var(--transition-base);
+}
+
+.calc-input:focus,
+.calc-select:focus {
+  outline: none;
+  border-color: var(--color-gold);
+  box-shadow: 0 0 0 3px rgba(207, 181, 59, 0.15);
+}
+
+.calc-result {
+  background: rgb(var(--bg-elevated));
+  border: 1px solid rgba(207, 181, 59, 0.25);
+  border-radius: var(--radius-xl);
+  padding: var(--spacing-6);
+  text-align: center;
+}
+
+.calc-result-value {
+  font-family: var(--font-serif);
+  font-variation-settings: 'opsz' 96, 'SOFT' 30, 'wght' 560;
+  font-size: clamp(2rem, 5vw, 3rem);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  color: var(--color-gold);
+}
+
 /* Pull-quote (Fase 2): Fraunces italic ademruimte in lange artikelen */
 .pull-quote {
   font-family: var(--font-serif);

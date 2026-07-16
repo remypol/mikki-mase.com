@@ -28,7 +28,7 @@ const toolSchema = {
   <Header />
   <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "Tools", href: "/tools" }, { label: "Roulette Calculator" }]} />
 
-  <main id="main-content" class="min-h-screen bg-black">
+  <main id="main-content" class="min-h-screen bg-page">
     <div id="tool-container" class="container mx-auto px-4 py-8 md:py-12 max-w-7xl"
          data-full-access={toolAccess.hasFullAccess ? 'true' : 'false'}
          data-remaining={toolAccess.remainingFree}>
@@ -36,16 +36,16 @@ const toolSchema = {
       <!-- Header -->
       <div class="text-center mb-10">
         <h1 class="text-4xl md:text-5xl font-black text-white mb-3">Roulette Odds Calculator</h1>
-        <p class="text-gray-400 text-lg">Know your odds before you spin</p>
+        <p class="text-secondary text-lg">Know your odds before you spin</p>
       </div>
 
       <!-- Spin Tracker - Full Width Above Calculator -->
-      <div class="mb-8 bg-gradient-to-br from-white/5 to-white/[0.02] backdrop-blur-xl border border-white/10 rounded-2xl p-6 md:p-8">
+      <div class="mb-8 calc-panel">
         <div class="flex items-center justify-between mb-6">
-          <label class="text-white text-lg font-bold uppercase tracking-wide">
+          <label class="calc-label" style="margin-bottom: 0; font-size: var(--font-size-sm);">
             Recent Spins
           </label>
-          <button id="clear-spins" class="text-sm text-gray-400 hover:text-white transition-colors px-4 py-2 hover:bg-white/10 rounded-lg font-semibold">
+          <button id="clear-spins" class="btn btn-tertiary" style="padding: 0.5rem 1rem; font-size: 0.875rem; min-height: 40px;">
             Clear
           </button>
         </div>
@@ -64,7 +64,7 @@ const toolSchema = {
         </div>
 
         <!-- Instructions -->
-        <p class="text-gray-400 text-sm text-center mb-4">
+        <p class="text-secondary text-sm text-center mb-4">
           Tap numbers below as they appear (most recent first)
         </p>
 
@@ -124,30 +124,30 @@ const toolSchema = {
 
         <!-- Pattern Analysis -->
         <div id="spin-analysis" class="hidden">
-          <div class="bg-white/5 rounded-xl p-4 mb-3">
+          <div class="bg-elevated border border-subtle rounded-xl p-4 mb-3">
             <p class="text-gold text-sm font-semibold mb-2">Pattern Analysis</p>
             <div class="grid grid-cols-2 gap-3 text-sm">
               <div>
-                <span class="text-gray-500">Red/Black:</span>
+                <span class="text-tertiary">Red/Black:</span>
                 <span id="color-ratio" class="text-white ml-1">-</span>
               </div>
               <div>
-                <span class="text-gray-500">Odd/Even:</span>
+                <span class="text-tertiary">Odd/Even:</span>
                 <span id="odd-even-ratio" class="text-white ml-1">-</span>
               </div>
               <div>
-                <span class="text-gray-500">High/Low:</span>
+                <span class="text-tertiary">High/Low:</span>
                 <span id="high-low-ratio" class="text-white ml-1">-</span>
               </div>
               <div>
-                <span class="text-gray-500">Zeros:</span>
+                <span class="text-tertiary">Zeros:</span>
                 <span id="zero-count" class="text-white ml-1">-</span>
               </div>
             </div>
           </div>
 
           <!-- Mikki's Take -->
-          <div class="bg-gradient-to-r from-gold/20 to-gold/5 border border-gold/40 rounded-xl p-4">
+          <div class="bg-gold/10 border border-gold/30 rounded-xl p-4">
             <div class="flex items-center gap-2 mb-2">
               <span class="text-gold text-lg">🎰</span>
               <p class="text-gold font-bold">Mikki's Take</p>
@@ -156,7 +156,7 @@ const toolSchema = {
           </div>
 
           <!-- Disclaimer -->
-          <p class="text-gray-500 text-xs mt-3 text-center">
+          <p class="text-tertiary text-xs mt-3 text-center">
             For entertainment only. Gamble responsibly.
           </p>
         </div>
@@ -166,29 +166,29 @@ const toolSchema = {
         <!-- LEFT COLUMN: Calculator -->
         <div class="space-y-6">
           <!-- Wheel Type -->
-          <div class="bg-gradient-to-br from-white/5 to-white/[0.02] backdrop-blur-xl border border-white/10 rounded-2xl p-6 md:p-8">
-            <label class="block text-gray-400 text-sm font-semibold mb-4 uppercase tracking-wide">
+          <div class="calc-panel">
+            <label class="calc-label">
               Wheel Type
             </label>
             <div class="grid grid-cols-2 gap-4" id="wheel-options">
               <button class="wheel-btn selected" data-value="european">
                 <span class="block text-3xl mb-2">🇪🇺</span>
                 <span class="block text-base font-bold">European</span>
-                <span class="block text-xs text-gray-500 mt-1">Single Zero (0)</span>
+                <span class="block text-xs text-tertiary mt-1">Single Zero (0)</span>
                 <span class="block text-gold text-xs mt-2 font-semibold">2.70% Edge</span>
               </button>
               <button class="wheel-btn" data-value="american">
                 <span class="block text-3xl mb-2">🇺🇸</span>
                 <span class="block text-base font-bold">American</span>
-                <span class="block text-xs text-gray-500 mt-1">Double Zero (00)</span>
-                <span class="block text-red-400 text-xs mt-2 font-semibold">5.26% Edge</span>
+                <span class="block text-xs text-tertiary mt-1">Double Zero (00)</span>
+                <span class="block text-xs mt-2 font-semibold" style="color: rgb(var(--accent-red))">5.26% Edge</span>
               </button>
             </div>
           </div>
 
           <!-- Bet Type -->
-          <div class="bg-gradient-to-br from-white/5 to-white/[0.02] backdrop-blur-xl border border-white/10 rounded-2xl p-6 md:p-8">
-            <label class="block text-gray-400 text-sm font-semibold mb-4 uppercase tracking-wide">
+          <div class="calc-panel">
+            <label class="calc-label">
               Bet Type
             </label>
             <div class="grid grid-cols-2 gap-3" id="bet-options">
@@ -228,8 +228,8 @@ const toolSchema = {
           </div>
 
           <!-- Bet Amount -->
-          <div class="bg-gradient-to-br from-white/5 to-white/[0.02] backdrop-blur-xl border border-white/10 rounded-2xl p-6 md:p-8">
-            <label class="block text-gray-400 text-sm font-semibold mb-4 uppercase tracking-wide">
+          <div class="calc-panel">
+            <label class="calc-label">
               Bet Amount
             </label>
             <div class="grid grid-cols-4 gap-3" id="amount-options">
@@ -244,7 +244,7 @@ const toolSchema = {
         <!-- RIGHT COLUMN: Results & Visualization -->
         <div class="space-y-6">
           <!-- Win Probability Visualization -->
-          <div class="bg-gradient-to-br from-white/5 to-white/[0.02] backdrop-blur-xl border border-white/10 rounded-2xl p-6 md:p-8">
+          <div class="calc-panel">
             <h3 class="text-white text-xl font-bold mb-6 text-center">Win Probability</h3>
 
             <!-- Probability Chart -->
@@ -254,62 +254,62 @@ const toolSchema = {
 
             <!-- Key Stats -->
             <div class="grid grid-cols-2 gap-4">
-              <div class="bg-black/30 rounded-xl p-4 text-center">
-                <p class="text-gray-400 text-xs uppercase tracking-wide mb-2">Win Chance</p>
-                <p id="win-prob-display" class="text-gold text-3xl font-black">48.65%</p>
+              <div class="calc-result">
+                <p class="calc-label">Win Chance</p>
+                <p id="win-prob-display" class="calc-result-value">48.65%</p>
               </div>
-              <div class="bg-black/30 rounded-xl p-4 text-center">
-                <p class="text-gray-400 text-xs uppercase tracking-wide mb-2">Payout</p>
-                <p id="payout-display" class="text-white text-3xl font-black">1:1</p>
+              <div class="calc-result">
+                <p class="calc-label">Payout</p>
+                <p id="payout-display" class="calc-result-value" style="color: rgb(var(--text-primary))">1:1</p>
               </div>
             </div>
           </div>
 
           <!-- Payouts -->
-          <div class="bg-gradient-to-br from-white/5 to-white/[0.02] backdrop-blur-xl border border-white/10 rounded-2xl p-6 md:p-8">
+          <div class="calc-panel">
             <h3 class="text-white text-xl font-bold mb-6">Results</h3>
 
             <div class="space-y-3">
               <!-- If You Win -->
-              <div class="flex justify-between items-center bg-black/30 rounded-xl p-4">
-                <span class="text-gray-400 text-sm font-semibold">If You Win</span>
-                <span id="win-amount" class="text-green-400 text-2xl font-black">+$100</span>
+              <div class="flex justify-between items-center bg-elevated border border-subtle rounded-xl p-4">
+                <span class="text-secondary text-sm font-semibold">If You Win</span>
+                <span id="win-amount" class="text-2xl font-black" style="color: rgb(var(--accent-verified))">+$100</span>
               </div>
 
               <!-- If You Lose -->
-              <div class="flex justify-between items-center bg-black/30 rounded-xl p-4">
-                <span class="text-gray-400 text-sm font-semibold">If You Lose</span>
-                <span id="lose-amount" class="text-red-400 text-2xl font-black">-$100</span>
+              <div class="flex justify-between items-center bg-elevated border border-subtle rounded-xl p-4">
+                <span class="text-secondary text-sm font-semibold">If You Lose</span>
+                <span id="lose-amount" class="text-2xl font-black" style="color: rgb(var(--accent-red))">-$100</span>
               </div>
 
               <!-- House Edge -->
-              <div class="flex justify-between items-center bg-gradient-to-r from-gold/20 to-gold/5 border border-gold/30 rounded-xl p-4">
+              <div class="flex justify-between items-center bg-gold/10 border border-gold/30 rounded-xl p-4">
                 <span class="text-gold text-sm font-bold uppercase tracking-wide">House Edge</span>
                 <span id="house-edge" class="text-gold text-2xl font-black">2.70%</span>
               </div>
 
               <!-- Expected Value -->
-              <div class="flex justify-between items-center bg-gradient-to-r from-red-900/20 to-red-900/5 border border-red-500/30 rounded-xl p-4">
+              <div class="flex justify-between items-center rounded-xl p-4" style="background: rgb(var(--accent-red) / 0.08); border: 1px solid rgb(var(--accent-red) / 0.3);">
                 <div class="flex items-center gap-2">
-                  <span class="text-red-400 text-sm font-bold uppercase tracking-wide">Expected Value</span>
+                  <span class="text-sm font-bold uppercase tracking-wide" style="color: rgb(var(--accent-red))">Expected Value</span>
                   <div class="group relative">
-                    <svg class="w-4 h-4 text-red-400/50 cursor-help" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg class="w-4 h-4 cursor-help" style="color: rgb(var(--accent-red) / 0.5)" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                     </svg>
-                    <div class="hidden group-hover:block absolute bottom-full right-0 mb-2 w-64 px-4 py-3 bg-gray-900 border border-red-700/30 rounded-lg text-xs text-white z-10">
+                    <div class="hidden group-hover:block absolute bottom-full right-0 mb-2 w-64 px-4 py-3 bg-card border border-subtle rounded-lg text-xs text-white z-10">
                       <strong>Expected Value (EV)</strong><br/>
                       Average $ returned per $1 bet over infinite plays.<br/>
                       Negative EV = house always wins long-term.
                     </div>
                   </div>
                 </div>
-                <span id="ev" class="text-red-400 text-2xl font-black">-$2.70</span>
+                <span id="ev" class="text-2xl font-black" style="color: rgb(var(--accent-red))">-$2.70</span>
               </div>
             </div>
           </div>
 
           <!-- Pro Tip -->
-          <div class="bg-gradient-to-br from-gold/10 to-gold/5 border border-gold/30 rounded-2xl p-6">
+          <div class="bg-gold/10 border border-gold/30 rounded-xl p-6">
             <div class="flex items-center gap-2 mb-3">
               <span class="text-2xl">💡</span>
               <p class="text-gold text-sm font-bold uppercase tracking-wide">Pro Tip</p>
@@ -320,12 +320,12 @@ const toolSchema = {
       </div>
 
       <!-- Bet Comparison Chart -->
-      <div class="mt-8 bg-gradient-to-br from-white/5 to-white/[0.02] backdrop-blur-xl border border-white/10 rounded-2xl p-6 md:p-8">
+      <div class="mt-8 calc-panel">
         <h3 class="text-white text-2xl font-bold mb-6 text-center">All Bet Types Comparison</h3>
         <div class="relative" style="height: 300px;">
           <canvas id="comparison-chart"></canvas>
         </div>
-        <p class="text-gray-500 text-xs text-center mt-4">Compare win probability vs. payout for all bet types</p>
+        <p class="text-tertiary text-xs text-center mt-4">Compare win probability vs. payout for all bet types</p>
       </div>
 
       <!-- Share -->
@@ -339,7 +339,7 @@ const toolSchema = {
 
       <!-- Disclaimer -->
       <div class="mt-6 text-center">
-        <p class="text-gray-500 text-sm">
+        <p class="text-tertiary text-sm">
           Roulette is a negative EV game. The house always has an edge.
         </p>
       </div>
@@ -374,10 +374,10 @@ const toolSchema = {
 
 <style>
   .wheel-btn {
-    background: rgba(255, 255, 255, 0.05);
-    border: 2px solid rgba(255, 255, 255, 0.15);
+    background: rgb(var(--bg-elevated));
+    border: 2px solid rgb(var(--border-subtle));
     border-radius: 16px;
-    color: white;
+    color: rgb(var(--text-primary));
     padding: 20px 16px;
     min-height: 44px;
     cursor: pointer;
@@ -390,23 +390,22 @@ const toolSchema = {
   }
 
   .wheel-btn:hover {
-    background: rgba(251, 191, 36, 0.1);
-    border-color: rgba(251, 191, 36, 0.5);
+    background: rgb(var(--accent-gold) / 0.08);
+    border-color: rgb(var(--accent-gold) / 0.5);
     transform: translateY(-2px);
-    box-shadow: 0 8px 20px rgba(251, 191, 36, 0.2);
   }
 
   .wheel-btn.selected {
-    background: rgba(251, 191, 36, 0.15);
-    border-color: #CFB53B;
-    box-shadow: 0 0 30px rgba(251, 191, 36, 0.3);
+    background: rgb(var(--accent-gold) / 0.12);
+    border-color: var(--color-gold);
+    box-shadow: 0 0 24px rgb(var(--accent-gold) / 0.25);
   }
 
   .bet-btn {
-    background: rgba(255, 255, 255, 0.05);
-    border: 2px solid rgba(255, 255, 255, 0.15);
+    background: rgb(var(--bg-elevated));
+    border: 2px solid rgb(var(--border-subtle));
     border-radius: 12px;
-    color: white;
+    color: rgb(var(--text-primary));
     padding: 12px 10px;
     min-height: 44px;
     cursor: pointer;
@@ -419,15 +418,15 @@ const toolSchema = {
   }
 
   .bet-btn:hover {
-    background: rgba(251, 191, 36, 0.1);
-    border-color: rgba(251, 191, 36, 0.5);
+    background: rgb(var(--accent-gold) / 0.08);
+    border-color: rgb(var(--accent-gold) / 0.5);
     transform: scale(1.05);
   }
 
   .bet-btn.selected {
-    background: rgba(251, 191, 36, 0.2);
-    border-color: #CFB53B;
-    box-shadow: 0 0 20px rgba(251, 191, 36, 0.25);
+    background: rgb(var(--accent-gold) / 0.15);
+    border-color: var(--color-gold);
+    box-shadow: 0 0 20px rgb(var(--accent-gold) / 0.25);
   }
 
   .bet-name {
@@ -440,14 +439,14 @@ const toolSchema = {
   .bet-desc {
     display: block;
     font-size: 11px;
-    color: rgba(255, 255, 255, 0.5);
+    color: rgb(var(--text-tertiary));
   }
 
   .amount-btn {
-    background: rgba(255, 255, 255, 0.05);
-    border: 2px solid rgba(255, 255, 255, 0.15);
+    background: rgb(var(--bg-elevated));
+    border: 2px solid rgb(var(--border-subtle));
     border-radius: 12px;
-    color: white;
+    color: rgb(var(--text-primary));
     font-size: 16px;
     font-weight: 700;
     padding: 14px 10px;
@@ -460,16 +459,16 @@ const toolSchema = {
   }
 
   .amount-btn:hover {
-    background: rgba(251, 191, 36, 0.1);
-    border-color: rgba(251, 191, 36, 0.5);
+    background: rgb(var(--accent-gold) / 0.08);
+    border-color: rgb(var(--accent-gold) / 0.5);
     transform: scale(1.05);
   }
 
   .amount-btn.selected {
-    background: #CFB53B;
-    border-color: #CFB53B;
-    color: black;
-    box-shadow: 0 0 20px rgba(207, 181, 59, 0.5);
+    background: var(--color-gold);
+    border-color: var(--color-gold);
+    color: #1a1402;
+    box-shadow: 0 0 20px rgb(var(--accent-gold) / 0.5);
   }
 
   /* Spin Tracker Styles */
@@ -528,13 +527,13 @@ const toolSchema = {
   .table-num:hover {
     transform: scale(1.1);
     z-index: 10;
-    box-shadow: 0 0 12px rgba(251, 191, 36, 0.6);
-    border-color: #CFB53B;
+    box-shadow: 0 0 12px rgb(var(--accent-gold) / 0.6);
+    border-color: var(--color-gold);
   }
 
   .table-num:active {
     transform: scale(0.95);
-    background: rgba(251, 191, 36, 0.3) !important;
+    background: rgb(var(--accent-gold) / 0.3) !important;
   }
 
   .table-num.red {
@@ -543,8 +542,8 @@ const toolSchema = {
   }
 
   .table-num.black {
-    background: linear-gradient(135deg, #1f2937, #111827);
-    color: white;
+    background: linear-gradient(135deg, rgb(var(--bg-card-hover)), rgb(var(--bg-page)));
+    color: rgb(var(--text-primary));
   }
 
   .table-num.zero {
@@ -559,8 +558,8 @@ const toolSchema = {
 
 
   .history-board {
-    background: #1a1a1a;
-    border: 2px solid #333;
+    background: rgb(var(--bg-elevated));
+    border: 2px solid rgb(var(--border-subtle));
     border-radius: 12px;
     padding: 16px;
   }
@@ -593,7 +592,7 @@ const toolSchema = {
 
   .history-slot.empty {
     background: transparent;
-    border: 2px solid #333;
+    border: 2px solid rgb(var(--border-subtle));
   }
 
   .history-slot.red {
@@ -601,8 +600,8 @@ const toolSchema = {
   }
 
   .history-slot.black {
-    background: #1a1a1a;
-    border: 2px solid #666;
+    background: rgb(var(--bg-page));
+    border: 2px solid rgb(var(--border-strong));
   }
 
   .history-slot.zero {
@@ -741,12 +740,12 @@ document.addEventListener('astro:page-load', () => {
         datasets: [{
           data: [(winProb * 100).toFixed(2), (loseProb * 100).toFixed(2)],
           backgroundColor: [
-            'rgba(34, 197, 94, 0.8)',   // green for win
-            'rgba(239, 68, 68, 0.8)'     // red for lose
+            'rgba(27, 107, 63, 0.85)',   // accent-verified for win
+            'rgba(212, 24, 61, 0.8)'     // accent-red for lose
           ],
           borderColor: [
-            'rgba(34, 197, 94, 1)',
-            'rgba(239, 68, 68, 1)'
+            'rgba(27, 107, 63, 1)',
+            'rgba(212, 24, 61, 1)'
           ],
           borderWidth: 2
         }]
@@ -767,7 +766,7 @@ document.addEventListener('astro:page-load', () => {
             backgroundColor: 'rgba(0, 0, 0, 0.9)',
             titleColor: '#fff',
             bodyColor: '#fff',
-            borderColor: 'rgba(251, 191, 36, 0.5)',
+            borderColor: 'rgba(207, 181, 59, 0.5)',
             borderWidth: 1,
             padding: 12,
             displayColors: true,
@@ -806,16 +805,16 @@ document.addEventListener('astro:page-load', () => {
           {
             label: 'Win Probability (%)',
             data: winProbs,
-            backgroundColor: 'rgba(34, 197, 94, 0.7)',
-            borderColor: 'rgba(34, 197, 94, 1)',
+            backgroundColor: 'rgba(27, 107, 63, 0.75)',
+            borderColor: 'rgba(27, 107, 63, 1)',
             borderWidth: 2,
             yAxisID: 'y'
           },
           {
             label: 'Payout Multiplier',
             data: payouts,
-            backgroundColor: 'rgba(251, 191, 36, 0.7)',
-            borderColor: 'rgba(251, 191, 36, 1)',
+            backgroundColor: 'rgba(207, 181, 59, 0.7)',
+            borderColor: 'rgba(207, 181, 59, 1)',
             borderWidth: 2,
             yAxisID: 'y1'
           }
@@ -841,7 +840,7 @@ document.addEventListener('astro:page-load', () => {
             backgroundColor: 'rgba(0, 0, 0, 0.9)',
             titleColor: '#fff',
             bodyColor: '#fff',
-            borderColor: 'rgba(251, 191, 36, 0.5)',
+            borderColor: 'rgba(207, 181, 59, 0.5)',
             borderWidth: 1,
             padding: 12
           }
@@ -863,7 +862,7 @@ document.addEventListener('astro:page-load', () => {
             title: {
               display: true,
               text: 'Win Probability (%)',
-              color: '#22c55e',
+              color: '#3E9E6B',
               font: { size: 12, weight: 'bold' }
             },
             ticks: {

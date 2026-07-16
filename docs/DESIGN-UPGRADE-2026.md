@@ -109,6 +109,13 @@ MMC-kleuren.
 **Totaal: ± 7–10 sessies.** Fase 0+1 geven al het grootste visuele verschil;
 daarna is elke fase zelfstandig shipbaar.
 
+> **Status 16-07-2026: alle 5 fases uitgevoerd en gemerged** (fase 0: b53d57e,
+> fase 1: b09a731, fase 2: a6fb404, fase 3: 2960d78, fase 4: zie git log).
+> Aanvullend t.o.v. plan: disclaimerstrip + homepage-notice verwijderd op
+> verzoek Remy (logo-tagline + footer dekken de identiteit); Leaflet-artefact
+> onderzocht → preview-only (PR #3); wins-charts initialisatie-bug gefixt;
+> tools-Supabase-crash opgelost via resilient getToolAccess-fallback.
+
 ## 7. Expliciet buiten scope
 
 Geen framework/CMS-migratie, geen URL- of contentwijzigingen (SEO), geen

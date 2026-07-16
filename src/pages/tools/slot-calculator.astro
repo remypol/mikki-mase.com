@@ -120,7 +120,7 @@ const slots = [
   <Header />
   <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "Tools", href: "/tools" }, { label: "Slot Calculator" }]} />
 
-  <main id="main-content" class="min-h-screen bg-black">
+  <main id="main-content" class="min-h-screen bg-page">
     <div id="tool-container" class="container mx-auto px-4 py-8 md:py-12 max-w-7xl"
          data-full-access={toolAccess.hasFullAccess ? 'true' : 'false'}
          data-remaining={toolAccess.remainingFree}>
@@ -128,16 +128,16 @@ const slots = [
       <!-- Header -->
       <div class="text-center mb-10">
         <h1 class="text-4xl md:text-5xl font-black text-white mb-3">Slot Bonus Calculator</h1>
-        <p class="text-gray-400 text-lg">See the math before you spin</p>
+        <p class="text-secondary text-lg">See the math before you spin</p>
       </div>
 
       <!-- Info Banner -->
-      <div class="max-w-3xl mx-auto mb-8 bg-gradient-to-br from-gold/10 to-gold/5 border border-gold/30 rounded-2xl p-6 text-center">
+      <div class="max-w-3xl mx-auto mb-8 bg-gold/10 border border-gold/30 rounded-xl p-6 text-center">
         <div class="flex items-start gap-4">
           <span class="text-3xl">📊</span>
           <div class="text-left">
             <p class="text-white font-bold mb-2">Know the numbers:</p>
-            <p class="text-gray-300 text-sm leading-relaxed">
+            <p class="text-secondary text-sm leading-relaxed">
               Average spins to bonus varies by slot. Could hit on spin 2, could take 300.
               This shows you <span class="text-gold font-semibold">what to expect on average</span> based on slot mechanics and real player data.
             </p>
@@ -146,8 +146,8 @@ const slots = [
       </div>
 
       <!-- Bet Size Input -->
-      <div class="max-w-4xl mx-auto mb-8 bg-gradient-to-br from-white/5 to-white/[0.02] backdrop-blur-xl border border-white/10 rounded-2xl p-6 md:p-8">
-        <label class="block text-gray-400 text-sm font-semibold mb-4 uppercase tracking-wide">
+      <div class="calc-panel max-w-4xl mx-auto mb-8">
+        <label class="calc-label">
           Your Bet Size
         </label>
         <div class="grid grid-cols-4 sm:grid-cols-8 gap-2 mb-4" id="bet-options">
@@ -168,17 +168,17 @@ const slots = [
             step="0.01"
             min="0.10"
             max="10000"
-            class="w-full bg-white/5 border border-white/20 rounded-xl py-3 px-4 text-white placeholder-white/40 focus:outline-none focus:border-gold transition-colors"
+            class="calc-input"
             aria-describedby="bet-error"
           />
-          <p id="bet-error" class="text-red-400 text-xs mt-2 hidden" role="alert"></p>
+          <p id="bet-error" class="text-xs mt-2 hidden" style="color: rgb(var(--accent-red))" role="alert"></p>
         </div>
       </div>
 
       <!-- Comparison Charts -->
       <div class="grid md:grid-cols-2 gap-6 mb-8 max-w-6xl mx-auto">
         <!-- Bonus Frequency Chart -->
-        <div class="bg-gradient-to-br from-white/5 to-white/[0.02] backdrop-blur-xl border border-white/10 rounded-2xl p-6">
+        <div class="calc-panel">
           <h3 class="text-white text-lg font-bold mb-4 text-center">Bonus Frequency Comparison</h3>
           <div class="relative" style="height: 280px;">
             <canvas id="frequency-chart"></canvas>
@@ -186,7 +186,7 @@ const slots = [
         </div>
 
         <!-- Max Win Potential Chart -->
-        <div class="bg-gradient-to-br from-white/5 to-white/[0.02] backdrop-blur-xl border border-white/10 rounded-2xl p-6">
+        <div class="calc-panel">
           <h3 class="text-white text-lg font-bold mb-4 text-center">Max Win Potential</h3>
           <div class="relative" style="height: 280px;">
             <canvas id="maxwin-chart"></canvas>
@@ -197,88 +197,93 @@ const slots = [
       <!-- Slots Grid -->
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto" id="slots-grid">
         {slots.map((slot) => (
-          <div class="slot-card group bg-gradient-to-br from-white/5 to-white/[0.02] backdrop-blur-xl border border-white/10 rounded-2xl p-6 hover:border-gold/50 hover:shadow-2xl hover:shadow-gold/10 transition-all duration-300" data-slot={JSON.stringify(slot)}>
+          <div class="slot-card group calc-panel" data-slot={JSON.stringify(slot)}>
             <!-- Header -->
             <div class="flex justify-between items-start mb-4">
               <div>
-                <h3 class="text-white font-bold text-lg group-hover:text-gold transition-colors">{slot.name}</h3>
-                <p class="text-gray-500 text-xs">{slot.provider}</p>
+                <h3 class="text-white font-bold text-lg">{slot.name}</h3>
+                <p class="text-tertiary text-xs">{slot.provider}</p>
               </div>
-              <span class={`text-xs px-2 py-1 rounded-lg font-semibold ${slot.volatility === 'Very High' ? 'bg-red-500/20 text-red-400 border border-red-500/30' : 'bg-orange-500/20 text-orange-400 border border-orange-500/30'}`}>
+              <span
+                class="text-xs px-2 py-1 rounded-lg font-semibold"
+                style={slot.volatility === 'Very High'
+                  ? 'color: rgb(var(--accent-red)); background: rgb(var(--accent-red) / 0.12); border: 1px solid rgb(var(--accent-red) / 0.3);'
+                  : 'color: rgb(var(--accent-claimed)); background: rgb(var(--accent-claimed) / 0.12); border: 1px solid rgb(var(--accent-claimed) / 0.3);'}
+              >
                 {slot.volatility}
               </span>
             </div>
 
             <!-- Stats Grid -->
             <div class="grid grid-cols-2 gap-3 mb-4">
-              <div class="bg-black/30 rounded-xl p-3 text-center">
-                <span class="block text-gray-500 text-xs uppercase tracking-wide mb-1">RTP</span>
+              <div class="bg-elevated border border-subtle rounded-xl p-3 text-center">
+                <span class="block text-tertiary text-xs uppercase tracking-wide mb-1">RTP</span>
                 <span class="block text-white text-lg font-black">{slot.rtp}%</span>
               </div>
-              <div class="bg-black/30 rounded-xl p-3 text-center">
-                <span class="block text-gray-500 text-xs uppercase tracking-wide mb-1">Max Win</span>
+              <div class="bg-elevated border border-subtle rounded-xl p-3 text-center">
+                <span class="block text-tertiary text-xs uppercase tracking-wide mb-1">Max Win</span>
                 <span class="block text-gold text-lg font-black">{slot.maxWin}</span>
               </div>
             </div>
 
             <!-- Calculations -->
-            <div class="space-y-3 border-t border-white/10 pt-4">
+            <div class="space-y-3 border-t border-subtle pt-4">
               <div class="flex justify-between items-center">
-                <span class="text-gray-400 text-sm">Avg spins to bonus:</span>
+                <span class="text-secondary text-sm">Avg spins to bonus:</span>
                 <span class="text-white font-bold avg-spins">{slot.avgSpinsToBonus}</span>
               </div>
               <div class="flex justify-between items-center">
-                <span class="text-gray-400 text-sm">Expected cost:</span>
+                <span class="text-secondary text-sm">Expected cost:</span>
                 <span class="text-gold font-bold cost-to-bonus" data-base-spins={slot.avgSpinsToBonus}>$0</span>
               </div>
               <div class="flex justify-between items-center">
-                <span class="text-gray-400 text-sm">Max win at bet:</span>
-                <span class="text-green-400 font-bold potential-win" data-max-win={slot.maxWin}>$0</span>
+                <span class="text-secondary text-sm">Max win at bet:</span>
+                <span class="font-bold potential-win" style="color: rgb(var(--accent-verified))" data-max-win={slot.maxWin}>$0</span>
               </div>
               <div class="flex justify-between items-center">
-                <span class="text-gray-400 text-sm">Bonus buy cost:</span>
-                <span class="text-gray-300 font-bold bonus-buy" data-multiplier={slot.bonusBuyMultiplier}>$0</span>
+                <span class="text-secondary text-sm">Bonus buy cost:</span>
+                <span class="text-secondary font-bold bonus-buy" data-multiplier={slot.bonusBuyMultiplier}>$0</span>
               </div>
             </div>
 
             <!-- Insight -->
-            <div class="mt-4 pt-4 border-t border-white/10">
-              <p class="text-gray-400 text-xs italic leading-relaxed slot-insight"></p>
+            <div class="mt-4 pt-4 border-t border-subtle">
+              <p class="text-secondary text-xs italic leading-relaxed slot-insight"></p>
             </div>
           </div>
         ))}
       </div>
 
       <!-- The Math Section -->
-      <div class="mt-8 max-w-4xl mx-auto bg-gradient-to-br from-white/5 to-white/[0.02] backdrop-blur-xl border border-white/10 rounded-2xl p-6 md:p-8">
+      <div class="calc-panel mt-8 max-w-4xl mx-auto">
         <h2 class="text-white font-bold text-2xl mb-6 flex items-center gap-3">
           <span class="text-3xl">🧮</span> How This Works
         </h2>
         <div class="grid md:grid-cols-2 gap-6">
           <div class="space-y-4">
-            <div class="bg-black/30 rounded-xl p-4">
+            <div class="bg-elevated border border-subtle rounded-xl p-4">
               <h3 class="text-gold font-bold text-sm mb-2 uppercase tracking-wide">Average Spins to Bonus</h3>
-              <p class="text-gray-300 text-sm leading-relaxed">
+              <p class="text-secondary text-sm leading-relaxed">
                 Based on slot mechanics and player data. It's an average, so you might hit on spin 2 or spin 400.
               </p>
             </div>
-            <div class="bg-black/30 rounded-xl p-4">
+            <div class="bg-elevated border border-subtle rounded-xl p-4">
               <h3 class="text-gold font-bold text-sm mb-2 uppercase tracking-wide">Expected Cost</h3>
-              <p class="text-gray-300 text-sm leading-relaxed">
+              <p class="text-secondary text-sm leading-relaxed">
                 Average spins × bet size. What you'd typically spend to reach a bonus round.
               </p>
             </div>
           </div>
           <div class="space-y-4">
-            <div class="bg-black/30 rounded-xl p-4">
+            <div class="bg-elevated border border-subtle rounded-xl p-4">
               <h3 class="text-gold font-bold text-sm mb-2 uppercase tracking-wide">Potential Win</h3>
-              <p class="text-gray-300 text-sm leading-relaxed">
+              <p class="text-secondary text-sm leading-relaxed">
                 What a max win would pay at your bet size. These are rare but they do happen.
               </p>
             </div>
-            <div class="bg-black/30 rounded-xl p-4">
+            <div class="bg-elevated border border-subtle rounded-xl p-4">
               <h3 class="text-gold font-bold text-sm mb-2 uppercase tracking-wide">Bonus Buy</h3>
-              <p class="text-gray-300 text-sm leading-relaxed">
+              <p class="text-secondary text-sm leading-relaxed">
                 Skips the base game (usually 100x bet). Sometimes worth it when you're feeling it.
               </p>
             </div>
@@ -297,7 +302,7 @@ const slots = [
 
       <!-- Disclaimer -->
       <div class="mt-6 text-center">
-        <p class="text-gray-500 text-sm">
+        <p class="text-tertiary text-sm">
           Only gamble what you can afford to lose. RTP and bonus frequencies are approximate.
         </p>
       </div>
@@ -332,10 +337,10 @@ const slots = [
 
 <style>
   .bet-btn {
-    background: rgba(255, 255, 255, 0.05);
-    border: 2px solid rgba(255, 255, 255, 0.15);
+    background: rgb(var(--bg-elevated));
+    border: 2px solid rgb(var(--border-subtle));
     border-radius: 12px;
-    color: white;
+    color: rgb(var(--text-primary));
     font-size: 13px;
     font-weight: 700;
     padding: 12px 8px;
@@ -348,16 +353,21 @@ const slots = [
   }
 
   .bet-btn:hover {
-    background: rgba(251, 191, 36, 0.1);
-    border-color: rgba(251, 191, 36, 0.5);
+    background: rgb(var(--accent-gold) / 0.08);
+    border-color: rgb(var(--accent-gold) / 0.5);
     transform: scale(1.05);
   }
 
   .bet-btn.selected {
-    background: #CFB53B;
-    border-color: #CFB53B;
-    color: black;
-    box-shadow: 0 0 20px rgba(207, 181, 59, 0.4);
+    background: var(--color-gold);
+    border-color: var(--color-gold);
+    color: #1a1402;
+    box-shadow: 0 0 20px rgb(var(--accent-gold) / 0.4);
+  }
+
+  /* Custom bet input — red border when JS flags a validation error */
+  .calc-input.border-red-500 {
+    border-color: rgb(var(--accent-red));
   }
 
   .slot-card {
@@ -366,6 +376,7 @@ const slots = [
 
   .slot-card:hover {
     transform: translateY(-4px);
+    border-color: rgb(var(--accent-gold) / 0.3);
   }
 
   @media (max-width: 480px) {
@@ -455,8 +466,8 @@ document.addEventListener('astro:page-load', () => {
           datasets: [{
             label: 'Avg Spins to Bonus',
             data: slotData.map(s => s.avgSpinsToBonus),
-            backgroundColor: 'rgba(251, 191, 36, 0.7)',
-            borderColor: 'rgba(251, 191, 36, 1)',
+            backgroundColor: 'rgba(207, 181, 59, 0.7)',
+            borderColor: 'rgba(207, 181, 59, 1)',
             borderWidth: 2,
             borderRadius: 6
           }]
@@ -470,7 +481,7 @@ document.addEventListener('astro:page-load', () => {
               backgroundColor: 'rgba(0, 0, 0, 0.9)',
               titleColor: '#fff',
               bodyColor: '#fff',
-              borderColor: 'rgba(251, 191, 36, 0.5)',
+              borderColor: 'rgba(207, 181, 59, 0.5)',
               borderWidth: 1,
               padding: 12,
               callbacks: {
@@ -520,8 +531,8 @@ document.addEventListener('astro:page-load', () => {
           datasets: [{
             label: 'Max Win Multiplier',
             data: slotData.map(s => s.maxWin),
-            backgroundColor: 'rgba(34, 197, 94, 0.7)',
-            borderColor: 'rgba(34, 197, 94, 1)',
+            backgroundColor: 'rgba(27, 107, 63, 0.75)',
+            borderColor: 'rgba(27, 107, 63, 1)',
             borderWidth: 2,
             borderRadius: 6
           }]
@@ -535,7 +546,7 @@ document.addEventListener('astro:page-load', () => {
               backgroundColor: 'rgba(0, 0, 0, 0.9)',
               titleColor: '#fff',
               bodyColor: '#fff',
-              borderColor: 'rgba(34, 197, 94, 0.5)',
+              borderColor: 'rgba(27, 107, 63, 0.5)',
               borderWidth: 1,
               padding: 12,
               callbacks: {
@@ -569,7 +580,7 @@ document.addEventListener('astro:page-load', () => {
               title: {
                 display: true,
                 text: 'Multiplier',
-                color: '#22c55e',
+                color: '#3E9E6B',
                 font: { size: 12, weight: 'bold' }
               }
             }

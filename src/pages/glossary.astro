@@ -419,7 +419,7 @@ const categories = {
   />
 
   <!-- BREADCRUMBS -->
-  <div class="bg-black border-b border-gray-800">
+  <div class="bg-black border-b border-subtle">
     <Breadcrumbs items={[
       { label: "Home", href: "/" },
       { label: "Glossary" }
@@ -430,7 +430,7 @@ const categories = {
     <!-- Introduction -->
     <section class="container py-16 md:py-24">
       <div class="max-w-4xl mx-auto">
-        <div class="prose prose-invert prose-lg max-w-none space-y-6 text-gray-300 leading-relaxed">
+        <div class="prose prose-invert prose-lg max-w-none space-y-6 text-secondary leading-relaxed">
           <p>
             Professional gambling has its own language. If you don't know the difference between a <strong class="text-white">"natural"</strong> and a <strong class="text-white">"squeeze,"</strong> or why casinos fear <strong class="text-white">"advantage play"</strong> more than cheating, you're missing critical context.
           </p>
@@ -443,18 +443,18 @@ const categories = {
 
     <!-- Glossary Sections -->
     {Object.entries(categories).map(([categoryName, categoryTerms]) => (
-      <section class="container py-12 md:py-16 border-t border-gray-800">
+      <section class="container py-12 md:py-16 border-t border-subtle">
         <div class="max-w-4xl mx-auto">
-          <h2 class="text-3xl md:text-4xl font-black text-gold mb-10 uppercase">{categoryName}</h2>
+          <h2 class="display-h2 mb-10">{categoryName}</h2>
 
           <div class="space-y-6">
             {categoryTerms.map((item) => (
               <div
-                class="bg-gradient-to-br from-gray-900 to-black border border-gray-800 rounded-xl p-6 md:p-8 hover:border-gold/30 transition-colors"
+                class="bg-card border border-subtle rounded-xl p-6 md:p-8 hover:border-gold/30 hover:-translate-y-0.5 transition-all"
                 id={item.term.toLowerCase().replace(/\s+/g, '-').replace(/[()]/g, '')}
               >
                 <dt class="text-gold text-xl md:text-2xl font-bold mb-3">{item.term}</dt>
-                <dd class="text-gray-300 leading-relaxed text-lg" set:html={item.definition}></dd>
+                <dd class="text-secondary leading-relaxed text-lg" set:html={item.definition}></dd>
               </div>
             ))}
           </div>
@@ -463,47 +463,47 @@ const categories = {
     ))}
 
     <!-- Related Pages CTA -->
-    <section class="container py-16 md:py-24 border-t border-gray-800">
+    <section class="container py-16 md:py-24 border-t border-subtle">
       <div class="max-w-4xl mx-auto">
-        <h2 class="text-3xl md:text-4xl font-black text-white mb-8 uppercase text-center">Learn More</h2>
+        <h2 class="display-h2 mb-8 text-center">Learn More</h2>
 
         <div class="grid md:grid-cols-2 gap-6">
           <a
             href="/the-system"
-            class="bg-gradient-to-br from-gray-900 to-black border border-gold/30 rounded-xl p-6 md:p-8 hover:border-gold transition-colors group"
+            class="bg-card border border-gold/30 rounded-xl p-6 md:p-8 hover:border-gold hover:-translate-y-0.5 transition-all group"
           >
             <h3 class="text-gold text-xl font-bold mb-3 group-hover:text-gold-light transition-colors">🎯 The System</h3>
-            <p class="text-gray-300 leading-relaxed">
+            <p class="text-secondary leading-relaxed">
               Learn Mikki's 4-step baccarat system: pattern recognition, dealer tells, and bankroll management.
             </p>
           </a>
 
           <a
             href="/banned"
-            class="bg-gradient-to-br from-gray-900 to-black border border-gold/30 rounded-xl p-6 md:p-8 hover:border-gold transition-colors group"
+            class="bg-card border border-gold/30 rounded-xl p-6 md:p-8 hover:border-gold hover:-translate-y-0.5 transition-all group"
           >
             <h3 class="text-gold text-xl font-bold mb-3 group-hover:text-gold-light transition-colors">🚫 Banned From 150+ Casinos</h3>
-            <p class="text-gray-300 leading-relaxed">
+            <p class="text-secondary leading-relaxed">
               Why Mikki is banned from every major casino in Las Vegas — and the absurd reasons they gave.
             </p>
           </a>
 
           <a
             href="/wins"
-            class="bg-gradient-to-br from-gray-900 to-black border border-gold/30 rounded-xl p-6 md:p-8 hover:border-gold transition-colors group"
+            class="bg-card border border-gold/30 rounded-xl p-6 md:p-8 hover:border-gold hover:-translate-y-0.5 transition-all group"
           >
             <h3 class="text-gold text-xl font-bold mb-3 group-hover:text-gold-light transition-colors">💰 Win/Loss Record</h3>
-            <p class="text-gray-300 leading-relaxed">
+            <p class="text-secondary leading-relaxed">
               Complete documented history of Mikki's biggest wins and losses at baccarat.
             </p>
           </a>
 
           <a
             href="/story"
-            class="bg-gradient-to-br from-gray-900 to-black border border-gold/30 rounded-xl p-6 md:p-8 hover:border-gold transition-colors group"
+            class="bg-card border border-gold/30 rounded-xl p-6 md:p-8 hover:border-gold hover:-translate-y-0.5 transition-all group"
           >
             <h3 class="text-gold text-xl font-bold mb-3 group-hover:text-gold-light transition-colors">📖 The Full Story</h3>
-            <p class="text-gray-300 leading-relaxed">
+            <p class="text-secondary leading-relaxed">
               From juvenile prison to $32 million in casino winnings — Mikki's complete life story.
             </p>
           </a>
@@ -512,12 +512,12 @@ const categories = {
     </section>
 
     <!-- Final CTA -->
-    <section class="container py-16 md:py-24 border-t border-gray-800">
+    <section class="container py-16 md:py-24 border-t border-subtle">
       <div class="max-w-3xl mx-auto text-center">
-        <h2 class="text-3xl md:text-4xl font-black text-white mb-6 uppercase">
+        <h2 class="display-h2 mb-6">
           Ready to Learn the Game?
         </h2>
-        <p class="text-xl text-gray-300 mb-10 leading-relaxed">
+        <p class="text-xl text-secondary mb-10 leading-relaxed">
           Join the Mikki Mase Fan Community (a free community for fans) to discuss baccarat strategy and the stories Mikki Mase has shared in his public interviews.
         </p>
         <div class="flex flex-col sm:flex-row gap-4 justify-center">

@@ -47,11 +47,11 @@ const toolSchema = {
 
         <!-- LEFT COLUMN: Calculator -->
         <div class="observe-once">
-          <div class="bg-gradient-to-br from-white/5 to-white/[0.02] backdrop-blur-xl border border-white/10 rounded-2xl p-6 md:p-8 sticky top-8">
+          <div class="calc-panel sticky top-8">
 
             <!-- Dealer's Card -->
             <div class="mb-8">
-              <label id="dealer-label" class="block text-gold text-sm font-semibold mb-3 uppercase tracking-wide">
+              <label id="dealer-label" class="calc-label">
                 Dealer Shows
               </label>
               <div class="grid grid-cols-5 gap-2" id="dealer-cards" role="group" aria-labelledby="dealer-label">
@@ -70,7 +70,7 @@ const toolSchema = {
 
             <!-- Your First Card -->
             <div class="mb-8">
-              <label id="player1-label" class="block text-gold text-sm font-semibold mb-3 uppercase tracking-wide">
+              <label id="player1-label" class="calc-label">
                 Your First Card
               </label>
               <div class="grid grid-cols-5 gap-2" id="player1-cards" role="group" aria-labelledby="player1-label">
@@ -89,7 +89,7 @@ const toolSchema = {
 
             <!-- Your Second Card -->
             <div class="mb-8">
-              <label id="player2-label" class="block text-gold text-sm font-semibold mb-3 uppercase tracking-wide">
+              <label id="player2-label" class="calc-label">
                 Your Second Card
               </label>
               <div class="grid grid-cols-5 gap-2" id="player2-cards" role="group" aria-labelledby="player2-label">
@@ -107,13 +107,13 @@ const toolSchema = {
             </div>
 
             <!-- Your Hand Summary -->
-            <div id="hand-summary" class="hidden text-center py-4 border-t border-gray-800/50 mb-6">
+            <div id="hand-summary" class="hidden text-center py-4 border-t border-subtle mb-6">
               <span class="text-gold text-sm">Your hand: </span>
               <span id="hand-total" class="text-white font-bold text-xl"></span>
             </div>
 
             <!-- Reset Button -->
-            <button id="reset-btn" class="hidden w-full py-3 bg-white/10 hover:bg-white/20 text-white font-semibold rounded-xl transition-colors">
+            <button id="reset-btn" class="hidden w-full btn btn-tertiary">
               Start Over
             </button>
           </div>
@@ -124,8 +124,8 @@ const toolSchema = {
 
           <!-- Result Box -->
           <div id="result" class="hidden observe-once">
-            <div id="result-box" class="text-center py-8 px-6 rounded-2xl mb-6">
-              <div id="result-action" class="text-5xl md:text-6xl font-black mb-3"></div>
+            <div id="result-box" class="calc-result mb-6">
+              <div id="result-action" class="calc-result-value mb-3"></div>
               <p id="result-reason" class="text-white/80 text-base mb-4"></p>
 
               <!-- Expected Value -->
@@ -146,7 +146,7 @@ const toolSchema = {
             </div>
 
             <!-- Probability Chart -->
-            <div class="bg-gradient-to-br from-white/5 to-white/[0.02] backdrop-blur-xl border border-white/10 rounded-2xl p-6 mb-6">
+            <div class="calc-panel mb-6">
               <h3 class="text-white text-lg font-bold mb-4 text-center">Decision Probability Analysis</h3>
               <div class="relative" style="height: 280px;">
                 <canvas id="probability-chart"></canvas>
@@ -157,14 +157,14 @@ const toolSchema = {
             </div>
 
             <!-- Strategy Insight -->
-            <div id="strategy-insight" class="bg-gradient-to-br from-gray-900/30 to-gray-900/10 backdrop-blur-xl border border-gold/30 rounded-2xl p-6 mb-6">
+            <div id="strategy-insight" class="calc-panel mb-6" style="border-color: rgba(207, 181, 59, 0.3)">
               <h3 class="text-gold text-sm font-bold uppercase tracking-wide mb-3">💡 Strategy Insight</h3>
               <p id="insight-text" class="text-white/90 leading-relaxed"></p>
             </div>
 
             <!-- Draw another card (for HIT scenarios) -->
-            <div id="draw-section" class="hidden bg-gradient-to-br from-white/5 to-white/[0.02] backdrop-blur-xl border border-white/10 rounded-2xl p-6 mb-6">
-              <label class="block text-gold text-sm font-semibold mb-3 uppercase tracking-wide">
+            <div id="draw-section" class="hidden calc-panel mb-6">
+              <label class="calc-label">
                 You drew...
               </label>
               <div class="grid grid-cols-5 gap-2" id="draw-cards">
@@ -182,7 +182,7 @@ const toolSchema = {
             </div>
 
             <!-- Outcome tracking -->
-            <div id="outcome-section" class="hidden bg-gradient-to-br from-white/5 to-white/[0.02] backdrop-blur-xl border border-white/10 rounded-2xl p-6">
+            <div id="outcome-section" class="hidden calc-panel">
               <p class="text-gold text-sm font-semibold mb-2 text-center">Did you win the hand?</p>
               <p class="text-gold/60 text-xs text-center mb-4">Help us track which plays work best</p>
               <div class="grid grid-cols-3 gap-3">
@@ -216,7 +216,7 @@ const toolSchema = {
           </div>
 
           <!-- Initial state placeholder -->
-          <div id="initial-placeholder" class="bg-gradient-to-br from-white/5 to-white/[0.02] backdrop-blur-xl border border-white/10 rounded-2xl p-12 text-center">
+          <div id="initial-placeholder" class="calc-panel text-center">
             <svg class="w-20 h-20 mx-auto mb-6 text-gold/30" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
             </svg>
@@ -240,7 +240,7 @@ const toolSchema = {
       </div>
 
       <!-- Strategy Guide -->
-      <div class="max-w-7xl mx-auto mt-12 bg-gradient-to-br from-white/5 to-white/[0.02] backdrop-blur-xl border border-white/10 rounded-2xl p-8">
+      <div class="max-w-7xl mx-auto mt-12 calc-panel">
         <h2 class="text-white text-2xl font-bold mb-6 text-center">Quick Strategy Guide</h2>
         <div class="grid md:grid-cols-3 gap-6">
           <div class="text-center">
@@ -300,10 +300,10 @@ const toolSchema = {
     aspect-ratio: 1;
     min-width: 44px;
     min-height: 44px;
-    background: rgba(255, 255, 255, 0.1);
-    border: 2px solid rgba(255, 255, 255, 0.2);
+    background: rgb(var(--bg-elevated));
+    border: 2px solid rgb(var(--border-subtle));
     border-radius: 10px;
-    color: white;
+    color: rgb(var(--text-primary));
     font-size: 18px;
     font-weight: 700;
     cursor: pointer;
@@ -315,13 +315,13 @@ const toolSchema = {
 
   .card-btn:hover {
     background: rgba(207, 181, 59, 0.25);
-    border-color: #CFB53B;
+    border-color: var(--color-gold);
     transform: scale(1.08);
   }
 
   .card-btn.selected {
-    background: #CFB53B;
-    border-color: #CFB53B;
+    background: var(--color-gold);
+    border-color: var(--color-gold);
     color: black;
     transform: scale(1.08);
     box-shadow: 0 4px 20px rgba(207, 181, 59, 0.4);
@@ -334,16 +334,16 @@ const toolSchema = {
   }
 
   #result-box.hit {
-    background: linear-gradient(135deg, rgba(16, 185, 129, 0.3), rgba(16, 185, 129, 0.1));
-    border: 2px solid #10b981;
+    background: linear-gradient(135deg, rgb(var(--accent-verified) / 0.3), rgb(var(--accent-verified) / 0.1));
+    border: 2px solid rgb(var(--accent-verified));
   }
   #result-box.hit #result-action { color: #34d399; }
 
   #result-box.stand {
     background: linear-gradient(135deg, rgba(207, 181, 59, 0.3), rgba(207, 181, 59, 0.1));
-    border: 2px solid #CFB53B;
+    border: 2px solid var(--color-gold);
   }
-  #result-box.stand #result-action { color: #CFB53B; }
+  #result-box.stand #result-action { color: var(--color-gold); }
 
   #result-box.double {
     background: linear-gradient(135deg, rgba(168, 85, 247, 0.3), rgba(168, 85, 247, 0.1));
@@ -358,25 +358,25 @@ const toolSchema = {
   #result-box.split #result-action { color: #60a5fa; }
 
   #result-box.surrender {
-    background: linear-gradient(135deg, rgba(239, 68, 68, 0.3), rgba(239, 68, 68, 0.1));
-    border: 2px solid #ef4444;
+    background: linear-gradient(135deg, rgb(var(--accent-red) / 0.3), rgb(var(--accent-red) / 0.1));
+    border: 2px solid rgb(var(--accent-red));
   }
-  #result-box.surrender #result-action { color: #f87171; }
+  #result-box.surrender #result-action { color: rgb(var(--accent-red)); }
 
   #result-box.blackjack {
     background: linear-gradient(135deg, rgba(207, 181, 59, 0.4), rgba(207, 181, 59, 0.2));
-    border: 2px solid #CFB53B;
+    border: 2px solid var(--color-gold);
   }
   #result-box.blackjack #result-action {
-    color: #CFB53B;
+    color: var(--color-gold);
     animation: pulse-glow 2s ease-in-out infinite;
   }
 
   #result-box.bust {
-    background: linear-gradient(135deg, rgba(239, 68, 68, 0.4), rgba(239, 68, 68, 0.2));
-    border: 2px solid #ef4444;
+    background: linear-gradient(135deg, rgb(var(--accent-red) / 0.4), rgb(var(--accent-red) / 0.2));
+    border: 2px solid rgb(var(--accent-red));
   }
-  #result-box.bust #result-action { color: #ef4444; }
+  #result-box.bust #result-action { color: rgb(var(--accent-red)); }
 
   @keyframes pulse-glow {
     0%, 100% { opacity: 1; transform: scale(1); }
@@ -667,7 +667,7 @@ document.addEventListener('astro:page-load', () => {
   }
 
   function showResult(action: string, reason: string, cls: string, ev: number, insight: string) {
-    if (resultBox) resultBox.className = `text-center py-8 px-6 rounded-2xl mb-6 ${cls}`;
+    if (resultBox) resultBox.className = `calc-result mb-6 ${cls}`;
     if (resultAction) resultAction.textContent = action;
     if (resultReason) resultReason.textContent = reason;
     if (evValue) evValue.textContent = ev > 0 ? `+${ev.toFixed(2)}` : `${ev.toFixed(2)}`;

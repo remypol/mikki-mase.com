@@ -484,7 +484,7 @@ const timelineSchema = {
   />
 
   <!-- BREADCRUMBS -->
-  <div class="bg-black border-b border-gray-800">
+  <div class="bg-black border-b border-subtle">
     <Breadcrumbs items={[
       { label: "Home", href: "/" },
       { label: "Timeline" }
@@ -497,11 +497,11 @@ const timelineSchema = {
 
       <!-- Intro -->
       <div class="max-w-3xl mx-auto text-center mb-16 md:mb-24">
-        <p class="text-gray-400 text-lg md:text-xl leading-relaxed mb-6">
+        <p class="text-tertiary text-lg md:text-xl leading-relaxed mb-6">
           This is the complete chronological timeline of Mikki Mase's life—from his first card game at age 3 to becoming the most banned player in casino history by age 34.
         </p>
-        <p class="text-gray-400 text-lg md:text-xl leading-relaxed">
-          Events marked as <span class="text-green-400 font-semibold">VERIFIED</span> have independent confirmation. Others are based on Mikki's interviews and public statements.
+        <p class="text-tertiary text-lg md:text-xl leading-relaxed">
+          Events marked as <span class="text-[rgb(var(--accent-verified))] font-semibold">VERIFIED</span> have independent confirmation. Others are based on Mikki's interviews and public statements.
         </p>
       </div>
 
@@ -511,15 +511,15 @@ const timelineSchema = {
           {timelineEras.map((era) => (
             <a
               href={`#era-${era.color}`}
-              class={`group relative overflow-hidden rounded-xl p-4 text-center transition-all duration-300 border-2 hover:scale-105 bg-gradient-to-br from-gray-900 to-black border-${era.color}-500/30 hover:border-${era.color}-500/60`}
+              class={`group relative overflow-hidden rounded-xl p-4 text-center transition-all duration-300 border-2 hover:scale-105 bg-card border-subtle hover:border-gold/60`}
             >
               <div class={`text-3xl mb-2 transform group-hover:scale-110 transition-transform`}>
                 {era.icon}
               </div>
-              <div class={`text-${era.color}-400 text-xs font-bold uppercase tracking-wider mb-1`}>
+              <div class={`text-gold text-xs font-bold uppercase tracking-wider mb-1`}>
                 {era.era}
               </div>
-              <div class="text-gray-500 text-xs">
+              <div class="text-tertiary text-xs">
                 {era.years}
               </div>
             </a>
@@ -534,12 +534,12 @@ const timelineSchema = {
 
             <!-- ERA HEADER -->
             <div class="text-center mb-12">
-              <div class={`inline-block px-6 py-3 bg-${era.color}-500/10 border-2 border-${era.color}-500/50 rounded-full mb-4`}>
-                <span class={`text-${era.color}-400 text-lg font-bold uppercase tracking-wider`}>
+              <div class={`inline-block px-6 py-3 bg-gold/10 border border-gold/50 rounded-full mb-4`}>
+                <span class={`text-gold text-lg font-bold uppercase tracking-wider`}>
                   {era.icon} {era.era}
                 </span>
               </div>
-              <div class="text-gray-500 text-sm uppercase tracking-widest">
+              <div class="text-tertiary text-sm uppercase tracking-widest">
                 {era.years}
               </div>
             </div>
@@ -548,7 +548,7 @@ const timelineSchema = {
             <div class="relative">
 
               <!-- Vertical Timeline Line -->
-              <div class={`absolute left-8 md:left-1/2 top-0 bottom-0 w-0.5 bg-gradient-to-b from-${era.color}-500/50 via-${era.color}-500/30 to-transparent`}></div>
+              <div class={`absolute left-8 md:left-1/2 top-0 bottom-0 w-0.5 bg-gradient-to-b from-gold/50 via-gold/30 to-transparent`}></div>
 
               {era.events.map((event, eventIndex) => {
                 const isLeft = eventIndex % 2 === 0;
@@ -556,42 +556,42 @@ const timelineSchema = {
                   <div class={`relative mb-12 md:mb-16 ${isLeft ? 'md:pr-1/2' : 'md:pl-1/2'}`}>
 
                     <!-- Timeline Dot -->
-                    <div class={`absolute left-8 md:left-1/2 w-4 h-4 rounded-full border-4 border-${era.color}-500 bg-black z-10 transform -translate-x-1/2 ${event.verified ? 'shadow-lg shadow-green-500/50' : ''}`}>
+                    <div class={`absolute left-8 md:left-1/2 w-4 h-4 rounded-full border-4 border-gold bg-black z-10 transform -translate-x-1/2 ${event.verified ? 'shadow-lg verified-pulse' : ''}`}>
                       {event.verified && (
-                        <div class="absolute -top-1 -right-1 w-3 h-3 bg-green-500 rounded-full border-2 border-black"></div>
+                        <div class="absolute -top-1 -right-1 w-3 h-3 bg-[rgb(var(--accent-verified))] rounded-full border-2 border-black"></div>
                       )}
                     </div>
 
                     <!-- Event Card -->
                     <div class={`ml-16 md:ml-0 ${isLeft ? 'md:pr-12' : 'md:pl-12'} ${isLeft ? 'md:text-right' : 'md:text-left'}`}>
-                      <details class={`group bg-gradient-to-br from-gray-900 to-black border-2 border-${era.color}-500/30 rounded-2xl overflow-hidden hover:border-${era.color}-500/60 transition-all duration-300 ${event.details ? 'cursor-pointer' : ''}`} ${event.details ? 'open' : ''}>
+                      <details class={`group bg-card border border-subtle rounded-2xl overflow-hidden hover:border-gold/40 hover:-translate-y-0.5 transition-all duration-300 ${event.details ? 'cursor-pointer' : ''}`} ${event.details ? 'open' : ''}>
                         <summary class={`p-6 md:p-8 ${event.details ? 'cursor-pointer list-none' : 'pointer-events-none'}`}>
                           <div class="flex items-start justify-between gap-4">
                             <div class="flex-1">
                               <!-- Year/Age Badge -->
-                              <div class={`inline-block px-3 py-1 bg-${era.color}-500/20 border border-${era.color}-500/50 rounded-full mb-3`}>
-                                <span class={`text-${era.color}-400 text-sm font-bold`}>
+                              <div class={`inline-block px-3 py-1 bg-gold/10 border border-gold/50 rounded-full mb-3`}>
+                                <span class={`text-gold text-sm font-bold`}>
                                   {event.year} · {event.age}
                                   {event.verified && (
-                                    <span class="ml-2 text-green-400 text-xs">✓ VERIFIED</span>
+                                    <span class="ml-2 text-[rgb(var(--accent-verified))] text-xs">✓ VERIFIED</span>
                                   )}
                                 </span>
                               </div>
 
                               <!-- Title -->
-                              <h3 class={`text-white text-xl md:text-2xl font-bold mb-2 group-open:text-${era.color}-400 transition-colors`}>
+                              <h3 class={`text-white text-xl md:text-2xl font-bold mb-2 group-open:text-gold transition-colors`}>
                                 {event.title}
                               </h3>
 
                               <!-- Description -->
-                              <p class="text-gray-400 leading-relaxed">
+                              <p class="text-tertiary leading-relaxed">
                                 {event.description}
                               </p>
                             </div>
 
                             {event.details && (
                               <div class="flex-shrink-0">
-                                <svg class={`w-6 h-6 text-${era.color}-400 transform group-open:rotate-180 transition-transform duration-300`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <svg class={`w-6 h-6 text-gold transform group-open:rotate-180 transition-transform duration-300`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
                                 </svg>
                               </div>
@@ -600,15 +600,15 @@ const timelineSchema = {
                         </summary>
 
                         {event.details && (
-                          <div class={`px-6 md:px-8 pb-8 pt-4 border-t border-${era.color}-500/20`}>
+                          <div class={`px-6 md:px-8 pb-8 pt-4 border-t border-subtle`}>
                             <div class="space-y-4">
-                              <p class="text-gray-300 text-base leading-relaxed">
+                              <p class="text-secondary text-base leading-relaxed">
                                 {event.details}
                               </p>
 
                               {event.quote && (
-                                <div class={`bg-${era.color}-500/5 border-l-4 border-${era.color}-400 p-4 rounded-r-lg`}>
-                                  <p class="text-gray-300 italic leading-relaxed">
+                                <div class={`bg-elevated border-l-4 border-l-gold p-4 rounded-r-lg`}>
+                                  <p class="text-secondary italic leading-relaxed">
                                     "{event.quote}"
                                   </p>
                                 </div>
@@ -630,11 +630,11 @@ const timelineSchema = {
       </div>
 
       <!-- CLOSING CTA -->
-      <div class="max-w-3xl mx-auto text-center pt-16 border-t-2 border-gray-800">
+      <div class="max-w-3xl mx-auto text-center pt-16 border-t-2 border-subtle">
         <h3 class="text-white text-3xl md:text-4xl font-bold mb-6">
           The Journey Continues
         </h3>
-        <p class="text-gray-400 text-lg leading-relaxed mb-8">
+        <p class="text-tertiary text-lg leading-relaxed mb-8">
           From learning cards at age 3 to winning $32M+ by age 34. From juvenile detention to casino legend. This is the complete, chronological story of Mikki Mase.
         </p>
         <div class="flex flex-col sm:flex-row gap-4 justify-center">
@@ -685,7 +685,8 @@ const timelineSchema = {
     }
   }
 
-  .shadow-green-500\/50 {
+  .verified-pulse {
+    box-shadow: 0 0 15px rgb(var(--accent-verified) / 0.5);
     animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
   }
 

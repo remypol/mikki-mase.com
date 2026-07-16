@@ -27,9 +27,27 @@ export async function getToolAccess(
   cookies: AstroCookies,
   request: Request
 ): Promise<ToolAccessResult> {
-  // Check auth
-  const supabase = getServerClient(cookies, request);
-  const { data: { user } } = await supabase.auth.getUser();
+  // Check auth — resilient: zonder Supabase-env (lokale dev) of bij een
+  // auth-storing vallen we terug op anonieme toegang i.p.v. een 500.
+  let user = null;
+  let supabase: ReturnType<typeof getServerClient> | null = null;
+  try {
+    supabase = getServerClient(cookies, request);
+    const { data } = await supabase.auth.getUser();
+    user = data.user;
+  } catch (err) {
+    console.warn('[tool-access] Supabase unavailable, falling back to anonymous access:', (err as Error).message);
+  }
+
+  if (!supabase) {
+    const usage = getUsageFromCookie(cookies);
+    return {
+      hasFullAccess: false,
+      remainingFree: Math.max(0, ANON_CALCULATIONS_PER_DAY - usage),
+      tier: null,
+      isAuthenticated: false,
+    };
+  }
 
   if (!user) {
     // Anonymous user — 3 free per day

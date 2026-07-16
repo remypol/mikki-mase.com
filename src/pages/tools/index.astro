@@ -93,13 +93,13 @@ const tools = [
   <Header />
   <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "Tools" }]} />
 
-  <main id="main-content" class="bg-black min-h-screen">
+  <main id="main-content" class="bg-page min-h-screen">
     <!-- Hero Section with Animated Background -->
     <section class="relative py-20 md:py-32 overflow-hidden">
       <!-- Animated gradient background -->
       <div class="absolute inset-0 bg-gradient-to-br from-gold/5 via-transparent to-gold/5 animate-gradient-slow"></div>
-      <div class="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(218,165,32,0.15),transparent_50%)]"></div>
-      <div class="absolute inset-0 bg-[radial-gradient(circle_at_70%_80%,rgba(218,165,32,0.1),transparent_50%)]"></div>
+      <div class="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(207,181,59,0.12),transparent_50%)]"></div>
+      <div class="absolute inset-0 bg-[radial-gradient(circle_at_70%_80%,rgba(207,181,59,0.08),transparent_50%)]"></div>
 
       <div class="container mx-auto px-6 relative z-10">
         <div class="text-center max-w-4xl mx-auto">
@@ -114,24 +114,24 @@ const tools = [
             Gambling Tools &<br/>Calculators
           </h1>
 
-          <p class="text-gray-300 text-xl md:text-2xl mb-8 fade-in-up leading-relaxed" style="animation-delay: 0.2s;">
+          <p class="text-secondary text-xl md:text-2xl mb-8 fade-in-up leading-relaxed" style="animation-delay: 0.2s;">
             Professional-grade tools used by serious players.<br class="hidden md:block"/>
             <span class="text-gold">{scarcityCopy}</span>
           </p>
 
           <!-- Stats Row -->
           <div class="grid grid-cols-3 gap-4 md:gap-8 max-w-2xl mx-auto mt-12 fade-in-up" style="animation-delay: 0.3s;">
-            <div class="bg-gradient-to-br from-white/5 to-white/[0.02] backdrop-blur-xl border border-white/10 rounded-xl p-4 md:p-6">
+            <div class="bg-card border border-subtle rounded-xl p-4 md:p-6">
               <p class="text-gold text-2xl md:text-4xl font-black mb-1">5</p>
-              <p class="text-gray-400 text-xs md:text-sm uppercase tracking-wide">Free Tools</p>
+              <p class="text-secondary text-xs md:text-sm uppercase tracking-wide">Free Tools</p>
             </div>
-            <div class="bg-gradient-to-br from-white/5 to-white/[0.02] backdrop-blur-xl border border-white/10 rounded-xl p-4 md:p-6">
+            <div class="bg-card border border-subtle rounded-xl p-4 md:p-6">
               <p class="text-gold text-2xl md:text-4xl font-black mb-1">$0</p>
-              <p class="text-gray-400 text-xs md:text-sm uppercase tracking-wide">To Use</p>
+              <p class="text-secondary text-xs md:text-sm uppercase tracking-wide">To Use</p>
             </div>
-            <div class="bg-gradient-to-br from-white/5 to-white/[0.02] backdrop-blur-xl border border-white/10 rounded-xl p-4 md:p-6">
+            <div class="bg-card border border-subtle rounded-xl p-4 md:p-6">
               <p class="text-gold text-2xl md:text-4xl font-black mb-1">0</p>
-              <p class="text-gray-400 text-xs md:text-sm uppercase tracking-wide">Ads or Signup</p>
+              <p class="text-secondary text-xs md:text-sm uppercase tracking-wide">Ads or Signup</p>
             </div>
           </div>
         </div>
@@ -146,22 +146,22 @@ const tools = [
             {tools.map((tool, index) => (
               <a
                 href={tool.status === 'live' ? tool.href : undefined}
-                class={`tool-card group relative block bg-gradient-to-br from-white/5 to-white/[0.02] backdrop-blur-xl border border-white/10 rounded-2xl p-8 transition-all duration-500 ${
+                class={`tool-card group relative block bg-card border border-subtle rounded-xl p-8 transition-all duration-300 ${
                   tool.status === 'live'
-                    ? 'hover:border-gold/50 hover:shadow-2xl hover:shadow-gold/20 hover:scale-[1.02] cursor-pointer hover:-translate-y-1'
+                    ? 'cursor-pointer'
                     : 'opacity-50 cursor-not-allowed'
                 }`}
                 style={`animation: fade-in-up 0.6s ease-out ${index * 0.1}s both;`}
               >
                 {/* Highlight Badge */}
                 {tool.highlight && (
-                  <div class="absolute -top-3 -right-3 bg-gradient-to-r from-gold to-yellow-500 text-black text-xs font-bold px-3 py-1.5 rounded-full shadow-lg">
+                  <div class="absolute -top-3 -right-3 bg-gold text-black text-xs font-bold px-3 py-1.5 rounded-full shadow-lg">
                     ⭐ {tool.highlight}
                   </div>
                 )}
 
                 <div class="flex items-start justify-between mb-6">
-                  <div class="w-16 h-16 rounded-xl bg-gradient-to-br from-gold/20 to-gold/5 border border-gold/30 flex items-center justify-center group-hover:scale-110 group-hover:rotate-3 transition-transform duration-300">
+                  <div class="w-16 h-16 rounded-xl bg-gold/10 border border-gold/30 flex items-center justify-center">
                     {tool.icon === 'cards' && (
                       <svg class="w-8 h-8 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
@@ -195,18 +195,18 @@ const tools = [
                     )}
                   </div>
                   {tool.status === 'coming-soon' && (
-                    <span class="text-xs bg-gray-800 text-gray-400 px-3 py-1.5 rounded-full font-semibold border border-gray-700">Coming Soon</span>
+                    <span class="text-xs bg-elevated text-tertiary px-3 py-1.5 rounded-full font-semibold border border-subtle">Coming Soon</span>
                   )}
                 </div>
 
-                <h3 class="text-white text-2xl font-bold mb-3 group-hover:text-gold transition-colors">{tool.title}</h3>
-                <p class="text-gray-400 text-base mb-6 leading-relaxed">{tool.description}</p>
+                <h3 class="display-h3 mb-3">{tool.title}</h3>
+                <p class="text-secondary text-base mb-6 leading-relaxed">{tool.description}</p>
 
                 {/* Features List */}
                 {tool.features && (
                   <div class="space-y-2 mb-6">
                     {tool.features.map((feature: string) => (
-                      <div class="flex items-center gap-2 text-sm text-gray-500">
+                      <div class="flex items-center gap-2 text-sm text-tertiary">
                         <svg class="w-4 h-4 text-gold flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                           <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
                         </svg>
@@ -224,7 +224,7 @@ const tools = [
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
                       </svg>
                     </div>
-                    <span class="text-xs text-gray-500 bg-white/5 border border-white/10 rounded-full px-3 py-1">
+                    <span class="text-xs text-tertiary bg-elevated border border-subtle rounded-full px-3 py-1">
                       Free to use
                     </span>
                   </div>
@@ -234,76 +234,73 @@ const tools = [
           </div>
 
           <!-- Free Community Section -->
-          <section style="margin-top: 3rem; padding: 2rem; background: #111; border: 1px solid rgba(207, 181, 59, 0.2); border-radius: 1rem; text-align: center;">
-            <h3 style="color: white; font-size: 1.25rem; font-weight: 700; margin: 0 0 0.5rem;">Mikki Mase Fan Community</h3>
-            <p style="color: #BEBEBE; font-size: 0.875rem; margin: 0 0 1rem;">
+          <section class="mt-12 p-8 bg-card border border-gold/20 rounded-xl text-center">
+            <h3 class="display-h3 mb-2">Mikki Mase Fan Community</h3>
+            <p class="text-secondary text-sm mb-4">
               These calculators are free to use. Join the Mikki Mase Fan Community (a free community for fans, on Telegram) for pattern recognition cheatsheets, strategy guides, and behind-the-scenes stories. Mikki does not sell any courses or masterclasses.
             </p>
-            <a href="/join" style="display: inline-block; background: #CFB53B; color: #000; font-weight: 700; padding: 0.75rem 1.5rem; border-radius: 0.75rem; text-decoration: none;">
+            <a href="/join" class="btn btn-primary">
               Join the Mikki Mase Fan Community
             </a>
           </section>
 
           <!-- Why These Tools Section -->
-          <div class="mt-20 md:mt-32 bg-gradient-to-br from-white/5 to-white/[0.02] backdrop-blur-xl border border-white/10 rounded-3xl p-8 md:p-12">
+          <div class="mt-20 md:mt-32 bg-card border border-subtle rounded-xl p-8 md:p-12">
             <div class="max-w-3xl mx-auto text-center">
               <h2 class="text-white text-3xl md:text-4xl font-bold mb-6">Why These Tools?</h2>
-              <p class="text-gray-300 text-lg leading-relaxed mb-8">
+              <p class="text-secondary text-lg leading-relaxed mb-8">
                 I've spent <span class="text-gold font-bold">$10+ million</span> learning what works and what doesn't. These tools are the result of that education—built to give you the edge I wish I had starting out.
               </p>
               <div class="grid md:grid-cols-3 gap-6 text-left">
-                <div class="bg-black/30 rounded-xl p-6 border border-white/5">
-                  <div class="w-12 h-12 rounded-lg bg-gold/10 border border-gold/30 flex items-center justify-center mb-4">
+                <div class="bg-elevated border border-subtle rounded-xl p-6">
+                  <div class="w-12 h-12 rounded-lg bg-gold/10 border border-gold/20 flex items-center justify-center mb-4">
                     <svg class="w-6 h-6 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                     </svg>
                   </div>
                   <h3 class="text-white font-bold mb-2">Mathematically Accurate</h3>
-                  <p class="text-gray-400 text-sm">Built on proven probability theory and real-world casino rules.</p>
+                  <p class="text-secondary text-sm">Built on proven probability theory and real-world casino rules.</p>
                 </div>
-                <div class="bg-black/30 rounded-xl p-6 border border-white/5">
-                  <div class="w-12 h-12 rounded-lg bg-gold/10 border border-gold/30 flex items-center justify-center mb-4">
+                <div class="bg-elevated border border-subtle rounded-xl p-6">
+                  <div class="w-12 h-12 rounded-lg bg-gold/10 border border-gold/20 flex items-center justify-center mb-4">
                     <svg class="w-6 h-6 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                     </svg>
                   </div>
                   <h3 class="text-white font-bold mb-2">Built for Speed</h3>
-                  <p class="text-gray-400 text-sm">Fast calculations, clean interface. Get answers in seconds.</p>
+                  <p class="text-secondary text-sm">Fast calculations, clean interface. Get answers in seconds.</p>
                 </div>
-                <div class="bg-black/30 rounded-xl p-6 border border-white/5">
-                  <div class="w-12 h-12 rounded-lg bg-gold/10 border border-gold/30 flex items-center justify-center mb-4">
+                <div class="bg-elevated border border-subtle rounded-xl p-6">
+                  <div class="w-12 h-12 rounded-lg bg-gold/10 border border-gold/20 flex items-center justify-center mb-4">
                     <svg class="w-6 h-6 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
                     </svg>
                   </div>
                   <h3 class="text-white font-bold mb-2">No Data Collection</h3>
-                  <p class="text-gray-400 text-sm">Your sessions stay private. No tracking, no accounts required.</p>
+                  <p class="text-secondary text-sm">Your sessions stay private. No tracking, no accounts required.</p>
                 </div>
               </div>
             </div>
           </div>
 
-          <div class="mt-8 bg-gray-900/50 border border-gray-800 rounded-xl p-6 text-center">
-            <p class="text-gray-400 text-sm mb-2">Ready to practice? Use code <strong class="text-gold">MMC</strong> at Kirgo for 300% bonus + 50 free spins.</p>
+          <div class="mt-8 bg-card border border-subtle rounded-xl p-6 text-center">
+            <p class="text-secondary text-sm mb-2">Ready to practice? Use code <strong class="text-gold">MMC</strong> at Kirgo for 300% bonus + 50 free spins.</p>
             <a href="https://kirgoplay.com/ddb4ff99f" target="_blank" rel="nofollow sponsored noopener noreferrer" class="inline-flex items-center gap-2 text-gold hover:text-gold-light font-semibold text-sm transition-colors">
               Try Kirgo
               <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>
             </a>
-            <p class="text-gray-600 text-xs mt-2">18+ | Gamble Responsibly</p>
+            <p class="text-tertiary text-xs mt-2">18+ | Gamble Responsibly</p>
           </div>
 
           <div class="my-12"><EmailCapture client:load variant="compact" source="tools" /></div>
 
           <!-- CTA Section -->
-          <div class="mt-16 md:mt-20 text-center bg-gradient-to-br from-gold/10 to-gold/5 border border-gold/20 rounded-3xl p-10 md:p-16">
+          <div class="mt-16 md:mt-20 text-center bg-gold/10 border border-gold/20 rounded-xl p-10 md:p-16">
             <h2 class="text-white text-3xl md:text-4xl font-bold mb-4">Want More Tools?</h2>
-            <p class="text-gray-300 text-lg mb-8 max-w-2xl mx-auto">
+            <p class="text-secondary text-lg mb-8 max-w-2xl mx-auto">
               Join the Mikki Mase Fan Community (a free community for fans) to chat about strategy with other fans.
             </p>
-            <a
-              href="/join"
-              class="inline-flex items-center gap-3 bg-gold hover:bg-gold/90 text-black font-bold py-4 px-10 rounded-xl transition-all hover:scale-105 hover:shadow-xl hover:shadow-gold/30"
-            >
+            <a href="/join" class="btn btn-primary">
               <span>Join the Mikki Mase Fan Community</span>
               <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
@@ -356,14 +353,21 @@ const tools = [
     content: '';
     position: absolute;
     inset: 0;
-    background: radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(218, 165, 32, 0.1), transparent 50%);
+    background: radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgb(var(--accent-gold) / 0.08), transparent 50%);
     opacity: 0;
     transition: opacity 0.3s;
     pointer-events: none;
   }
 
-  .tool-card:hover::before {
+  .tool-card[href]:hover::before {
     opacity: 1;
+  }
+
+  /* Live cards lift + gold border on hover (coming-soon cards have no href) */
+  .tool-card[href]:hover {
+    transform: translateY(-2px);
+    border-color: rgb(var(--accent-gold) / 0.3);
+    box-shadow: 0 12px 32px rgb(0 0 0 / 0.35);
   }
 </style>
 
