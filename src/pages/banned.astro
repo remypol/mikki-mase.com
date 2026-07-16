@@ -131,6 +131,12 @@ const bannedSchema = {
         </div>
 
         <!-- Map Container -->
+        <!-- Known non-issue: in the Claude Code browser-preview pane this Leaflet map
+             blacks out the whole viewport (compositor artifact, renderer can hang on
+             scroll). Verified 2026-07-16 NOT reproducible anywhere else: headed Chrome
+             150 w/ GPU (ANGLE Metal), headless Chrome (default / -disable-gpu /
+             -use-angle=metal) and WebKit 26.5 all render tiles + markers correctly.
+             Do not "fix" the map based on preview rendering alone. -->
         <div class="relative bg-card rounded-2xl overflow-hidden border-2 border-gold/30">
           <!-- Map will be rendered here -->
           <div id="ban-map" class="w-full h-[500px] md:h-[700px]"></div>
