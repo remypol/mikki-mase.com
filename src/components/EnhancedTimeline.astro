@@ -98,7 +98,7 @@ const categoryConfig = {
           <span id="toggle-text">{defaultCollapsed ? 'Show All Events' : 'Show Key Events'}</span>
         </button>
 
-        <div class="text-gray-500 text-sm" id="event-counter">
+        <div class="text-tertiary text-sm" id="event-counter">
           <span id="visible-count">0</span> of {events.length} events
         </div>
       </div>
@@ -220,7 +220,7 @@ const categoryConfig = {
     position: sticky;
     top: 90px;
     z-index: 10;
-    background: linear-gradient(to bottom, #000 0%, #000 90%, transparent 100%);
+    background: linear-gradient(to bottom, rgb(var(--bg-page)) 0%, rgb(var(--bg-page)) 90%, transparent 100%);
     padding-bottom: 20px;
     margin-bottom: -10px;
   }
@@ -257,10 +257,10 @@ const categoryConfig = {
 
   .category-filter {
     padding: 6px 14px;
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgb(var(--bg-card));
+    border: 1px solid rgb(var(--border-subtle));
     border-radius: 6px;
-    color: rgba(255, 255, 255, 0.6);
+    color: rgb(var(--text-secondary));
     font-size: 13px;
     font-weight: 500;
     transition: all 0.2s ease;
@@ -268,8 +268,8 @@ const categoryConfig = {
   }
 
   .category-filter:hover {
-    background: rgba(255, 255, 255, 0.1);
-    color: white;
+    background: rgb(var(--bg-card-hover));
+    color: rgb(var(--text-primary));
   }
 
   .category-filter.active {
@@ -344,7 +344,7 @@ const categoryConfig = {
     width: 16px;
     height: 16px;
     background: #CFB53B;
-    border: 3px solid #000;
+    border: 3px solid rgb(var(--bg-page));
     border-radius: 50%;
     box-shadow: 0 0 0 4px rgba(207, 181, 59, 0.2);
   }
@@ -402,7 +402,7 @@ const categoryConfig = {
     margin-left: -36px;
     border-width: 2px;
     border-radius: 12px;
-    background: #000;
+    background: rgb(var(--bg-page));
   }
 
   @media (max-width: 640px) {
@@ -429,7 +429,7 @@ const categoryConfig = {
 
   /* Event Card */
   .event-card {
-    background: rgba(26, 26, 26, 0.8);
+    background: rgb(var(--bg-card));
     backdrop-filter: blur(10px);
     border-width: 1px;
     border-radius: 12px;
@@ -449,7 +449,7 @@ const categoryConfig = {
   }
 
   .timeline-event-featured .event-card {
-    background: linear-gradient(135deg, rgba(207, 181, 59, 0.15) 0%, rgba(26, 26, 26, 0.9) 100%);
+    background: linear-gradient(135deg, rgba(207, 181, 59, 0.1) 0%, rgb(var(--bg-card)) 100%);
     border-width: 2px;
   }
 
@@ -461,7 +461,7 @@ const categoryConfig = {
   .event-title {
     font-size: 18px;
     font-weight: 700;
-    color: white;
+    color: rgb(var(--text-primary));
     line-height: 1.3;
   }
 
@@ -472,7 +472,7 @@ const categoryConfig = {
   }
 
   .event-description {
-    color: rgba(255, 255, 255, 0.7);
+    color: rgb(var(--text-secondary));
     font-size: 15px;
     line-height: 1.6;
     margin-bottom: 12px;
@@ -506,9 +506,9 @@ const categoryConfig = {
     justify-content: center;
     width: 16px;
     height: 16px;
-    background: rgba(34, 197, 94, 0.2);
+    background: rgb(var(--accent-verified));
     border-radius: 50%;
-    color: #22c55e;
+    color: rgb(var(--text-primary));
   }
 
   /* Scroll to Top Button */
@@ -517,10 +517,10 @@ const categoryConfig = {
     align-items: center;
     gap: 8px;
     padding: 12px 24px;
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgb(var(--bg-card));
+    border: 1px solid rgb(var(--border-subtle));
     border-radius: 8px;
-    color: rgba(255, 255, 255, 0.7);
+    color: rgb(var(--text-secondary));
     font-weight: 600;
     transition: all 0.3s ease;
     cursor: pointer;

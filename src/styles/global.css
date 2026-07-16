@@ -909,6 +909,30 @@ footer {
 /* Hero spotlight-overlay (Fase 1): tafel-onder-de-lamp gevoel.
    Goudgloed van boven, donkere randen, fade naar page-kleur onderin
    zodat de hero naadloos in de volgende sectie overloopt. */
+/* Pull-quote (Fase 2): Fraunces italic ademruimte in lange artikelen */
+.pull-quote {
+  font-family: var(--font-serif);
+  font-variation-settings: 'opsz' 48, 'SOFT' 60, 'wght' 450;
+  font-style: italic;
+  font-size: clamp(1.375rem, 3.5vw, 2rem);
+  line-height: 1.35;
+  color: rgb(var(--text-primary));
+  border-left: 2px solid var(--color-gold);
+  padding-left: 1.5rem;
+  margin: 3rem 0;
+  max-width: 32ch;
+}
+
+/* Serif stat-cijfers (Fase 2): geld & records als helden */
+.stat-serif {
+  font-family: var(--font-serif);
+  font-variation-settings: 'opsz' 144, 'SOFT' 30, 'wght' 560;
+  font-size: clamp(2.5rem, 8vw, 5rem);
+  line-height: 1;
+  letter-spacing: -0.02em;
+  color: var(--color-gold);
+}
+
 .hero-spotlight {
   background:
     radial-gradient(ellipse 120% 70% at 50% -10%, rgba(207, 181, 59, 0.14) 0%, rgba(207, 181, 59, 0.04) 40%, transparent 70%),
@@ -1131,6 +1155,7 @@ footer {
 .bg-page { background-color: rgb(var(--bg-page)); }
 .bg-elevated { background-color: rgb(var(--bg-elevated)); }
 .bg-card { background-color: rgb(var(--bg-card)); }
+.bg-card-hover { background-color: rgb(var(--bg-card-hover)); }
 
 .text-primary { color: rgb(var(--text-primary)); }
 .text-secondary { color: rgb(var(--text-secondary)); }

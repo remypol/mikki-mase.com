@@ -40,9 +40,9 @@ const {
 const heightClass = variant === 'full' ? 'min-h-[100svh]' : 'h-[360px] sm:h-[480px] md:h-[640px]';
 ---
 
-{/* -mt-28 laat de hero onder de fixed (blurrende) header doorlopen: full-bleed,
-    geen zwarte band. De header-spacer is h-28, dus dit heft hem exact op. */}
-<section class={`hero-stage relative overflow-hidden ${heightClass} bg-page -mt-28`}>
+{/* Negatieve top-margin laat de hero onder de fixed (blurrende) header doorlopen:
+    full-bleed, geen zwarte band. Moet de header-spacer (h-20 md:h-24) exact opheffen. */}
+<section class={`hero-stage relative overflow-hidden ${heightClass} bg-page -mt-20 md:-mt-24`}>
   <!-- Background Image: full-bleed cover-laag (Fase 1 hero-systeem) -->
   {backgroundImage && (
     <div class="absolute inset-0 z-0">

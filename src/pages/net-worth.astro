@@ -230,7 +230,7 @@ const relatedPages = [
   />
 
   <!-- BREADCRUMBS -->
-  <div class="bg-black border-b border-gray-800">
+  <div class="bg-black border-b border-subtle">
     <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "Net Worth" }]} />
   </div>
 
@@ -251,32 +251,32 @@ const relatedPages = [
       <ReadingTime words={3600} />
 
       <!-- Quick Answer Box -->
-      <div id="summary" class="mb-16 bg-gradient-to-br from-gray-900 to-black border-2 border-gold/30 rounded-xl p-8 md:p-10">
+      <div id="summary" class="mb-16 bg-gradient-to-br from-[rgb(var(--bg-card))] to-[rgb(var(--bg-page))] border-2 border-gold/30 rounded-xl p-8 md:p-10">
         <div class="text-center">
           <p class="text-gold text-sm uppercase tracking-widest mb-3">Estimated Net Worth (2026)</p>
-          <h2 class="text-white text-4xl md:text-6xl font-black mb-4">$20M - $40M</h2>
-          <p class="text-gray-400 text-lg max-w-2xl mx-auto">
+          <h2 class="stat-serif mb-4">$20M - $40M</h2>
+          <p class="text-secondary text-lg max-w-2xl mx-auto">
             Based on verified casino winnings ($10M+), claimed total ($32M+), business sales (300+ pharmacies), and lifestyle indicators. Exact figure unconfirmed.
           </p>
         </div>
 
         <!-- Quick Stats Grid -->
         <div class="mt-8 grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
-          <div class="bg-black/50 p-4 rounded-lg">
-            <p class="text-green-500 text-2xl font-bold">$10M+</p>
-            <p class="text-gray-500 text-sm">Verified Wins</p>
+          <div class="bg-elevated border border-subtle p-4 rounded-lg">
+            <p class="figure-serif text-[rgb(var(--accent-verified))] text-2xl">$10M+</p>
+            <p class="text-tertiary text-sm">Verified Wins</p>
           </div>
-          <div class="bg-black/50 p-4 rounded-lg">
-            <p class="text-gold text-2xl font-bold">$32M+</p>
-            <p class="text-gray-500 text-sm">Claimed Wins</p>
+          <div class="bg-elevated border border-subtle p-4 rounded-lg">
+            <p class="figure-serif text-gold text-2xl">$32M+</p>
+            <p class="text-tertiary text-sm">Claimed Wins</p>
           </div>
-          <div class="bg-black/50 p-4 rounded-lg">
-            <p class="text-red-500 text-2xl font-bold">$10M+</p>
-            <p class="text-gray-500 text-sm">Known Losses</p>
+          <div class="bg-elevated border border-subtle p-4 rounded-lg">
+            <p class="figure-serif text-[rgb(var(--accent-red))] text-2xl">$10M+</p>
+            <p class="text-tertiary text-sm">Known Losses</p>
           </div>
-          <div class="bg-black/50 p-4 rounded-lg">
-            <p class="text-blue-400 text-2xl font-bold">150+</p>
-            <p class="text-gray-500 text-sm">Casino Bans</p>
+          <div class="bg-elevated border border-subtle p-4 rounded-lg">
+            <p class="figure-serif text-primary text-2xl">150+</p>
+            <p class="text-tertiary text-sm">Casino Bans</p>
           </div>
         </div>
       </div>
@@ -310,28 +310,22 @@ const relatedPages = [
                 <!-- Timeline Dot -->
                 <div class={`absolute left-2 md:left-4 w-4 h-4 rounded-full border-2 ${
                   event.wealth.includes('+') && !event.wealth.includes('-') && event.wealth !== '$0'
-                    ? 'bg-green-500 border-green-400'
+                    ? 'bg-[rgb(var(--accent-verified))] border-[rgb(var(--accent-verified))]'
                     : event.wealth.includes('-')
-                      ? 'bg-red-500 border-red-400'
-                      : 'bg-gray-600 border-gray-500'
+                      ? 'bg-[rgb(var(--accent-red))] border-[rgb(var(--accent-red))]'
+                      : 'bg-[rgb(var(--border-strong))] border-[rgb(var(--border-strong))]'
                 }`}></div>
 
-                <div class="bg-gray-900 border border-gray-800 rounded-lg p-6 hover:border-gold/30 transition-colors">
-                  <div class="flex flex-wrap items-center gap-3 mb-2">
+                <div class="bg-card border border-subtle rounded-xl p-6 hover:border-gold/30 hover:-translate-y-0.5 transition-all">
+                  <div class="flex flex-wrap items-baseline gap-3 mb-2">
                     <span class="text-gold font-bold text-lg">{event.year}</span>
-                    <span class="text-gray-600">|</span>
-                    <span class={`text-sm font-medium px-2 py-0.5 rounded ${
-                      event.wealth.includes('+') && !event.wealth.includes('-') && event.wealth !== '$0'
-                        ? 'bg-green-500/20 text-green-400'
-                        : event.wealth.includes('-')
-                          ? 'bg-red-500/20 text-red-400'
-                          : 'bg-gray-700 text-gray-400'
-                    }`}>{event.wealth}</span>
+                    <span class="text-tertiary">|</span>
+                    <span class="figure-serif text-gold text-lg">{event.wealth}</span>
                   </div>
                   <h3 class="text-white text-xl font-bold mb-2">{event.title}</h3>
                   <p class="text-gray-300 mb-3">{event.description}</p>
-                  <p class="text-gray-500 text-sm">
-                    <span class="text-gray-600">Source:</span> {event.source}
+                  <p class="text-tertiary text-sm">
+                    <span class="text-tertiary">Source:</span> {event.source}
                   </p>
                 </div>
               </div>
@@ -345,7 +339,7 @@ const relatedPages = [
         <h2 class="display-h2 mb-8">Income Sources</h2>
 
         <!-- Casino Winnings -->
-        <div class="mb-10 bg-gray-900 border-l-4 border-gold p-8 md:p-10 rounded">
+        <div class="mb-10 bg-card border border-subtle border-l-4 border-l-gold p-8 md:p-10 rounded-xl">
           <div class="flex items-start gap-4 mb-4">
             <div class="flex-shrink-0">
               <svg class="w-8 h-8 text-gold" fill="currentColor" viewBox="0 0 20 20">
@@ -354,21 +348,21 @@ const relatedPages = [
             </div>
             <div class="flex-1">
               <h3 class="text-white text-2xl font-bold mb-2">Casino Winnings</h3>
-              <p class="text-gold text-xl font-bold mb-3">$32M+ (claimed) | $10M+ (verified)</p>
+              <p class="figure-serif text-gold text-xl mb-3">$32M+ (claimed) | $10M+ (verified)</p>
               <p class="text-gray-300 text-lg leading-relaxed mb-4">
                 Mikki claims to have won $32 million total from baccarat. The verified amount is over $10 million from the Venetian alone, witnessed by professional poker player Jake Ormand. Additional documented wins at Wynn, MGM, Bellagio, and other properties bring the verified total higher.
               </p>
 
               <!-- Detailed Casino Breakdown -->
-              <div class="mt-6 bg-black/50 rounded-lg p-4">
+              <div class="mt-6 bg-elevated border border-subtle rounded-lg p-4">
                 <h4 class="text-white font-bold mb-3">Documented Casino Wins:</h4>
                 <ul class="space-y-2 text-gray-300">
-                  <li class="flex justify-between"><span>Venetian Las Vegas</span><span class="text-green-500 font-bold">$10M+ (verified)</span></li>
-                  <li class="flex justify-between"><span>Wynn Las Vegas</span><span class="text-gray-400">$5M+ (claimed)</span></li>
-                  <li class="flex justify-between"><span>MGM Grand</span><span class="text-gray-400">$3M+ (claimed)</span></li>
-                  <li class="flex justify-between"><span>Bellagio</span><span class="text-gray-400">$2M+ (claimed)</span></li>
-                  <li class="flex justify-between"><span>International casinos</span><span class="text-gray-400">$5M+ (claimed)</span></li>
-                  <li class="flex justify-between"><span>Other Vegas properties</span><span class="text-gray-400">$7M+ (claimed)</span></li>
+                  <li class="flex justify-between items-center gap-3"><span>Venetian Las Vegas</span><span class="badge-verified">$10M+ (verified)</span></li>
+                  <li class="flex justify-between items-center gap-3"><span>Wynn Las Vegas</span><span class="badge-claimed">$5M+ (claimed)</span></li>
+                  <li class="flex justify-between items-center gap-3"><span>MGM Grand</span><span class="badge-claimed">$3M+ (claimed)</span></li>
+                  <li class="flex justify-between items-center gap-3"><span>Bellagio</span><span class="badge-claimed">$2M+ (claimed)</span></li>
+                  <li class="flex justify-between items-center gap-3"><span>International casinos</span><span class="badge-claimed">$5M+ (claimed)</span></li>
+                  <li class="flex justify-between items-center gap-3"><span>Other Vegas properties</span><span class="badge-claimed">$7M+ (claimed)</span></li>
                 </ul>
               </div>
 
@@ -380,22 +374,22 @@ const relatedPages = [
         </div>
 
         <!-- Pharmacy Business Sale -->
-        <div class="mb-10 bg-gray-900 border-l-4 border-green-600 p-8 md:p-10 rounded">
+        <div class="mb-10 bg-card border border-subtle border-l-4 border-l-[rgb(var(--accent-verified))] p-8 md:p-10 rounded-xl">
           <div class="flex items-start gap-4 mb-4">
             <div class="flex-shrink-0">
-              <svg class="w-8 h-8 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+              <svg class="w-8 h-8 text-[rgb(var(--accent-verified))]" fill="currentColor" viewBox="0 0 20 20">
                 <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"/>
               </svg>
             </div>
             <div class="flex-1">
               <h3 class="text-white text-2xl font-bold mb-2">Pharmacy Empire Sale</h3>
-              <p class="text-green-500 text-xl font-bold mb-3">$5M - $15M (estimated)</p>
+              <p class="figure-serif text-gold text-xl mb-3">$5M - $15M (estimated)</p>
               <p class="text-gray-300 text-lg leading-relaxed mb-4">
                 Before becoming a professional gambler, Mikki built and sold a network of 300+ pharmacies and multiple drug rehabilitation facilities in Florida. He leveraged gaps in healthcare billing and insurance systems to rapidly scale the business. He sold the entire operation in his late 20s.
               </p>
 
               <!-- Business Details -->
-              <div class="mt-6 bg-black/50 rounded-lg p-4">
+              <div class="mt-6 bg-elevated border border-subtle rounded-lg p-4">
                 <h4 class="text-white font-bold mb-3">Business Portfolio at Sale:</h4>
                 <ul class="space-y-2 text-gray-300">
                   <li>• 300+ pharmacy locations (Florida)</li>
@@ -413,16 +407,16 @@ const relatedPages = [
         </div>
 
         <!-- Sports Betting Operation -->
-        <div class="mb-10 bg-gray-900 border-l-4 border-blue-600 p-8 md:p-10 rounded">
+        <div class="mb-10 bg-card border border-subtle border-l-4 border-l-[rgb(var(--border-strong))] p-8 md:p-10 rounded-xl">
           <div class="flex items-start gap-4 mb-4">
             <div class="flex-shrink-0">
-              <svg class="w-8 h-8 text-blue-500" fill="currentColor" viewBox="0 0 20 20">
+              <svg class="w-8 h-8 text-secondary" fill="currentColor" viewBox="0 0 20 20">
                 <path fill-rule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
               </svg>
             </div>
             <div class="flex-1">
               <h3 class="text-white text-2xl font-bold mb-2">Sports Betting Network</h3>
-              <p class="text-blue-400 text-xl font-bold mb-3">$1.9M paid out (documented)</p>
+              <p class="figure-serif text-gold text-xl mb-3">$1.9M paid out (documented)</p>
               <p class="text-gray-300 text-lg leading-relaxed mb-4">
                 After being banned from 150+ casinos worldwide, Mikki pivoted to sports betting. He has described operating a network of 3,000+ online sportsbook accounts, necessary because sportsbooks limit or ban winning players just like casinos.
               </p>
@@ -437,16 +431,16 @@ const relatedPages = [
         </div>
 
         <!-- Other Ventures -->
-        <div class="bg-gray-900 border-l-4 border-gray-700 p-8 md:p-10 rounded">
+        <div class="bg-card border border-subtle border-l-4 border-l-[rgb(var(--border-strong))] p-8 md:p-10 rounded-xl">
           <div class="flex items-start gap-4 mb-4">
             <div class="flex-shrink-0">
-              <svg class="w-8 h-8 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+              <svg class="w-8 h-8 text-tertiary" fill="currentColor" viewBox="0 0 20 20">
                 <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3zM6 8a2 2 0 11-4 0 2 2 0 014 0zM16 18v-3a5.972 5.972 0 00-.75-2.906A3.005 3.005 0 0119 15v3h-3zM4.75 12.094A5.973 5.973 0 004 15v3H1v-3a3 3 0 013.75-2.906z"/>
               </svg>
             </div>
             <div class="flex-1">
               <h3 class="text-white text-2xl font-bold mb-2">Community, Media & Partnerships</h3>
-              <p class="text-gray-400 text-xl font-bold mb-3">Unknown revenue (likely minimal)</p>
+              <p class="text-tertiary text-xl font-bold mb-3">Unknown revenue (likely minimal)</p>
               <p class="text-gray-300 text-lg leading-relaxed mb-4">
                 Unlike most gambling influencers, Mikki doesn't monetize his audience directly. The Mikki Mase Fan Community (a free community for fans on Telegram, run by this unofficial fan page) is completely free, with no membership fees and no paid tiers. Mikki does not sell any courses or masterclasses. His own YouTube channel generates some ad revenue but viewership is modest compared to his Instagram following.
               </p>
@@ -474,26 +468,26 @@ const relatedPages = [
           <div class="space-y-4">
             <h3 class="text-white text-xl font-bold mb-4">Documented Losses</h3>
 
-            <div class="bg-gray-900 border border-red-900/30 p-6 rounded-lg">
-              <p class="text-red-500 text-xl font-bold mb-2">-$8,000,000</p>
+            <div class="bg-card border border-subtle border-l-4 border-l-[rgb(var(--accent-red))] p-6 rounded-xl">
+              <p class="figure-serif text-[rgb(var(--accent-red))] text-xl mb-2">-$8,000,000</p>
               <p class="text-white font-medium">Single Night at Wynn</p>
               <p class="text-gray-400 text-sm">2021-2022 | Discussed in multiple podcasts</p>
             </div>
 
-            <div class="bg-gray-900 border border-red-900/30 p-6 rounded-lg">
-              <p class="text-red-500 text-xl font-bold mb-2">-$1,500,000</p>
+            <div class="bg-card border border-subtle border-l-4 border-l-[rgb(var(--accent-red))] p-6 rounded-xl">
+              <p class="figure-serif text-[rgb(var(--accent-red))] text-xl mb-2">-$1,500,000</p>
               <p class="text-white font-medium">Wynn Net Loss (after recovery)</p>
               <p class="text-gray-400 text-sm">Won back $2.5M but still net negative that trip</p>
             </div>
 
-            <div class="bg-gray-900 border border-red-900/30 p-6 rounded-lg">
-              <p class="text-red-500 text-xl font-bold mb-2">-$938,000</p>
+            <div class="bg-card border border-subtle border-l-4 border-l-[rgb(var(--accent-red))] p-6 rounded-xl">
+              <p class="figure-serif text-[rgb(var(--accent-red))] text-xl mb-2">-$938,000</p>
               <p class="text-white font-medium">Hustler Casino Live Poker</p>
               <p class="text-gray-400 text-sm">Verified on stream | Poker not his game</p>
             </div>
 
-            <div class="bg-gray-900 border border-red-900/30 p-6 rounded-lg">
-              <p class="text-red-500 text-xl font-bold mb-2">-$2,000,000+</p>
+            <div class="bg-card border border-subtle border-l-4 border-l-[rgb(var(--accent-red))] p-6 rounded-xl">
+              <p class="figure-serif text-[rgb(var(--accent-red))] text-xl mb-2">-$2,000,000+</p>
               <p class="text-white font-medium">Various Other Sessions</p>
               <p class="text-gray-400 text-sm">Accumulated losses discussed in interviews</p>
             </div>
@@ -503,26 +497,26 @@ const relatedPages = [
           <div class="space-y-4">
             <h3 class="text-white text-xl font-bold mb-4">Known Expenses</h3>
 
-            <div class="bg-gray-900 border border-gray-700 p-6 rounded-lg">
-              <p class="text-gray-300 text-xl font-bold mb-2">$250,000+</p>
+            <div class="bg-card border border-subtle p-6 rounded-xl">
+              <p class="figure-serif text-primary text-xl mb-2">$250,000+</p>
               <p class="text-white font-medium">Lamborghini (crashed)</p>
               <p class="text-gray-400 text-sm">Totaled | Mentioned in interviews</p>
             </div>
 
-            <div class="bg-gray-900 border border-gray-700 p-6 rounded-lg">
-              <p class="text-gray-300 text-xl font-bold mb-2">$200,000+</p>
+            <div class="bg-card border border-subtle p-6 rounded-xl">
+              <p class="figure-serif text-primary text-xl mb-2">$200,000+</p>
               <p class="text-white font-medium">Mercedes-Maybach S-Class</p>
               <p class="text-gray-400 text-sm">Current daily driver</p>
             </div>
 
-            <div class="bg-gray-900 border border-gray-700 p-6 rounded-lg">
-              <p class="text-gray-300 text-xl font-bold mb-2">$500,000+/year</p>
+            <div class="bg-card border border-subtle p-6 rounded-xl">
+              <p class="figure-serif text-primary text-xl mb-2">$500,000+/year</p>
               <p class="text-white font-medium">Lifestyle Expenses</p>
               <p class="text-gray-400 text-sm">Travel, dining, entertainment (estimated)</p>
             </div>
 
-            <div class="bg-gray-900 border border-gray-700 p-6 rounded-lg">
-              <p class="text-gray-300 text-xl font-bold mb-2">$1,900,000</p>
+            <div class="bg-card border border-subtle p-6 rounded-xl">
+              <p class="figure-serif text-primary text-xl mb-2">$1,900,000</p>
               <p class="text-white font-medium">Community Payouts</p>
               <p class="text-gray-400 text-sm">Paid to followers from sports betting wins</p>
             </div>
@@ -543,22 +537,22 @@ const relatedPages = [
 
         <div class="space-y-8">
           {lifestyleItems.map((category) => (
-            <div class="bg-gray-900 rounded-xl p-6 md:p-8">
+            <div class="bg-card border border-subtle rounded-xl p-6 md:p-8">
               <h3 class="text-gold text-xl font-bold mb-6">{category.category}</h3>
               <div class="space-y-4">
                 {category.items.map((item) => (
-                  <div class="flex flex-col md:flex-row md:items-center justify-between p-4 bg-black/50 rounded-lg gap-2">
+                  <div class="flex flex-col md:flex-row md:items-center justify-between p-4 bg-elevated border border-subtle rounded-lg gap-2">
                     <div class="flex-1">
                       <p class="text-white font-medium">{item.name}</p>
-                      <p class="text-gray-500 text-sm">{item.note}</p>
+                      <p class="text-tertiary text-sm">{item.note}</p>
                     </div>
                     <div class="flex items-center gap-3">
-                      <span class={`text-sm px-2 py-1 rounded ${
-                        item.status === 'Owned' ? 'bg-green-500/20 text-green-400' :
-                        item.status === 'Crashed' ? 'bg-red-500/20 text-red-400' :
-                        item.status === 'Casino comps' ? 'bg-gold/20 text-gold' :
-                        'bg-gray-700 text-gray-400'
-                      }`}>{item.status}</span>
+                      <span class={
+                        item.status === 'Owned' ? 'badge-verified' :
+                        item.status === 'Crashed' ? 'badge-red' :
+                        item.status === 'Casino comps' ? 'badge-gold' :
+                        'badge-claimed'
+                      }>{item.status}</span>
                       <span class="text-white font-bold">{item.value}</span>
                     </div>
                   </div>
@@ -568,7 +562,7 @@ const relatedPages = [
           ))}
         </div>
 
-        <div class="mt-8 bg-gray-900 border border-gold/20 rounded-xl p-6">
+        <div class="mt-8 bg-card border border-subtle rounded-xl p-6">
           <h4 class="text-white font-bold mb-3">Important Note on Casino Comps</h4>
           <p class="text-gray-300">
             High-rolling players like Mikki receive substantial "comps" (complimentary services) from casinos, including free penthouse suites, private jets, dining, and entertainment. This is called RFB (Room, Food, Beverage). Casinos comp players based on their expected losses from gambling—Mikki betting $250K per hand would receive top-tier comp treatment. Many of his luxury experiences are casino-provided, not paid out of pocket.
@@ -580,51 +574,51 @@ const relatedPages = [
       <section id="calculation" class="mb-16 md:mb-20">
         <h2 class="display-h2 mb-8">Estimated Net Worth Calculation</h2>
 
-        <div class="bg-gradient-to-br from-gray-900 to-black border border-gold/30 rounded-xl p-8 md:p-10">
+        <div class="bg-gradient-to-br from-[rgb(var(--bg-card))] to-[rgb(var(--bg-page))] border border-gold/30 rounded-xl p-8 md:p-10">
           <table class="w-full text-left">
             <thead>
-              <tr class="border-b border-gray-800">
-                <th class="py-3 text-gray-400 font-medium">Category</th>
-                <th class="py-3 text-right text-gray-400 font-medium">Amount</th>
+              <tr class="border-b border-subtle">
+                <th class="py-3 text-secondary font-medium">Category</th>
+                <th class="py-3 text-right text-secondary font-medium">Amount</th>
               </tr>
             </thead>
             <tbody class="text-gray-300">
-              <tr class="border-b border-gray-800">
+              <tr class="border-b border-subtle">
                 <td class="py-4 text-lg">Verified casino winnings</td>
-                <td class="py-4 text-lg text-right text-green-500 font-bold">+$10M - $15M</td>
+                <td class="py-4 text-lg text-right text-[rgb(var(--accent-verified))] font-bold">+$10M - $15M</td>
               </tr>
-              <tr class="border-b border-gray-800">
+              <tr class="border-b border-subtle">
                 <td class="py-4 text-lg">Claimed additional casino winnings</td>
-                <td class="py-4 text-lg text-right text-gray-400 font-bold">+$17M - $22M</td>
+                <td class="py-4 text-lg text-right text-tertiary font-bold">+$17M - $22M</td>
               </tr>
-              <tr class="border-b border-gray-800">
+              <tr class="border-b border-subtle">
                 <td class="py-4 text-lg">Pharmacy business sale (estimated)</td>
-                <td class="py-4 text-lg text-right text-green-500 font-bold">+$5M - $15M</td>
+                <td class="py-4 text-lg text-right text-[rgb(var(--accent-verified))] font-bold">+$5M - $15M</td>
               </tr>
-              <tr class="border-b border-gray-800">
+              <tr class="border-b border-subtle">
                 <td class="py-4 text-lg">Sports betting profits (estimated)</td>
-                <td class="py-4 text-lg text-right text-gray-400 font-bold">+$2M - $5M</td>
+                <td class="py-4 text-lg text-right text-tertiary font-bold">+$2M - $5M</td>
               </tr>
-              <tr class="border-b border-gray-800">
-                <td class="py-4 text-lg text-red-400">Documented gambling losses</td>
-                <td class="py-4 text-lg text-right text-red-500 font-bold">-$10M - $12M</td>
+              <tr class="border-b border-subtle">
+                <td class="py-4 text-lg text-[rgb(var(--accent-red))]">Documented gambling losses</td>
+                <td class="py-4 text-lg text-right text-[rgb(var(--accent-red))] font-bold">-$10M - $12M</td>
               </tr>
-              <tr class="border-b border-gray-800">
-                <td class="py-4 text-lg text-red-400">Lifestyle expenses (estimated total)</td>
-                <td class="py-4 text-lg text-right text-red-500 font-bold">-$5M - $10M</td>
+              <tr class="border-b border-subtle">
+                <td class="py-4 text-lg text-[rgb(var(--accent-red))]">Lifestyle expenses (estimated total)</td>
+                <td class="py-4 text-lg text-right text-[rgb(var(--accent-red))] font-bold">-$5M - $10M</td>
               </tr>
-              <tr class="border-b border-gray-800">
-                <td class="py-4 text-lg text-red-400">Community payouts</td>
-                <td class="py-4 text-lg text-right text-red-500 font-bold">-$1.9M</td>
+              <tr class="border-b border-subtle">
+                <td class="py-4 text-lg text-[rgb(var(--accent-red))]">Community payouts</td>
+                <td class="py-4 text-lg text-right text-[rgb(var(--accent-red))] font-bold">-$1.9M</td>
               </tr>
               <tr class="border-t-2 border-gold/50">
                 <td class="py-4 text-xl font-bold text-white">Estimated Net Worth (2026)</td>
-                <td class="py-4 text-xl text-right text-gold font-black">$20M - $40M</td>
+                <td class="py-4 text-xl text-right figure-serif text-gold">$20M - $40M</td>
               </tr>
             </tbody>
           </table>
 
-          <div class="mt-6 p-4 bg-black/50 rounded-lg">
+          <div class="mt-6 p-4 bg-elevated border border-subtle rounded-lg">
             <p class="text-gray-400 text-sm">
               <strong>Methodology:</strong> This estimate combines verified figures (with sources), reasonable estimates based on industry standards, and conservative assumptions where data is unavailable. The wide range ($20M-$40M) reflects uncertainty in claimed vs. verified amounts.
             </p>
@@ -642,81 +636,81 @@ const relatedPages = [
 
         <div class="space-y-6">
           <!-- Verified Claims -->
-          <div class="bg-gray-900 border-l-4 border-green-500 p-6 rounded">
-            <h3 class="text-green-400 text-xl font-bold mb-4">✓ Verified Claims</h3>
+          <div class="bg-card border border-subtle border-l-4 border-l-[rgb(var(--accent-verified))] p-6 rounded-xl">
+            <h3 class="text-[rgb(var(--accent-verified))] text-xl font-bold mb-4">✓ Verified Claims</h3>
             <ul class="space-y-3 text-gray-300">
               <li class="flex gap-3">
-                <span class="text-green-500">•</span>
+                <span class="text-[rgb(var(--accent-verified))]">•</span>
                 <span><strong>$10M+ Venetian win:</strong> Witnessed by Jake Ormand (professional poker player), corroborated by casino sources</span>
               </li>
               <li class="flex gap-3">
-                <span class="text-green-500">•</span>
+                <span class="text-[rgb(var(--accent-verified))]">•</span>
                 <span><strong>$938K Hustler poker loss:</strong> Recorded on Hustler Casino Live stream, publicly available</span>
               </li>
               <li class="flex gap-3">
-                <span class="text-green-500">•</span>
+                <span class="text-[rgb(var(--accent-verified))]">•</span>
                 <span><strong>150+ casino bans:</strong> Documented by multiple casino industry sources, discussed in interviews</span>
               </li>
               <li class="flex gap-3">
-                <span class="text-green-500">•</span>
+                <span class="text-[rgb(var(--accent-verified))]">•</span>
                 <span><strong>$1.9M community payouts:</strong> Payout receipts shown publicly on social media</span>
               </li>
               <li class="flex gap-3">
-                <span class="text-green-500">•</span>
+                <span class="text-[rgb(var(--accent-verified))]">•</span>
                 <span><strong>Pharmacy business existence:</strong> Florida business records confirm operations</span>
               </li>
             </ul>
           </div>
 
           <!-- Claimed but Unverified -->
-          <div class="bg-gray-900 border-l-4 border-yellow-500 p-6 rounded">
-            <h3 class="text-yellow-400 text-xl font-bold mb-4">○ Claimed but Unverified</h3>
+          <div class="bg-card border border-subtle border-l-4 border-l-[rgb(var(--accent-claimed))] p-6 rounded-xl">
+            <h3 class="text-[rgb(var(--accent-claimed))] text-xl font-bold mb-4">○ Claimed but Unverified</h3>
             <ul class="space-y-3 text-gray-300">
               <li class="flex gap-3">
-                <span class="text-yellow-500">•</span>
+                <span class="text-[rgb(var(--accent-claimed))]">•</span>
                 <span><strong>$32M total casino winnings:</strong> Mikki's own claim across multiple interviews, partial verification only</span>
               </li>
               <li class="flex gap-3">
-                <span class="text-yellow-500">•</span>
+                <span class="text-[rgb(var(--accent-claimed))]">•</span>
                 <span><strong>$8M single night loss:</strong> Mikki's account from podcasts, no independent verification</span>
               </li>
               <li class="flex gap-3">
-                <span class="text-yellow-500">•</span>
+                <span class="text-[rgb(var(--accent-claimed))]">•</span>
                 <span><strong>300+ pharmacies:</strong> Mikki's claim, exact number unverified</span>
               </li>
               <li class="flex gap-3">
-                <span class="text-yellow-500">•</span>
+                <span class="text-[rgb(var(--accent-claimed))]">•</span>
                 <span><strong>3,000+ sports betting accounts:</strong> Mikki's claim about current operations</span>
               </li>
             </ul>
           </div>
 
           <!-- Primary Sources -->
-          <div class="bg-gray-900 border-l-4 border-blue-500 p-6 rounded">
-            <h3 class="text-blue-400 text-xl font-bold mb-4">📚 Primary Sources</h3>
+          <div class="bg-card border border-subtle border-l-4 border-l-[rgb(var(--border-strong))] p-6 rounded-xl">
+            <h3 class="text-secondary text-xl font-bold mb-4">📚 Primary Sources</h3>
             <ul class="space-y-3 text-gray-300">
               <li class="flex gap-3">
-                <span class="text-blue-500">•</span>
+                <span class="text-tertiary">•</span>
                 <span><strong>Soft White Underbelly interview</strong> (20M+ views) - Comprehensive life story</span>
               </li>
               <li class="flex gap-3">
-                <span class="text-blue-500">•</span>
+                <span class="text-tertiary">•</span>
                 <span><strong>Steve-O's Wild Ride podcast</strong> - Gambling methodology discussion</span>
               </li>
               <li class="flex gap-3">
-                <span class="text-blue-500">•</span>
+                <span class="text-tertiary">•</span>
                 <span><strong>Bert Kreischer podcast</strong> - Casino ban stories</span>
               </li>
               <li class="flex gap-3">
-                <span class="text-blue-500">•</span>
+                <span class="text-tertiary">•</span>
                 <span><strong>NELK Boys interview</strong> - Business background</span>
               </li>
               <li class="flex gap-3">
-                <span class="text-blue-500">•</span>
+                <span class="text-tertiary">•</span>
                 <span><strong>Hustler Casino Live footage</strong> - Poker session documentation</span>
               </li>
               <li class="flex gap-3">
-                <span class="text-blue-500">•</span>
+                <span class="text-tertiary">•</span>
                 <span><strong>Jake Ormand's public statements</strong> - Venetian win verification</span>
               </li>
             </ul>
@@ -733,52 +727,52 @@ const relatedPages = [
         </p>
 
         <div class="space-y-4">
-          <div class="bg-gray-900 p-6 rounded-lg flex justify-between items-center">
+          <div class="bg-card border border-subtle p-6 rounded-xl flex justify-between items-center">
             <div>
               <p class="text-white text-lg font-bold">Billy Walters (Sports Betting)</p>
               <p class="text-gray-400">Peak net worth before legal issues</p>
             </div>
-            <p class="text-gold text-xl font-bold">$200M+</p>
+            <p class="figure-serif text-gold text-xl">$200M+</p>
           </div>
 
-          <div class="bg-gray-900 p-6 rounded-lg flex justify-between items-center">
+          <div class="bg-card border border-subtle p-6 rounded-xl flex justify-between items-center">
             <div>
               <p class="text-white text-lg font-bold">Phil Ivey (Poker)</p>
               <p class="text-gray-400">Estimated current net worth</p>
             </div>
-            <p class="text-gold text-xl font-bold">$100M+</p>
+            <p class="figure-serif text-gold text-xl">$100M+</p>
           </div>
 
-          <div class="bg-gray-900 p-6 rounded-lg flex justify-between items-center">
+          <div class="bg-card border border-subtle p-6 rounded-xl flex justify-between items-center">
             <div>
               <p class="text-white text-lg font-bold">Archie Karas (Poker/Craps)</p>
               <p class="text-gray-400">Peak holdings ($40M run)</p>
             </div>
-            <p class="text-gold text-xl font-bold">$40M</p>
+            <p class="figure-serif text-gold text-xl">$40M</p>
           </div>
 
-          <div class="bg-gray-900 p-6 rounded-lg flex justify-between items-center border-2 border-gold/30">
+          <div class="bg-card p-6 rounded-xl flex justify-between items-center border-2 border-gold/30">
             <div>
               <p class="text-white text-lg font-bold">Mikki Mase (Baccarat)</p>
               <p class="text-gray-400">Estimated net worth (2026)</p>
             </div>
-            <p class="text-gold text-xl font-bold">$20M - $40M</p>
+            <p class="figure-serif text-gold text-xl">$20M - $40M</p>
           </div>
 
-          <div class="bg-gray-900 p-6 rounded-lg flex justify-between items-center">
+          <div class="bg-card border border-subtle p-6 rounded-xl flex justify-between items-center">
             <div>
               <p class="text-white text-lg font-bold">Don Johnson (Blackjack)</p>
               <p class="text-gray-400">Known Atlantic City winnings</p>
             </div>
-            <p class="text-gold text-xl font-bold">$15M+</p>
+            <p class="figure-serif text-gold text-xl">$15M+</p>
           </div>
 
-          <div class="bg-gray-900 p-6 rounded-lg flex justify-between items-center">
+          <div class="bg-card border border-subtle p-6 rounded-xl flex justify-between items-center">
             <div>
               <p class="text-white text-lg font-bold">MIT Blackjack Team (collective)</p>
               <p class="text-gray-400">Total estimated winnings over years</p>
             </div>
-            <p class="text-gold text-xl font-bold">$10M+</p>
+            <p class="figure-serif text-gold text-xl">$10M+</p>
           </div>
         </div>
 
@@ -799,7 +793,7 @@ const relatedPages = [
 
         <div class="space-y-6">
           <!-- FAQ 1 -->
-          <div class="bg-gray-900 p-8 rounded-lg">
+          <div class="bg-card border border-subtle p-8 rounded-xl">
             <h3 class="text-white text-xl font-bold mb-3">Is Mikki Mase a billionaire?</h3>
             <p class="text-gray-300 text-lg leading-relaxed">
               No. Based on all available evidence, Mikki's estimated net worth is between $20M-$40M. While substantial—and impressive for a professional gambler—this is far from billionaire status. The billionaire claim appears to be internet exaggeration, not something Mikki himself has stated.
@@ -807,7 +801,7 @@ const relatedPages = [
           </div>
 
           <!-- FAQ 2 -->
-          <div class="bg-gray-900 p-8 rounded-lg">
+          <div class="bg-card border border-subtle p-8 rounded-xl">
             <h3 class="text-white text-xl font-bold mb-3">How much has Mikki actually won from casinos?</h3>
             <p class="text-gray-300 text-lg leading-relaxed">
               At minimum, $10M+ is verified from the Venetian win alone (witnessed by Jake Ormand). He claims $32M+ total across all casinos. Given his documented 150+ casino bans (casinos only ban consistent winners), lifestyle, and corroborating evidence, the truth is likely $15M-$32M in gross winnings. See the <a href="/wins" class="text-gold hover:text-gold-light underline">wins page</a> for a full breakdown.
@@ -815,7 +809,7 @@ const relatedPages = [
           </div>
 
           <!-- FAQ 3 -->
-          <div class="bg-gray-900 p-8 rounded-lg">
+          <div class="bg-card border border-subtle p-8 rounded-xl">
             <h3 class="text-white text-xl font-bold mb-3">Is there a fee to join the community?</h3>
             <p class="text-gray-300 text-lg leading-relaxed">
               No. The Mikki Mase Fan Community (a free community for fans on Telegram, run by this unofficial fan page) is completely free, with no membership fees, no paid tiers, and no hidden upsells. Unlike most gambling influencers who monetize followers, Mikki's own income appears to come primarily from actual gambling, not from selling gambling advice.
@@ -823,7 +817,7 @@ const relatedPages = [
           </div>
 
           <!-- FAQ 4 -->
-          <div class="bg-gray-900 p-8 rounded-lg">
+          <div class="bg-card border border-subtle p-8 rounded-xl">
             <h3 class="text-white text-xl font-bold mb-3">What happened to his pharmacy business money?</h3>
             <p class="text-gray-300 text-lg leading-relaxed">
               After selling his pharmacy empire (estimated $5M-$15M), Mikki transitioned to professional gambling. Based on his documented casino play—betting $100K-$250K per hand—much of the pharmacy sale proceeds likely became his initial gambling bankroll. This capital base allowed him to play at stakes where significant wins were possible.
@@ -831,7 +825,7 @@ const relatedPages = [
           </div>
 
           <!-- FAQ 5 -->
-          <div class="bg-gray-900 p-8 rounded-lg">
+          <div class="bg-card border border-subtle p-8 rounded-xl">
             <h3 class="text-white text-xl font-bold mb-3">Has Mikki's net worth increased or decreased recently?</h3>
             <p class="text-gray-300 text-lg leading-relaxed">
               With 150+ casino bans limiting his baccarat play, Mikki has pivoted to sports betting. The $1.9M in documented community payouts and ongoing betting activity suggests he's maintaining rather than growing his wealth significantly. His net worth has likely stabilized in the $20M-$40M range rather than continuing to grow at the rate it did during his peak casino years (2019-2022).
@@ -839,7 +833,7 @@ const relatedPages = [
           </div>
 
           <!-- FAQ 6 -->
-          <div class="bg-gray-900 p-8 rounded-lg">
+          <div class="bg-card border border-subtle p-8 rounded-xl">
             <h3 class="text-white text-xl font-bold mb-3">Why doesn't Mikki disclose his exact net worth?</h3>
             <p class="text-gray-300 text-lg leading-relaxed">
               Professional gamblers rarely disclose exact figures for several reasons: tax considerations, security concerns, maintaining betting account access (sportsbooks limit known winners), and strategic advantage. Mikki has been more transparent than most by discussing specific wins and losses, but exact totals remain private.
@@ -853,7 +847,7 @@ const relatedPages = [
       </section>
 
       <!-- Bottom CTA -->
-      <div class="bg-gradient-to-br from-gray-900 to-black border-2 border-gold/30 rounded-2xl p-10 md:p-16 text-center">
+      <div class="bg-gradient-to-br from-[rgb(var(--bg-card))] to-[rgb(var(--bg-page))] border-2 border-gold/30 rounded-2xl p-10 md:p-16 text-center">
         <h3 class="text-white text-3xl md:text-4xl font-bold mb-4">Want the Full Story?</h3>
         <p class="text-gray-300 text-lg mb-8 max-w-2xl mx-auto">
           Learn how Mikki went from prison to winning millions, what's verified vs. claimed, and how he beat the casinos before getting banned.
@@ -878,3 +872,47 @@ const relatedPages = [
 
   <Footer />
 </BaseLayout>
+
+<style>
+  /* High-Limit Editorial (Fase 2) — page-local helpers */
+
+  /* Serif money figures: Fraunces, inherits size from utility classes */
+  .figure-serif {
+    font-family: var(--font-serif);
+    font-variation-settings: 'opsz' 96, 'SOFT' 30, 'wght' 560;
+    letter-spacing: -0.01em;
+  }
+
+  /* Unified verification badges — outline pills */
+  .badge-verified,
+  .badge-claimed,
+  .badge-gold,
+  .badge-red {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.125rem 0.625rem;
+    border-radius: 9999px;
+    border: 1px solid;
+    font-size: 0.75rem;
+    font-weight: 600;
+    line-height: 1.5;
+    white-space: nowrap;
+    background: transparent;
+  }
+  .badge-verified {
+    color: rgb(var(--accent-verified));
+    border-color: rgb(var(--accent-verified));
+  }
+  .badge-claimed {
+    color: rgb(var(--text-tertiary));
+    border-color: rgb(var(--border-strong));
+  }
+  .badge-gold {
+    color: var(--color-gold);
+    border-color: rgb(var(--accent-gold) / 0.5);
+  }
+  .badge-red {
+    color: rgb(var(--accent-red));
+    border-color: rgb(var(--accent-red) / 0.5);
+  }
+</style>

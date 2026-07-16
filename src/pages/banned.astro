@@ -68,7 +68,7 @@ const bannedSchema = {
   />
 
   <!-- BREADCRUMBS -->
-  <div class="bg-black border-b border-gray-800">
+  <div class="bg-black border-b border-subtle">
     <Breadcrumbs items={[
       { label: "Home", href: "/" },
       { label: "Banned" }
@@ -97,8 +97,8 @@ const bannedSchema = {
       <div class="max-w-7xl mx-auto">
         <!-- Map Header -->
         <div class="text-center mb-12">
-          <div class="inline-block px-4 py-2 bg-red-900/30 border border-red-500/50 rounded-full mb-4">
-            <span class="text-red-400 text-sm font-bold uppercase tracking-wider">🗺️ Interactive Ban Map</span>
+          <div class="inline-block px-4 py-2 bg-[rgb(var(--accent-red)/0.08)] border border-[rgb(var(--accent-red)/0.5)] rounded-full mb-4">
+            <span class="text-[rgb(var(--accent-red))] text-sm font-bold uppercase tracking-wider">🗺️ Interactive Ban Map</span>
           </div>
           <h2 class="text-3xl md:text-4xl font-black text-white mb-4 uppercase">Where He Can't Play</h2>
           <p class="text-gray-400 text-lg max-w-3xl mx-auto">
@@ -108,35 +108,35 @@ const bannedSchema = {
 
         <!-- Stats Bar Above Map - split CLAIMED vs DOCUMENTED so numbers don't contradict -->
         <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-          <div class="bg-gradient-to-br from-red-900/30 to-black border border-red-500/30 rounded-xl p-4 text-center">
-            <p class="text-red-400 text-3xl font-black">150+</p>
-            <p class="text-gray-500 text-sm uppercase tracking-wider mt-1">Claimed Total</p>
-            <p class="text-gray-600 text-[11px] mt-0.5">Self-reported</p>
+          <div class="bg-card border border-subtle rounded-xl p-4 text-center">
+            <p class="figure-serif text-[rgb(var(--accent-red))] text-3xl">150+</p>
+            <p class="text-tertiary text-sm uppercase tracking-wider mt-1">Claimed Total</p>
+            <p class="text-tertiary text-[11px] mt-0.5">Self-reported</p>
           </div>
-          <div class="bg-gradient-to-br from-gold/20 to-black border border-gold/30 rounded-xl p-4 text-center">
-            <p class="text-gold text-3xl font-black">{stats.total}</p>
-            <p class="text-gray-500 text-sm uppercase tracking-wider mt-1">Documented</p>
-            <p class="text-gray-600 text-[11px] mt-0.5">Mapped below</p>
+          <div class="bg-card border border-gold/30 rounded-xl p-4 text-center">
+            <p class="figure-serif text-gold text-3xl">{stats.total}</p>
+            <p class="text-tertiary text-sm uppercase tracking-wider mt-1">Documented</p>
+            <p class="text-tertiary text-[11px] mt-0.5">Mapped below</p>
           </div>
-          <div class="bg-gradient-to-br from-green-900/20 to-black border border-green-500/30 rounded-xl p-4 text-center">
-            <p class="text-green-400 text-3xl font-black">{stats.verified}</p>
-            <p class="text-gray-500 text-sm uppercase tracking-wider mt-1">Verified</p>
-            <p class="text-gray-600 text-[11px] mt-0.5">Independent sources</p>
+          <div class="bg-card border border-subtle rounded-xl p-4 text-center">
+            <p class="figure-serif text-[rgb(var(--accent-verified))] text-3xl">{stats.verified}</p>
+            <p class="text-tertiary text-sm uppercase tracking-wider mt-1">Verified</p>
+            <p class="text-tertiary text-[11px] mt-0.5">Independent sources</p>
           </div>
-          <div class="bg-gradient-to-br from-blue-900/20 to-black border border-blue-500/30 rounded-xl p-4 text-center">
-            <p class="text-blue-400 text-3xl font-black">{stats.countries}</p>
-            <p class="text-gray-500 text-sm uppercase tracking-wider mt-1">Countries</p>
-            <p class="text-gray-600 text-[11px] mt-0.5">{stats.vegas} in Las Vegas</p>
+          <div class="bg-card border border-subtle rounded-xl p-4 text-center">
+            <p class="figure-serif text-primary text-3xl">{stats.countries}</p>
+            <p class="text-tertiary text-sm uppercase tracking-wider mt-1">Countries</p>
+            <p class="text-tertiary text-[11px] mt-0.5">{stats.vegas} in Las Vegas</p>
           </div>
         </div>
 
         <!-- Map Container -->
-        <div class="relative bg-gray-900 rounded-2xl overflow-hidden border-2 border-gold/30">
+        <div class="relative bg-card rounded-2xl overflow-hidden border-2 border-gold/30">
           <!-- Map will be rendered here -->
           <div id="ban-map" class="w-full h-[500px] md:h-[700px]"></div>
 
           <!-- Map Legend (Overlay) -->
-          <div class="absolute bottom-6 left-6 bg-black/90 border border-gold/30 rounded-lg p-4 z-[1000]">
+          <div class="absolute bottom-6 left-6 bg-black/90 border border-subtle rounded-lg p-4 z-[1000]">
             <h4 class="text-white text-sm font-bold mb-3 uppercase">Legend</h4>
             <div class="space-y-2 text-sm">
               <div class="flex items-center gap-2">
@@ -152,7 +152,7 @@ const bannedSchema = {
         </div>
 
         <!-- Map Note -->
-        <div class="mt-6 bg-gray-900 border border-gold/30 rounded-xl p-6">
+        <div class="mt-6 bg-card border border-subtle rounded-xl p-6">
           <p class="text-gray-300 leading-relaxed text-sm">
             <strong class="text-gold">Note:</strong> This map shows {stats.total} documented casino ban locations. Mikki has stated he's banned from 150+ properties total. Some casinos share ownership groups (MGM, Caesars, Wynn), so a ban at one property means a ban at all properties in that network. Verified bans are confirmed through Mikki's interviews and public statements.
           </p>
@@ -161,7 +161,7 @@ const bannedSchema = {
     </section>
 
     <!-- Known Casino Bans Section (Enhanced) -->
-    <section class="container py-16 md:py-24 border-t border-gray-800">
+    <section class="container py-16 md:py-24 border-t border-subtle">
       <div class="max-w-6xl mx-auto">
         <h2 class="text-3xl md:text-4xl font-black text-gold mb-8 uppercase text-center">Featured Casino Bans</h2>
 
@@ -174,17 +174,17 @@ const bannedSchema = {
         <!-- Featured Bans Grid (Top Verified Bans) -->
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {casinoBans.filter(ban => ban.verified && ban.story).slice(0, 6).map(ban => (
-            <div class="bg-gradient-to-br from-gray-900 to-black border-2 border-gold/30 rounded-2xl overflow-hidden hover:border-gold/60 transition-all duration-300 group">
+            <div class="bg-card border border-subtle rounded-xl overflow-hidden hover:border-gold/60 hover:-translate-y-0.5 transition-all duration-300 group">
               <div class="p-6">
                 <!-- Verified Badge -->
                 <div class="flex items-center justify-between mb-4">
-                  <span class="px-3 py-1 bg-green-900/30 text-green-400 rounded-full text-xs font-bold uppercase tracking-wider flex items-center gap-2">
+                  <span class="px-3 py-1 border border-[rgb(var(--accent-verified))] text-[rgb(var(--accent-verified))] rounded-full text-xs font-bold uppercase tracking-wider flex items-center gap-2">
                     <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
                       <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
                     </svg>
                     Verified
                   </span>
-                  <span class="px-3 py-1 bg-red-900/30 text-red-400 rounded-full text-xs font-semibold">Lifetime Ban</span>
+                  <span class="px-3 py-1 border border-[rgb(var(--accent-red)/0.5)] text-[rgb(var(--accent-red))] rounded-full text-xs font-semibold">Lifetime Ban</span>
                 </div>
 
                 <!-- Casino Name -->
@@ -200,8 +200,8 @@ const bannedSchema = {
                 </div>
 
                 <!-- Ban Reason -->
-                <div class="bg-red-900/10 border border-red-500/30 rounded-lg p-3 mb-4">
-                  <p class="text-red-400 text-sm font-semibold mb-1">Ban Reason:</p>
+                <div class="bg-[rgb(var(--accent-red)/0.06)] border border-[rgb(var(--accent-red)/0.25)] rounded-lg p-3 mb-4">
+                  <p class="text-[rgb(var(--accent-red))] text-sm font-semibold mb-1">Ban Reason:</p>
                   <p class="text-gray-300 text-sm">{ban.reason}</p>
                 </div>
 
@@ -227,7 +227,7 @@ const bannedSchema = {
     </section>
 
     <!-- Legal Framework Section (Kept from original) -->
-    <section class="container py-16 md:py-24 border-t border-gray-800">
+    <section class="container py-16 md:py-24 border-t border-subtle">
       <div class="max-w-4xl mx-auto">
         <h2 class="text-3xl md:text-4xl font-black text-gold mb-8 uppercase">The Legal Framework: Can Casinos Ban You Without Cause?</h2>
 
@@ -236,7 +236,7 @@ const bannedSchema = {
             Yes. <strong class="text-white">Casinos can refuse service to anyone</strong> (with limited exceptions). Here's the legal breakdown:
           </p>
 
-          <div class="bg-gradient-to-br from-gray-900 to-black border border-gold/30 rounded-xl p-6 md:p-8 my-8">
+          <div class="bg-card border border-subtle rounded-xl p-6 md:p-8 my-8">
             <h3 class="text-white text-2xl font-bold mb-4">🏛️ Private Property Rights</h3>
             <p class="text-gray-300 leading-relaxed mb-4">
               Casinos are <strong class="text-white">private businesses</strong>. Under Nevada law (and most jurisdictions), private property owners have the right to refuse entry or service to anyone, as long as the refusal is not based on a <strong class="text-white">protected class</strong> (race, religion, gender, disability, etc.).
@@ -246,7 +246,7 @@ const bannedSchema = {
             </p>
           </div>
 
-          <div class="bg-gradient-to-br from-gray-900 to-black border border-gold/30 rounded-xl p-6 md:p-8 my-8">
+          <div class="bg-card border border-subtle rounded-xl p-6 md:p-8 my-8">
             <h3 class="text-white text-2xl font-bold mb-4">⚖️ Trespassing Charges</h3>
             <p class="text-gray-300 leading-relaxed mb-4">
               Once you're banned, the casino will <strong class="text-white">formally trespass you</strong>. This is a legal process where security reads you a trespass notice (often on camera) stating:
@@ -261,7 +261,7 @@ const bannedSchema = {
             </p>
           </div>
 
-          <div class="bg-gradient-to-br from-gray-900 to-black border border-gold/30 rounded-xl p-6 md:p-8 my-8">
+          <div class="bg-card border border-subtle rounded-xl p-6 md:p-8 my-8">
             <h3 class="text-white text-2xl font-bold mb-4">📖 The Griffin Book (Surveillance Sharing)</h3>
             <p class="text-gray-300 leading-relaxed mb-4">
               The <strong class="text-white">Griffin Book</strong> was an infamous industry database of advantage players, cheats, and banned individuals. It was discontinued in 2005 after lawsuits, but casinos now use <strong class="text-white">modern shared surveillance networks</strong>:
@@ -276,8 +276,8 @@ const bannedSchema = {
             </p>
           </div>
 
-          <div class="bg-gradient-to-br from-red-900/20 to-black border border-red-500/30 rounded-xl p-6 md:p-8 my-8">
-            <h3 class="text-red-400 text-2xl font-bold mb-4">⚠️ What Happens If You Get Caught After a Ban?</h3>
+          <div class="bg-card border border-subtle border-l-4 border-l-[rgb(var(--accent-red))] rounded-xl p-6 md:p-8 my-8">
+            <h3 class="text-[rgb(var(--accent-red))] text-2xl font-bold mb-4">⚠️ What Happens If You Get Caught After a Ban?</h3>
             <p class="text-gray-300 leading-relaxed mb-4">
               If you're banned and return to the casino:
             </p>
@@ -297,7 +297,7 @@ const bannedSchema = {
     </section>
 
     <!-- Absurd Ban Reasons Section (Kept from original) -->
-    <section class="container py-16 md:py-24 border-t border-gray-800">
+    <section class="container py-16 md:py-24 border-t border-subtle">
       <div class="max-w-4xl mx-auto">
         <h2 class="text-3xl md:text-4xl font-black text-gold mb-8 uppercase">Absurd Reasons Mikki Was Banned</h2>
 
@@ -307,49 +307,89 @@ const bannedSchema = {
           </p>
         </div>
 
-        <div class="space-y-6">
+        <div class="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">
           <!-- Absurd Reason 1 -->
-          <div class="bg-gradient-to-br from-yellow-900/10 to-black border border-yellow-500/30 rounded-xl p-6 md:p-8">
-            <h3 class="text-yellow-400 text-xl font-bold mb-3">🍴 "Touching Forks at the Buffet"</h3>
-            <p class="text-gray-300 leading-relaxed">
-              One casino banned Mikki because he <strong class="text-white">"touched too many forks"</strong> at the buffet before selecting one. Security claimed this was "suspicious behavior" that indicated he was "casing the property." Mikki was literally just picking a fork.
-            </p>
+          <div class="ban-card" tabindex="0">
+            <div class="ban-card-inner">
+              <div class="ban-card-front">
+                <span class="ban-card-suit">♠</span>
+                <span class="ban-card-label">Official reason</span>
+              </div>
+              <div class="ban-card-back">
+                <h3 class="ban-card-title">🍴 "Touching Forks at the Buffet"</h3>
+                <p class="ban-card-text">
+                  One casino banned Mikki because he <strong class="text-white">"touched too many forks"</strong> at the buffet before selecting one. Security claimed this was "suspicious behavior" that indicated he was "casing the property." Mikki was literally just picking a fork.
+                </p>
+              </div>
+            </div>
           </div>
 
           <!-- Absurd Reason 2 -->
-          <div class="bg-gradient-to-br from-yellow-900/10 to-black border border-yellow-500/30 rounded-xl p-6 md:p-8">
-            <h3 class="text-yellow-400 text-xl font-bold mb-3">😨 "Scaring the Pit Boss"</h3>
-            <p class="text-gray-300 leading-relaxed">
-              A pit boss at a Las Vegas casino told Mikki he was being banned because <strong class="text-white">"you make me uncomfortable."</strong> No cheating accusation. No advantage play. Just vibes. The pit boss admitted Mikki hadn't violated any rules, but <strong class="text-white">"we don't want you here."</strong>
-            </p>
+          <div class="ban-card" tabindex="0">
+            <div class="ban-card-inner">
+              <div class="ban-card-front">
+                <span class="ban-card-suit">♥</span>
+                <span class="ban-card-label">Official reason</span>
+              </div>
+              <div class="ban-card-back">
+                <h3 class="ban-card-title">😨 "Scaring the Pit Boss"</h3>
+                <p class="ban-card-text">
+                  A pit boss at a Las Vegas casino told Mikki he was being banned because <strong class="text-white">"you make me uncomfortable."</strong> No cheating accusation. No advantage play. Just vibes. The pit boss admitted Mikki hadn't violated any rules, but <strong class="text-white">"we don't want you here."</strong>
+                </p>
+              </div>
+            </div>
           </div>
 
           <!-- Absurd Reason 3 -->
-          <div class="bg-gradient-to-br from-yellow-900/10 to-black border border-yellow-500/30 rounded-xl p-6 md:p-8">
-            <h3 class="text-yellow-400 text-xl font-bold mb-3">👀 "Staring at the Shoe Too Long"</h3>
-            <p class="text-gray-300 leading-relaxed">
-              Another casino claimed Mikki was <strong class="text-white">"staring at the shoe"</strong> (the card holder) for too long between hands. They accused him of "attempting to track cards" — even though baccarat card tracking provides <strong class="text-white">negligible advantage</strong> compared to blackjack. Mikki was just watching the game.
-            </p>
+          <div class="ban-card" tabindex="0">
+            <div class="ban-card-inner">
+              <div class="ban-card-front">
+                <span class="ban-card-suit">♦</span>
+                <span class="ban-card-label">Official reason</span>
+              </div>
+              <div class="ban-card-back">
+                <h3 class="ban-card-title">👀 "Staring at the Shoe Too Long"</h3>
+                <p class="ban-card-text">
+                  Another casino claimed Mikki was <strong class="text-white">"staring at the shoe"</strong> (the card holder) for too long between hands. They accused him of "attempting to track cards" — even though baccarat card tracking provides <strong class="text-white">negligible advantage</strong> compared to blackjack. Mikki was just watching the game.
+                </p>
+              </div>
+            </div>
           </div>
 
           <!-- Absurd Reason 4 -->
-          <div class="bg-gradient-to-br from-yellow-900/10 to-black border border-yellow-500/30 rounded-xl p-6 md:p-8">
-            <h3 class="text-yellow-400 text-xl font-bold mb-3">🎰 "You Win Too Much (Even When You Lose)"</h3>
-            <p class="text-gray-300 leading-relaxed">
-              One casino banned Mikki during a session where he was <strong class="text-white">down $500K</strong>. The reason? "Your long-term win rate is too high." Translation: <strong class="text-white">"We don't care if you're losing today — we know you'll win eventually, so get out."</strong>
-            </p>
+          <div class="ban-card" tabindex="0">
+            <div class="ban-card-inner">
+              <div class="ban-card-front">
+                <span class="ban-card-suit">♣</span>
+                <span class="ban-card-label">Official reason</span>
+              </div>
+              <div class="ban-card-back">
+                <h3 class="ban-card-title">🎰 "You Win Too Much (Even When You Lose)"</h3>
+                <p class="ban-card-text">
+                  One casino banned Mikki during a session where he was <strong class="text-white">down $500K</strong>. The reason? "Your long-term win rate is too high." Translation: <strong class="text-white">"We don't care if you're losing today — we know you'll win eventually, so get out."</strong>
+                </p>
+              </div>
+            </div>
           </div>
 
           <!-- Absurd Reason 5 -->
-          <div class="bg-gradient-to-br from-yellow-900/10 to-black border border-yellow-500/30 rounded-xl p-6 md:p-8">
-            <h3 class="text-yellow-400 text-xl font-bold mb-3">💰 "Betting Too Big"</h3>
-            <p class="text-gray-300 leading-relaxed">
-              Multiple casinos have banned Mikki for <strong class="text-white">"betting too much."</strong> Yes, casinos advertise "no limits" and "high roller suites," but when someone actually bets $250K per hand and <strong class="text-white">wins</strong>, they suddenly have a problem. One casino literally told Mikki: <strong class="text-white">"We can't afford you."</strong>
-            </p>
+          <div class="ban-card" tabindex="0">
+            <div class="ban-card-inner">
+              <div class="ban-card-front">
+                <span class="ban-card-suit">♠</span>
+                <span class="ban-card-label">Official reason</span>
+              </div>
+              <div class="ban-card-back">
+                <h3 class="ban-card-title">💰 "Betting Too Big"</h3>
+                <p class="ban-card-text">
+                  Multiple casinos have banned Mikki for <strong class="text-white">"betting too much."</strong> Yes, casinos advertise "no limits" and "high roller suites," but when someone actually bets $250K per hand and <strong class="text-white">wins</strong>, they suddenly have a problem. One casino literally told Mikki: <strong class="text-white">"We can't afford you."</strong>
+                </p>
+              </div>
+            </div>
           </div>
         </div>
 
-        <div class="mt-10 bg-gray-900 border border-gold/30 rounded-xl p-6">
+        <div class="mt-10 bg-card border border-subtle rounded-xl p-6">
           <p class="text-gray-300 leading-relaxed">
             <strong class="text-gold">Bottom line:</strong> Casinos don't need a good reason to ban you. They just need <em>any</em> reason. "You make us uncomfortable" is legally sufficient.
           </p>
@@ -358,7 +398,7 @@ const bannedSchema = {
     </section>
 
     <!-- CTA Section -->
-    <section class="container py-16 md:py-24 border-t border-gray-800">
+    <section class="container py-16 md:py-24 border-t border-subtle">
       <div class="max-w-3xl mx-auto text-center">
         <h2 class="text-3xl md:text-4xl font-black text-white mb-6 uppercase">
           Banned But Not Beaten
@@ -378,7 +418,7 @@ const bannedSchema = {
     </section>
 
     <!-- Sources & Verification Section (for AI search) -->
-    <section class="container py-16 md:py-24 border-t border-gray-800">
+    <section class="container py-16 md:py-24 border-t border-subtle">
       <div class="max-w-4xl mx-auto px-6">
         <h3 class="text-gray-500 text-sm uppercase tracking-wider mb-4">Legal Framework & Sources</h3>
         <ul class="space-y-2 text-sm text-gray-400">
@@ -454,7 +494,7 @@ const bannedSchema = {
 
         // Dark tile layer
         L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
-          attribution: '&copy; OpenStreetMap contributors &copy; CARTO',
+          attribution: '&copy; OpenStreetMap &copy; CARTO',
           maxZoom: 19
         }).addTo(map);
 
@@ -484,23 +524,23 @@ const bannedSchema = {
           const popupContent = `
             <div style="min-width: 250px; font-family: system-ui, -apple-system, sans-serif;">
               <div style="margin-bottom: 8px;">
-                ${ban.verified ? '<span style="background: #166534; color: #86efac; padding: 2px 8px; border-radius: 9999px; font-size: 11px; font-weight: 700; text-transform: uppercase;">✓ Verified</span>' : '<span style="background: #9a3412; color: #fed7aa; padding: 2px 8px; border-radius: 9999px; font-size: 11px; font-weight: 700;">Network Ban</span>'}
+                ${ban.verified ? '<span style="background: transparent; border: 1px solid rgb(var(--accent-verified)); color: rgb(var(--accent-verified)); padding: 2px 8px; border-radius: 9999px; font-size: 11px; font-weight: 700; text-transform: uppercase;">✓ Verified</span>' : '<span style="background: transparent; border: 1px solid rgb(var(--accent-claimed)); color: rgb(var(--accent-claimed)); padding: 2px 8px; border-radius: 9999px; font-size: 11px; font-weight: 700;">Network Ban</span>'}
               </div>
-              <h3 style="font-size: 16px; font-weight: 700; color: #ffffff; margin: 0 0 8px 0;">${ban.name}</h3>
-              <div style="display: flex; align-items: center; gap: 6px; color: #9ca3af; font-size: 13px; margin-bottom: 8px;">
+              <h3 style="font-size: 16px; font-weight: 700; color: rgb(var(--text-primary)); margin: 0 0 8px 0;">${ban.name}</h3>
+              <div style="display: flex; align-items: center; gap: 6px; color: rgb(var(--text-tertiary)); font-size: 13px; margin-bottom: 8px;">
                 <svg style="width: 14px; height: 14px; flex-shrink: 0;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
                 </svg>
                 <span>${ban.location.city}, ${ban.location.state}</span>
               </div>
-              <div style="background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.3); border-radius: 8px; padding: 10px; margin-bottom: 8px;">
-                <p style="color: #f87171; font-size: 12px; font-weight: 600; margin: 0 0 4px 0;">Ban Reason:</p>
-                <p style="color: #d1d5db; font-size: 13px; margin: 0;">${ban.reason}</p>
+              <div style="background: rgb(var(--accent-red) / 0.08); border: 1px solid rgb(var(--accent-red) / 0.3); border-radius: 8px; padding: 10px; margin-bottom: 8px;">
+                <p style="color: rgb(var(--accent-red)); font-size: 12px; font-weight: 600; margin: 0 0 4px 0;">Ban Reason:</p>
+                <p style="color: rgb(var(--text-secondary)); font-size: 13px; margin: 0;">${ban.reason}</p>
               </div>
-              ${ban.banDate ? `<p style="color: #9ca3af; font-size: 12px; margin: 0 0 8px 0;">Ban Date: ${ban.banDate}</p>` : ''}
-              ${ban.story ? `<p style="color: #d1d5db; font-size: 13px; line-height: 1.5; margin: 0;">${ban.story}</p>` : ''}
-              ${ban.relatedWin ? `<a href="${ban.relatedWin}" style="display: inline-block; color: #CFB53B; font-size: 13px; font-weight: 600; margin-top: 8px; text-decoration: none;">View Related Win →</a>` : ''}
+              ${ban.banDate ? `<p style="color: rgb(var(--text-tertiary)); font-size: 12px; margin: 0 0 8px 0;">Ban Date: ${ban.banDate}</p>` : ''}
+              ${ban.story ? `<p style="color: rgb(var(--text-secondary)); font-size: 13px; line-height: 1.5; margin: 0;">${ban.story}</p>` : ''}
+              ${ban.relatedWin ? `<a href="${ban.relatedWin}" style="display: inline-block; color: var(--color-gold); font-size: 13px; font-weight: 600; margin-top: 8px; text-decoration: none;">View Related Win →</a>` : ''}
             </div>
           `;
 
@@ -514,25 +554,25 @@ const bannedSchema = {
         const style = document.createElement('style');
         style.textContent = `
           .leaflet-popup-content-wrapper {
-            background: #111827 !important;
-            border: 2px solid rgba(212, 165, 23, 0.3) !important;
+            background: rgb(var(--bg-card)) !important;
+            border: 1px solid rgb(var(--accent-gold) / 0.3) !important;
             border-radius: 12px !important;
             box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5) !important;
           }
           .leaflet-popup-content {
             margin: 16px !important;
-            color: #ffffff !important;
+            color: rgb(var(--text-primary)) !important;
           }
           .leaflet-popup-tip {
-            background: #111827 !important;
-            border: 2px solid rgba(212, 165, 23, 0.3) !important;
+            background: rgb(var(--bg-card)) !important;
+            border: 1px solid rgb(var(--accent-gold) / 0.3) !important;
           }
           .leaflet-container a.leaflet-popup-close-button {
-            color: #9ca3af !important;
+            color: rgb(var(--text-tertiary)) !important;
             font-size: 24px !important;
           }
           .leaflet-container a.leaflet-popup-close-button:hover {
-            color: #CFB53B !important;
+            color: var(--color-gold) !important;
           }
         `;
         document.head.appendChild(style);
@@ -544,4 +584,107 @@ const bannedSchema = {
     document.addEventListener('DOMContentLoaded', bootBanMap);
     document.addEventListener('astro:page-load', bootBanMap);
   </script>
+
+  <!-- Ban-card flip toggle for touch devices (hover/focus handled in CSS) -->
+  <script is:inline>
+    (function () {
+      function bindBanCards() {
+        document.querySelectorAll('.ban-card').forEach((card) => {
+          if (card.dataset.flipBound === 'true') return;
+          card.dataset.flipBound = 'true';
+          card.addEventListener('click', () => card.classList.toggle('flipped'));
+          card.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+              e.preventDefault();
+              card.classList.toggle('flipped');
+            }
+          });
+        });
+      }
+      document.addEventListener('DOMContentLoaded', bindBanCards);
+      document.addEventListener('astro:page-load', bindBanCards);
+    })();
+  </script>
 </BaseLayout>
+
+<style>
+  /* High-Limit Editorial (Fase 2) — page-local helpers */
+
+  /* Serif stat figures: Fraunces, inherits size from utility classes */
+  .figure-serif {
+    font-family: var(--font-serif);
+    font-variation-settings: 'opsz' 96, 'SOFT' 30, 'wght' 560;
+    letter-spacing: -0.01em;
+  }
+
+  /* ==== Signature moment: 3D playing-card flip for absurd ban reasons ==== */
+  .ban-card {
+    perspective: 1000px;
+    aspect-ratio: 5/7;
+    cursor: pointer;
+    outline: none;
+  }
+  .ban-card-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transform-style: preserve-3d;
+    transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .ban-card:hover .ban-card-inner,
+  .ban-card:focus-visible .ban-card-inner,
+  .ban-card.flipped .ban-card-inner {
+    transform: rotateY(180deg);
+  }
+  .ban-card-front,
+  .ban-card-back {
+    position: absolute;
+    inset: 0;
+    backface-visibility: hidden;
+    border-radius: 0.75rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 1.25rem;
+    text-align: center;
+  }
+  .ban-card-front {
+    background: rgb(var(--bg-card));
+    border: 1px solid rgb(var(--border-subtle));
+  }
+  .ban-card-back {
+    transform: rotateY(180deg);
+    background: rgb(var(--bg-card-hover));
+    border: 1px solid var(--color-gold);
+    justify-content: safe center;
+    overflow-y: auto;
+  }
+  .ban-card-suit {
+    font-size: clamp(2.5rem, 6vw, 4rem);
+    line-height: 1;
+    color: var(--color-gold);
+    margin-bottom: 0.75rem;
+  }
+  .ban-card-label {
+    font-size: 0.6875rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: rgb(var(--text-tertiary));
+  }
+  .ban-card-title {
+    font-family: var(--font-serif);
+    font-variation-settings: 'opsz' 48, 'SOFT' 30, 'wght' 560;
+    font-size: clamp(0.8125rem, 1.5vw, 1rem);
+    line-height: 1.25;
+    color: var(--color-gold);
+    margin-bottom: 0.5rem;
+    flex-shrink: 0;
+  }
+  .ban-card-text {
+    font-size: clamp(0.6875rem, 1.2vw, 0.8125rem);
+    line-height: 1.45;
+    color: rgb(var(--text-secondary));
+  }
+</style>

@@ -63,21 +63,8 @@ const personSchema = {
     withDot={true}
   />
 
-  <!-- UNOFFICIAL FAN PAGE NOTICE — directly under hero, intentionally unmissable -->
-  <section class="bg-black border-y-2 border-gold">
-    <div class="container mx-auto px-6 py-6 md:py-7">
-      <div class="max-w-4xl mx-auto text-center">
-        <p class="inline-flex items-center gap-2 text-xs md:text-sm font-bold uppercase tracking-widest mb-2" style="color: #CFB53B;">
-          <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" /></svg>
-          Unofficial Mikki Mase Fan Page
-        </p>
-        <p class="text-gray-300 text-sm md:text-base leading-relaxed">
-          This is a <strong class="text-white">fan-made page</strong>. We are <strong class="text-white">not</strong> Mikki Mase and we are <strong class="text-white">not affiliated with or endorsed by him</strong>. Everything here is created by fans, based on his publicly available podcast and interviews.
-          <strong class="text-white">Mikki Mase does not sell any courses, masterclasses, or paid programs.</strong> This is just a fan page. The only thing it links to is the <a href="/join" class="underline hover:text-gold" style="color: #CFB53B;">Mikki Mase Fan Community</a> (a free community for fans).
-        </p>
-      </div>
-    </div>
-  </section>
+  {/* Fan-page notice-sectie verwijderd (Remy, 16-07): logo-tagline + footer-
+      disclosure dekken dit al; de "does not sell courses" uitleg staat in de FAQ. */}
 
   <!-- QUICK FACTS SECTION -->
   <section class="warm-gradient py-16 md:py-24 border-y border-subtle">
@@ -118,9 +105,9 @@ const personSchema = {
           <!-- SECONDARY STATS - 4 smaller cards -->
           <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
             <!-- Full Name -->
-            <div class="group bg-gray-950/80 border border-gray-800 rounded-xl p-5 hover:border-gold/30 hover:bg-gray-900/50 transition-all duration-300">
+            <div class="group bg-card border border-subtle rounded-xl p-5 hover:border-gold/30 hover:bg-card-hover transition-all duration-300">
               <div class="flex items-center gap-3 mb-3">
-                <div class="w-8 h-8 bg-gray-800 rounded-lg flex items-center justify-center group-hover:bg-gold/20 transition-colors">
+                <div class="w-8 h-8 bg-elevated rounded-lg flex items-center justify-center group-hover:bg-gold/20 transition-colors">
                   <svg class="w-4 h-4 text-gray-400 group-hover:text-gold transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                   </svg>
@@ -131,9 +118,9 @@ const personSchema = {
             </div>
 
             <!-- Born -->
-            <div class="group bg-gray-950/80 border border-gray-800 rounded-xl p-5 hover:border-gold/30 hover:bg-gray-900/50 transition-all duration-300">
+            <div class="group bg-card border border-subtle rounded-xl p-5 hover:border-gold/30 hover:bg-card-hover transition-all duration-300">
               <div class="flex items-center gap-3 mb-3">
-                <div class="w-8 h-8 bg-gray-800 rounded-lg flex items-center justify-center group-hover:bg-gold/20 transition-colors">
+                <div class="w-8 h-8 bg-elevated rounded-lg flex items-center justify-center group-hover:bg-gold/20 transition-colors">
                   <svg class="w-4 h-4 text-gray-400 group-hover:text-gold transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                   </svg>
@@ -146,9 +133,9 @@ const personSchema = {
             </div>
 
             <!-- Birthplace -->
-            <div class="group bg-gray-950/80 border border-gray-800 rounded-xl p-5 hover:border-gold/30 hover:bg-gray-900/50 transition-all duration-300">
+            <div class="group bg-card border border-subtle rounded-xl p-5 hover:border-gold/30 hover:bg-card-hover transition-all duration-300">
               <div class="flex items-center gap-3 mb-3">
-                <div class="w-8 h-8 bg-gray-800 rounded-lg flex items-center justify-center group-hover:bg-gold/20 transition-colors">
+                <div class="w-8 h-8 bg-elevated rounded-lg flex items-center justify-center group-hover:bg-gold/20 transition-colors">
                   <svg class="w-4 h-4 text-gray-400 group-hover:text-gold transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
@@ -164,9 +151,9 @@ const personSchema = {
             </div>
 
             <!-- Primary Game -->
-            <div class="group bg-gray-950/80 border border-gray-800 rounded-xl p-5 hover:border-gold/30 hover:bg-gray-900/50 transition-all duration-300">
+            <div class="group bg-card border border-subtle rounded-xl p-5 hover:border-gold/30 hover:bg-card-hover transition-all duration-300">
               <div class="flex items-center gap-3 mb-3">
-                <div class="w-8 h-8 bg-gray-800 rounded-lg flex items-center justify-center group-hover:bg-gold/20 transition-colors">
+                <div class="w-8 h-8 bg-elevated rounded-lg flex items-center justify-center group-hover:bg-gold/20 transition-colors">
                   <svg class="w-4 h-4 text-gray-400 group-hover:text-gold transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
                   </svg>
@@ -221,7 +208,7 @@ const personSchema = {
 
           <!-- Key Achievements Grid -->
           <div class="grid grid-cols-1 md:grid-cols-2 gap-6 my-12">
-            <div class="bg-gray-900 border border-gray-800 rounded-lg p-6">
+            <div class="bg-card border border-subtle rounded-lg p-6">
               <div class="flex items-start gap-4">
                 <div class="flex-shrink-0 w-12 h-12 bg-gold/10 rounded-lg flex items-center justify-center">
                   <svg class="w-6 h-6 text-gold" fill="currentColor" viewBox="0 0 20 20">
@@ -235,7 +222,7 @@ const personSchema = {
               </div>
             </div>
 
-            <div class="bg-gray-900 border border-gray-800 rounded-lg p-6">
+            <div class="bg-card border border-subtle rounded-lg p-6">
               <div class="flex items-start gap-4">
                 <div class="flex-shrink-0 w-12 h-12 bg-gold/10 rounded-lg flex items-center justify-center">
                   <svg class="w-6 h-6 text-gold" fill="currentColor" viewBox="0 0 20 20">
@@ -249,7 +236,7 @@ const personSchema = {
               </div>
             </div>
 
-            <div class="bg-gray-900 border border-gray-800 rounded-lg p-6">
+            <div class="bg-card border border-subtle rounded-lg p-6">
               <div class="flex items-start gap-4">
                 <div class="flex-shrink-0 w-12 h-12 bg-gold/10 rounded-lg flex items-center justify-center">
                   <svg class="w-6 h-6 text-gold" fill="currentColor" viewBox="0 0 20 20">
@@ -263,7 +250,7 @@ const personSchema = {
               </div>
             </div>
 
-            <div class="bg-gray-900 border border-gray-800 rounded-lg p-6">
+            <div class="bg-card border border-subtle rounded-lg p-6">
               <div class="flex items-start gap-4">
                 <div class="flex-shrink-0 w-12 h-12 bg-gold/10 rounded-lg flex items-center justify-center">
                   <svg class="w-6 h-6 text-gold" fill="currentColor" viewBox="0 0 20 20">
@@ -287,7 +274,7 @@ const personSchema = {
           </p>
 
           <!-- Why People Trust Him -->
-          <div class="bg-gray-900 border border-gold/30 rounded-xl p-8 md:p-10 mt-12">
+          <div class="bg-card border border-gold/30 rounded-xl p-8 md:p-10 mt-12">
             <h3 class="text-white text-2xl font-bold mb-6">Why People Trust Mikki Mase</h3>
             <div class="space-y-4">
               <div class="flex items-start gap-3">
@@ -348,7 +335,7 @@ const personSchema = {
   />
 
   <!-- FEATURED WINS SECTION -->
-  <section class="bg-gray-950 py-20 md:py-32">
+  <section class="bg-elevated py-20 md:py-32">
     <div class="container mx-auto px-6">
       <!-- Section Header -->
       <div class="text-center mb-16 md:mb-20">
@@ -460,7 +447,7 @@ const personSchema = {
         </div>
 
         <!-- Social Proof -->
-        <div class="mt-12 pt-12 border-t border-gray-800">
+        <div class="mt-12 pt-12 border-t border-subtle">
           <div class="flex flex-col md:flex-row items-center justify-center gap-6 md:gap-12">
             <div class="text-center">
               <p class="text-gold text-3xl font-black">$32M+</p>

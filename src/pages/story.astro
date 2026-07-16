@@ -274,7 +274,7 @@ const storySchema = {
   />
 
   <!-- BREADCRUMBS -->
-  <div class="bg-black border-b border-gray-800">
+  <div class="bg-black border-b border-subtle">
     <Breadcrumbs items={[
       { label: "Home", href: "/" },
       { label: "Story" }
@@ -311,10 +311,10 @@ const storySchema = {
 
       <!-- Intro -->
       <div class="mb-16 md:mb-20">
-        <p class="text-gray-300 text-lg md:text-xl leading-relaxed mb-6">
+        <p class="text-secondary text-lg md:text-xl leading-relaxed mb-6">
           His legal name is <a href="/faq#real-name" class="text-gold hover:text-gold-light underline">Michael David Meiterman</a>. Born October 27, 1991. By age 11, he was addicted to drugs. By 15, he was in juvenile prison. By 21, he'd spent roughly six years of his life incarcerated.
         </p>
-        <p class="text-gray-300 text-lg md:text-xl leading-relaxed">
+        <p class="text-secondary text-lg md:text-xl leading-relaxed">
           Today, he claims to have won over $32 million from casinos and been banned from 150+ properties across America. Some of it is verified. Some of it isn't. But the parts that are true make him one of the most remarkable high-stakes gambling stories in modern history. (See the <a href="/faq" class="text-gold hover:text-gold-light underline">FAQ</a> for what's verified vs. claimed.)
         </p>
       </div>
@@ -322,13 +322,13 @@ const storySchema = {
       <!-- ENHANCED TIMELINE -->
       <section id="timeline" class="mb-16 md:mb-20">
         <h2 class="display-h2 mb-8 text-center">The Timeline</h2>
-        <p class="text-gray-400 text-center mb-10 max-w-2xl mx-auto">
+        <p class="text-tertiary text-center mb-10 max-w-2xl mx-auto">
           Key moments from Mikki Mase's journey from incarceration to becoming one of the most successful—and most banned—high-stakes baccarat players in history. <a href="/timeline" class="text-gold hover:text-gold-light underline">Explore the interactive timeline with 50+ events</a>.
         </p>
 
         <EnhancedTimeline events={timelineEvents} defaultCollapsed={true} />
 
-        <p class="text-gray-500 text-sm mt-8 text-center">
+        <p class="text-tertiary text-sm mt-8 text-center">
           <strong class="text-white">Note:</strong> Events with verification badges have independent confirmation. Other events are based on Mikki's interviews and public statements.
         </p>
       </section>
@@ -340,21 +340,21 @@ const storySchema = {
             <span class="text-blue-400 text-sm font-bold uppercase tracking-wider">🎲 Origin Story</span>
           </div>
           <h2 class="display-h2 mb-4">Gambling Started Early</h2>
-          <p class="text-gray-400 max-w-2xl mx-auto">
+          <p class="text-tertiary max-w-2xl mx-auto">
             Long before casinos, Mikki learned cards from his grandparents and gambled in his neighborhood 5 days a week with much older players.
           </p>
         </div>
 
         <div class="space-y-6">
           <!-- Learned from Grandparents -->
-          <details class="group bg-gradient-to-br from-gray-900 to-black border-2 border-blue-500/30 rounded-xl overflow-hidden hover:border-blue-500/60 transition-all duration-300">
+          <details class="group bg-card border border-blue-500/30 rounded-xl overflow-hidden hover:border-blue-500/60 transition-all duration-300">
             <summary class="cursor-pointer p-6 md:p-8 select-none list-none">
               <div class="flex items-start justify-between gap-4">
                 <div class="flex-1">
                   <h3 class="text-white text-xl md:text-2xl font-bold mb-2 group-open:text-blue-400 transition-colors">
                     Grandparents Taught Him Cards
                   </h3>
-                  <p class="text-gray-400">The foundation: learning card games as a child from family</p>
+                  <p class="text-tertiary">The foundation: learning card games as a child from family</p>
                 </div>
                 <div class="flex-shrink-0">
                   <svg class="w-6 h-6 text-blue-400 transform group-open:rotate-180 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -366,30 +366,30 @@ const storySchema = {
 
             <div class="px-6 md:px-8 pb-8 pt-4 border-t border-blue-500/20">
               <div class="bg-blue-500/5 border-l-4 border-blue-400 p-6 rounded-r-lg mb-6">
-                <p class="text-gray-300 text-lg leading-relaxed italic">
+                <p class="text-secondary text-lg leading-relaxed italic">
                   "My grandparents taught me how to play cards... from three years old till they passed away when I was eight."
                 </p>
               </div>
 
-              <p class="text-gray-300 text-lg leading-relaxed mb-4">
+              <p class="text-secondary text-lg leading-relaxed mb-4">
                 Before Mikki ever stepped into a casino, he was learning probability and pattern recognition at the kitchen table. His grandparents taught him card games starting at age 3—not as entertainment, but as education.
               </p>
 
-              <p class="text-gray-300 text-lg leading-relaxed">
+              <p class="text-secondary text-lg leading-relaxed">
                 By the time they passed away when he was 8 years old, the foundation was already laid. Cards weren't just a hobby. They were a language he'd been speaking since childhood.
               </p>
             </div>
           </details>
 
           <!-- Neighborhood Gambling -->
-          <details class="group bg-gradient-to-br from-gray-900 to-black border-2 border-blue-500/30 rounded-xl overflow-hidden hover:border-blue-500/60 transition-all duration-300">
+          <details class="group bg-card border border-blue-500/30 rounded-xl overflow-hidden hover:border-blue-500/60 transition-all duration-300">
             <summary class="cursor-pointer p-6 md:p-8 select-none list-none">
               <div class="flex items-start justify-between gap-4">
                 <div class="flex-1">
                   <h3 class="text-white text-xl md:text-2xl font-bold mb-2 group-open:text-blue-400 transition-colors">
                     Gambling 5 Days/Week in His Neighborhood
                   </h3>
-                  <p class="text-gray-400">Playing cards with "mobsters and rich Jews" as a teenager</p>
+                  <p class="text-tertiary">Playing cards with "mobsters and rich Jews" as a teenager</p>
                 </div>
                 <div class="flex-shrink-0">
                   <svg class="w-6 h-6 text-blue-400 transform group-open:rotate-180 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -401,22 +401,22 @@ const storySchema = {
 
             <div class="px-6 md:px-8 pb-8 pt-4 border-t border-blue-500/20">
               <div class="bg-blue-500/5 border-l-4 border-blue-400 p-6 rounded-r-lg mb-6">
-                <p class="text-gray-300 text-lg leading-relaxed italic">
+                <p class="text-secondary text-lg leading-relaxed italic">
                   "I was gambling five days a week in my neighborhood... with mobsters and rich Jews. I was 12, 13, 14, 15... They thought I was 18, 20 years old. I never told them my age."
                 </p>
               </div>
 
-              <p class="text-gray-300 text-lg leading-relaxed mb-4">
+              <p class="text-secondary text-lg leading-relaxed mb-4">
                 While other kids were playing video games, Mikki was sitting at card tables with men decades older than him. Five days a week. Real money. Real consequences.
               </p>
 
-              <p class="text-gray-300 text-lg leading-relaxed mb-4">
+              <p class="text-secondary text-lg leading-relaxed mb-4">
                 The players thought he was 18 or 20. He was actually 12-15 years old. He never corrected them. He just kept showing up, kept playing, kept learning how to read people under pressure.
               </p>
 
-              <div class="bg-gray-800/50 border border-blue-500/30 rounded-lg p-6 mt-6">
+              <div class="bg-elevated border border-subtle rounded-lg p-6 mt-6">
                 <p class="text-white font-semibold mb-2">💡 Why This Matters</p>
-                <p class="text-gray-400">
+                <p class="text-tertiary">
                   By the time Mikki walked into his first legal casino, he'd already spent years playing high-stakes card games with adults who wouldn't go easy on a kid. This wasn't beginner's luck—it was a decade of pattern recognition training before his first legal bet.
                 </p>
               </div>
@@ -424,14 +424,14 @@ const storySchema = {
           </details>
 
           <!-- Atlantic City with Fake ID -->
-          <details class="group bg-gradient-to-br from-gray-900 to-black border-2 border-blue-500/30 rounded-xl overflow-hidden hover:border-blue-500/60 transition-all duration-300">
+          <details class="group bg-card border border-blue-500/30 rounded-xl overflow-hidden hover:border-blue-500/60 transition-all duration-300">
             <summary class="cursor-pointer p-6 md:p-8 select-none list-none">
               <div class="flex items-start justify-between gap-4">
                 <div class="flex-1">
                   <h3 class="text-white text-xl md:text-2xl font-bold mb-2 group-open:text-blue-400 transition-colors">
                     "I Was 21 for Seven Years"
                   </h3>
-                  <p class="text-gray-400">Atlantic City trips with a fake ID as a teenager</p>
+                  <p class="text-tertiary">Atlantic City trips with a fake ID as a teenager</p>
                 </div>
                 <div class="flex-shrink-0">
                   <svg class="w-6 h-6 text-blue-400 transform group-open:rotate-180 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -443,16 +443,16 @@ const storySchema = {
 
             <div class="px-6 md:px-8 pb-8 pt-4 border-t border-blue-500/20">
               <div class="bg-blue-500/5 border-l-4 border-blue-400 p-6 rounded-r-lg mb-6">
-                <p class="text-gray-300 text-lg leading-relaxed italic">
+                <p class="text-secondary text-lg leading-relaxed italic">
                   "I was 21 for seven years... We'd go to Atlantic City. The Jersey Shore. I'd be a kid with a fake ID walking into casinos."
                 </p>
               </div>
 
-              <p class="text-gray-300 text-lg leading-relaxed mb-4">
+              <p class="text-secondary text-lg leading-relaxed mb-4">
                 Mikki didn't wait until he was legally allowed to gamble. He had a fake ID and used it regularly to get into Atlantic City casinos as a teenager. By his own account, he was "21 for seven years."
               </p>
 
-              <p class="text-gray-300 text-lg leading-relaxed">
+              <p class="text-secondary text-lg leading-relaxed">
                 These weren't occasional trips. He was studying the environment, watching how casinos operated, learning the rhythms of table games long before he had the bankroll to play at high stakes. The education was already underway.
               </p>
             </div>
@@ -464,15 +464,15 @@ const storySchema = {
       <section id="prison" class="mb-16 md:mb-20">
         <h2 class="display-h2 mb-6">10th Grade to Prison</h2>
 
-        <p class="text-gray-300 text-lg leading-relaxed mb-6">
+        <p class="text-secondary text-lg leading-relaxed mb-6">
           Mikki left his parents' house in 10th grade. Not because they threw him out, but because he couldn't stay. The household was broken. He gravitated toward the streets, where Italian mafia members took him in. They raised him, in a sense. Taught him things schools don't teach.
         </p>
 
-        <p class="text-gray-300 text-lg leading-relaxed mb-6">
+        <p class="text-secondary text-lg leading-relaxed mb-6">
           At 15, he went to juvenile prison. He stayed there, with brief interruptions, until around age 21. During that time, he got his GED. He took the SATs while incarcerated. He applied to universities. Five accepted him. He never attended any of them.
         </p>
 
-        <p class="text-gray-300 text-lg leading-relaxed">
+        <p class="text-secondary text-lg leading-relaxed">
           When he finally got out, he had no money, no job, and no plan. He ended up homeless in New York. Not the romanticized version. The actual streets. He got sober there, alone, with no program and no support system. Just survival.
         </p>
       </section>
@@ -484,21 +484,21 @@ const storySchema = {
             <span class="text-red-400 text-sm font-bold uppercase tracking-wider">⚠️ The Dark Years</span>
           </div>
           <h2 class="display-h2 mb-4">Inside Juvenile Detention</h2>
-          <p class="text-gray-400 max-w-2xl mx-auto">
+          <p class="text-tertiary max-w-2xl mx-auto">
             What shaped Mikki's mindset wasn't just prison—it was the type of prison and what it taught him about consequences.
           </p>
         </div>
 
         <div class="space-y-6">
           <!-- Worst Jail He's Been To -->
-          <details class="group bg-gradient-to-br from-gray-900 to-black border-2 border-red-500/30 rounded-xl overflow-hidden hover:border-red-500/60 transition-all duration-300">
+          <details class="group bg-card border border-red-500/30 rounded-xl overflow-hidden hover:border-red-500/60 transition-all duration-300">
             <summary class="cursor-pointer p-6 md:p-8 select-none list-none">
               <div class="flex items-start justify-between gap-4">
                 <div class="flex-1">
                   <h3 class="text-white text-xl md:text-2xl font-bold mb-2 group-open:text-red-400 transition-colors">
                     "The Worst Jail I've Ever Been To"
                   </h3>
-                  <p class="text-gray-400">Why juvenile detention was worse than adult prison</p>
+                  <p class="text-tertiary">Why juvenile detention was worse than adult prison</p>
                 </div>
                 <div class="flex-shrink-0">
                   <svg class="w-6 h-6 text-red-400 transform group-open:rotate-180 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -510,26 +510,26 @@ const storySchema = {
 
             <div class="px-6 md:px-8 pb-8 pt-4 border-t border-red-500/20">
               <div class="bg-red-500/5 border-l-4 border-red-400 p-6 rounded-r-lg mb-6">
-                <p class="text-gray-300 text-lg leading-relaxed italic">
+                <p class="text-secondary text-lg leading-relaxed italic">
                   "Juvenile detention was the worst jail I've ever been to. And I've been to some pretty rough jails. With kids, there's no consequences. You can hit a CO in the face and go to your room for three days. There's no charges."
                 </p>
               </div>
 
-              <p class="text-gray-300 text-lg leading-relaxed mb-4">
+              <p class="text-secondary text-lg leading-relaxed mb-4">
                 Most people assume juvenile detention is easier than adult prison. Mikki says the opposite. Juvenile facilities were more violent, more chaotic, and far more dangerous—precisely because there were no real consequences.
               </p>
 
-              <p class="text-gray-300 text-lg leading-relaxed mb-4">
+              <p class="text-secondary text-lg leading-relaxed mb-4">
                 A kid could assault a correctional officer and get sent to his room for three days. No charges filed. No extended sentence. Just a brief timeout before returning to the same environment.
               </p>
 
-              <p class="text-gray-300 text-lg leading-relaxed">
+              <p class="text-secondary text-lg leading-relaxed">
                 This absence of accountability created an environment where violence was routine. For Mikki, it was a brutal education in surviving environments where rules didn't matter and consequences didn't exist.
               </p>
 
-              <div class="bg-gray-800/50 border border-red-500/30 rounded-lg p-6 mt-6">
+              <div class="bg-elevated border border-subtle rounded-lg p-6 mt-6">
                 <p class="text-white font-semibold mb-2">💡 Why This Matters</p>
-                <p class="text-gray-400">
+                <p class="text-tertiary">
                   The "lack of consequence" mindset Mikki developed in juvenile detention later translated to his gambling approach. When you've lived in environments where the worst-case scenario was already your daily reality, casino surveillance and pit boss intimidation tactics don't work.
                 </p>
               </div>
@@ -537,14 +537,14 @@ const storySchema = {
           </details>
 
           <!-- Mom Became Bail Bondsman -->
-          <details class="group bg-gradient-to-br from-gray-900 to-black border-2 border-red-500/30 rounded-xl overflow-hidden hover:border-red-500/60 transition-all duration-300">
+          <details class="group bg-card border border-red-500/30 rounded-xl overflow-hidden hover:border-red-500/60 transition-all duration-300">
             <summary class="cursor-pointer p-6 md:p-8 select-none list-none">
               <div class="flex items-start justify-between gap-4">
                 <div class="flex-1">
                   <h3 class="text-white text-xl md:text-2xl font-bold mb-2 group-open:text-red-400 transition-colors">
                     His Mom Became a Bail Bondsman
                   </h3>
-                  <p class="text-gray-400">How Mikki's incarceration affected his family</p>
+                  <p class="text-tertiary">How Mikki's incarceration affected his family</p>
                 </div>
                 <div class="flex-shrink-0">
                   <svg class="w-6 h-6 text-red-400 transform group-open:rotate-180 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -556,16 +556,16 @@ const storySchema = {
 
             <div class="px-6 md:px-8 pb-8 pt-4 border-t border-red-500/20">
               <div class="bg-red-500/5 border-l-4 border-red-400 p-6 rounded-r-lg mb-6">
-                <p class="text-gray-300 text-lg leading-relaxed italic">
+                <p class="text-secondary text-lg leading-relaxed italic">
                   "My mom became a bail bondsman because of me being incarcerated. She wanted to understand the system and be able to help me."
                 </p>
               </div>
 
-              <p class="text-gray-300 text-lg leading-relaxed mb-4">
+              <p class="text-secondary text-lg leading-relaxed mb-4">
                 While Mikki was cycling through the juvenile justice system, his mother wasn't sitting idle. She became a licensed bail bondsman—not as a career change, but as a survival strategy.
               </p>
 
-              <p class="text-gray-300 text-lg leading-relaxed">
+              <p class="text-secondary text-lg leading-relaxed">
                 She needed to understand how the system worked so she could navigate it for her son. It's a stark reminder that Mikki's incarceration didn't just affect him—it reshaped his entire family's life trajectory.
               </p>
             </div>
@@ -577,19 +577,19 @@ const storySchema = {
       <section id="business" class="mb-16 md:mb-20">
         <h2 class="display-h2 mb-6">Day Laborer to Business Empire</h2>
 
-        <p class="text-gray-300 text-lg leading-relaxed mb-6">
+        <p class="text-secondary text-lg leading-relaxed mb-6">
           A friend eventually got him a job at a rehab facility in Miami. $18 per hour. Mikki watched how the business worked. He studied the operations, the insurance billing, the patient intake systems. Within months, he understood the entire model.
         </p>
 
-        <p class="text-gray-300 text-lg leading-relaxed mb-6">
+        <p class="text-secondary text-lg leading-relaxed mb-6">
           Before that, though, he was a day laborer. $100 a day, cash. He saved every single dollar. He lived in the cheapest conditions possible and banked everything else. When he had enough, he bought his first rehab center. Then another. Then he expanded into pharmacies.
         </p>
 
-        <p class="text-gray-300 text-lg leading-relaxed mb-6">
+        <p class="text-secondary text-lg leading-relaxed mb-6">
           By his mid-20s, Mikki had built a network of over 300 pharmacies and multiple rehab facilities across Florida. He sold the businesses while still in his 20s and retired. The exact sale price isn't public, but based on his subsequent lifestyle, it was substantial.
         </p>
 
-        <p class="text-gray-300 text-lg leading-relaxed">
+        <p class="text-secondary text-lg leading-relaxed">
           Then everything fell apart. His business partner was murdered. Another partner disappeared. He split with his girlfriend. He was alone again, but this time with money and no direction.
         </p>
       </section>
@@ -598,15 +598,15 @@ const storySchema = {
       <section id="discovering-vegas" class="mb-16 md:mb-20">
         <h2 class="display-h2 mb-6">Moving to LA, Discovering Vegas</h2>
 
-        <p class="text-gray-300 text-lg leading-relaxed mb-6">
+        <p class="text-secondary text-lg leading-relaxed mb-6">
           Around 2020, Mikki moved to Los Angeles. He started going to Las Vegas. Not as a tourist, but as someone looking for patterns. He watched baccarat tables for hours before placing a single bet. He noticed things other players didn't see.
         </p>
 
-        <p class="text-gray-300 text-lg leading-relaxed mb-6">
+        <p class="text-secondary text-lg leading-relaxed mb-6">
           Dealer tells. Shoe patterns. The way pit bosses reacted under pressure. He claims casinos cheat, and that he reverse-engineered their methods. Whether that's true or not, what's documented is that he started winning. A lot.
         </p>
 
-        <p class="text-gray-300 text-lg leading-relaxed">
+        <p class="text-secondary text-lg leading-relaxed">
           He averaged, by his own account, around $1 million per week during his peak. But he was strategic about it. Win $3 million, then disappear for three weeks. Let the heat die down. Then come back.
         </p>
       </section>
@@ -618,21 +618,21 @@ const storySchema = {
             <span class="text-gold text-sm font-bold uppercase tracking-wider">🎰 The Beginning</span>
           </div>
           <h2 class="display-h2 mb-4">How Mikki Discovered Baccarat</h2>
-          <p class="text-gray-400 max-w-2xl mx-auto">
+          <p class="text-tertiary max-w-2xl mx-auto">
             The $500 bet that changed everything—and why he switched from blackjack to baccarat.
           </p>
         </div>
 
         <div class="space-y-6">
           <!-- First Baccarat Bet: $500 -->
-          <details class="group bg-gradient-to-br from-gray-900 to-black border-2 border-gold/30 rounded-xl overflow-hidden hover:border-gold/60 transition-all duration-300">
+          <details class="group bg-card border border-gold/30 rounded-xl overflow-hidden hover:border-gold/60 transition-all duration-300">
             <summary class="cursor-pointer p-6 md:p-8 select-none list-none">
               <div class="flex items-start justify-between gap-4">
                 <div class="flex-1">
                   <h3 class="text-white text-xl md:text-2xl font-bold mb-2 group-open:text-gold transition-colors">
                     Learned Baccarat in Two Hands
                   </h3>
-                  <p class="text-gray-400">The $500 bet that launched a $32 million career</p>
+                  <p class="text-tertiary">The $500 bet that launched a $32 million career</p>
                 </div>
                 <div class="flex-shrink-0">
                   <svg class="w-6 h-6 text-gold transform group-open:rotate-180 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -644,26 +644,26 @@ const storySchema = {
 
             <div class="px-6 md:px-8 pb-8 pt-4 border-t border-gold/20">
               <div class="bg-gold/5 border-l-4 border-gold p-6 rounded-r-lg mb-6">
-                <p class="text-gray-300 text-lg leading-relaxed italic">
+                <p class="text-secondary text-lg leading-relaxed italic">
                   "I had never played a hand of baccarat in my life. I sat down at a $500-minimum table. I asked the dealer, 'Can you explain the game to me?' She explained it to me in two hands... I've been playing baccarat ever since."
                 </p>
               </div>
 
-              <p class="text-gray-300 text-lg leading-relaxed mb-4">
+              <p class="text-secondary text-lg leading-relaxed mb-4">
                 Mikki's first baccarat hand wasn't at a $25 minimum table. It was $500 per hand. He sat down without knowing the rules and asked the dealer to explain the game.
               </p>
 
-              <p class="text-gray-300 text-lg leading-relaxed mb-4">
+              <p class="text-secondary text-lg leading-relaxed mb-4">
                 Two hands later, he understood the mechanics. The simplicity of the game—Player vs. Banker, closest to 9 wins—clicked immediately. Unlike blackjack with its complex decision trees, baccarat was pure pattern recognition.
               </p>
 
-              <p class="text-gray-300 text-lg leading-relaxed">
+              <p class="text-secondary text-lg leading-relaxed">
                 That $500 minimum table became his training ground. Within months, he'd be betting $250,000 per hand. But it started with a single question: "Can you explain the game to me?"
               </p>
 
-              <div class="bg-gray-800/50 border border-gold/30 rounded-lg p-6 mt-6">
+              <div class="bg-elevated border border-subtle rounded-lg p-6 mt-6">
                 <p class="text-white font-semibold mb-2">💡 Why This Matters</p>
-                <p class="text-gray-400">
+                <p class="text-tertiary">
                   This story destroys the myth that Mikki was some baccarat savant from birth. He learned the game in minutes at a $500 table and built his system through observation, not innate talent. The edge came from pattern recognition skills developed over decades—not baccarat expertise.
                 </p>
               </div>
@@ -671,14 +671,14 @@ const storySchema = {
           </details>
 
           <!-- Why Baccarat Over Blackjack -->
-          <details class="group bg-gradient-to-br from-gray-900 to-black border-2 border-gold/30 rounded-xl overflow-hidden hover:border-gold/60 transition-all duration-300">
+          <details class="group bg-card border border-gold/30 rounded-xl overflow-hidden hover:border-gold/60 transition-all duration-300">
             <summary class="cursor-pointer p-6 md:p-8 select-none list-none">
               <div class="flex items-start justify-between gap-4">
                 <div class="flex-1">
                   <h3 class="text-white text-xl md:text-2xl font-bold mb-2 group-open:text-gold transition-colors">
                     Why He Switched from Blackjack
                   </h3>
-                  <p class="text-gray-400">Betting limits and pattern recognition drove the choice</p>
+                  <p class="text-tertiary">Betting limits and pattern recognition drove the choice</p>
                 </div>
                 <div class="flex-shrink-0">
                   <svg class="w-6 h-6 text-gold transform group-open:rotate-180 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -690,34 +690,34 @@ const storySchema = {
 
             <div class="px-6 md:px-8 pb-8 pt-4 border-t border-gold/20">
               <div class="bg-gold/5 border-l-4 border-gold p-6 rounded-r-lg mb-6">
-                <p class="text-gray-300 text-lg leading-relaxed italic">
+                <p class="text-secondary text-lg leading-relaxed italic">
                   "I was playing blackjack before. But blackjack has limits—usually $50,000 to $75,000 max bet. Baccarat? You can bet $250,000, $300,000 per hand if you negotiate."
                 </p>
               </div>
 
-              <p class="text-gray-300 text-lg leading-relaxed mb-4">
+              <p class="text-secondary text-lg leading-relaxed mb-4">
                 Mikki didn't abandon blackjack because he was bad at it. He abandoned it because the betting limits were too low for his bankroll and strategy.
               </p>
 
-              <p class="text-gray-300 text-lg leading-relaxed mb-4">
+              <p class="text-secondary text-lg leading-relaxed mb-4">
                 Most blackjack tables cap at $50,000-$75,000 per hand. Even at high-roller rooms, that's the ceiling. Baccarat? If you have the credit and the track record, casinos will negotiate $250,000+ per hand.
               </p>
 
-              <p class="text-gray-300 text-lg leading-relaxed">
+              <p class="text-secondary text-lg leading-relaxed">
                 The game also suited his pattern recognition approach better. Baccarat has fewer variables—no splits, no doubles, no insurance decisions. Just Player or Banker. Watch the shoe. Identify the pattern. Execute the bet. The simplicity was the edge.
               </p>
             </div>
           </details>
 
           <!-- First Major Win -->
-          <details class="group bg-gradient-to-br from-gray-900 to-black border-2 border-gold/30 rounded-xl overflow-hidden hover:border-gold/60 transition-all duration-300">
+          <details class="group bg-card border border-gold/30 rounded-xl overflow-hidden hover:border-gold/60 transition-all duration-300">
             <summary class="cursor-pointer p-6 md:p-8 select-none list-none">
               <div class="flex items-start justify-between gap-4">
                 <div class="flex-1">
                   <h3 class="text-white text-xl md:text-2xl font-bold mb-2 group-open:text-gold transition-colors">
                     First Big Win: $1.125M–$1.25M
                   </h3>
-                  <p class="text-gray-400">18 months into his baccarat career, the system proved itself</p>
+                  <p class="text-tertiary">18 months into his baccarat career, the system proved itself</p>
                 </div>
                 <div class="flex-shrink-0">
                   <svg class="w-6 h-6 text-gold transform group-open:rotate-180 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -729,20 +729,20 @@ const storySchema = {
 
             <div class="px-6 md:px-8 pb-8 pt-4 border-t border-gold/20">
               <div class="bg-gold/5 border-l-4 border-gold p-6 rounded-r-lg mb-6">
-                <p class="text-gray-300 text-lg leading-relaxed italic">
+                <p class="text-secondary text-lg leading-relaxed italic">
                   "I think my first big win was around $1.125 million to $1.25 million. That was about 18 months into playing baccarat seriously."
                 </p>
               </div>
 
-              <p class="text-gray-300 text-lg leading-relaxed mb-4">
+              <p class="text-secondary text-lg leading-relaxed mb-4">
                 It took 18 months of grinding, studying patterns, and perfecting his system before Mikki hit his first seven-figure win in a single session.
               </p>
 
-              <p class="text-gray-300 text-lg leading-relaxed mb-4">
+              <p class="text-secondary text-lg leading-relaxed mb-4">
                 $1.125 million to $1.25 million. Not from luck. From 18 months of pattern recognition, dealer tell identification, and disciplined execution. This wasn't a lottery ticket—it was the payoff of a methodical system.
               </p>
 
-              <p class="text-gray-300 text-lg leading-relaxed">
+              <p class="text-secondary text-lg leading-relaxed">
                 That win validated the approach. It proved that what he was seeing at the tables wasn't random noise—it was signal. And signal meant edge. From there, the wins compounded.
               </p>
             </div>
@@ -754,30 +754,30 @@ const storySchema = {
       <section id="high-roller-life" class="mb-16 md:mb-20">
         <h2 class="display-h2 mb-6">The High Roller Life</h2>
 
-        <p class="text-gray-300 text-lg leading-relaxed mb-6">
+        <p class="text-secondary text-lg leading-relaxed mb-6">
           Mikki's buy-ins were $3 million at a time. He negotiated front money deals with casinos, where they'd extend him credit based on his verified assets. He played baccarat at $250,000 per hand. For comparison, blackjack limits at most casinos cap at $75,000.
         </p>
 
-        <p class="text-gray-300 text-lg leading-relaxed mb-6">
+        <p class="text-secondary text-lg leading-relaxed mb-6">
           He didn't play like a gambler. He played like someone executing a system. Watch. Wait. Identify the pattern. Bet heavy when the conditions aligned. Walk away when they didn't.
         </p>
 
-        <p class="text-gray-300 text-lg leading-relaxed">
+        <blockquote class="pull-quote">
           The wins piled up. So did the bans.
-        </p>
+        </blockquote>
       </section>
 
       <!-- The Venetian Win (Verified) -->
       <section id="venetian-win" class="mb-16 md:mb-20">
         <h2 class="display-h2 mb-6">The Venetian Win (Verified)</h2>
 
-        <p class="text-gray-300 text-lg leading-relaxed mb-6">
+        <p class="text-secondary text-lg leading-relaxed mb-6">
           One of Mikki's most documented wins came at the Venetian in Las Vegas. Professional poker player Jake Ormand was present and later testified that Mikki won over $10 million at a single baccarat table. The casino reviewed the footage. No cheating. No card counting. Just pattern recognition and execution.
         </p>
 
-        <p class="text-gray-300 text-lg leading-relaxed">
+        <blockquote class="pull-quote">
           They banned him anyway.
-        </p>
+        </blockquote>
       </section>
 
       <ArticleCTA />
@@ -786,11 +786,11 @@ const storySchema = {
       <section id="wynn-loss" class="mb-16 md:mb-20">
         <h2 class="display-h2 mb-6">The Wynn Reality Check</h2>
 
-        <p class="text-gray-300 text-lg leading-relaxed mb-6">
+        <p class="text-secondary text-lg leading-relaxed mb-6">
           Not every session was a win. At the Wynn Las Vegas, Mikki actually lost money overall. He dropped $4 million, won back $2.5 million, and walked away with a net loss of $1.5 million. The Wynn still banned him.
         </p>
 
-        <p class="text-gray-300 text-lg leading-relaxed">
+        <p class="text-secondary text-lg leading-relaxed">
           Why ban a losing player? Because casinos saw the system. They saw that he wasn't gambling, he was executing. And they knew that over time, execution beats house edge.
         </p>
       </section>
@@ -799,11 +799,11 @@ const storySchema = {
       <section id="bans-spread" class="mb-16 md:mb-20">
         <h2 class="display-h2 mb-6">The Bans Spread</h2>
 
-        <p class="text-gray-300 text-lg leading-relaxed mb-6">
+        <p class="text-secondary text-lg leading-relaxed mb-6">
           By 2023, Mikki had been banned from over 150 casinos. The reasons casinos gave were often absurd. One banned him for "touching too many forks" at the buffet. Another claimed he "scared a pit boss." A third said he got into a fight with a valet, even though Mikki wasn't in the state that day.
         </p>
 
-        <p class="text-gray-300 text-lg leading-relaxed">
+        <p class="text-secondary text-lg leading-relaxed">
           The real reason was simpler: he won too much, too consistently. Casinos are businesses. They don't owe anyone the right to play. If you cost them millions, they'll find a reason to remove you.
         </p>
       </section>
@@ -812,17 +812,17 @@ const storySchema = {
       <section id="proving-to-dad" class="mb-16 md:mb-20">
         <h2 class="display-h2 mb-6">Proving It to Dad</h2>
 
-        <p class="text-gray-300 text-lg leading-relaxed mb-6">
+        <p class="text-secondary text-lg leading-relaxed mb-6">
           Mikki's parents didn't believe him at first. A former addict and ex-con claiming to win millions from casinos? It sounded like a relapse story waiting to happen.
         </p>
 
-        <p class="text-gray-300 text-lg leading-relaxed mb-6">
+        <p class="text-secondary text-lg leading-relaxed mb-6">
           So Mikki rented a villa. Threw a party. Bought his dad a Maybach and made him Vice President of a company he'd just created. His parents walked into the party, saw the wealth on display, and realized their son wasn't lying.
         </p>
 
-        <p class="text-gray-300 text-lg leading-relaxed">
+        <blockquote class="pull-quote">
           It wasn't about showing off. It was about being believed. When you've been written off your entire life, being believed matters.
-        </p>
+        </blockquote>
       </section>
 
       <!-- PHILOSOPHY & PSYCHOLOGY -->
@@ -832,21 +832,21 @@ const storySchema = {
             <span class="text-purple-400 text-sm font-bold uppercase tracking-wider">🧠 The Mindset</span>
           </div>
           <h2 class="display-h2 mb-4">The Psychology Behind the Wins</h2>
-          <p class="text-gray-400 max-w-2xl mx-auto">
+          <p class="text-tertiary max-w-2xl mx-auto">
             How emotional regulation, aggression control, and mental clarity became Mikki's true edge at the tables.
           </p>
         </div>
 
         <div class="space-y-6">
           <!-- Emotional Regulation -->
-          <details class="group bg-gradient-to-br from-gray-900 to-black border-2 border-purple-500/30 rounded-xl overflow-hidden hover:border-purple-500/60 transition-all duration-300">
+          <details class="group bg-card border border-purple-500/30 rounded-xl overflow-hidden hover:border-purple-500/60 transition-all duration-300">
             <summary class="cursor-pointer p-6 md:p-8 select-none list-none">
               <div class="flex items-start justify-between gap-4">
                 <div class="flex-1">
                   <h3 class="text-white text-xl md:text-2xl font-bold mb-2 group-open:text-purple-400 transition-colors">
                     "The Calmer I Keep My Brain"
                   </h3>
-                  <p class="text-gray-400">Why emotional control beats mathematical edge</p>
+                  <p class="text-tertiary">Why emotional control beats mathematical edge</p>
                 </div>
                 <div class="flex-shrink-0">
                   <svg class="w-6 h-6 text-purple-400 transform group-open:rotate-180 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -858,26 +858,26 @@ const storySchema = {
 
             <div class="px-6 md:px-8 pb-8 pt-4 border-t border-purple-500/20">
               <div class="bg-purple-500/5 border-l-4 border-purple-400 p-6 rounded-r-lg mb-6">
-                <p class="text-gray-300 text-lg leading-relaxed italic">
+                <p class="text-secondary text-lg leading-relaxed italic">
                   "The calmer I can keep my brain and the clearer I can make decisions... that's where the edge is. Not in the cards. In the clarity."
                 </p>
               </div>
 
-              <p class="text-gray-300 text-lg leading-relaxed mb-4">
+              <p class="text-secondary text-lg leading-relaxed mb-4">
                 Most gamblers think the edge is in the cards, the patterns, or the system. Mikki says the edge is in emotional regulation. The ability to stay calm when $3 million is on the table. The discipline to walk away after a win when every instinct says "keep playing."
               </p>
 
-              <p class="text-gray-300 text-lg leading-relaxed mb-4">
+              <p class="text-secondary text-lg leading-relaxed mb-4">
                 He's watched players with better pattern recognition lose millions because they couldn't control their emotions. They'd tilt after a loss. Chase their money. Make revenge bets.
               </p>
 
-              <p class="text-gray-300 text-lg leading-relaxed">
+              <p class="text-secondary text-lg leading-relaxed">
                 Mikki's superpower isn't seeing patterns—it's staying calm enough to execute on them. The clearer his mind, the better his decisions. The better his decisions, the more he wins. It's a compounding effect that starts with psychology, not mathematics.
               </p>
 
-              <div class="bg-gray-800/50 border border-purple-500/30 rounded-lg p-6 mt-6">
+              <div class="bg-elevated border border-subtle rounded-lg p-6 mt-6">
                 <p class="text-white font-semibold mb-2">💡 Why This Matters</p>
-                <p class="text-gray-400">
+                <p class="text-tertiary">
                   Casinos don't fear players with systems. They fear players who can execute their system without emotion. Pattern recognition is useless if you panic under pressure. Mikki's juvenile detention experience—surviving environments where emotions got people hurt—trained him to stay calm when millions were at stake.
                 </p>
               </div>
@@ -885,14 +885,14 @@ const storySchema = {
           </details>
 
           <!-- Channeling Aggression Inward -->
-          <details class="group bg-gradient-to-br from-gray-900 to-black border-2 border-purple-500/30 rounded-xl overflow-hidden hover:border-purple-500/60 transition-all duration-300">
+          <details class="group bg-card border border-purple-500/30 rounded-xl overflow-hidden hover:border-purple-500/60 transition-all duration-300">
             <summary class="cursor-pointer p-6 md:p-8 select-none list-none">
               <div class="flex items-start justify-between gap-4">
                 <div class="flex-1">
                   <h3 class="text-white text-xl md:text-2xl font-bold mb-2 group-open:text-purple-400 transition-colors">
                     Channeling Aggression Inward
                   </h3>
-                  <p class="text-gray-400">How he avoids the tilt that destroys other high-stakes players</p>
+                  <p class="text-tertiary">How he avoids the tilt that destroys other high-stakes players</p>
                 </div>
                 <div class="flex-shrink-0">
                   <svg class="w-6 h-6 text-purple-400 transform group-open:rotate-180 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -904,34 +904,34 @@ const storySchema = {
 
             <div class="px-6 md:px-8 pb-8 pt-4 border-t border-purple-500/20">
               <div class="bg-purple-500/5 border-l-4 border-purple-400 p-6 rounded-r-lg mb-6">
-                <p class="text-gray-300 text-lg leading-relaxed italic">
+                <p class="text-secondary text-lg leading-relaxed italic">
                   "I learned early on that if you express aggression outwardly, you lose control of the situation. But if you channel it inward—use it as focus—it becomes power."
                 </p>
               </div>
 
-              <p class="text-gray-300 text-lg leading-relaxed mb-4">
+              <p class="text-secondary text-lg leading-relaxed mb-4">
                 Most high-stakes players implode the same way: they lose a big hand, get angry, make emotional bets, and blow through their bankroll in minutes. Casinos count on this. They design environments to trigger emotional reactions.
               </p>
 
-              <p class="text-gray-300 text-lg leading-relaxed mb-4">
+              <p class="text-secondary text-lg leading-relaxed mb-4">
                 Mikki learned in prison that expressing aggression outwardly gets you hurt. But channeling it inward—converting anger into focus—gives you an edge. When he loses a $250,000 hand, he doesn't slam the table. He gets quieter. More focused. More dangerous.
               </p>
 
-              <p class="text-gray-300 text-lg leading-relaxed">
+              <p class="text-secondary text-lg leading-relaxed">
                 This internal discipline is what separates winning players from losing players at the highest stakes. Anyone can learn pattern recognition. Not everyone can stay calm after dropping $1 million in 20 minutes.
               </p>
             </div>
           </details>
 
           <!-- Why Other Players Fail -->
-          <details class="group bg-gradient-to-br from-gray-900 to-black border-2 border-purple-500/30 rounded-xl overflow-hidden hover:border-purple-500/60 transition-all duration-300">
+          <details class="group bg-card border border-purple-500/30 rounded-xl overflow-hidden hover:border-purple-500/60 transition-all duration-300">
             <summary class="cursor-pointer p-6 md:p-8 select-none list-none">
               <div class="flex items-start justify-between gap-4">
                 <div class="flex-1">
                   <h3 class="text-white text-xl md:text-2xl font-bold mb-2 group-open:text-purple-400 transition-colors">
                     Why Smart Players Go Broke
                   </h3>
-                  <p class="text-gray-400">Intelligence without discipline is just expensive education</p>
+                  <p class="text-tertiary">Intelligence without discipline is just expensive education</p>
                 </div>
                 <div class="flex-shrink-0">
                   <svg class="w-6 h-6 text-purple-400 transform group-open:rotate-180 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -943,20 +943,20 @@ const storySchema = {
 
             <div class="px-6 md:px-8 pb-8 pt-4 border-t border-purple-500/20">
               <div class="bg-purple-500/5 border-l-4 border-purple-400 p-6 rounded-r-lg mb-6">
-                <p class="text-gray-300 text-lg leading-relaxed italic">
+                <p class="text-secondary text-lg leading-relaxed italic">
                   "I've seen geniuses go broke. PhDs. Math prodigies. They understand probability better than I ever will. But they can't control themselves when they're down $500,000."
                 </p>
               </div>
 
-              <p class="text-gray-300 text-lg leading-relaxed mb-4">
+              <p class="text-secondary text-lg leading-relaxed mb-4">
                 Mikki has watched players with Ivy League degrees, advanced statistics knowledge, and decades of experience destroy themselves in a single session. Not because they didn't understand the math—because they couldn't manage the emotions.
               </p>
 
-              <p class="text-gray-300 text-lg leading-relaxed mb-4">
+              <p class="text-secondary text-lg leading-relaxed mb-4">
                 A PhD in mathematics doesn't teach you what to do when you've lost $2 million and your brain is screaming "win it back right now." That's where psychological discipline trumps intellectual knowledge.
               </p>
 
-              <p class="text-gray-300 text-lg leading-relaxed">
+              <p class="text-secondary text-lg leading-relaxed">
                 Mikki's edge isn't that he's smarter than other players. It's that he's more disciplined. When his system says walk away, he walks away—even if he's down. Especially if he's down. That discipline is what compounds wins over time.
               </p>
             </div>
@@ -968,15 +968,15 @@ const storySchema = {
       <section id="current-reality" class="mb-16 md:mb-20">
         <h2 class="display-h2 mb-6">Current Reality</h2>
 
-        <p class="text-gray-300 text-lg leading-relaxed mb-6">
+        <p class="text-secondary text-lg leading-relaxed mb-6">
           Today, Mikki can't play under his own name at most major casinos. So he uses other people's accounts. He also started giving back. By the end of 2024, he claims to have paid out $1.9 million to fans and community members who follow his strategies.
         </p>
 
-        <p class="text-gray-300 text-lg leading-relaxed mb-6">
+        <p class="text-secondary text-lg leading-relaxed mb-6">
           For fans who want to keep up with his journey, this unofficial fan page runs the <a href="/join" class="text-gold hover:text-gold-light underline">Mikki Mase Fan Community</a> (a free community for fans, on Telegram), where fans gather to discuss his story, pattern recognition, and his time at high-stakes tables. It is free, there are no courses or masterclasses, and joining it does not give you access to Mikki himself. Mikki's own public channels (his YouTube @Mikki_Mase and Instagram @mikki_mase_community) are separate and run by him.
         </p>
 
-        <p class="text-gray-300 text-lg leading-relaxed">
+        <p class="text-secondary text-lg leading-relaxed">
           In December 2023, he gave a detailed interview to Soft White Underbelly, walking through his entire life story on camera. It's one of the most candid accounts of his journey from prison to professional gambler.
         </p>
       </section>
@@ -985,11 +985,11 @@ const storySchema = {
       <section id="poker-reality" class="mb-16 md:mb-20">
         <h2 class="display-h2 mb-6">The Poker Reality</h2>
 
-        <p class="text-gray-300 text-lg leading-relaxed mb-6">
+        <p class="text-secondary text-lg leading-relaxed mb-6">
           Mikki also plays poker, but the results are different. On Hustler Casino Live, a popular poker stream, Mikki's documented net loss is $938,950. He's not a poker crusher. His edge is in baccarat, where pattern recognition and dealer tells matter more than opponent reads.
         </p>
 
-        <p class="text-gray-300 text-lg leading-relaxed">
+        <p class="text-secondary text-lg leading-relaxed">
           This actually adds credibility to his story. If he claimed to crush every game, it would sound fake. The fact that he loses at poker but wins at baccarat suggests a real, specific edge rather than blind luck.
         </p>
       </section>
@@ -998,21 +998,21 @@ const storySchema = {
       <section id="verified" class="mb-16 md:mb-20">
         <h2 class="display-h2 mb-6">What's Verified, What's Not</h2>
 
-        <p class="text-gray-300 text-lg leading-relaxed mb-6">
+        <p class="text-secondary text-lg leading-relaxed mb-6">
           <strong class="text-white">Verified:</strong> Real name is Michael David Meiterman. Born October 27, 1991. Venetian win of $10 million+ confirmed by Jake Ormand. Net loss at Wynn of $1.5 million documented. Poker losses on Hustler Casino Live total $938,950. Banned from numerous casinos.
         </p>
 
-        <p class="text-gray-300 text-lg leading-relaxed mb-6">
+        <p class="text-secondary text-lg leading-relaxed mb-6">
           <strong class="text-white">Claimed but unverified:</strong> Total winnings of $32 million. Bans from 150+ casinos (exact number not independently confirmed). Specific wins at Borgata, Cosmopolitan, and Bellagio (not verified by independent sources).
         </p>
 
-        <p class="text-gray-300 text-lg leading-relaxed">
+        <p class="text-secondary text-lg leading-relaxed">
           <strong class="text-white">Contested:</strong> Whether casinos cheat and whether Mikki reverse-engineered their methods. Casinos deny this. Mikki maintains it's true.
         </p>
       </section>
 
       <!-- Watch Video CTA -->
-      <div class="mb-16 bg-gradient-to-br from-gray-900 to-black border-2 border-gold/30 rounded-xl p-8 md:p-10">
+      <div class="mb-16 bg-card border border-subtle rounded-xl p-8 md:p-10">
         <div class="flex flex-col md:flex-row items-center gap-6">
           <div class="flex-shrink-0">
             <svg class="w-16 h-16 text-gold" fill="currentColor" viewBox="0 0 20 20">
@@ -1021,7 +1021,7 @@ const storySchema = {
           </div>
           <div class="flex-1">
             <h3 class="text-white text-xl font-bold mb-2">Watch: The LEGAL Casino Edge</h3>
-            <p class="text-gray-400 mb-4">Mikki's free YouTube strategy breakdown on pattern recognition and how he beat the casinos for millions.</p>
+            <p class="text-tertiary mb-4">Mikki's free YouTube strategy breakdown on pattern recognition and how he beat the casinos for millions.</p>
             <a
               href="https://www.youtube.com/watch?v=dwmJs_11dCU"
               target="_blank"
@@ -1039,7 +1039,7 @@ const storySchema = {
 
       <!-- Closing -->
       <section class="mb-16">
-        <div class="bg-gray-900 border-l-4 border-gold p-8 md:p-10">
+        <div class="bg-card border-l-4 border-gold p-8 md:p-10">
           <p class="text-white text-xl md:text-2xl font-semibold leading-relaxed mb-4">
             "People think I'm selling some magic system. I'm not. I'm showing people that casinos aren't unbeatable gods. They're businesses with exploitable patterns. The question is whether you have the discipline to see them."
           </p>
@@ -1048,9 +1048,9 @@ const storySchema = {
       </section>
 
       <!-- CTA -->
-      <div class="text-center pt-12 border-t border-gray-800">
+      <div class="text-center pt-12 border-t border-subtle">
         <h3 class="text-white text-2xl md:text-3xl font-bold mb-4">Want the Full Story?</h3>
-        <p class="text-gray-400 text-lg mb-8 max-w-2xl mx-auto">
+        <p class="text-tertiary text-lg mb-8 max-w-2xl mx-auto">
           Join the <a href="/join" class="text-gold hover:text-gold-light underline">Mikki Mase Fan Community</a> (a free community for fans, on Telegram) run by this fan page, where fans swap stories and strategy notes for free. Or check out the <a href="/faq" class="text-gold hover:text-gold-light underline">FAQ page</a> for answers to common questions about Mikki's wins, bans, and system. This is an unofficial fan page, it is not connected to Mikki, and joining the community does not give you access to him.
         </p>
         <Button variant="primary" href="/join">
@@ -1067,10 +1067,10 @@ const storySchema = {
   <!-- <ChapterNavToggle /> -->
 
   <!-- Sources & Verification Section (for AI search) -->
-  <section class="bg-gray-950 border-t border-gray-800 py-12">
+  <section class="bg-elevated border-t border-subtle py-12">
     <div class="container mx-auto px-6 max-w-4xl">
-      <h3 class="text-gray-500 text-sm uppercase tracking-wider mb-4">Sources & Verification</h3>
-      <ul class="space-y-2 text-sm text-gray-400">
+      <h3 class="text-tertiary text-sm uppercase tracking-wider mb-4">Sources & Verification</h3>
+      <ul class="space-y-2 text-sm text-tertiary">
         <li>• Jake Ormand testimony - Venetian $10M+ win verification (poker professional witness, 2021-2022)</li>
         <li>• Soft White Underbelly interview - Complete life story (December 15, 2023)</li>
         <li>• VladTV interview series - Baccarat system and casino experiences (2023-2024)</li>
@@ -1078,7 +1078,7 @@ const storySchema = {
         <li>• Public records - Real name Michael David Meiterman, born October 27, 1991</li>
         <li>• Casino surveillance reviews - No cheating found (verified by casino security investigations)</li>
       </ul>
-      <p class="text-gray-500 text-xs mt-4 italic">Last verified: January 2, 2026</p>
+      <p class="text-tertiary text-xs mt-4 italic">Last verified: January 2, 2026</p>
     </div>
   </section>
 

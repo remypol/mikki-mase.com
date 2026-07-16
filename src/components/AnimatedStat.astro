@@ -32,23 +32,31 @@ const {
 // Generate unique ID for this stat
 const statId = `stat-${Math.random().toString(36).substr(2, 9)}`;
 
+/* Fase 2: rustige card-ondergrond, kleur zit alleen in het cijfer zelf */
 const gradientClasses = {
-  gold: 'from-gold/20 via-gold/10 to-transparent border-gold/50 hover:border-gold',
-  red: 'from-red-900/30 via-red-900/10 to-transparent border-red-500/50 hover:border-red-500',
-  green: 'from-green-900/30 via-green-900/10 to-transparent border-green-500/50 hover:border-green-500',
-  blue: 'from-blue-900/30 via-blue-900/10 to-transparent border-blue-500/50 hover:border-blue-500'
+  gold: 'hover:border-gold/40',
+  red: 'hover:border-[rgb(212_24_61_/_0.4)]',
+  green: 'hover:border-[rgb(27_107_63_/_0.5)]',
+  blue: 'hover:border-strong'
 };
 
 const textClasses = {
   gold: 'text-gold',
-  red: 'text-red-400',
-  green: 'text-green-400',
-  blue: 'text-blue-400'
+  red: 'text-[rgb(212_24_61)]',
+  green: 'text-[rgb(27_107_63)]',
+  blue: 'text-secondary'
+};
+
+const numberClasses = {
+  gold: 'stat-number-serif text-gold',
+  red: 'stat-number-serif text-[rgb(232_64_96)]',
+  green: 'stat-number-serif text-[rgb(72_160_110)]',
+  blue: 'stat-number-serif text-primary'
 };
 ---
 
 <div
-  class={`animated-stat group relative bg-gradient-to-br ${gradientClasses[gradient]} border-2 rounded-2xl p-8 hover:shadow-xl transition-all duration-300 ${large ? 'md:col-span-2' : ''}`}
+  class={`animated-stat group relative bg-card border border-subtle ${gradientClasses[gradient]} rounded-2xl p-8 hover:-translate-y-0.5 transition-all duration-300 ${large ? 'md:col-span-2' : ''}`}
   data-stat-id={statId}
   data-value={value}
   data-format={format}
@@ -67,7 +75,7 @@ const textClasses = {
         {label}
       </p>
       <p
-        class="stat-value text-white text-4xl md:text-5xl font-black transition-all duration-300"
+        class={`stat-value ${numberClasses[gradient]} transition-all duration-300`}
         data-target={value}
       >
         {prefix}0{suffix}
@@ -84,6 +92,15 @@ const textClasses = {
   .stat-value {
     font-variant-numeric: tabular-nums;
     will-change: transform;
+  }
+
+  /* Cijfers als helden: Fraunces serif (Fase 2) */
+  .stat-number-serif {
+    font-family: var(--font-serif);
+    font-variation-settings: 'opsz' 144, 'SOFT' 30, 'wght' 560;
+    font-size: clamp(2.25rem, 5vw, 3.5rem);
+    line-height: 1.05;
+    letter-spacing: -0.02em;
   }
 
   .stat-value.counting {

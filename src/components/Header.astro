@@ -24,11 +24,8 @@ const ariaCurrent = (href: string) => isActive(href) ? "page" : undefined;
 ---
 
 <header class="fixed top-0 left-0 right-0 z-50 border-b border-subtle backdrop-blur-md" style="background: rgba(12, 11, 9, 0.88);" role="banner">
-  <!-- Unofficial fan page disclaimer strip (Fase 0: één rustige regel, klapt in na scroll) -->
-  <div id="fanpage-strip" class="fanpage-strip w-full text-center text-[10px] md:text-[11px] font-semibold uppercase tracking-wider px-3 whitespace-nowrap overflow-hidden">
-    <span class="md:hidden">Unofficial fan page &middot; not affiliated</span>
-    <span class="hidden md:inline">Unofficial fan page &middot; not affiliated with or endorsed by Mikki Mase</span>
-  </div>
+  {/* Disclaimerstrip verwijderd (Remy, 16-07): logo-tagline "Unofficial Fan Page"
+      + footer-disclosure dekken de fan-page identiteit al site-breed. */}
   <nav class="max-w-7xl mx-auto px-4 md:px-8 py-4 flex items-center justify-between" aria-label="Main navigation">
     <!-- Logo - Brand Treatment -->
     <a href="/" class="flex flex-col leading-none hover:opacity-90 transition-opacity whitespace-nowrap" aria-label="Mikki Mase Fan Page - Home">
@@ -151,26 +148,9 @@ const ariaCurrent = (href: string) => isActive(href) ? "page" : undefined;
 </header>
 
 <!-- Header spacer (so content doesn't hide under fixed header + fan-page strip) -->
-<div class="h-28"></div>
+<div class="h-20 md:h-24"></div>
 
 <style>
-  /* Fan-page strip: subtiel goud-op-donker i.p.v. schreeuwend goudvlak;
-     klapt in zodra de bezoeker scrolt (blijft juridisch aanwezig bij load). */
-  .fanpage-strip {
-    background: rgba(207, 181, 59, 0.12);
-    color: var(--color-gold);
-    border-bottom: 1px solid rgba(207, 181, 59, 0.2);
-    line-height: 24px;
-    max-height: 25px;
-    transition: max-height 0.3s ease, opacity 0.3s ease;
-  }
-
-  .fanpage-strip.collapsed {
-    max-height: 0;
-    opacity: 0;
-    border-bottom-width: 0;
-  }
-
   /* Mega Menu Styles */
   .mega-menu-wrapper {
     position: relative;
@@ -277,14 +257,6 @@ const ariaCurrent = (href: string) => isActive(href) ? "page" : undefined;
 <script>
   // Re-init on every page load (needed for Astro View Transitions)
   document.addEventListener('astro:page-load', () => {
-    // Fan-page strip: inklappen na scroll (en weer tonen bovenaan)
-    const strip = document.getElementById('fanpage-strip');
-    if (strip) {
-      const onScroll = () => strip.classList.toggle('collapsed', window.scrollY > 48);
-      window.addEventListener('scroll', onScroll, { passive: true });
-      onScroll();
-    }
-
     // Mobile menu toggle
     const toggle = document.getElementById('mobile-menu-toggle');
     const menu = document.getElementById('mobile-menu');
