@@ -71,8 +71,8 @@
   /* Font Families */
   --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
   /* Primary editorial serif: Fraunces (variable, optical sizing, SOFT axis).
-     Playfair Display kept as graceful fallback during rebrand rollout. */
-  --font-serif: 'Fraunces', 'Playfair Display', Georgia, serif;
+     Fraunces is the only display serif (Playfair removed in Phase 0). */
+  --font-serif: 'Fraunces', Georgia, serif;
 
   /* Font Sizes - Cinematic Scale */
   --font-size-xs: 0.75rem;      /* 12px - eyebrow small */
@@ -426,55 +426,43 @@
     white-space: nowrap;
   }
 
-  /* Button Primary (Red) */
-  .btn-primary {
-    background: var(--color-red-bright);
-    color: var(--color-white);
-    box-shadow: var(--shadow-lg);
-  }
-
-  .btn-primary:hover {
-    background: #8B0015;
-    transform: scale(1.05);
-    box-shadow: var(--shadow-xl);
-  }
-
-  .btn-primary:active {
-    transform: scale(0.95);
-  }
-
-  /* Button Secondary (Gold) */
+  /* Button Primary (Gold) — hét conversie-signaal, site-breed één stijl.
+     Rood is gereserveerd voor accenten, niet voor CTA's. */
+  .btn-primary,
   .btn-secondary {
-    background: var(--color-gold);
-    color: var(--color-black);
-    box-shadow: var(--shadow-lg);
+    background: linear-gradient(135deg, var(--color-gold) 0%, var(--color-gold-light) 50%, var(--color-gold) 100%);
+    color: #1a1402;
+    box-shadow: 0 0 24px rgba(207, 181, 59, 0.25), var(--shadow-md);
   }
 
+  .btn-primary:hover,
   .btn-secondary:hover {
-    background: var(--color-gold-light);
-    transform: scale(1.05);
-    box-shadow: var(--shadow-xl);
+    transform: translateY(-2px);
+    filter: brightness(1.06);
+    box-shadow: 0 0 40px rgba(207, 181, 59, 0.4), var(--shadow-lg);
   }
 
+  .btn-primary:active,
   .btn-secondary:active {
-    transform: scale(0.95);
+    transform: translateY(0) scale(0.98);
   }
 
-  /* Button Tertiary (Outline) */
+  /* Button Tertiary (Ghost) — rustige secundaire actie */
   .btn-tertiary {
     background: transparent;
-    color: var(--color-gold);
-    border: 2px solid var(--color-gold);
+    color: var(--color-gray-200);
+    border: 1px solid rgba(255, 255, 255, 0.25);
   }
 
   .btn-tertiary:hover {
-    background: var(--color-gold);
-    color: var(--color-black);
-    transform: scale(1.05);
+    border-color: var(--color-gold);
+    color: var(--color-gold-light);
+    background: var(--color-gold-muted);
+    transform: translateY(-2px);
   }
 
   .btn-tertiary:active {
-    transform: scale(0.95);
+    transform: translateY(0) scale(0.98);
   }
 
   /* Card */
@@ -910,6 +898,13 @@ footer {
 }
 
 /* Hero radial glow — chip-red + amber bloom on top, fades to warm near-black */
+/* Goud-zwart duotone fototreatment — één consistente beeldtaal voor alle
+   foto's (Fase 0). Warmte + contrast, koelte eruit; combineert met de
+   bestaande overlay-gradients voor het "high-limit spotlight" gevoel. */
+.photo-duotone {
+  filter: grayscale(0.85) sepia(0.32) saturate(1.35) contrast(1.08) brightness(0.92);
+}
+
 .hero-gradient {
   background:
     radial-gradient(ellipse 70% 60% at 30% 0%, rgba(212, 24, 61, 0.18) 0%, transparent 55%),

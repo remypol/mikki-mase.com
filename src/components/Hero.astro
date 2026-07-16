@@ -56,7 +56,7 @@ const heightClass = variant === 'full' ? 'min-h-screen' : 'h-[360px] sm:h-[480px
           <img
             src={backgroundImage}
             alt="Mikki Mase high stakes baccarat Las Vegas casino luxury gambling table"
-            class="w-full h-auto block"
+            class="w-full h-auto block photo-duotone"
             loading="eager"
             fetchpriority="high"
             decoding="async"
@@ -83,7 +83,7 @@ const heightClass = variant === 'full' ? 'min-h-screen' : 'h-[360px] sm:h-[480px
             width="1920"
             height="1283"
             alt="Mikki Mase high stakes baccarat Las Vegas casino luxury gambling table"
-            class={`w-full h-full object-cover object-[50%_35%] md:object-center`}
+            class={`w-full h-full object-cover object-[50%_35%] md:object-center photo-duotone`}
             loading="eager"
             fetchpriority="high"
             decoding="async"
@@ -148,7 +148,7 @@ const heightClass = variant === 'full' ? 'min-h-screen' : 'h-[360px] sm:h-[480px
 
       <!-- CTAs: Now in flow on mobile for guaranteed visibility -->
       {(primaryCTA || secondaryCTA) && (
-        <div class="flex flex-col sm:flex-row gap-3 md:gap-6 justify-center px-6 animate-[fadeIn_0.6s_ease-out_0.6s_both] mt-auto md:mt-0">
+        <div class="flex flex-col sm:flex-row gap-3 md:gap-6 justify-center animate-[fadeIn_0.6s_ease-out_0.6s_both] mt-auto md:mt-0">
           {primaryCTA && (
             <Button variant="primary" href={primaryCTA.href}>
               {primaryCTA.text}
