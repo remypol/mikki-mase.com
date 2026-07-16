@@ -46,3 +46,14 @@ SEO-AUDIT-*.md
 .claude/
 .vercel
 .env*.local
+
+# private business & legal docs (never commit)
+Settlement-Agreement-*.docx
+settlement/
+asia-expansion/
+asia-ops-playbook.html
+mikki-mase-asia-expansion-strategy.html
+scripts/gen-settlement.cjs
+scripts/extract-voice.sh
+seo-reports/
+mmc-cheatsheet-bundle/
