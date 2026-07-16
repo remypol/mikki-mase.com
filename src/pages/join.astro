@@ -51,32 +51,25 @@ const joinSchema = {
 >
   <Header />
 
-  <!-- HERO SECTION - Animated Background -->
-  <section class="relative bg-gradient-to-br from-black via-gray-900 to-black py-12 md:py-32 overflow-hidden min-h-[75vh] md:min-h-0 flex items-center">
-    <!-- Animated gradient overlay -->
-    <div class="absolute inset-0 opacity-30">
-      <div class="absolute inset-0 bg-gradient-to-r from-gold/20 via-transparent to-gold/20 animate-pulse"></div>
-    </div>
-
-    <!-- Dot pattern -->
-    <div class="absolute inset-0 opacity-5">
-      <div class="absolute inset-0" style="background-image: radial-gradient(circle at 2px 2px, #CFB53B 1px, transparent 0); background-size: 40px 40px;"></div>
-    </div>
+  <!-- HERO SECTION - Spotlight -->
+  <section class="relative bg-page py-12 md:py-32 overflow-hidden min-h-[75vh] md:min-h-0 flex items-center">
+    <!-- Gold spotlight glow -->
+    <div class="absolute inset-0 pointer-events-none" style="background: radial-gradient(ellipse 120% 70% at 50% -10%, rgba(207, 181, 59, 0.14) 0%, rgba(207, 181, 59, 0.04) 40%, transparent 70%);"></div>
 
     <div class="container mx-auto px-6 relative z-10">
       <div class="max-w-4xl mx-auto text-center">
         <!-- Live Badge -->
-        <div class="inline-flex items-center gap-2 px-4 py-2 bg-red-bright/20 border border-red-bright/50 rounded-full mb-4 md:mb-8 animate-pulse">
-          <div class="w-2 h-2 bg-red-bright rounded-full animate-ping"></div>
-          <span class="text-red-bright text-sm font-bold uppercase tracking-wider">LIVE Community</span>
+        <div class="inline-flex items-center gap-2 px-4 py-2 bg-gold/10 border border-gold/40 rounded-full mb-4 md:mb-8">
+          <div class="w-2 h-2 bg-gold rounded-full animate-pulse"></div>
+          <span class="text-gold text-sm font-bold uppercase tracking-wider">LIVE Community</span>
         </div>
 
-        <h1 class="text-white text-4xl md:text-7xl font-black mb-4 md:mb-6 leading-tight">
+        <h1 class="display-h1 mx-auto mb-4 md:mb-6">
           Join the <span class="text-gold">Mikki Mase</span> Fan Community
         </h1>
 
-        <p class="text-gray-300 text-lg md:text-2xl leading-relaxed mb-6 md:mb-10 max-w-3xl mx-auto">
-          A free fan community for people fascinated by the gambler who won <span class="text-gold font-bold">$32M+</span> and got banned from <span class="text-red-400 font-bold">150+ casinos</span>. Discuss his public strategies and share fan-made guides.
+        <p class="text-secondary text-lg md:text-2xl leading-relaxed mb-6 md:mb-10 max-w-3xl mx-auto">
+          A free fan community for people fascinated by the gambler who won <span class="serif-num text-gold font-bold">$32M+</span> and got banned from <span class="serif-num accent-red font-bold">150+ casinos</span>. Discuss his public strategies and share fan-made guides.
         </p>
 
         <!-- Primary CTA -->
@@ -84,7 +77,7 @@ const joinSchema = {
           href="https://bit.ly/mikkilandingspage"
           target="_blank"
           rel="noopener noreferrer"
-          class="cta-button inline-flex items-center gap-3 px-8 md:px-12 py-4 md:py-6 bg-red-bright text-white text-lg md:text-2xl font-bold rounded-2xl hover:scale-105 hover:shadow-2xl transition-all duration-300 mb-4 md:mb-6"
+          class="btn btn-primary btn-large mb-4 md:mb-6"
         >
           <svg class="w-6 h-6 md:w-8 md:h-8" fill="currentColor" viewBox="0 0 24 24">
             <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69.01-.03.01-.14-.07-.2-.08-.06-.19-.04-.27-.02-.12.03-1.99 1.27-5.61 3.72-.53.36-1.01.54-1.44.53-.47-.01-1.38-.27-2.06-.49-.83-.27-1.49-.42-1.43-.88.03-.24.37-.49.99-.74 3.89-1.69 6.48-2.81 7.77-3.35 3.7-1.54 4.47-1.81 4.97-1.82.11 0 .36.03.52.16.14.11.17.26.19.37.01.08.03.29.01.45z"/>
@@ -92,7 +85,7 @@ const joinSchema = {
           Join the Mikki Mase Fan Community
         </a>
 
-        <p class="text-gray-500 text-sm">
+        <p class="text-tertiary text-sm">
           No credit card. No hidden costs. 100% free forever.
         </p>
       </div>
@@ -109,7 +102,7 @@ const joinSchema = {
   <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "Join" }]} />
 
   <!-- EMAIL CAPTURE - Above Telegram -->
-  <section class="bg-black py-12 md:py-16">
+  <section class="bg-page py-12 md:py-16">
     <div class="container mx-auto px-6">
       <div class="max-w-2xl mx-auto">
         <EmailCapture client:load variant="inline" source="join-page" headline="First, Grab the Free Fan-Made Cheat Sheet" subheadline="Get a free fan-made strategy card before joining the Mikki Mase Fan Community." />
@@ -118,14 +111,14 @@ const joinSchema = {
   </section>
 
   <!-- LIVE STATS SECTION -->
-  <section class="bg-black py-20 md:py-24">
+  <section class="bg-page py-20 md:py-24">
     <div class="container mx-auto px-6">
       <div class="max-w-6xl mx-auto">
         <div class="text-center mb-16">
-          <h2 class="text-white text-3xl md:text-4xl font-bold mb-4">
+          <h2 class="display-h2 mb-4">
             Join 7,000+ Players Worldwide
           </h2>
-          <p class="text-gray-400 text-lg">
+          <p class="text-tertiary text-lg">
             Real-time community statistics
           </p>
         </div>
@@ -145,7 +138,7 @@ const joinSchema = {
             value={147}
             label="Joined This Week"
             format="number"
-            gradient="green"
+            gradient="gold"
             delay={150}
             icon='<svg class="w-full h-full" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z" /></svg>'
           />
@@ -154,7 +147,7 @@ const joinSchema = {
             value={2487}
             label="Strategy Posts"
             format="number"
-            gradient="blue"
+            gradient="gold"
             delay={300}
             icon='<svg class="w-full h-full" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>'
           />
@@ -164,14 +157,14 @@ const joinSchema = {
   </section>
 
   <!-- BENEFITS SECTION -->
-  <section class="bg-gradient-to-b from-black to-gray-900 py-20 md:py-32">
+  <section class="warm-gradient py-20 md:py-32">
     <div class="container mx-auto px-6">
       <div class="max-w-6xl mx-auto">
         <div class="text-center mb-16">
-          <h2 class="text-white text-3xl md:text-5xl font-bold mb-6">
+          <h2 class="display-h2 mb-6">
             What You Get Inside
           </h2>
-          <p class="text-gray-300 text-lg md:text-xl leading-relaxed max-w-3xl mx-auto">
+          <p class="text-secondary text-lg md:text-xl leading-relaxed max-w-3xl mx-auto">
             No paywalls, no upsells—just real insights from the man who cracked the code. New here? Read <a href="/story" class="text-gold hover:text-gold-light underline">The Story</a> or check the <a href="/faq" class="text-gold hover:text-gold-light underline">FAQ</a> first.
           </p>
         </div>
@@ -179,79 +172,79 @@ const joinSchema = {
         <!-- Glassmorphism Benefits Grid -->
         <div class="grid md:grid-cols-2 gap-6 mb-16">
           <!-- Benefit 1 -->
-          <div class="benefit-card observe-once bg-gradient-to-br from-white/5 to-white/[0.02] backdrop-blur-xl border border-white/10 rounded-2xl p-8 hover:border-gold/50 transition-all duration-300">
-            <div class="w-14 h-14 rounded-xl bg-gold/10 border-2 border-gold flex items-center justify-center mb-6">
-              <svg class="w-7 h-7 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <div class="benefit-card observe-once bg-card border border-subtle rounded-xl p-8 hover:border-gold/30 hover:-translate-y-0.5 transition-all duration-300">
+            <div class="w-12 h-12 rounded-lg bg-gold/10 flex items-center justify-center mb-6">
+              <svg class="w-6 h-6 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
               </svg>
             </div>
-            <h3 class="text-white text-2xl font-bold mb-4">Pattern Recognition Tools</h3>
-            <p class="text-gray-400 text-lg leading-relaxed">
+            <h3 class="display-h3 mb-4">Pattern Recognition Tools</h3>
+            <p class="text-secondary text-lg leading-relaxed">
               Fan-made breakdowns of the pattern recognition approach Mikki describes in his public interviews. Cheat sheets, betting progression charts, and reference materials shared freely by the community.
             </p>
           </div>
 
           <!-- Benefit 2 -->
-          <div class="benefit-card observe-once bg-gradient-to-br from-white/5 to-white/[0.02] backdrop-blur-xl border border-white/10 rounded-2xl p-8 hover:border-gold/50 transition-all duration-300">
-            <div class="w-14 h-14 rounded-xl bg-gold/10 border-2 border-gold flex items-center justify-center mb-6">
-              <svg class="w-7 h-7 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <div class="benefit-card observe-once bg-card border border-subtle rounded-xl p-8 hover:border-gold/30 hover:-translate-y-0.5 transition-all duration-300">
+            <div class="w-12 h-12 rounded-lg bg-gold/10 flex items-center justify-center mb-6">
+              <svg class="w-6 h-6 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
               </svg>
             </div>
-            <h3 class="text-white text-2xl font-bold mb-4">Step-by-Step Strategy Guides</h3>
-            <p class="text-gray-400 text-lg leading-relaxed">
+            <h3 class="display-h3 mb-4">Step-by-Step Strategy Guides</h3>
+            <p class="text-secondary text-lg leading-relaxed">
               Fan-written breakdowns of baccarat strategy, bankroll management, and risk mitigation, based on the approaches Mikki has explained publicly.
             </p>
           </div>
 
           <!-- Benefit 3 -->
-          <div class="benefit-card observe-once bg-gradient-to-br from-white/5 to-white/[0.02] backdrop-blur-xl border border-white/10 rounded-2xl p-8 hover:border-gold/50 transition-all duration-300">
-            <div class="w-14 h-14 rounded-xl bg-gold/10 border-2 border-gold flex items-center justify-center mb-6">
-              <svg class="w-7 h-7 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <div class="benefit-card observe-once bg-card border border-subtle rounded-xl p-8 hover:border-gold/30 hover:-translate-y-0.5 transition-all duration-300">
+            <div class="w-12 h-12 rounded-lg bg-gold/10 flex items-center justify-center mb-6">
+              <svg class="w-6 h-6 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
               </svg>
             </div>
-            <h3 class="text-white text-2xl font-bold mb-4">Stories From His Public Content</h3>
-            <p class="text-gray-400 text-lg leading-relaxed">
+            <h3 class="display-h3 mb-4">Stories From His Public Content</h3>
+            <p class="text-secondary text-lg leading-relaxed">
               Fans collect and discuss the best stories from Mikki's interviews and podcasts. The casino-floor and high-roller moments he has shared publicly, all in one place.
             </p>
           </div>
 
           <!-- Benefit 4 -->
-          <div class="benefit-card observe-once bg-gradient-to-br from-white/5 to-white/[0.02] backdrop-blur-xl border border-white/10 rounded-2xl p-8 hover:border-gold/50 transition-all duration-300">
-            <div class="w-14 h-14 rounded-xl bg-gold/10 border-2 border-gold flex items-center justify-center mb-6">
-              <svg class="w-7 h-7 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <div class="benefit-card observe-once bg-card border border-subtle rounded-xl p-8 hover:border-gold/30 hover:-translate-y-0.5 transition-all duration-300">
+            <div class="w-12 h-12 rounded-lg bg-gold/10 flex items-center justify-center mb-6">
+              <svg class="w-6 h-6 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
               </svg>
             </div>
-            <h3 class="text-white text-2xl font-bold mb-4">New Content Alerts</h3>
-            <p class="text-gray-400 text-lg leading-relaxed">
+            <h3 class="display-h3 mb-4">New Content Alerts</h3>
+            <p class="text-secondary text-lg leading-relaxed">
               Fans share links when Mikki posts a new interview or video. Discuss the strategies as they come out and learn from the gameplay decisions he shows publicly.
             </p>
           </div>
 
           <!-- Benefit 5 -->
-          <div class="benefit-card observe-once bg-gradient-to-br from-white/5 to-white/[0.02] backdrop-blur-xl border border-white/10 rounded-2xl p-8 hover:border-gold/50 transition-all duration-300">
-            <div class="w-14 h-14 rounded-xl bg-gold/10 border-2 border-gold flex items-center justify-center mb-6">
-              <svg class="w-7 h-7 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <div class="benefit-card observe-once bg-card border border-subtle rounded-xl p-8 hover:border-gold/30 hover:-translate-y-0.5 transition-all duration-300">
+            <div class="w-12 h-12 rounded-lg bg-gold/10 flex items-center justify-center mb-6">
+              <svg class="w-6 h-6 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
               </svg>
             </div>
-            <h3 class="text-white text-2xl font-bold mb-4">Active Community Forum</h3>
-            <p class="text-gray-400 text-lg leading-relaxed">
+            <h3 class="display-h3 mb-4">Active Community Forum</h3>
+            <p class="text-secondary text-lg leading-relaxed">
               Connect with 7,000+ serious players worldwide. Share strategies, discuss patterns, learn from each other's wins and losses. This is not a lecture—it's a conversation.
             </p>
           </div>
 
           <!-- Benefit 6 -->
-          <div class="benefit-card observe-once bg-gradient-to-br from-white/5 to-white/[0.02] backdrop-blur-xl border border-white/10 rounded-2xl p-8 hover:border-gold/50 transition-all duration-300">
-            <div class="w-14 h-14 rounded-xl bg-gold/10 border-2 border-gold flex items-center justify-center mb-6">
-              <svg class="w-7 h-7 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <div class="benefit-card observe-once bg-card border border-subtle rounded-xl p-8 hover:border-gold/30 hover:-translate-y-0.5 transition-all duration-300">
+            <div class="w-12 h-12 rounded-lg bg-gold/10 flex items-center justify-center mb-6">
+              <svg class="w-6 h-6 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636" />
               </svg>
             </div>
-            <h3 class="text-white text-2xl font-bold mb-4">Mikki Mase Fan Community</h3>
-            <p class="text-gray-400 text-lg leading-relaxed">
+            <h3 class="display-h3 mb-4">Mikki Mase Fan Community</h3>
+            <p class="text-secondary text-lg leading-relaxed">
               Unlike other "gambling gurus" who charge thousands for access, the Mikki Mase Fan Community (on Telegram) is 100% free. No membership fees, no hidden upsells. Mikki does not sell any courses or masterclasses.
             </p>
           </div>
@@ -261,76 +254,76 @@ const joinSchema = {
   </section>
 
   <!-- SOCIAL PROOF SECTION -->
-  <section class="bg-gray-900 py-20 md:py-24">
+  <section class="bg-elevated py-20 md:py-24">
     <div class="container mx-auto px-6">
       <div class="max-w-6xl mx-auto">
         <div class="text-center mb-16">
-          <h2 class="text-white text-3xl md:text-4xl font-bold mb-4">
+          <h2 class="display-h2 mb-4">
             What Members Are Saying
           </h2>
-          <p class="text-gray-400 text-lg">
+          <p class="text-tertiary text-lg">
             Real feedback from the community
           </p>
         </div>
 
         <!-- Testimonials Grid -->
         <div class="grid md:grid-cols-2 gap-6 mb-16">
-          <div class="observe-once bg-gradient-to-br from-white/5 to-white/[0.02] backdrop-blur-xl border border-white/10 rounded-2xl p-8">
+          <div class="observe-once bg-card border border-subtle rounded-xl p-8">
             <div class="flex items-start gap-4 mb-4">
-              <div class="flex-shrink-0 w-12 h-12 rounded-full bg-gold/20 border-2 border-gold flex items-center justify-center">
+              <div class="flex-shrink-0 w-12 h-12 rounded-full bg-gold/10 border border-gold/30 flex items-center justify-center">
                 <span class="text-gold font-bold">JM</span>
               </div>
               <div>
-                <p class="text-white font-bold">James M.</p>
-                <p class="text-gray-500 text-sm">Member since 2023</p>
+                <p class="text-primary font-bold">James M.</p>
+                <p class="text-tertiary text-sm">Member since 2023</p>
               </div>
             </div>
-            <p class="text-gray-300 leading-relaxed">
+            <p class="text-secondary leading-relaxed">
               "I've been in gambling communities before, but this is different. The members actually break down real strategies from his interviews. No BS, no upsells. Just pure value."
             </p>
           </div>
 
-          <div class="observe-once bg-gradient-to-br from-white/5 to-white/[0.02] backdrop-blur-xl border border-white/10 rounded-2xl p-8">
+          <div class="observe-once bg-card border border-subtle rounded-xl p-8">
             <div class="flex items-start gap-4 mb-4">
-              <div class="flex-shrink-0 w-12 h-12 rounded-full bg-gold/20 border-2 border-gold flex items-center justify-center">
+              <div class="flex-shrink-0 w-12 h-12 rounded-full bg-gold/10 border border-gold/30 flex items-center justify-center">
                 <span class="text-gold font-bold">SC</span>
               </div>
               <div>
-                <p class="text-white font-bold">Sarah C.</p>
-                <p class="text-gray-500 text-sm">Member since 2024</p>
+                <p class="text-primary font-bold">Sarah C.</p>
+                <p class="text-tertiary text-sm">Member since 2024</p>
               </div>
             </div>
-            <p class="text-gray-300 leading-relaxed">
+            <p class="text-secondary leading-relaxed">
               "The pattern recognition tools helped me understand the game at a much deeper level. I learned so much about strategy and bankroll management. Worth every minute."
             </p>
           </div>
 
-          <div class="observe-once bg-gradient-to-br from-white/5 to-white/[0.02] backdrop-blur-xl border border-white/10 rounded-2xl p-8">
+          <div class="observe-once bg-card border border-subtle rounded-xl p-8">
             <div class="flex items-start gap-4 mb-4">
-              <div class="flex-shrink-0 w-12 h-12 rounded-full bg-gold/20 border-2 border-gold flex items-center justify-center">
+              <div class="flex-shrink-0 w-12 h-12 rounded-full bg-gold/10 border border-gold/30 flex items-center justify-center">
                 <span class="text-gold font-bold">DK</span>
               </div>
               <div>
-                <p class="text-white font-bold">David K.</p>
-                <p class="text-gray-500 text-sm">Member since 2023</p>
+                <p class="text-primary font-bold">David K.</p>
+                <p class="text-tertiary text-sm">Member since 2023</p>
               </div>
             </div>
-            <p class="text-gray-300 leading-relaxed">
+            <p class="text-secondary leading-relaxed">
               "I was skeptical at first—most gambling 'experts' are full of it. But Mikki's transparency and willingness to share real strategies is refreshing. The community is incredible."
             </p>
           </div>
 
-          <div class="observe-once bg-gradient-to-br from-white/5 to-white/[0.02] backdrop-blur-xl border border-white/10 rounded-2xl p-8">
+          <div class="observe-once bg-card border border-subtle rounded-xl p-8">
             <div class="flex items-start gap-4 mb-4">
-              <div class="flex-shrink-0 w-12 h-12 rounded-full bg-gold/20 border-2 border-gold flex items-center justify-center">
+              <div class="flex-shrink-0 w-12 h-12 rounded-full bg-gold/10 border border-gold/30 flex items-center justify-center">
                 <span class="text-gold font-bold">RL</span>
               </div>
               <div>
-                <p class="text-white font-bold">Robert L.</p>
-                <p class="text-gray-500 text-sm">Member since 2022</p>
+                <p class="text-primary font-bold">Robert L.</p>
+                <p class="text-tertiary text-sm">Member since 2022</p>
               </div>
             </div>
-            <p class="text-gray-300 leading-relaxed">
+            <p class="text-secondary leading-relaxed">
               "Best part? It's completely free. No hidden fees, no 'premium tiers.' Just fans sharing what they've pieced together from his public content. Respect."
             </p>
           </div>
@@ -340,76 +333,76 @@ const joinSchema = {
   </section>
 
   <!-- FAQ SECTION -->
-  <section class="bg-black py-20 md:py-32">
+  <section class="bg-page py-20 md:py-32">
     <div class="container mx-auto px-6">
       <div class="max-w-4xl mx-auto">
         <div class="text-center mb-16">
-          <h2 class="text-white text-3xl md:text-5xl font-bold mb-6">
+          <h2 class="display-h2 mb-6">
             Frequently Asked Questions
           </h2>
-          <p class="text-gray-400 text-lg">
+          <p class="text-tertiary text-lg">
             Everything you need to know before joining
           </p>
         </div>
 
         <!-- FAQ Accordion -->
         <div class="space-y-4">
-          <details class="faq-item observe-once group bg-gradient-to-br from-white/5 to-white/[0.02] backdrop-blur-xl border border-white/10 rounded-2xl overflow-hidden hover:border-gold/50 transition-all duration-300">
-            <summary class="cursor-pointer px-8 py-6 text-white text-xl font-bold flex items-center justify-between">
+          <details class="faq-item observe-once group bg-card border border-subtle rounded-xl overflow-hidden hover:border-gold/30 transition-all duration-300">
+            <summary class="cursor-pointer px-8 py-6 text-primary text-xl font-bold flex items-center justify-between">
               <span>Is the community really free?</span>
               <svg class="w-6 h-6 transition-transform group-open:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
               </svg>
             </summary>
-            <div class="px-8 pb-6 text-gray-400 text-lg leading-relaxed">
+            <div class="px-8 pb-6 text-secondary text-lg leading-relaxed">
               Yes, 100% free. No credit card, no trial period, no "premium tiers." This is a free fan community for people interested in Mikki, and he does not sell any courses or masterclasses.
             </div>
           </details>
 
-          <details class="faq-item observe-once group bg-gradient-to-br from-white/5 to-white/[0.02] backdrop-blur-xl border border-white/10 rounded-2xl overflow-hidden hover:border-gold/50 transition-all duration-300">
-            <summary class="cursor-pointer px-8 py-6 text-white text-xl font-bold flex items-center justify-between">
+          <details class="faq-item observe-once group bg-card border border-subtle rounded-xl overflow-hidden hover:border-gold/30 transition-all duration-300">
+            <summary class="cursor-pointer px-8 py-6 text-primary text-xl font-bold flex items-center justify-between">
               <span>What makes this different from other gambling communities?</span>
               <svg class="w-6 h-6 transition-transform group-open:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
               </svg>
             </summary>
-            <div class="px-8 pb-6 text-gray-400 text-lg leading-relaxed">
+            <div class="px-8 pb-6 text-secondary text-lg leading-relaxed">
               It's centered on a real public figure with a claimed $32M+ win record and 150+ casino bans. Fans break down and discuss the strategies he has explained in his own interviews and videos.
             </div>
           </details>
 
-          <details class="faq-item observe-once group bg-gradient-to-br from-white/5 to-white/[0.02] backdrop-blur-xl border border-white/10 rounded-2xl overflow-hidden hover:border-gold/50 transition-all duration-300">
-            <summary class="cursor-pointer px-8 py-6 text-white text-xl font-bold flex items-center justify-between">
+          <details class="faq-item observe-once group bg-card border border-subtle rounded-xl overflow-hidden hover:border-gold/30 transition-all duration-300">
+            <summary class="cursor-pointer px-8 py-6 text-primary text-xl font-bold flex items-center justify-between">
               <span>Do I need to be an experienced gambler?</span>
               <svg class="w-6 h-6 transition-transform group-open:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
               </svg>
             </summary>
-            <div class="px-8 pb-6 text-gray-400 text-lg leading-relaxed">
+            <div class="px-8 pb-6 text-secondary text-lg leading-relaxed">
               No. The community welcomes everyone, from complete beginners to seasoned high-rollers. Fans break down the strategies Mikki explains publicly in ways anyone can follow.
             </div>
           </details>
 
-          <details class="faq-item observe-once group bg-gradient-to-br from-white/5 to-white/[0.02] backdrop-blur-xl border border-white/10 rounded-2xl overflow-hidden hover:border-gold/50 transition-all duration-300">
-            <summary class="cursor-pointer px-8 py-6 text-white text-xl font-bold flex items-center justify-between">
+          <details class="faq-item observe-once group bg-card border border-subtle rounded-xl overflow-hidden hover:border-gold/30 transition-all duration-300">
+            <summary class="cursor-pointer px-8 py-6 text-primary text-xl font-bold flex items-center justify-between">
               <span>Will I be able to talk to Mikki directly?</span>
               <svg class="w-6 h-6 transition-transform group-open:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
               </svg>
             </summary>
-            <div class="px-8 pb-6 text-gray-400 text-lg leading-relaxed">
+            <div class="px-8 pb-6 text-secondary text-lg leading-relaxed">
               No. This is an unofficial fan community and joining it does not connect you with Mikki or give you any special access to him. It's a place for fans to talk to each other about his publicly shared content.
             </div>
           </details>
 
-          <details class="faq-item observe-once group bg-gradient-to-br from-white/5 to-white/[0.02] backdrop-blur-xl border border-white/10 rounded-2xl overflow-hidden hover:border-gold/50 transition-all duration-300">
-            <summary class="cursor-pointer px-8 py-6 text-white text-xl font-bold flex items-center justify-between">
+          <details class="faq-item observe-once group bg-card border border-subtle rounded-xl overflow-hidden hover:border-gold/30 transition-all duration-300">
+            <summary class="cursor-pointer px-8 py-6 text-primary text-xl font-bold flex items-center justify-between">
               <span>What if someone tries to sell me a "Mikki Mase course"?</span>
               <svg class="w-6 h-6 transition-transform group-open:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
               </svg>
             </summary>
-            <div class="px-8 pb-6 text-gray-400 text-lg leading-relaxed">
+            <div class="px-8 pb-6 text-secondary text-lg leading-relaxed">
               This fan community is completely free. Mikki does not sell any courses or masterclasses, so any site or person claiming to sell a "Mikki Mase course" is not him and is not endorsed by him.
             </div>
           </details>
@@ -419,25 +412,23 @@ const joinSchema = {
   </section>
 
   <!-- FINAL CTA SECTION -->
-  <section class="bg-gradient-to-br from-gray-900 via-black to-gray-900 py-20 md:py-32 relative overflow-hidden">
-    <!-- Animated background -->
-    <div class="absolute inset-0 opacity-20">
-      <div class="absolute inset-0 bg-gradient-to-r from-gold/20 via-transparent to-gold/20 animate-pulse"></div>
-    </div>
+  <section class="bg-page py-20 md:py-32 relative overflow-hidden">
+    <!-- Spotlight gold glow -->
+    <div class="absolute inset-0 pointer-events-none" style="background: radial-gradient(ellipse at 50% 0%, rgba(207,181,59,0.12), transparent 60%);"></div>
 
     <div class="container mx-auto px-6 relative z-10">
       <div class="max-w-4xl mx-auto text-center">
-        <div class="inline-flex items-center gap-2 px-4 py-2 bg-green-500/20 border border-green-500/50 rounded-full mb-8">
-          <div class="w-2 h-2 bg-green-500 rounded-full"></div>
-          <span class="text-green-400 text-sm font-bold uppercase tracking-wider">Ready to Join?</span>
+        <div class="inline-flex items-center gap-2 px-4 py-2 bg-gold/10 border border-gold/40 rounded-full mb-8">
+          <div class="w-2 h-2 bg-gold rounded-full"></div>
+          <span class="text-gold text-sm font-bold uppercase tracking-wider">Ready to Join?</span>
         </div>
 
-        <h2 class="text-white text-4xl md:text-6xl font-black mb-6 leading-tight">
+        <h2 class="display-h1 mx-auto mb-6">
           Your Seat is Waiting
         </h2>
 
-        <p class="text-gray-300 text-xl md:text-2xl leading-relaxed mb-12 max-w-3xl mx-auto">
-          Click below to join 7,000+ players learning the strategies that won <span class="text-gold font-bold">$32M+</span>. No credit card. No catch. 100% free.
+        <p class="text-secondary text-xl md:text-2xl leading-relaxed mb-12 max-w-3xl mx-auto">
+          Click below to join <span class="serif-num text-gold font-bold">7,000+</span> players learning the strategies that won <span class="serif-num text-gold font-bold">$32M+</span>. No credit card. No catch. 100% free.
         </p>
 
         <!-- Final CTA Button -->
@@ -445,7 +436,7 @@ const joinSchema = {
           href="https://bit.ly/mikkilandingspage"
           target="_blank"
           rel="noopener noreferrer"
-          class="cta-button inline-flex items-center gap-3 px-12 py-6 bg-red-bright text-white text-xl md:text-2xl font-bold rounded-2xl hover:scale-105 hover:shadow-2xl transition-all duration-300 mb-8"
+          class="btn btn-primary btn-large mb-8"
         >
           <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24">
             <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69.01-.03.01-.14-.07-.2-.08-.06-.19-.04-.27-.02-.12.03-1.99 1.27-5.61 3.72-.53.36-1.01.54-1.44.53-.47-.01-1.38-.27-2.06-.49-.83-.27-1.49-.42-1.43-.88.03-.24.37-.49.99-.74 3.89-1.69 6.48-2.81 7.77-3.35 3.7-1.54 4.47-1.81 4.97-1.82.11 0 .36.03.52.16.14.11.17.26.19.37.01.08.03.29.01.45z"/>
@@ -453,21 +444,21 @@ const joinSchema = {
           Join the Mikki Mase Fan Community
         </a>
 
-        <div class="flex flex-wrap justify-center items-center gap-8 text-gray-500 text-sm">
+        <div class="flex flex-wrap justify-center items-center gap-8 text-tertiary text-sm">
           <div class="flex items-center gap-2">
-            <svg class="w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+            <svg class="w-5 h-5 text-gold" fill="currentColor" viewBox="0 0 20 20">
               <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
             </svg>
             <span>No Credit Card</span>
           </div>
           <div class="flex items-center gap-2">
-            <svg class="w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+            <svg class="w-5 h-5 text-gold" fill="currentColor" viewBox="0 0 20 20">
               <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
             </svg>
             <span>Free Forever</span>
           </div>
           <div class="flex items-center gap-2">
-            <svg class="w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+            <svg class="w-5 h-5 text-gold" fill="currentColor" viewBox="0 0 20 20">
               <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
             </svg>
             <span>7,000+ Players</span>
@@ -478,18 +469,18 @@ const joinSchema = {
   </section>
 
   <!-- SOCIAL MEDIA SECTION -->
-  <section class="bg-black py-16 md:py-20 border-t border-gray-800">
+  <section class="bg-page py-16 md:py-20 border-t border-subtle">
     <div class="container mx-auto px-6">
       <div class="max-w-4xl mx-auto text-center">
-        <h3 class="text-white text-2xl font-bold mb-8">Follow Mikki Fan Pages on Social Media</h3>
+        <h3 class="display-h3 mb-8">Follow Mikki Fan Pages on Social Media</h3>
         <div class="flex flex-wrap justify-center gap-6">
           <a
             href="https://www.youtube.com/@Mikki_Mase"
             target="_blank"
             rel="noopener noreferrer"
-            class="social-link flex items-center gap-3 px-6 py-4 bg-gray-900 hover:bg-gray-800 text-white rounded-xl transition-all duration-300 hover:scale-105"
+            class="social-link flex items-center gap-3 px-6 py-4 bg-card border border-subtle hover:border-gold/30 hover:-translate-y-0.5 text-primary rounded-xl transition-all duration-300"
           >
-            <svg class="w-6 h-6 text-red-500" fill="currentColor" viewBox="0 0 24 24">
+            <svg class="w-6 h-6 text-tertiary" fill="currentColor" viewBox="0 0 24 24">
               <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
             </svg>
             <span class="font-semibold">YouTube</span>
@@ -499,9 +490,9 @@ const joinSchema = {
             href="https://www.instagram.com/mikki_mase_community"
             target="_blank"
             rel="noopener noreferrer"
-            class="social-link flex items-center gap-3 px-6 py-4 bg-gray-900 hover:bg-gray-800 text-white rounded-xl transition-all duration-300 hover:scale-105"
+            class="social-link flex items-center gap-3 px-6 py-4 bg-card border border-subtle hover:border-gold/30 hover:-translate-y-0.5 text-primary rounded-xl transition-all duration-300"
           >
-            <svg class="w-6 h-6 text-pink-500" fill="currentColor" viewBox="0 0 24 24">
+            <svg class="w-6 h-6 text-tertiary" fill="currentColor" viewBox="0 0 24 24">
               <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
             </svg>
             <span class="font-semibold">Instagram</span>
@@ -511,9 +502,9 @@ const joinSchema = {
             href="https://www.facebook.com/mikkimasecommunity"
             target="_blank"
             rel="noopener noreferrer"
-            class="social-link flex items-center gap-3 px-6 py-4 bg-gray-900 hover:bg-gray-800 text-white rounded-xl transition-all duration-300 hover:scale-105"
+            class="social-link flex items-center gap-3 px-6 py-4 bg-card border border-subtle hover:border-gold/30 hover:-translate-y-0.5 text-primary rounded-xl transition-all duration-300"
           >
-            <svg class="w-6 h-6 text-blue-500" fill="currentColor" viewBox="0 0 24 24">
+            <svg class="w-6 h-6 text-tertiary" fill="currentColor" viewBox="0 0 24 24">
               <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
             </svg>
             <span class="font-semibold">Facebook</span>
@@ -527,40 +518,21 @@ const joinSchema = {
 </BaseLayout>
 
 <style>
-  .bg-red-bright {
-    background-color: #A8001E;
+  /* Serif numerals — key figures in body copy (Fraunces, matches .stat-serif) */
+  .serif-num {
+    font-family: var(--font-serif);
+    font-variation-settings: 'opsz' 48, 'SOFT' 30, 'wght' 560;
   }
 
-  .cta-button {
-    position: relative;
-    overflow: hidden;
-  }
-
-  .cta-button::before {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 0;
-    height: 0;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.1);
-    transform: translate(-50%, -50%);
-    transition: width 0.6s, height 0.6s;
-  }
-
-  .cta-button:hover::before {
-    width: 300px;
-    height: 300px;
-  }
-
-  .cta-button:hover {
-    background-color: #8B0015;
+  /* Long CTA labels may wrap on small screens (btn base sets nowrap) */
+  .btn.btn-large {
+    white-space: normal;
+    text-align: center;
   }
 
   /* FAQ smooth accordion */
   details[open] summary {
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    border-bottom: 1px solid rgb(var(--border-subtle));
     margin-bottom: 1rem;
   }
 

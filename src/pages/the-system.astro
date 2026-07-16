@@ -106,7 +106,7 @@ const systemSchema = {
   />
 
   <!-- BREADCRUMBS -->
-  <div class="bg-black border-b border-gray-800">
+  <div class="bg-black border-b border-subtle">
     <Breadcrumbs items={[
       { label: "Home", href: "/" },
       { label: "The System" }
@@ -147,13 +147,22 @@ const systemSchema = {
           Baccarat is a casino card game where you bet on one of three outcomes: <strong class="text-white">Banker</strong>, <strong class="text-white">Player</strong>, or <strong class="text-white">Tie</strong>. Two hands are dealt (Player and Banker), and whichever is closer to 9 wins. You don't play the hand—you just bet on which side will win.
         </p>
 
-        <div class="bg-gray-900 border border-gray-800 rounded-xl p-6 md:p-8 mb-6">
+        <div class="bg-card border border-subtle rounded-xl p-6 md:p-8 mb-6">
           <h3 class="text-white text-xl font-bold mb-4">House Edge by Bet Type</h3>
-          <ul class="space-y-3 text-gray-300">
-            <li><strong class="text-white">Banker Bet:</strong> 1.06% house edge (best odds)</li>
-            <li><strong class="text-white">Player Bet:</strong> 1.24% house edge</li>
-            <li><strong class="text-white">Tie Bet:</strong> 14.36% house edge (never bet this)</li>
-          </ul>
+          <div>
+            <div class="flex justify-between items-baseline gap-4 py-3 border-b border-subtle">
+              <span class="text-tertiary text-xs font-semibold uppercase tracking-wider">Banker Bet</span>
+              <span class="text-right"><span class="figure-serif text-gold text-2xl">1.06%</span> <span class="text-secondary text-sm">house edge (best odds)</span></span>
+            </div>
+            <div class="flex justify-between items-baseline gap-4 py-3 border-b border-subtle">
+              <span class="text-tertiary text-xs font-semibold uppercase tracking-wider">Player Bet</span>
+              <span class="text-right"><span class="figure-serif text-primary text-2xl">1.24%</span> <span class="text-secondary text-sm">house edge</span></span>
+            </div>
+            <div class="flex justify-between items-baseline gap-4 py-3">
+              <span class="text-tertiary text-xs font-semibold uppercase tracking-wider">Tie Bet</span>
+              <span class="text-right"><span class="figure-serif text-[rgb(var(--accent-red))] text-2xl">14.36%</span> <span class="text-secondary text-sm">house edge (never bet this)</span></span>
+            </div>
+          </div>
         </div>
 
         <p class="text-gray-300 text-lg leading-relaxed">
@@ -170,21 +179,21 @@ const systemSchema = {
         </p>
 
         <div class="space-y-6">
-          <div class="bg-gradient-to-br from-gray-900 to-black border-l-4 border-red-500 p-6 rounded">
+          <div class="bg-card border border-subtle border-l-4 border-l-[rgb(var(--accent-red))] p-6 rounded-xl transition-transform hover:-translate-y-0.5">
             <h3 class="text-white text-xl font-bold mb-3">1. Card Counting Doesn't Work</h3>
             <p class="text-gray-300 leading-relaxed">
               In blackjack, counting cards gives you a 1-2% edge. In baccarat, even perfect card counting gives you less than 0.1% edge—and only on specific hands. It's mathematically useless.
             </p>
           </div>
 
-          <div class="bg-gradient-to-br from-gray-900 to-black border-l-4 border-red-500 p-6 rounded">
+          <div class="bg-card border border-subtle border-l-4 border-l-[rgb(var(--accent-red))] p-6 rounded-xl transition-transform hover:-translate-y-0.5">
             <h3 class="text-white text-xl font-bold mb-3">2. Past Results Don't Affect Future Outcomes</h3>
             <p class="text-gray-300 leading-relaxed">
               The "Banker won 7 times in a row" pattern means nothing. Each hand is independent. This is basic probability theory—the gambler's fallacy.
             </p>
           </div>
 
-          <div class="bg-gradient-to-br from-gray-900 to-black border-l-4 border-red-500 p-6 rounded">
+          <div class="bg-card border border-subtle border-l-4 border-l-[rgb(var(--accent-red))] p-6 rounded-xl transition-transform hover:-translate-y-0.5">
             <h3 class="text-white text-xl font-bold mb-3">3. The House Edge Never Disappears</h3>
             <p class="text-gray-300 leading-relaxed">
               Even if you bet perfectly, the 1.06% edge grinds you down over time. Bet $100M lifetime? You'll lose $1.06M on average. Math doesn't care about "systems."
@@ -192,8 +201,8 @@ const systemSchema = {
           </div>
         </div>
 
-        <div class="mt-8 bg-red-900/20 border border-red-500/50 rounded-xl p-6 md:p-8">
-          <p class="text-red-400 text-lg font-semibold mb-2">⚠️ The Industry Consensus</p>
+        <div class="mt-8 bg-[rgb(var(--accent-red)/0.08)] border border-[rgb(var(--accent-red)/0.4)] rounded-xl p-6 md:p-8">
+          <p class="text-[rgb(var(--accent-red))] text-lg font-semibold mb-2">⚠️ The Industry Consensus</p>
           <p class="text-gray-300 leading-relaxed">
             Every professional gambling expert—from Stanford Wong to Ed Thorp—agrees baccarat is unbeatable through pattern recognition. If Mikki has found an edge, it's not through traditional advantage play.
           </p>
@@ -208,73 +217,57 @@ const systemSchema = {
           Mikki's system rejects traditional gambling theory. He claims casinos <strong class="text-white">actively cheat at baccarat</strong> through dealer manipulation, and that he <strong class="text-white">reverse-engineered their methods</strong> to beat them. Here's his approach:
         </p>
 
-        <div class="space-y-8">
+        <div>
           <!-- Step 1 -->
-          <div class="bg-gradient-to-br from-gray-900 to-black border border-gold/30 rounded-xl p-6 md:p-8">
-            <div class="flex items-start gap-4">
-              <div class="flex-shrink-0 w-10 h-10 bg-gold/10 rounded-full flex items-center justify-center">
-                <span class="text-gold font-black">1</span>
-              </div>
-              <div>
-                <h3 class="text-white text-xl font-bold mb-3">Observe Without Betting</h3>
-                <p class="text-gray-300 leading-relaxed mb-4">
-                  Mikki watches tables for <strong class="text-white">hours</strong> before placing a single bet. He's looking for:
-                </p>
-                <ul class="space-y-2 text-gray-300">
-                  <li>• <strong class="text-white">Dealer tells:</strong> Physical movements, card placement timing, shuffling patterns</li>
-                  <li>• <strong class="text-white">Shoe flows:</strong> Statistical deviations from expected Banker/Player distributions</li>
-                  <li>• <strong class="text-white">Pit boss behavior:</strong> How staff react to wins and losses</li>
-                </ul>
-              </div>
+          <div class="flex items-start gap-5 py-6 pt-0 border-b border-subtle">
+            <div class="step-num">1</div>
+            <div class="min-w-0">
+              <h3 class="text-white text-xl font-bold mb-3">Observe Without Betting</h3>
+              <p class="text-gray-300 leading-relaxed mb-4">
+                Mikki watches tables for <strong class="text-white">hours</strong> before placing a single bet. He's looking for:
+              </p>
+              <ul class="space-y-2 text-gray-300">
+                <li>• <strong class="text-white">Dealer tells:</strong> Physical movements, card placement timing, shuffling patterns</li>
+                <li>• <strong class="text-white">Shoe flows:</strong> Statistical deviations from expected Banker/Player distributions</li>
+                <li>• <strong class="text-white">Pit boss behavior:</strong> How staff react to wins and losses</li>
+              </ul>
             </div>
           </div>
 
           <!-- Step 2 -->
-          <div class="bg-gradient-to-br from-gray-900 to-black border border-gold/30 rounded-xl p-6 md:p-8">
-            <div class="flex items-start gap-4">
-              <div class="flex-shrink-0 w-10 h-10 bg-gold/10 rounded-full flex items-center justify-center">
-                <span class="text-gold font-black">2</span>
-              </div>
-              <div>
-                <h3 class="text-white text-xl font-bold mb-3">Pattern Recognition</h3>
-                <p class="text-gray-300 leading-relaxed mb-4">
-                  Unlike traditional "pattern betting" (which doesn't work), Mikki claims to identify <strong class="text-white">exploitable dealer errors</strong> and <strong class="text-white">mechanical predictability</strong> in how shoes are shuffled. This is distinct from the gambler's fallacy—he's not betting on streaks, he's betting on <strong class="text-white">human execution flaws</strong>.
-                </p>
-              </div>
+          <div class="flex items-start gap-5 py-6 border-b border-subtle">
+            <div class="step-num">2</div>
+            <div class="min-w-0">
+              <h3 class="text-white text-xl font-bold mb-3">Pattern Recognition</h3>
+              <p class="text-gray-300 leading-relaxed">
+                Unlike traditional "pattern betting" (which doesn't work), Mikki claims to identify <strong class="text-white">exploitable dealer errors</strong> and <strong class="text-white">mechanical predictability</strong> in how shoes are shuffled. This is distinct from the gambler's fallacy—he's not betting on streaks, he's betting on <strong class="text-white">human execution flaws</strong>.
+              </p>
             </div>
           </div>
 
           <!-- Step 3 -->
-          <div class="bg-gradient-to-br from-gray-900 to-black border border-gold/30 rounded-xl p-6 md:p-8">
-            <div class="flex items-start gap-4">
-              <div class="flex-shrink-0 w-10 h-10 bg-gold/10 rounded-full flex items-center justify-center">
-                <span class="text-gold font-black">3</span>
-              </div>
-              <div>
-                <h3 class="text-white text-xl font-bold mb-3">Massive, Strategic Bets</h3>
-                <p class="text-gray-300 leading-relaxed mb-4">
-                  When patterns align, Mikki bets <strong class="text-white">$100,000 to $250,000 per hand</strong>. This isn't gradual grinding—it's surgical execution. He doesn't play for hours. He plays for <strong class="text-white">minutes</strong>, extracting $1-3M, then leaves.
-                </p>
-                <div class="bg-black/50 border border-gold/30 rounded p-4 mt-4">
-                  <p class="text-gold text-sm font-semibold mb-1">Example Session:</p>
-                  <p class="text-gray-400 text-sm">$3M buy-in → 12 hands at $250K each → +$2.5M profit → Walk away. Total time: 18 minutes.</p>
-                </div>
+          <div class="flex items-start gap-5 py-6 border-b border-subtle">
+            <div class="step-num">3</div>
+            <div class="min-w-0">
+              <h3 class="text-white text-xl font-bold mb-3">Massive, Strategic Bets</h3>
+              <p class="text-gray-300 leading-relaxed mb-4">
+                When patterns align, Mikki bets <strong class="text-white">$100,000 to $250,000 per hand</strong>. This isn't gradual grinding—it's surgical execution. He doesn't play for hours. He plays for <strong class="text-white">minutes</strong>, extracting $1-3M, then leaves.
+              </p>
+              <div class="bg-elevated border border-subtle rounded-lg p-4 mt-4">
+                <p class="text-gold text-sm font-semibold mb-1">Example Session:</p>
+                <p class="text-gray-400 text-sm">$3M buy-in → 12 hands at $250K each → +$2.5M profit → Walk away. Total time: 18 minutes.</p>
               </div>
             </div>
           </div>
 
           <!-- Step 4 -->
-          <div class="bg-gradient-to-br from-gray-900 to-black border border-gold/30 rounded-xl p-6 md:p-8">
-            <div class="flex items-start gap-4">
-              <div class="flex-shrink-0 w-10 h-10 bg-gold/10 rounded-full flex items-center justify-center">
-                <span class="text-gold font-black">4</span>
-              </div>
-              <div>
-                <h3 class="text-white text-xl font-bold mb-3">Disappear Before Detection</h3>
-                <p class="text-gray-300 leading-relaxed">
-                  After winning, Mikki doesn't return for <strong class="text-white">weeks</strong>. This prevents casinos from studying his play or adjusting their procedures. He rotates between casinos, using different buy-in methods, and now plays under other people's accounts since he's <a href="/banned" class="text-gold hover:text-gold-light underline">banned from 150+ properties</a>.
-                </p>
-              </div>
+          <div class="flex items-start gap-5 py-6 pb-0">
+            <div class="step-num">4</div>
+            <div class="min-w-0">
+              <h3 class="text-white text-xl font-bold mb-3">Disappear Before Detection</h3>
+              <p class="text-gray-300 leading-relaxed">
+                After winning, Mikki doesn't return for <strong class="text-white">weeks</strong>. This prevents casinos from studying his play or adjusting their procedures. He rotates between casinos, using different buy-in methods, and now plays under other people's accounts since he's <a href="/banned" class="text-gold hover:text-gold-light underline">banned from 150+ properties</a>.
+              </p>
             </div>
           </div>
         </div>
@@ -288,21 +281,30 @@ const systemSchema = {
           Mikki's approach requires <strong class="text-white">massive capital</strong>. Here's why:
         </p>
 
-        <div class="bg-gradient-to-br from-gray-900 to-black border border-gray-800 rounded-xl p-6 md:p-8 mb-6">
+        <div class="bg-card border border-subtle rounded-xl p-6 md:p-8 mb-6">
           <h3 class="text-white text-xl font-bold mb-4">Minimum Requirements</h3>
-          <ul class="space-y-3 text-gray-300">
-            <li><strong class="text-white">Buy-in per session:</strong> $3,000,000</li>
-            <li><strong class="text-white">Bet size per hand:</strong> $100,000 - $250,000</li>
-            <li><strong class="text-white">Total bankroll needed:</strong> $10,000,000+ (to survive variance)</li>
-          </ul>
+          <div>
+            <div class="flex justify-between items-baseline gap-4 py-3 border-b border-subtle">
+              <span class="text-tertiary text-xs font-semibold uppercase tracking-wider">Buy-in per session</span>
+              <span class="figure-serif text-gold text-2xl">$3,000,000</span>
+            </div>
+            <div class="flex justify-between items-baseline gap-4 py-3 border-b border-subtle">
+              <span class="text-tertiary text-xs font-semibold uppercase tracking-wider">Bet size per hand</span>
+              <span class="figure-serif text-gold text-2xl">$100,000 - $250,000</span>
+            </div>
+            <div class="flex justify-between items-baseline gap-4 py-3">
+              <span class="text-tertiary text-xs font-semibold uppercase tracking-wider">Total bankroll needed</span>
+              <span class="text-right"><span class="figure-serif text-gold text-2xl">$10,000,000+</span> <span class="text-secondary text-sm">(to survive variance)</span></span>
+            </div>
+          </div>
         </div>
 
         <p class="text-gray-300 text-lg leading-relaxed mb-6">
           Why so much? <strong class="text-white">Variance</strong>. Even with an edge, you can lose millions in a single session. Mikki's documented <a href="/wins" class="text-gold hover:text-gold-light underline">$1.5M loss at the Wynn</a> shows this isn't risk-free. You need enough capital to survive losing streaks until patterns align again.
         </p>
 
-        <div class="bg-red-900/20 border border-red-500/50 rounded-xl p-6">
-          <p class="text-red-400 font-semibold mb-2">⚠️ Why This Isn't Replicable for Most People</p>
+        <div class="bg-[rgb(var(--accent-red)/0.08)] border border-[rgb(var(--accent-red)/0.4)] rounded-xl p-6">
+          <p class="text-[rgb(var(--accent-red))] font-semibold mb-2">⚠️ Why This Isn't Replicable for Most People</p>
           <p class="text-gray-300 text-sm">
             If you don't have $10M+ in liquid capital, this system is irrelevant. Trying to replicate it with $50K or even $500K will result in ruin the first time variance goes against you.
           </p>
@@ -319,8 +321,8 @@ const systemSchema = {
 
         <div class="space-y-6">
           <!-- Proven -->
-          <div class="bg-green-900/20 border border-green-500/50 rounded-xl p-6 md:p-8">
-            <h3 class="text-green-400 text-xl font-bold mb-4">✓ What's Proven</h3>
+          <div class="bg-[rgb(var(--accent-verified)/0.1)] border border-[rgb(var(--accent-verified)/0.45)] rounded-xl p-6 md:p-8">
+            <h3 class="text-[rgb(var(--accent-verified))] text-xl font-bold mb-4">✓ What's Proven</h3>
             <ul class="space-y-2 text-gray-300">
               <li>• <strong class="text-white">$10M+ win at The Venetian</strong> (verified by poker player Jake Ormand)</li>
               <li>• <strong class="text-white">Casino bans</strong> (Venetian, Wynn, and others confirmed)</li>
@@ -330,8 +332,8 @@ const systemSchema = {
           </div>
 
           <!-- Unverified -->
-          <div class="bg-yellow-900/20 border border-yellow-500/50 rounded-xl p-6 md:p-8">
-            <h3 class="text-yellow-400 text-xl font-bold mb-4">? What's Unverified</h3>
+          <div class="bg-[rgb(var(--accent-claimed)/0.08)] border border-[rgb(var(--accent-claimed)/0.4)] rounded-xl p-6 md:p-8">
+            <h3 class="text-[rgb(var(--accent-claimed))] text-xl font-bold mb-4">? What's Unverified</h3>
             <ul class="space-y-2 text-gray-300">
               <li>• <strong class="text-white">$32M total winnings claim</strong> (only $10M+ verified)</li>
               <li>• <strong class="text-white">Casino cheating allegations</strong> (casinos deny this)</li>
@@ -354,27 +356,33 @@ const systemSchema = {
         </p>
 
         <p class="text-gray-300 text-lg leading-relaxed mb-6">
-          This distinction matters. Card counters need thousands of hands for their edge to materialize. Mikki claims he plays <strong class="text-white">12 hands and walks</strong>. Card counters grind $25-$200 bets. Mikki fires $250,000 per hand. The risk profiles are completely different, and so is the <a href="/gambling-psychology" class="text-gold hover:text-gold-light underline">psychological pressure</a>. Managing your mental state while $750,000 swings on three consecutive hands requires a kind of discipline most people never develop. For a deeper look at the terms and concepts behind these strategies, see the <a href="/glossary" class="text-gold hover:text-gold-light underline">gambling glossary</a>.
+          This distinction matters. Card counters need thousands of hands for their edge to materialize.
         </p>
 
-        <div class="bg-gray-900 border border-gray-800 rounded-xl p-6 md:p-8">
+        <p class="pull-quote">Mikki claims he plays 12 hands and walks.</p>
+
+        <p class="text-gray-300 text-lg leading-relaxed mb-6">
+          Card counters grind $25-$200 bets. Mikki fires $250,000 per hand. The risk profiles are completely different, and so is the <a href="/gambling-psychology" class="text-gold hover:text-gold-light underline">psychological pressure</a>. Managing your mental state while $750,000 swings on three consecutive hands requires a kind of discipline most people never develop. For a deeper look at the terms and concepts behind these strategies, see the <a href="/glossary" class="text-gold hover:text-gold-light underline">gambling glossary</a>.
+        </p>
+
+        <div class="bg-card border border-subtle rounded-xl p-6 md:p-8">
           <h3 class="text-white text-xl font-bold mb-4">Quick Comparison: Mikki vs. Card Counters</h3>
-          <div class="space-y-3 text-gray-300">
-            <div class="flex justify-between items-center py-2 border-b border-gray-800">
-              <span class="text-gray-400">Edge Source</span>
-              <span class="text-white font-semibold">Dealer observation vs. card math</span>
+          <div>
+            <div class="flex justify-between items-baseline gap-4 py-3 border-b border-subtle">
+              <span class="text-tertiary text-xs font-semibold uppercase tracking-wider">Edge Source</span>
+              <span class="text-right"><span class="figure-serif text-gold text-lg">Dealer observation</span> <span class="text-secondary text-sm">vs. card math</span></span>
             </div>
-            <div class="flex justify-between items-center py-2 border-b border-gray-800">
-              <span class="text-gray-400">Hands Per Session</span>
-              <span class="text-white font-semibold">10-15 vs. hundreds</span>
+            <div class="flex justify-between items-baseline gap-4 py-3 border-b border-subtle">
+              <span class="text-tertiary text-xs font-semibold uppercase tracking-wider">Hands Per Session</span>
+              <span class="text-right"><span class="figure-serif text-gold text-lg">10-15</span> <span class="text-secondary text-sm">vs. hundreds</span></span>
             </div>
-            <div class="flex justify-between items-center py-2 border-b border-gray-800">
-              <span class="text-gray-400">Bet Sizing</span>
-              <span class="text-white font-semibold">$100K-$250K vs. $25-$500</span>
+            <div class="flex justify-between items-baseline gap-4 py-3 border-b border-subtle">
+              <span class="text-tertiary text-xs font-semibold uppercase tracking-wider">Bet Sizing</span>
+              <span class="text-right"><span class="figure-serif text-gold text-lg">$100K-$250K</span> <span class="text-secondary text-sm">vs. $25-$500</span></span>
             </div>
-            <div class="flex justify-between items-center py-2">
-              <span class="text-gray-400">Bankroll Required</span>
-              <span class="text-white font-semibold">$10M+ vs. $50K-$200K</span>
+            <div class="flex justify-between items-baseline gap-4 py-3">
+              <span class="text-tertiary text-xs font-semibold uppercase tracking-wider">Bankroll Required</span>
+              <span class="text-right"><span class="figure-serif text-gold text-lg">$10M+</span> <span class="text-secondary text-sm">vs. $50K-$200K</span></span>
             </div>
           </div>
         </div>
@@ -384,8 +392,8 @@ const systemSchema = {
       <section class="mb-16">
         <h2 class="display-h2 mb-6">Can You Replicate This?</h2>
 
-        <div class="bg-gradient-to-br from-gray-900 to-black border-2 border-red-500/50 rounded-2xl p-8 md:p-12 mb-8">
-          <p class="text-red-400 text-2xl font-bold mb-4">⚠️ Honest Answer: Probably Not</p>
+        <div class="bg-card border border-subtle border-l-4 border-l-[rgb(var(--accent-red))] rounded-xl p-8 md:p-12 mb-8">
+          <p class="text-[rgb(var(--accent-red))] text-2xl font-bold mb-4">⚠️ Honest Answer: Probably Not</p>
           <p class="text-gray-300 text-lg leading-relaxed mb-4">
             Even if Mikki's system works, you likely can't execute it. Here's why:
           </p>
@@ -401,7 +409,7 @@ const systemSchema = {
           You can talk strategy with other fans in the <a href="/join" class="text-gold hover:text-gold-light underline">Mikki Mase Fan Community (a free community for fans)</a>, but nobody promises you will replicate his results. His system requires <strong class="text-white">resources 99.9% of people don't have</strong>.
         </p>
 
-        <div class="bg-gray-900 border border-gold/30 rounded-xl p-6 md:p-8">
+        <div class="bg-card border border-gold/30 rounded-xl p-6 md:p-8">
           <h3 class="text-white text-xl font-bold mb-4">What You CAN Learn</h3>
           <ul class="space-y-2 text-gray-300">
             <li>• <strong class="text-white">Bankroll management principles</strong> (bet sizing, risk of ruin)</li>
@@ -413,7 +421,7 @@ const systemSchema = {
       </section>
 
       <!-- CTA -->
-      <div class="text-center pt-12 border-t border-gray-800">
+      <div class="text-center pt-12 border-t border-subtle">
         <h3 class="text-white text-2xl md:text-3xl font-bold mb-4">Want the Full Story?</h3>
         <p class="text-gray-400 text-lg mb-8 max-w-2xl mx-auto">
           Read how Mikki developed this system, see his <a href="/wins" class="text-gold hover:text-gold-light underline">complete win/loss record</a>, and learn why <a href="/banned" class="text-gold hover:text-gold-light underline">150+ casinos banned him</a>.
@@ -463,3 +471,29 @@ const systemSchema = {
 
   <Footer />
 </BaseLayout>
+
+<style>
+  /* High-Limit Editorial (Fase 3) — page-local helpers */
+
+  /* Serif money figures: Fraunces, inherits size from utility classes */
+  .figure-serif {
+    font-family: var(--font-serif);
+    font-variation-settings: 'opsz' 96, 'SOFT' 30, 'wght' 560;
+    letter-spacing: -0.01em;
+  }
+
+  /* Numbered gold step square (kirgo-style step-flow) */
+  .step-num {
+    flex-shrink: 0;
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
+    display: grid;
+    place-items: center;
+    font-weight: 900;
+    font-size: 17px;
+    color: var(--color-gold);
+    background: rgba(207, 181, 59, 0.1);
+    border: 1px solid rgba(207, 181, 59, 0.3);
+  }
+</style>
