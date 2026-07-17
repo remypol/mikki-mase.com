@@ -1,0 +1,130 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+
+// ============================================================
+// Live bot (geverifieerd via getMe, 18-jul-2026). De ?s= query-parameter wordt
+// client-side doorgegeven als Telegram-deeplink-bron (t.me/...?start=<s>), zodat
+// de bot per kanaal meet waar iemand vandaan kwam (users.source). Voorbeeld voor
+// de IG-bio: https://mikki-mase.com/chat?s=ig  -> bron "ig" in het bot-dashboard.
+// Zonder ?s= is de bron "site_chat". Payload gesaneerd op [A-Za-z0-9_-], max 32.
+// ============================================================
+const BOT_USERNAME = 'MikkiMaseTeam_bot';
+const botConfigured = true;
+const telegramUrl = `https://t.me/${BOT_USERNAME}?start=site_chat`;
+---
+
+<BaseLayout
+  title="Chat with Mikki AI | Free Gambling-Strategy Companion"
+  description="Chat with Mikki AI on Telegram: an AI companion trained on Mikki Mase's public content. Talk baccarat strategy, advantage play and casino psychology. Free. 18/21+. Unofficial fan project."
+  noIndex={true}
+>
+  <Header />
+
+  <main id="main-content" class="pt-24 pb-24">
+    <div class="container max-w-3xl mx-auto px-4">
+
+      <!-- Hero -->
+      <div class="text-center mb-10">
+        <span class="inline-block text-xs font-bold uppercase tracking-widest text-gold mb-4">
+          Free · AI-powered · On Telegram
+        </span>
+        <h1 class="text-4xl md:text-5xl font-black uppercase leading-tight mb-5">
+          Chat with <span class="text-gold">Mikki AI</span>
+        </h1>
+        <p class="text-gray-400 text-lg max-w-xl mx-auto">
+          An AI companion trained on Mikki Mase's public interviews and podcasts.
+          Talk through baccarat strategy, advantage play and the psychology that
+          got him banned from 150+ casinos, one message at a time.
+        </p>
+      </div>
+
+      <!-- CTA card -->
+      <div class="rounded-2xl border border-gray-800 bg-gray-950/60 p-8 md:p-10 text-center mb-10">
+        <div class="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-full" style="background: rgba(0,136,204,0.12);">
+          <svg class="w-9 h-9" viewBox="0 0 24 24" fill="currentColor" style="color:#0088cc;" aria-hidden="true">
+            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69.01-.03.01-.14-.07-.2-.08-.06-.19-.04-.27-.02-.12.02-1.96 1.25-5.54 3.67-.52.36-1 .53-1.42.52-.47-.01-1.37-.26-2.03-.48-.82-.27-1.47-.42-1.42-.88.03-.24.37-.49 1.02-.75 3.98-1.73 6.63-2.87 7.95-3.44 3.79-1.58 4.58-1.86 5.09-1.87.11 0 .37.03.53.14.14.1.18.23.2.33.02.1.04.31.02.49z"/>
+          </svg>
+        </div>
+
+        {botConfigured ? (
+          <a
+            id="tg-cta"
+            href={telegramUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex items-center justify-center gap-2 rounded-full px-8 py-4 text-lg font-bold text-white transition-transform hover:scale-[1.03]"
+            style="background:#0088cc;"
+          >
+            Open Mikki AI in Telegram
+          </a>
+        ) : (
+          <div class="inline-flex flex-col items-center gap-2">
+            <span
+              class="inline-flex items-center justify-center gap-2 rounded-full px-8 py-4 text-lg font-bold text-white opacity-60 cursor-not-allowed"
+              style="background:#0088cc;"
+              aria-disabled="true"
+            >
+              Open Mikki AI in Telegram
+            </span>
+            <span class="text-xs text-gray-500">Bot-link nog niet ingesteld (BotFather-naam invullen in chat.astro).</span>
+          </div>
+        )}
+
+        <p class="text-gray-500 text-sm mt-5">
+          Opens Telegram. No account creation on your behalf, you always sign up yourself.
+        </p>
+      </div>
+
+      <!-- Value points -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-12">
+        <div class="rounded-xl border border-gray-800 p-5 text-center">
+          <div class="text-2xl mb-2">💬</div>
+          <h3 class="text-white font-bold mb-1">Ask anything</h3>
+          <p class="text-gray-500 text-sm">Strategy, bankroll, casino psychology. Real conversation, not scripts.</p>
+        </div>
+        <div class="rounded-xl border border-gray-800 p-5 text-center">
+          <div class="text-2xl mb-2">🔔</div>
+          <h3 class="text-white font-bold mb-1">Picks up where you left off</h3>
+          <p class="text-gray-500 text-sm">It remembers your chat and can check back in with you over time.</p>
+        </div>
+        <div class="rounded-xl border border-gray-800 p-5 text-center">
+          <div class="text-2xl mb-2">🆓</div>
+          <h3 class="text-white font-bold mb-1">Free to use</h3>
+          <p class="text-gray-500 text-sm">No paywall to chat. Leave anytime with <span class="text-gray-300">/stop</span>.</p>
+        </div>
+      </div>
+
+      <!-- Compliance / honesty block -->
+      <div class="rounded-xl border border-gray-800 bg-gray-950/40 p-6 text-center">
+        <p class="text-gray-400 text-sm leading-relaxed">
+          <span class="text-gray-300 font-semibold">18/21+ only.</span>
+          Gambling involves real financial risk: never bet more than you can afford to lose.
+          If gambling stops being fun, help is available (e.g. the National Problem Gambling
+          Helpline <span class="text-gray-300">1-800-522-4700</span>).
+          Mikki AI is a disclosed AI, not a person, and gives no guaranteed-win advice.
+        </p>
+        <p class="text-gray-600 text-xs mt-4">
+          Unofficial fan project. Not affiliated with, authorized or endorsed by Mikki Mase.
+          Built from publicly available content. May contain affiliate links.
+        </p>
+      </div>
+
+    </div>
+  </main>
+
+  <Footer />
+
+  <script>
+    // Bron-doorgeefluik: /chat?s=<kanaal> zet de Telegram-deeplink op
+    // ?start=<kanaal>, zodat de bot de herkomst per kanaal registreert
+    // (users.source). Zonder ?s= blijft de server-side default "site_chat".
+    const cta = document.getElementById('tg-cta');
+    if (cta) {
+      const raw = new URLSearchParams(window.location.search).get('s') || 'site_chat';
+      const s = raw.replace(/[^A-Za-z0-9_-]/g, '').slice(0, 32) || 'site_chat';
+      cta.setAttribute('href', `https://t.me/MikkiMaseTeam_bot?start=${s}`);
+    }
+  </script>
+</BaseLayout>
