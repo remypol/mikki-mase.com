@@ -6,35 +6,14 @@
     }
   ],
   "redirects": [
-    {
-      "source": "/bedroom-boss",
-      "destination": "/shop",
-      "permanent": true
-    },
-    {
-      "source": "/bedroom-boss/preview",
-      "destination": "/shop",
-      "permanent": true
-    },
-    {
-      "source": "/join-old",
-      "destination": "/join",
-      "permanent": true
-    },
-    {
-      "source": "/join-old/",
-      "destination": "/join",
-      "permanent": true
-    },
-    {
-      "source": "/tools/bankroll-calculator-old",
-      "destination": "/tools/bankroll-calculator",
-      "permanent": true
-    },
-    {
-      "source": "/tools/bankroll-calculator-old/",
-      "destination": "/tools/bankroll-calculator",
-      "permanent": true
-    }
+    { "source": "/bedroom-boss", "destination": "/join", "permanent": true },
+    { "source": "/bedroom-boss/preview", "destination": "/join", "permanent": true },
+    { "source": "/join-old", "destination": "/join", "permanent": true },
+    { "source": "/join-old/", "destination": "/join", "permanent": true },
+    { "source": "/tools/bankroll-calculator-old", "destination": "/tools/bankroll-calculator", "permanent": true },
+    { "source": "/tools/bankroll-calculator-old/", "destination": "/tools/bankroll-calculator", "permanent": true },
+    { "source": "/account", "destination": "/join", "permanent": true },
+    { "source": "/auth/:path*", "destination": "/join", "permanent": true },
+    { "source": "/masterclass/course/:path*", "destination": "/join", "permanent": true }
   ]
 }
