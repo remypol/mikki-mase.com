@@ -10,6 +10,14 @@ export default defineConfig({
   site: 'https://www.mikki-mase.com',
   output: 'static',
   adapter: vercel(),
+  // /chat springt DIRECT naar de Telegram-bot (Hugo 18-jul: geen tussenpagina).
+  // 302 bewust: browsers cachen geen permanent-redirect naar een extern doel,
+  // dus het doel blijft aanpasbaar. De ?start=site_chat deeplink-bron laat de
+  // bot registreren dat iemand via de site binnenkwam. De oude landingspagina
+  // (chat.astro) blijft bestaan als onbereikbare fallback.
+  redirects: {
+    '/chat': { status: 302, destination: 'https://t.me/MikkiMaseTeam_bot?start=site_chat' },
+  },
   compressHTML: true,
   prefetch: {
     defaultStrategy: 'hover',
