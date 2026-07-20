@@ -66,7 +66,7 @@ export default function SupportChat() {
     } catch {
       setMessages((prev) => [
         ...prev,
-        { role: 'assistant', content: "Something went wrong. Please use the email form or contact hugo@cc-community.com." },
+        { role: 'assistant', content: "Something went wrong. Please use the message form below to reach us." },
       ]);
     } finally {
       setLoading(false);
@@ -109,10 +109,10 @@ export default function SupportChat() {
       if (res.ok) {
         setFormSent(true);
       } else {
-        alert('Failed to send. Please email hugo@cc-community.com directly.');
+        alert('Failed to send. Please try again in a moment.');
       }
     } catch {
-      alert('Failed to send. Please email hugo@cc-community.com directly.');
+      alert('Failed to send. Please try again in a moment.');
     } finally {
       setFormLoading(false);
     }
