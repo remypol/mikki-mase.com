@@ -15,8 +15,22 @@ export default defineConfig({
   // dus het doel blijft aanpasbaar. De ?start=site_chat deeplink-bron laat de
   // bot registreren dat iemand via de site binnenkwam. De oude landingspagina
   // (chat.astro) blijft bestaan als onbereikbare fallback.
+  // Kanaalwoorden voor de drie YouTube-fankanalen (Hugo, 10 aug 2026). Ze droegen tot nu
+  // een tweetekencode op angelguard.app, het linkdomein van een andere app: die kliks
+  // stuurden het Mikki-publiek naar AngelGuard. Ze horen naar de chat.
+  //
+  // Elk kanaal heeft een EIGEN start-waarde, want dat is het enige veld dat Telegram
+  // doorgeeft aan de bot (users.source). Een ?s= of ?utm_source= achter de t.me-URL
+  // plakken werkt niet: gemeten 10 aug komt die parameter wel mee in de URL, maar de bot
+  // ziet alleen start=. Daarom een aparte regel per kanaal en geen generieke.
+  //
+  // Geen tussenpagina, conform het besluit van 18 juli. Alle drie de paden zijn op
+  // 10 aug live gemeten op 404 en botsen niet met een bestaande pagina.
   redirects: {
     '/chat': { status: 302, destination: 'https://t.me/MikkiMaseTeam_bot?start=site_chat' },
+    '/clips': { status: 302, destination: 'https://t.me/MikkiMaseTeam_bot?start=yt_clips' },
+    '/room': { status: 302, destination: 'https://t.me/MikkiMaseTeam_bot?start=yt_room' },
+    '/highlights': { status: 302, destination: 'https://t.me/MikkiMaseTeam_bot?start=yt_highlights' },
   },
   compressHTML: true,
   prefetch: {
