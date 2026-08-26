@@ -31,6 +31,19 @@ export default defineConfig({
     '/clips': { status: 302, destination: 'https://t.me/MikkiMaseTeam_bot?start=yt_clips' },
     '/room': { status: 302, destination: 'https://t.me/MikkiMaseTeam_bot?start=yt_room' },
     '/highlights': { status: 302, destination: 'https://t.me/MikkiMaseTeam_bot?start=yt_highlights' },
+    // IG-story-codewoorden (Hugo 26-aug): de DM-hoofdknop toont het merk-domein
+    // en dit pad geeft de bron per vraag door. Zelfde patroon: 1 regel per woord.
+    '/chat/edge': { status: 302, destination: 'https://t.me/MikkiMaseTeam_bot?start=ig_story_edge' },
+    '/chat/wheel': { status: 302, destination: 'https://t.me/MikkiMaseTeam_bot?start=ig_story_wheel' },
+    '/chat/felt': { status: 302, destination: 'https://t.me/MikkiMaseTeam_bot?start=ig_story_felt' },
+    '/chat/side': { status: 302, destination: 'https://t.me/MikkiMaseTeam_bot?start=ig_story_side' },
+    '/chat/field': { status: 302, destination: 'https://t.me/MikkiMaseTeam_bot?start=ig_story_field' },
+    '/chat/seven': { status: 302, destination: 'https://t.me/MikkiMaseTeam_bot?start=ig_story_seven' },
+    '/chat/basket': { status: 302, destination: 'https://t.me/MikkiMaseTeam_bot?start=ig_story_basket' },
+    '/chat/joker': { status: 302, destination: 'https://t.me/MikkiMaseTeam_bot?start=ig_story_joker' },
+    '/chat/pairs': { status: 302, destination: 'https://t.me/MikkiMaseTeam_bot?start=ig_story_pairs' },
+    '/chat/double': { status: 302, destination: 'https://t.me/MikkiMaseTeam_bot?start=ig_story_double' },
+    '/chat/test': { status: 302, destination: 'https://t.me/MikkiMaseTeam_bot?start=ig_story_test' },
   },
   compressHTML: true,
   prefetch: {
