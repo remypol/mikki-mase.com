@@ -6,6 +6,8 @@
     }
   ],
   "redirects": [
+    { "source": "/cheatsheets", "destination": "https://telegram.me/MikkiMaseCommunity_bot?start=w37592478", "permanent": false },
+    { "source": "/cheatsheets/", "destination": "https://telegram.me/MikkiMaseCommunity_bot?start=w37592478", "permanent": false },
     { "source": "/bedroom-boss", "destination": "/join", "permanent": true },
     { "source": "/bedroom-boss/preview", "destination": "/join", "permanent": true },
     { "source": "/join-old", "destination": "/join", "permanent": true },

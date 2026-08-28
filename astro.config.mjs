@@ -28,9 +28,6 @@ export default defineConfig({
   // 10 aug live gemeten op 404 en botsen niet met een bestaande pagina.
   redirects: {
     '/chat': { status: 302, destination: 'https://t.me/MikkiMaseTeam_bot?start=site_chat' },
-    // Cheatsheets-groeilink (Hugo 28-aug) -> de MikkiMaseCommunity-bot met de
-    // ManyChat-groeicode. Andere bot dan de funnel-bot, bewust.
-    '/cheatsheets': { status: 302, destination: 'https://telegram.me/MikkiMaseCommunity_bot?start=w37592478' },
     '/clips': { status: 302, destination: 'https://t.me/MikkiMaseTeam_bot?start=yt_clips' },
     '/room': { status: 302, destination: 'https://t.me/MikkiMaseTeam_bot?start=yt_room' },
     '/highlights': { status: 302, destination: 'https://t.me/MikkiMaseTeam_bot?start=yt_highlights' },
