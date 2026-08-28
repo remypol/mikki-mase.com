@@ -28,6 +28,12 @@ export default defineConfig({
   // 10 aug live gemeten op 404 en botsen niet met een bestaande pagina.
   redirects: {
     '/chat': { status: 302, destination: 'https://t.me/MikkiMaseTeam_bot?start=site_chat' },
+    // Cheatsheets-groeilink (Hugo 28-aug) -> MikkiMaseCommunity-bot met ManyChat-
+    // groeicode. De oude cheat-sheet-bundle-pagina is verhuisd naar /cheat-sheets,
+    // dus deze route is vrij. LET OP: vercel.json-redirects werken NIET op dit
+    // project (de astro-vercel-adapter negeert ze; alleen deze config-redirects
+    // vuren), gemeten 28-aug: /bedroom-boss viel ook naar home.
+    '/cheatsheets': { status: 302, destination: 'https://telegram.me/MikkiMaseCommunity_bot?start=w37592478' },
     '/clips': { status: 302, destination: 'https://t.me/MikkiMaseTeam_bot?start=yt_clips' },
     '/room': { status: 302, destination: 'https://t.me/MikkiMaseTeam_bot?start=yt_room' },
     '/highlights': { status: 302, destination: 'https://t.me/MikkiMaseTeam_bot?start=yt_highlights' },
