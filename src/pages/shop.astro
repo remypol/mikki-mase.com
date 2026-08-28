@@ -32,14 +32,14 @@ const shopSchema = {
     "item": {
       "@type": "Product",
       "name": p.name,
-      "url": `https://www.mikki-mase.com/${p.slug === 'mmc-cheatsheet-bundle' ? 'cheatsheets' : p.slug}`,
+      "url": `https://www.mikki-mase.com/${p.slug === 'mmc-cheatsheet-bundle' ? 'cheat-sheets' : p.slug}`,
       "offers": { "@type": "Offer", "price": p.price, "priceCurrency": "USD" }
     }
   }))
 };
 
 function getProductLink(slug: string): string {
-  if (slug === 'mmc-cheatsheet-bundle') return '/cheatsheets';
+  if (slug === 'mmc-cheatsheet-bundle') return '/cheat-sheets';
   if (slug === 'beat-the-casino') return '/beat-the-casino';
   return '/shop';
 }

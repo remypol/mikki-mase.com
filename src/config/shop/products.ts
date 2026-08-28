@@ -89,7 +89,7 @@ export const mmcCheatsheetBundle: Product = {
         price: 19.99,
         priceCurrency: 'USD',
         availability: 'https://schema.org/InStock',
-        url: 'https://www.mikki-mase.com/cheatsheets',
+        url: 'https://www.mikki-mase.com/cheat-sheets',
       },
       aggregateRating: { '@type': 'AggregateRating', ratingValue: 4.9, reviewCount: 89 },
     },

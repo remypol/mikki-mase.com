@@ -293,7 +293,7 @@ export async function sendLeadMagnetEmail(data: LeadMagnetEmailData) {
                       Baccarat + Poker + Roulette strategy cards
                     </p>
                     <p style="margin: 0 0 24px;">
-                      <a href="https://www.mikki-mase.com/cheatsheets" style="color: #CFB53B; text-decoration: none; font-weight: 700; font-size: 14px;">View Bundle &rarr;</a>
+                      <a href="https://www.mikki-mase.com/cheat-sheets" style="color: #CFB53B; text-decoration: none; font-weight: 700; font-size: 14px;">View Bundle &rarr;</a>
                     </p>
 
                     <!-- Upsell 2: Beat the Casino Ebook -->
@@ -372,7 +372,7 @@ Want the Full Arsenal?
 
 MMC Cheatsheet Bundle ($19.99)
 Baccarat + Poker + Roulette strategy cards
-View Bundle: https://www.mikki-mase.com/cheatsheets
+View Bundle: https://www.mikki-mase.com/cheat-sheets
 
 Beat the Casino Ebook ($29)
 98-page deep dive into casino psychology & advantage play
