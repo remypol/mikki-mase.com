@@ -50,6 +50,12 @@ export default defineConfig({
     '/chat/pairs': { status: 302, destination: 'https://t.me/MikkiMaseTeam_bot?start=ebook_ig_story_pairs' },
     '/chat/double': { status: 302, destination: 'https://t.me/MikkiMaseTeam_bot?start=ebook_ig_story_double' },
     '/chat/test': { status: 302, destination: 'https://t.me/MikkiMaseTeam_bot?start=ebook_ig_story_test' },
+    // VPN-knop in de bot (Hugo 2-sep): Telegram toont bij een URL-knop de hele link in
+    // de "link openen?"-dialoog, dus de speler moet het merk-domein zien en geen
+    // bot-URL met parameters. De bot kiest achter /api/go?d=vpn de winkel op het
+    // toestel (App Store / Play / hide.me) en telt de tik. 302 bewust, doel blijft
+    // aanpasbaar.
+    '/vpn': { status: 302, destination: 'https://mikki-ai-bot.vercel.app/api/go?d=vpn' },
   },
   compressHTML: true,
   prefetch: {
